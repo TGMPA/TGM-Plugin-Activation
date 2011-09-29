@@ -1,0 +1,39 @@
+=== TGM Plugin Activation ===
+Contributors:		Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
+Version: 		1.0.0
+Requires at least: 	3.0
+Tested up to: 		3.2.1
+ 
+== Description ==
+
+This class allows WordPress theme authors to include a plugin within their theme for their users to install and activated. Instead of simply including a plugin with the theme and providing directions for FTP, this class makes it easy for the user to install and activate the included plugin by providing admin notices and a form for users to submit.
+
+This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem searches through a number of methods (Direct, FTP, FTP Sockets SSH) and determines the best one for use based on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP credentials. This class also uses WP_Error to display any errors to users during the plugin installation and activation process. 
+
+== Installation ==
+
+This class is easy to use. Follow these instructions to get it setup.
+
+1. Create a .zip file of your plugin and place it within the tgm-plugin-activation/plugins folder.
+2. Within auto-install.php, edit the relevant class variables (they are commented) to reflect your specific plugin.
+3. Place the tgm-plugin-activation folder within a /lib folder in your theme ( e.g /wp-content/themes/your-theme/lib/tgm-plugin-activation )
+4. Include auto-install.php in your theme's functions.php file ( e.g. require_once( dirname( __FILE__ ) . '/lib/tgm-plugin-activation/auto-install.php' ); )
+5. Check it out for yourself and give your users more instructions if you desire.
+6. Let me know of any issues and be sure to submit your own patches to make it better. :)
+
+== TODO ==
+
+There are lots of things to do with this class (and tons of potential). Here is a short list:
+
+* Allow for plugins to be included from the WordPress Repository
+	-this would include downloading the .zip file, installing it and activating it on form submission
+* Allow for multiple plugins to be included/installed/activated
+* Allow for multiple instances of both included plugins and repo plugins to be installed and activated
+* Security and best practices audit
+* More testing to catch extraneous errors and issues with WP_Filesystem
+
+== Changelog ==
+
+= 1.0.0 =
+
+* Initial release into the wild
