@@ -8,7 +8,6 @@
  * @copyright		Copyright (c) 2011, Thomas Griffin
  * @license			http://opensource.org/licenses/gpl-3.0.php GNU Public License
  * @link			https://github.com/thomasgriffin/TGM-Plugin-Activation
- *
  */
  
  
@@ -40,11 +39,11 @@ class TGM_Plugin_Activation {
 	
 	// All of the variables below can be modified to suit your specific plugin. 
 	
-	var $plugin 		= 'tgm-example-plugin/tgm-example-plugin.php'; // The main plugin file (you must include the plugin folder)
-	var $plugin_name 	= 'TGM Example Plugin'; // The name of your plugin
-	var $zip			= 'tgm-example-plugin.zip'; // The name of the zip file that contains your plugin
-	var $menu 			= 'tgm-example-plugin'; // The name of your menu page (will appear in the URL as themes.php?page=tgm-example-plugin)
-	var $nonce 			= 'tgm_plugins'; // You can set your own nonce name if you would
+	var $args = array(
+		array( 'plugin' => 'tgm-example-plugin/tgm-example-plugin.php', 'plugin_name' => 'TGM Example Plugin', 'zip_file' => 'tgm-example-plugin.zip', 'repo_file' => '', 'input_name' => 'tgm_tpe', 'nonce_name' => 'tgm_tpe' ),
+		array( 'plugin' => 'edit-howdy/edithowdy.php', 'plugin_name' => 'Edit Howdy', 'zip_file' => '', 'repo_file' => 'http://downloads.wordpress.org/plugin/edit-howdy.zip', 'input_name' => 'tgm_eh', 'nonce_name' => 'tgm_eh' )
+	);
+	var $menu = 'install-required-plugins';
 	
 	
 	/**
@@ -78,9 +77,6 @@ class TGM_Plugin_Activation {
 	 * @access public
 	 */
 	public function admin_menu() {
-		
-		if ( is_plugin_active( $this->plugin ) ) // No need to output the page if our plugin is already installed and activated
-			return;
 			
 		add_submenu_page( 'themes.php', __( 'Install Required Plugins', 'tgmpa' ), __( 'Install Plugins', 'tgmpa' ), 'edit_theme_options', $this->menu, array( $this, 'tgm_install_plugins_page' ) );
 	
@@ -98,18 +94,22 @@ class TGM_Plugin_Activation {
 	 * @access public
 	 */
 	public function tgm_install_plugins_page() {
-	
-		if ( $this->tgm_do_plugin_install() ) // No need to output the form if tgm_do_plugin_install has been successfully run
-			return;
 
+		if ( $this->tgm_do_plugin_install() )
+			return;
+		
 		?>
 		<div class="wrap">
 			<h2><?php _e( 'Install Required Plugins', 'tgmpa' ); ?></h2>
-			<p><?php _e( 'The ' . $this->plugin_name . ' plugin is required for this theme. Click on the big blue button below to install and activate ' . $this->plugin_name . '!', 'tgmpa' ); ?></p>
-			<form action="" method="post">
-				<?php wp_nonce_field( $this->nonce );
-				echo "<input name='tgm_go' class='button-primary' type='submit' value='Install {$this->plugin_name} Now!' />"; ?>
-			</form>
+			<?php foreach ( $this->args as $form ) {
+				if ( is_plugin_active( $form['plugin'] ) )
+					continue; ?>
+				<p><?php _e( 'The ' . $form['plugin_name'] . ' plugin is required for this theme. Click on the big blue button below to install and activate ' . $form['plugin_name'] . '!', 'tgmpa' ); ?></p>
+				<form action="" method="post">
+					<?php wp_nonce_field( $form['nonce_name'], 'tgm_pa' );
+					echo "<input name='{$form['input_name']}' class='button-primary' type='submit' value='Install {$form['plugin_name']} Now!' />"; ?>
+				</form>
+			<?php } ?>
 		</div>
 		<?php
 	
@@ -131,61 +131,102 @@ class TGM_Plugin_Activation {
 	 */
 	public function tgm_do_plugin_install() {
 	
-		if ( empty( $_POST ) ) // Bail out if the global $_POST is empty
-			return false;
-			
-		if ( is_plugin_active( $this->plugin ) ) // Bail out if our plugin is already activated
-			return false;
+		foreach ( $this->args as $instance ) {
 	
-		check_admin_referer( $this->nonce );
-	
-		$fields = array( 'tgm_go' );
-		$method = ''; // Leave blank so WP_Filesystem can populate it as necessary
-	
-		if ( isset( $_POST['tgm_go'] ) ) { // Don't do anything if the form has not been submitted
-	
-			$url = wp_nonce_url( 'themes.php?page=' . $this->menu . '', $this->nonce ); // Make sure we are coming from the right page
-			if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
-				return true;
-		
-			if ( ! WP_Filesystem( $creds ) ) {
-		
-				request_filesystem_credentials( $url, $method, false, false, $fields ); // Setup WP_Filesystem
-				return true;
-		
-			}
-		
-			global $wp_filesystem; // Introduce global $wp_filesystem to use WP_Filesystem class methods
-		
-			$source = get_stylesheet_directory() . '/lib/tgm-plugin-activation/plugins/' . $this->zip; // The source zip file
-			$destination = $wp_filesystem->wp_plugins_dir(); // The destination for where we want our plugin installed (wp-content/plugins)
-			
-			$install = unzip_file( $source, $destination ); // Use WP_Filesystem to unzip file to our destination directory (wp-content/plugins)
-			
-			if ( is_wp_error ( $install ) ) { // Spit out an error message if the installation fails
-				$install_error = $install->get_error_message();
-				echo '<div id="message" class="installation error"><p>' . $install_error . '</p></div>';
+			if ( empty( $_POST ) ) // Bail out if the global $_POST is empty
 				return false;
-			}
 			
-			if ( $wp_filesystem->is_dir( $destination ) && ! is_plugin_active( $this->plugin ) )	
-				$activate = activate_plugin( $this->plugin, '', '' ); // Activate our plugin if it exists
+			check_admin_referer( $instance['nonce_name'], 'tgm_pa' );
+	
+			$fields = array( $instance['input_name'] );
+			$method = ''; // Leave blank so WP_Filesystem can populate it as necessary
+	
+			if ( isset( $_POST[$instance['input_name']] ) ) { // Don't do anything if the form has not been submitted
+	
+				$url = wp_nonce_url( 'themes.php?page=' . $this->menu . '', $instance['nonce_name'] ); // Make sure we are coming from the right page
+				if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
+					return true;
+		
+				if ( ! WP_Filesystem( $creds ) ) {
+		
+					request_filesystem_credentials( $url, $method, false, false, $fields ); // Setup WP_Filesystem
+					return true;
+		
+				}
+		
+				global $wp_filesystem; // Introduce global $wp_filesystem to use WP_Filesystem class methods
 				
-			if ( is_wp_error( $activate ) ) { // Spit out an error message if the activation fails
-				$activate_error = $activate->get_error_message();
-				echo '<div id="message" class="activation error"><p>' . $activate_error . '</p></div>';
-				return false;
-			} 
-			
-		}
+				if ( isset( $instance['zip_file'] ) && '' !== $instance['zip_file'] ) {
 		
-		if ( is_plugin_active( $this->plugin ) ) { // Display a message upon successful activation of the plugin
+					$source = get_stylesheet_directory() . '/lib/tgm-plugin-activation/plugins/' . $instance['zip_file']; // The source zip file
+					
+					include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+					include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+					
+					$api = plugins_api( 'plugin_information', array( 'slug' => $instance['plugin'], 'fields' => array( 'sections' => false ) ) );
+
+					if ( is_wp_error( $api ) )
+	 					wp_die( $api );
+
+					$title = sprintf( __( 'Installing Plugin: %s'), $instance['plugin_name'] );
+					$nonce = 'install-plugin_' . $instance['plugin'];
+					$url = 'update.php?action=install-plugin&plugin=' . $instance['plugin'];
+					if ( isset( $_GET['from'] ) )
+						$url .= '&from=' . urlencode( stripslashes( $_GET['from'] ) );
+
+					$type = 'upload'; //Install plugin type, From Web or an Upload.
+
+					$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+					$upgrader->install( $source );
+					
+					if ( is_wp_error( $upgrader ) ) {
+						$upgrader_error = $upgrader->get_error_message();
+						echo '<div id="message" class="installation error"><p>' . $upgrader_error . '</p></div>';
+						return false;
+					}
+					
+				}
+				
+				else {
+				
+					include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+					include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+					
+					$api = plugins_api( 'plugin_information', array( 'slug' => $instance['plugin'], 'fields' => array( 'sections' => false ) ) );
+
+					if ( is_wp_error( $api ) )
+	 					wp_die( $api );
+
+					$title = sprintf( __( 'Installing Plugin: %s'), $instance['plugin_name'] );
+					$nonce = 'install-plugin_' . $instance['plugin'];
+					$url = 'update.php?action=install-plugin&plugin=' . $instance['plugin'];
+					if ( isset( $_GET['from'] ) )
+						$url .= '&from=' . urlencode( stripslashes( $_GET['from'] ) );
+
+					$type = 'web'; //Install plugin type, From Web or an Upload.
+
+					$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+					$upgrader->install( $instance['repo_file'] );
+					
+					if ( is_wp_error( $upgrader ) ) {
+						$upgrader_error = $upgrader->get_error_message();
+						echo '<div id="message" class="installation error"><p>' . $upgrader_error . '</p></div>';
+						return false;
+					}
+				
+				}
 			
-			printf( '<div class="wrap"><h2>Congratulations!</h2><div class="updated"><p>Congratulations! ' .  $this->plugin_name . ' has been successfully installed, activated and is ready for use. <a href="%1$s">Return to the dashboard.</a></p></div>', admin_url(), 'tgmpa' );
+			}
+		
+			if ( is_plugin_active( $instance['plugin'] ) ) { // Display a message upon successful activation of the plugin
+			
+				printf( '<div class="wrap"><h2>Congratulations!</h2><div class="updated"><p>Congratulations! ' .  $instance['plugin_name'] . ' has been successfully installed, activated and is ready for use. <a href="%1$s">Return to the dashboard.</a></p></div>', admin_url(), 'tgmpa' );
+			
+			}
+	
+			return true;
 			
 		}
-	
-		return true;
 	
 	}
 
@@ -204,10 +245,14 @@ class TGM_Plugin_Activation {
 	 */
 	public function admin_notices( $output ) {
 		
-		if ( ! is_plugin_active( $this->plugin ) && ! isset( $_POST['tgm_go'] ) ) {
+		foreach ( $this->args as $args ) {
+		
+			if ( ! is_plugin_active( $args['plugin'] ) && ! isset( $_POST[$args['input_name']] ) ) {
 			
-			$message = sprintf( __( 'This theme requires the ' . $this->plugin_name . ' plugin. <a href="%s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', 'tgmpa' ), admin_url( 'themes.php?page=' . $this->menu . '' ) );
-			$output = printf( '<div id="tgm-plugin-activation" class="updated"><p>%1$s</p></div>', $message );
+				$message = sprintf( __( 'This theme requires the ' . $args['plugin_name'] . ' plugin. <a href="%s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', 'tgmpa' ), admin_url( 'themes.php?page=' . $this->menu . '' ) );
+				$output = printf( '<div id="tgm-plugin-activation" class="updated"><p>%1$s</p></div>', $message );
+			
+			}
 			
 		}
 		
