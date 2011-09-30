@@ -217,12 +217,6 @@ class TGM_Plugin_Activation {
 				}
 			
 			}
-		
-			if ( is_plugin_active( $instance['plugin'] ) ) { // Display a message upon successful activation of the plugin
-			
-				printf( '<div class="wrap"><h2>Congratulations!</h2><div class="updated"><p>Congratulations! ' .  $instance['plugin_name'] . ' has been successfully installed, activated and is ready for use. <a href="%1$s">Return to the dashboard.</a></p></div>', admin_url(), 'tgmpa' );
-			
-			}
 	
 			return true;
 			
@@ -244,10 +238,12 @@ class TGM_Plugin_Activation {
 	 * @return string HTML markup
 	 */
 	public function admin_notices( $output ) {
+	
+		global $current_screen;
 		
 		foreach ( $this->args as $args ) {
 		
-			if ( ! is_plugin_active( $args['plugin'] ) && ! isset( $_POST[$args['input_name']] ) ) {
+			if ( ! is_plugin_active( $args['plugin'] ) && ! isset( $_POST[$args['input_name']] ) && ! ( $current_screen->id == 'appearance_page_install-required-plugins' ) ) {
 			
 				$message = sprintf( __( 'This theme requires the ' . $args['plugin_name'] . ' plugin. <a href="%s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', 'tgmpa' ), admin_url( 'themes.php?page=' . $this->menu . '' ) );
 				$output = printf( '<div id="tgm-plugin-activation" class="updated"><p>%1$s</p></div>', $message );
