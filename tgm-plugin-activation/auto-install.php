@@ -5,7 +5,7 @@
  * @package			TGM Plugin Activation
  * @version			1.1
  * @author			Thomas Griffin <thomas@thomasgriffinmedia.com>
- * @copyright	Copyright (c) 2011, Thomas Griffin
+ * @copyright			Copyright (c) 2011, Thomas Griffin
  * @license			http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link			https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
