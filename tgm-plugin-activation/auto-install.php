@@ -5,7 +5,7 @@
  * @package			TGM Plugin Activation
  * @version			1.1
  * @author			Thomas Griffin <thomas@thomasgriffinmedia.com>
- * @copyright		Copyright (c) 2011, Thomas Griffin
+ * @copyright	Copyright (c) 2011, Thomas Griffin
  * @license			http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link			https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
@@ -47,16 +47,16 @@ class TGM_Plugin_Activation {
 	
 	var $args = array(
 		array( 
-			'plugin' 		=> 'tgm-example-plugin/tgm-example-plugin.php', 
-			'plugin_name' 	=> 'TGM Example Plugin', 
-			'zip_file' 		=> 'tgm-example-plugin.zip', 
-			'repo_file' 	=> '', 
-			'input_name' 	=> 'tgm_tpe' 
+			'plugin' 	=> 'tgm-example-plugin/tgm-example-plugin.php', // The main plugin file (including the plugin folder) 
+			'plugin_name' 	=> 'TGM Example Plugin', // The name of your plugin 
+			'zip_file' 	=> 'tgm-example-plugin.zip', // The name of your zip file (if no zip file, leave empty - see below)
+			'repo_file' 	=> '', // The zip file to get from the repo (if no repo file, leave empty - see below for example if in use)
+			'input_name' 	=> 'tgm_tpe' // The form submit input name (used for checks and security
 		),
 		array( 
-			'plugin' 		=> 'edit-howdy/edithowdy.php', 
+			'plugin' 	=> 'edit-howdy/edithowdy.php', 
 			'plugin_name' 	=> 'Edit Howdy', 
-			'zip_file' 		=> '', 
+			'zip_file' 	=> '', 
 			'repo_file' 	=> 'http://downloads.wordpress.org/plugin/edit-howdy.zip', 
 			'input_name' 	=> 'tgm_eh' 
 		)
