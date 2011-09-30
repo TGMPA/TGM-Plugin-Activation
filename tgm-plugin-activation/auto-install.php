@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package			TGM Plugin Activation
- * @version			1.1
+ * @version			1.1.0
  * @author			Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @copyright			Copyright (c) 2011, Thomas Griffin
  * @license			http://opensource.org/licenses/gpl-3.0.php GPL v3
@@ -348,7 +348,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * Prints an admin stylesheet to format the input forms
 	 *
-	 * @since 1.1
+	 * @since 1.1.0
 	 *
 	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
 	 * @global $current_screen
