@@ -1,7 +1,7 @@
 === TGM Plugin Activation ===
 Contributors:		Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
 			Gary Jones (@GaryJones)
-Version: 		1.1
+Version: 		1.1.0
 Requires at least: 	3.0
 Tested up to: 		3.2.1
  
@@ -57,7 +57,7 @@ There are lots of things to do with this class (and tons of potential). Here is 
 
 == Changelog ==
 
-= 1.1 =
+= 1.1.0 =
 
 * Added support for multiple plugins of each instance (pre-packaged and repo)
 * Removed unnecessary conditional check before class is defined
