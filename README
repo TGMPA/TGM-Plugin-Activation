@@ -1,21 +1,46 @@
 === TGM Plugin Activation ===
 Contributors:		Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
-Version: 		1.0.0
+			Gary Jones (@GaryJones)
+Version: 		1.1
 Requires at least: 	3.0
 Tested up to: 		3.2.1
  
 == Description ==
 
-This class allows WordPress theme authors to include a plugin within their theme for their users to install and activated. Instead of simply including a plugin with the theme and providing directions for FTP, this class makes it easy for the user to install and activate the included plugin by providing admin notices and a form for users to submit.
+This class will revolutionize how plugins can be handled for WordPress themes. By using classes that are utilized within WordPress, the TGM_Plugin_Activation class can automatically install and activate multiple plugins that are either pre-packed with a theme or downloaded from the WordPress Plugin Repository. And all this is done in an intuitive and familiar UI. 
 
-This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem searches through a number of methods (Direct, FTP, FTP Sockets SSH) and determines the best one for use based on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP credentials. This class also uses WP_Error to display any errors to users during the plugin installation and activation process. 
+This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one for use based on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP credentials. To do the installing, this classes uses the Plugin_Upgrader and Plugin_Skin_Installer classes to download, install and activate the plugins. This class also uses WP_Error to display any errors to users during the plugin installation and activation process. 
 
 == Installation ==
 
 This class is easy to use. Follow these instructions to get it setup.
 
-1. Create a .zip file of your plugin and place it within the tgm-plugin-activation/plugins folder.
-2. Within auto-install.php, edit the relevant class variables (they are commented) to reflect your specific plugin.
+1. If you have any pre-packaged plugins, create a .zip file of each plugin and place them within the tgm-plugin-activation/plugins folder.
+2. Within auto-install.php, look for the following lines at the beginning of the class:
+
+	var $args = array(
+		array( 
+			'plugin' 	=> 'tgm-example-plugin/tgm-example-plugin.php', // The main plugin file (including the plugin folder) 
+			'plugin_name' 	=> 'TGM Example Plugin', // The name of your plugin 
+			'zip_file' 	=> 'tgm-example-plugin.zip', // The name of your zip file (if no zip file, leave empty - see below)
+			'repo_file' 	=> '', // The zip file to get from the repo (if no repo file, leave empty - see below for example if in use)
+			'input_name' 	=> 'tgm_tpe' // The form submit input name (used for checks and security
+		),
+		array( 
+			'plugin' 	=> 'edit-howdy/edithowdy.php', 
+			'plugin_name' 	=> 'Edit Howdy', 
+			'zip_file' 	=> '', 
+			'repo_file' 	=> 'http://downloads.wordpress.org/plugin/edit-howdy.zip', 
+			'input_name' 	=> 'tgm_eh' 
+		)
+	);
+
+	1. Each plugin and its respective details is stored within an array within the $args property. These two plugins are included by default and should be replaced with your own plugins.
+	2. The top plugin represents a plugin that is pre-packaged with the theme. The bottom plugin represents a plugin that is automatically downloaded from the Repository.
+	3. If you want to include a pre-packaged plugin, simply leave the 'repo_file' value to ''. The opposite goes for a plugin automatically downloaded from the Repository.
+	4. If you want to add more plugins, simply copy/paste a new array and edit the details to point to your specific plugin.
+	5. There is no set order for these plugins, so you can re-order them how you would like within the array. 
+
 3. Place the tgm-plugin-activation folder within a /lib folder in your theme ( e.g /wp-content/themes/your-theme/lib/tgm-plugin-activation )
 4. Include auto-install.php in your theme's functions.php file ( e.g. require_once( dirname( __FILE__ ) . '/lib/tgm-plugin-activation/auto-install.php' ); )
 5. Check it out for yourself and give your users more instructions if you desire.
@@ -25,14 +50,26 @@ This class is easy to use. Follow these instructions to get it setup.
 
 There are lots of things to do with this class (and tons of potential). Here is a short list:
 
-* Allow for plugins to be included from the WordPress Repository
-	-this would include downloading the .zip file, installing it and activating it on form submission
-* Allow for multiple plugins to be included/installed/activated
-* Allow for multiple instances of both included plugins and repo plugins to be installed and activated
+* Add a bulk installer button at the top of the page to allow users to install all included/repo plugins at once
+* Allow constructor to accept arguments and $args to be set via a register() method that can be called outside of the class (so no code within the class is touched)
 * Security and best practices audit
 * More testing to catch extraneous errors and issues with WP_Filesystem
 
 == Changelog ==
+
+= 1.1 =
+
+* Added support for multiple plugins of each instance (pre-packaged and repo)
+* Removed unnecessary conditional check before class is defined
+* Added new property $domain to hold textdomain for localization
+* Changed property $args to accept arrays of arguments for each plugin needed
+* Added CSS for slight UI enhancements
+* Added extra conditional checks current_user_can( 'install_plugins' ) and current_user_can( 'activate_plugins' ) for security
+* Changed add_submenu_page to add_theme_page
+* Removed menu display if all included plugins were successfully installed and activated
+* Changed admin notices to display different messages based on status of plugin (not installed, installed but not activated)
+* Each instance of plugin installation/activation now uses plugins_api, Plugin_Upgrader and Plugin_Skin_Installer
+* Cleaned up block-level documentation
 
 = 1.0.0 =
 
