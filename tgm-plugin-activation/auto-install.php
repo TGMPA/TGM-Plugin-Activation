@@ -89,7 +89,7 @@ class TGM_Plugin_Activation {
 	 * @var type
 	 * @todo Make this value overwritable from outside of the class.
 	 */
-	var $default_path = '';
+	var $default_path = get_stylesheet_directory() . '/lib/tgm-plugin-activation/plugins';
 
 
 	/**
