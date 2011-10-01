@@ -367,7 +367,6 @@ class TGM_Plugin_Activation {
 					$message = sprintf( __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ), '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
 				else // Need higher privileges to activate the plugin
 					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ), '<em>' . $plugin['name'] . '</em>' );
->>>>>>> d05d0d80ffba049977ae37b9b479e028670ffaec
 
 			}
 			//printf( '<div class="updated"><p>%1$s</p></div>', $message );
