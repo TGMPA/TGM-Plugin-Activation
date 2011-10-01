@@ -41,73 +41,134 @@
  */
 class TGM_Plugin_Activation {
 
-	var $instance; // DO NOT MODIFY THIS
-
-	var $domain = 'tgmpa'; // Sets the textdomain for localization support
-
-	// All of the variables below can be modified to suit your specific plugin.
-
-	var $args = array(
-		array(
-			'plugin' 	=> 'tgm-example-plugin/tgm-example-plugin.php', // The main plugin file (including the plugin folder)
-			'plugin_name' 	=> 'TGM Example Plugin', // The name of your plugin
-			'zip_file' 	=> 'tgm-example-plugin.zip', // The name of your zip file (if no zip file, leave empty - see below)
-			'repo_file' 	=> '', // The zip file to get from the repo (if no repo file, leave empty - see below for example if in use)
-			'input_name' 	=> 'tgm_tpe' // The form submit input name (used for checks and security
-		),
-		array(
-			'plugin' 	=> 'edit-howdy/edithowdy.php',
-			'plugin_name' 	=> 'Edit Howdy',
-			'zip_file' 	=> '',
-			'repo_file' 	=> 'http://downloads.wordpress.org/plugin/edit-howdy.zip',
-			'input_name' 	=> 'tgm_eh'
-		)
-	);
-
-	var $menu = 'install-required-plugins';
-
-
 	/**
-	 * Adds actions for class methods.
-	 *
-	 * Adds three new methods for the class: admin_menu, admin_notices and admin_print_styles.
-	 * admin_notices handles the nag, admin_menu handles the bulk, and admin_print_styles prints the CSS.
+	 * Holds a copy of itself, so it can be referenced by the class name.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+	 * @var TGM_Plugin_Activation
+	 */
+	static $instance;
+
+	/**
+	 * Holds arrays of plugin details.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var array
+	 */
+	var $plugins = array();
+
+	/**
+	 * Name of the querystring argument for the admin page.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	var $menu = 'install-required-plugins';
+
+	/**
+	 * Text domain for localization support.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @var string
+	 * @todo Make this value overwritable from outside of the class.
+	 */
+	var $domain = 'tgmpa';
+
+	/**
+	 * Default absolute path to folder containing pre-packaged plugin zip files.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var type
+	 * @todo Make this value overwritable from outside of the class.
+	 */
+	var $default_path = '';
+
+
+	/**
+	 * Constructor.
+	 *
+	 * Adds a reference of this object to $instance, does the tgmpa_init action
+	 * hook, and hooks in the interactions to init.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @see TGM_Plugin_Activation::init()
 	 */
 	public function __construct() {
 
-		$this->instance =& $this;
+		self::$instance =& $this;
 
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
+		/** Annouce that the class is ready, and pass the object (for advanced use) */
+		do_action_ref_array( 'tgmpa_init', array( &$this ) );
+
+		/** When the rest of WP has loaded, kick-start the rest of the class */
+		add_action( 'init', array( &$this, 'init' ) );
 
 	}
 
+	/**
+	 * Initialise the interactions between this class and WordPress.
+	 *
+	 * Hooks in three new methods for the class: admin_menu, notices and styles.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @see TGM_Plugin_Activation::admin_menu()
+	 * @see TGM_Plugin_Activation::notices()
+	 * @see TGM_Plugin_Activation::styles()
+	 */
+	public function init() {
+
+		do_action( 'tgmpa_register' );
+		/** After this point, the plugins should be registered */
+
+		/** Proceed only if we have plugins to handle */
+		if ( $this->plugins ) {
+
+			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+			add_action( 'admin_notices', array( &$this, 'notices' ) );
+			add_action( 'admin_enqueue_scripts', array( &$this, 'styles' ) );
+
+		}
+		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
+
+	}
 
 	/**
 	 * Adds submenu page under 'Appearance' tab.
 	 *
-	 * This method adds the submenu page letting users know that a required plugin needs to be installed.
+	 * This method adds the submenu page letting users know that a required
+	 * plugin needs to be installed.
+	 *
 	 * This page disappears once the plugin has been installed and activated.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+	 * @see TGM_Plugin_Activation::init()
+	 * @see TGM_Plugin_Activation::install_plugins_page()
 	 */
 	public function admin_menu() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) // Make sure privileges are correct to see the page
+		 // Make sure privileges are correct to see the page
+		if ( ! current_user_can( 'install_plugins' ) )
 			return;
 
-		foreach ( $this->args as $args ) {
+		foreach ( $this->plugins as $plugin ) {
 
-			if ( ! is_plugin_active( $args['plugin'] ) ) {
+			if ( ! is_plugin_active( $plugin['plugin'] ) ) {
 
-				add_theme_page( __( 'Install Required Plugins', $this->domain ), __( 'Install Plugins', $this->domain ), 'edit_theme_options', $this->menu, array( $this, 'install_plugins_page' ) );
+				add_theme_page(
+						__( 'Install Required Plugins', $this->domain ), // Page title
+						__( 'Install Plugins', $this->domain ),          // Menu title
+						'edit_theme_options',                            // Capability
+						$this->menu,                                     // Menu slug
+						array( &$this, 'install_plugins_page' )          // Callback
+				);
 				break;
 
 			}
@@ -116,87 +177,100 @@ class TGM_Plugin_Activation {
 
 	}
 
-
 	/**
-	 * Outputs plugin installation form.
+	 * Echoes plugin installation form.
 	 *
 	 * This method is the callback for the admin_menu method function.
 	 * This displays the admin page and form area where the user can select to install and activate the plugin.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+	 * @return null Aborts early if we're processing a submission
 	 */
 	public function install_plugins_page() {
 
 		if ( $this->do_plugin_install() )
 			return;
+		?>
+		<div class="tgmpa wrap">
+		<?php
+		screen_icon( 'themes' );
+		?>
+		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+		<?php
 
-		echo '<div id="tgmpa-form" class="wrap">';
-			_e( '<h2>Install Required Plugins</h2>', $this->domain );
+			$installed_plugins = get_plugins();
 
-			$plugins = get_plugins();
+			foreach ( $this->plugins as $plugin ) {
 
-			foreach ( $this->args as $form ) {
-
-				if ( is_plugin_active( $form['plugin'] ) ) // If the plugin is active, no need to display the form
+				if ( is_plugin_active( $plugin['plugin'] ) ) // If the plugin is active, no need to display the form
 					continue;
 
-				if ( ! isset( $plugins[$form['plugin']] ) ) { // Plugin is not installed
+				if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Plugin is not installed
 
-					_e( '<div class="instructions"><p>The <strong>' . $form['plugin_name'] . '</strong> plugin is required for this theme. Click on the big blue button below to install and activate <strong>' . $form['plugin_name'] . '</strong>!</p>', $this->domain );
+					_e( '<div class="instructions"><p>The <strong>' . $plugin['name'] . '</strong> plugin is required for this theme. Click on the big blue button below to install and activate <strong>' . $plugin['name'] . '</strong>.</p>', $this->domain );
 
-				} elseif ( is_plugin_inactive( $form['plugin'] ) ) { // The plugin is installed but not active
+				} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // The plugin is installed but not active
 
-					_e( '<div class="instructions"><p>The <strong>' . $form['plugin_name'] . '</strong> is installed but currently inactive. Please go to the <a href="' . admin_url( 'plugins.php' ) . '">plugin administration page</a> page to activate it.</p></div>', $this->domain );
+					_e( '<div class="instructions"><p>The <strong>' . $plugin['name'] . '</strong> is installed but currently inactive. Please go to the <a href="' . admin_url( 'plugins.php' ) . '">plugin administration page</a> page to activate it.</p></div>', $this->domain );
 					continue; // No need to display a form because it is already installed, just needs to be activated
 
-				} ?>
-
-				<form id="tgmpa-go" action="" method="post">
-					<?php wp_nonce_field( 'tgm_pa', 'tgm_pa_nonce' );
-					echo "<input name='{$form['input_name']}' class='button-primary' type='submit' value='Install {$form['plugin_name']} Now!' />"; ?>
+				}
+				?>
+				<form action="" method="post">
+					<?php
+					wp_nonce_field( 'tgm_pa', 'tgm_pa_nonce' );
+					submit_button(
+							sprintf(
+									__( 'Install %s Now', $this->domain ),
+									$plugin['name']
+							),                                              // Text
+							'primary',                                      // Type
+							sanitize_key( $plugin['name'] ),                // Name
+							true,                                           // Wrap
+							array()                                         // Other attributes
+					);
+					?>
 				</form>
-				</div><!-- closing div if plugin is not installed -->
-
 			<?php } ?>
 		</div>
 		<?php
 
 	}
 
-
 	/**
 	 * Installs and activates the plugin.
 	 *
-	 * This method function actually installs the plugin. It instantiates the WP_Filesystem Abstraction class to do the heavy lifting.
+	 * This method actually installs the plugins. It instantiates the
+	 * WP_Filesystem Abstraction class to do the heavy lifting.
+	 *
 	 * Any errors are displayed using the WP_Error class.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
 	 * @uses WP_Filesystem
 	 * @uses WP_Error
 	 * @uses WP_Upgrader
 	 * @uses Plugin_Upgrader
 	 * @uses Plugin_Installer_Skin
-	 * @return boolean, true on success, false on failure
+	 *
+	 * @return boolean True on success, false on failure
 	 */
-	public function do_plugin_install() {
+	protected function do_plugin_install() {
 
-		foreach ( $this->args as $instance ) { // Iterate and perform the action for each plugin in the array
+		if ( empty( $_POST ) ) // Bail out if the global $_POST is empty
+			return false;
 
-			if ( empty( $_POST ) ) // Bail out if the global $_POST is empty
-				return false;
+		check_admin_referer( 'tgm_pa', 'tgm_pa_nonce' ); // Security check
 
-			check_admin_referer( 'tgm_pa', 'tgm_pa_nonce' ); // Security check
+		foreach ( $this->plugins as $plugin ) { // Iterate and perform the action for each plugin in the array
 
-			$fields = array( $instance['input_name'] );
+			$fields = array( sanitize_key( $plugin['name'] ) );
 			$method = ''; // Leave blank so WP_Filesystem can populate it as necessary
 
-			if ( isset( $_POST[$instance['input_name']] ) ) { // Don't do anything if the form has not been submitted
+			if ( isset( $_POST[sanitize_key( $plugin['name'] )] ) ) { // Don't do anything if the form has not been submitted
 
-				$url = wp_nonce_url( 'themes.php?page=' . $this->menu . '', 'tgm_pa' ); // Make sure we are coming from the right page
+				$url = wp_nonce_url( 'themes.php?page=' . $this->menu, 'tgm_pa' ); // Make sure we are coming from the right page
 				if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
 					return true;
 
@@ -207,72 +281,35 @@ class TGM_Plugin_Activation {
 
 				}
 
-				global $wp_filesystem; // Introduce global $wp_filesystem to use WP_Filesystem class methods
+				require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
 
-				// This section is specifically for plugins pre-packaged with the theme
-				if ( isset( $instance['zip_file'] ) && '' !== $instance['zip_file'] ) {
+				$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['plugin'], 'fields' => array( 'sections' => false ) ) );
 
-					$source = get_stylesheet_directory() . '/lib/tgm-plugin-activation/plugins/' . $instance['zip_file']; // The source zip file
+				if ( is_wp_error( $api ) )
+					wp_die( __( 'Something went wrong.', $this->domain ) . var_dump( $api ) );
 
-					include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
-					include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
+				// Prep variables for Plugin_Installer_Skin class
+				$title = sprintf( __( 'Installing Plugin: %s', $this->domain ), $plugin['name'] );
+				$nonce = 'install-plugin_' . $plugin['plugin'];
+				$url = add_query_arg( array( 'action' => 'install-plugin', 'plugin' => $plugin['plugin'] ), 'update.php' );
+				if ( isset( $_GET['from'] ) )
+					$url .= add_query_arg( 'from', urlencode( stripslashes( $_GET['from'] ) ), $url );
 
-					$api = plugins_api( 'plugin_information', array( 'slug' => $instance['plugin'], 'fields' => array( 'sections' => false ) ) );
+				/** Set type, based on whether the source starts with http:// or https:// */
+				$type = preg_match('|^http(s)?://|', $plugin['source'] ) ? 'web' : 'upload';
 
-					if ( is_wp_error( $api ) )
-	 					wp_die( $api );
+				/** Prefix a default path to pre-packaged plugins */
+				$source = ( 'upload' == $type ) ? $this->default_path . $plugin['source'] : $plugin['source'];
 
-					// Prep variables for Plugin_Installer_Skin class
-					$title = sprintf( __( 'Installing Plugin: %s'), $instance['plugin_name'], $this->domain );
-					$nonce = 'install-plugin_' . $instance['plugin'];
-					$url = 'update.php?action=install-plugin&plugin=' . $instance['plugin'];
-					if ( isset( $_GET['from'] ) )
-						$url .= '&from=' . urlencode( stripslashes( $_GET['from'] ) );
+				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
 
-					$type = 'upload'; // Important distinction
+				$upgrader->install( $source ); // Perform the action and install the plugin from the $source URL
 
-					$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
-
-					$upgrader->install( $source ); // Perform the action and install the plugin from the $source URL
-
-					if ( is_wp_error( $upgrader ) ) { // Spit out an error if any exists
-						$upgrader_error = $upgrader->get_error_message();
-						echo '<div id="message" class="installation error"><p>' . $upgrader_error . '</p></div>';
-						return false;
-					}
-
-				}
-
-				// This section is specifically for plugins automatically downloaded from the WordPress Plugin Repository
-				else {
-
-					include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
-					include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
-
-					$api = plugins_api( 'plugin_information', array( 'slug' => $instance['plugin'], 'fields' => array( 'sections' => false ) ) );
-
-					if ( is_wp_error( $api ) )
-	 					wp_die( $api );
-
-					// Prep variables for Plugin_Installer_Skin class
-					$title = sprintf( __( 'Installing Plugin: %s'), $instance['plugin_name'], $this->domain );
-					$nonce = 'install-plugin_' . $instance['plugin'];
-					$url = 'update.php?action=install-plugin&plugin=' . $instance['plugin'];
-					if ( isset( $_GET['from'] ) )
-						$url .= '&from=' . urlencode( stripslashes( $_GET['from'] ) );
-
-					$type = 'web'; // Set this to web for tailored output messages
-
-					$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
-
-					$upgrader->install( $instance['repo_file'] ); // Perform the action and install the plugin from the Repository
-
-					if ( is_wp_error( $upgrader ) ) { // Spit out an error if any exists
-						$upgrader_error = $upgrader->get_error_message();
-						echo '<div id="message" class="installation error"><p>' . $upgrader_error . '</p></div>';
-						return false;
-					}
-
+				if ( is_wp_error( $upgrader ) ) { // Spit out an error if any exists
+					$upgrader_error = $upgrader->get_error_message();
+					echo '<div id="message" class="installation error"><p>' . $upgrader_error . '</p></div>';
+					return false;
 				}
 
 			}
@@ -283,89 +320,117 @@ class TGM_Plugin_Activation {
 
 	}
 
-
 	/**
-	 * Display required notice nag.
+	 * Echoes required plugin notice.
 	 *
-	 * Outputs a message telling users that a specific plugin is required for their theme.
-	 * Displays a link to the form page where users can install and activate the plugin.
+	 * Outputs a message telling users that a specific plugin is required for
+	 * their theme. If appropriate, it includes a link to the form page where
+	 * users can install and activate the plugin.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
-	 * @author Gary Jones
 	 * @global $current_screen
-	 * @param string $output
-	 * @return string HTML markup
+	 * @return null Returns early if we're on the Install page
 	 */
-	public function admin_notices( $output ) {
+	public function notices() {
 
 		global $current_screen;
 
-		if ( 'appearance_page_install-required-plugins' == $current_screen->id ) // Remove nag on the install pages
+		// Remove nag on the install pages
+		if ( 'appearance_page_install-required-plugins' == $current_screen->id )
 			return;
 
-		$plugins = get_plugins(); // Retrieve a list of all the plugins
+		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 
-		foreach ( $this->args as $args ) {
+		foreach ( $this->plugins as $plugin ) {
 
-			if ( ! isset( $plugins[$args['plugin']] ) ) { // Not installed
+			if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Not installed
 
-				if ( current_user_can( 'install_plugins' ) ) {
+				if ( current_user_can( 'install_plugins' ) )
+					$message = sprintf( __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ), '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
+				else // Need higher privileges to install the plugin
+					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ), '<em>' . $plugin['name'] . '</em>' );
 
-					$message = sprintf( __( 'This theme requires the <strong>' . $args['plugin_name'] . '</strong> plugin. <a href="%s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ), admin_url( 'themes.php?page=' . $this->menu . '' ) );
-					$output = printf( '<div id="tgm-plugin-activation" class="updated"><p>%1$s</p></div>', $message );
+			} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // Installed but not active
 
-				} else { // Need higher privileges to install the plugin
-
-					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to install the <strong>' . $args['plugin_name'] . '</strong> plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ) );
-					$output = printf( '<div id="tgm-plugin-activation" class="updated"><p>%1$s</p></div>', $message );
-
-				}
-
-
-			} elseif ( is_plugin_inactive( $args['plugin'] ) ) { // Installed but not active
-
-				if ( current_user_can( 'activate_plugins' ) ) {
-
-					$message = sprintf( __( 'This theme requires the <strong>' . $args['plugin_name'] . '</strong> plugin. The <strong>' . $args['plugin_name'] . '</strong> plugin is currently inactive, so please go to the <a href="%s"><strong>plugin administration page</strong></a> to activate it.', $this->domain ), admin_url( 'plugins.php' ) );
-					$output = printf( '<div id="tgm-plugin-inactive" class="updated"><p>%1$s</p></div>', $message );
-
-				} else { // Need higher privileges to activate the plugin
-
-					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to activate the <strong>' . $args['plugin_name'] . '</strong> plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ) );
-					$output = printf( '<div id="tgm-plugin-inactive" class="updated"><p>%1$s</p></div>', $message );
-
-				}
+				if ( current_user_can( 'activate_plugins' ) )
+					$message = sprintf( __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ), '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
+				else // Need higher privileges to activate the plugin
+					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ), '<em>' . $plugin['name'] . '</em>' );
 
 			}
+			//printf( '<div class="updated"><p>%1$s</p></div>', $message );
+			add_settings_error( 'tgmpa', 'tgmpa', $message, 'updated' );
 
 		}
 
+		settings_errors( 'tgmpa' );
+
 	}
 
-
 	/**
-	 * Print admin stylesheet.
-	 *
-	 * Prints an admin stylesheet to format the input forms
+	 * Enqueue a style sheet for this admin page.
 	 *
 	 * @since 1.1.0
 	 *
-	 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
 	 * @global $current_screen
-	 * @param string $output
-	 * @return string HTML markup
+	 * @todo Fix path so it looks for the style sheet in the same directory as this file.
 	 */
-	public function admin_print_styles() {
+	public function styles() {
 
 		global $current_screen;
 
-		if ( 'appearance_page_install-required-plugins' == $current_screen->id ) // Only load the CSS file on our page
-			wp_enqueue_style( 'tgmpa-admin', get_stylesheet_directory_uri() . '/lib/tgm-plugin-activation/admin-css.css' );
+		// Only load the CSS file on the Install page
+		if ( 'appearance_page_install-required-plugins' == $current_screen->id )
+			wp_enqueue_style( 'tgmpa-admin', get_stylesheet_directory_uri() . '/lib/tgm-plugin-activation/admin-css.css', array(), '1.1.0' );
+
+	}
+
+	/**
+	 * Add individual plugin to our collection of plugins.
+	 *
+	 * If the required keys are not set, the plugin is not added.
+	 *
+	 * @param type $plugin
+	 */
+	public function register( $plugin ) {
+
+		if ( ! isset( $plugin['plugin'] ) || ! isset( $plugin['name'] ) || ! isset( $plugin['source'] ) )
+			return;
+
+		$this->plugins[] = $plugin;
+	}
+
+	/**
+	 * Amend action link after plugin installation.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $install_actions Existing array of actions
+	 * @return array Amended array of actions
+	 */
+	public function actions( $install_actions ) {
+
+		$install_actions['plugins_page'] = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr__( 'Return to Required Plugins Installer', $this->domain ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
+		return $install_actions;
 
 	}
 
 }
 
-new TGM_Plugin_Activation(); // Instantiate a new instance of the class
+new TGM_Plugin_Activation;
+
+/**
+ * Helper function to register a collection of required plugins.
+ *
+ * @since 2.0.0
+ * @api
+ *
+ * @param array $plugins An array of plugin arrays
+ */
+function tgmpa_register_plugins( $plugins ) {
+
+	foreach ( $plugins as $plugin )
+		TGM_Plugin_Activation::$instance->register( $plugin );
+
+}
