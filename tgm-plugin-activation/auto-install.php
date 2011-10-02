@@ -411,7 +411,28 @@ class TGM_Plugin_Activation {
 
 		// Only load the CSS file on the Install page
 		if ( 'appearance_page_' . $this->menu == $current_screen->id )
-			wp_enqueue_style( 'tgmpa-admin', get_stylesheet_directory_uri() . '/lib/tgm-plugin-activation/admin-css.css', array(), '1.1.0' );
+			echo '<style type="text/css">' . 
+				'.tgmpa .instructions {
+					-moz-border-radius: 3px;
+					-webkit-border-radius: 3px;
+					background: #f5f5f5;
+					border: 1px solid #d5d5d5;
+					border-radius: 3px;
+					margin: 15px 0;
+					width: 700px;
+				}
+
+				.tgmpa .instructions p {
+					border-top: 1px solid #fff;
+					margin: 0;
+					padding: 1em;
+				}
+
+				.tgmpa p.submit {
+					border-top: 0 none;
+					padding-top: 0;
+				}' . 
+			'</style>';
 
 	}
 
