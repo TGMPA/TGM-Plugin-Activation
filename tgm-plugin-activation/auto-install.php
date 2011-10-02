@@ -444,7 +444,7 @@ class TGM_Plugin_Activation {
 		$keys = array( 'default_path', 'domain', 'menu', 'strings' );
 
 		foreach ( $keys as $key ) {
-			if( isset( $config[$key]) && $config[$key] ) {
+			if ( isset( $config[$key]) && $config[$key] ) {
 				if ( is_array( $config[$key] ) ) {
 					foreach ( $config[$key] as $subkey => $value )
 						$this->{$key}[$subkey] = $value;
