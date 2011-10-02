@@ -468,7 +468,7 @@ class TGM_Plugin_Activation {
 
 		foreach ( $keys as $key ) {
 		
-			if ( isset( $config[$key]) && $config[$key] ) {
+			if ( isset( $config[$key] ) && $config[$key] ) {
 				if ( is_array( $config[$key] ) ) {
 					foreach ( $config[$key] as $subkey => $value )
 						$this->{$key}[$subkey] = $value;
@@ -511,7 +511,7 @@ class TGM_Plugin_Activation {
 		
 		foreach ( $keys as $key ) {
 			if ( preg_match( '|^' . $slug .'|', $key ) )
-					return $key;
+				return $key;
 		}
 		
 		return $slug;
