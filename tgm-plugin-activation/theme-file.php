@@ -27,17 +27,20 @@ add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
  */
 function my_theme_register_required_plugins() {
 
-	/** Array of plugin arrays. Required keys are plugin, name and source. */
+	/**
+	 * Array of plugin arrays. Required keys are name and slug.
+	 * If the source is NOT from the .org repo, then source is also required.
+	 */
 	$plugins = array(
 		array(
-			'plugin' => 'tgm-example-plugin/tgm-example-plugin.php', // The main plugin file (including the plugin folder)
-			'name'   => 'TGM Example Plugin', // The plugin name
-			'source' => get_stylesheet_directory() . '/lib/tgm-plugin-activation/plugins/tgm-example-plugin.zip', // The plugin source
+			'name'     => 'TGM Example Plugin', // The plugin name
+			'slug'     => 'tgm-example-plugin', // The plugin slug (typically the folder name)
+			'source'   => get_stylesheet_directory() . '/lib/plugins/tgm-example-plugin.zip', // The plugin source
+			'required' => false,
 		),
 		array(
-			'plugin' => 'edit-howdy/edithowdy.php',
-			'name'   => 'Edit Howdy',
-			'source' => 'http://downloads.wordpress.org/plugin/edit-howdy.zip',
+			'name' => 'Edit Howdy',
+			'slug' => 'edit-howdy',
 		),
 	);
 
