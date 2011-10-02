@@ -32,7 +32,7 @@ function my_theme_register_required_plugins() {
 		array(
 			'plugin' => 'tgm-example-plugin/tgm-example-plugin.php', // The main plugin file (including the plugin folder)
 			'name'   => 'TGM Example Plugin', // The plugin name
-			'source' => get_stylesheet_directory() . '/lib/tgm-plugin-activation/plugins/tgm-example-plugin.zip', // The plugin source
+			'source' => get_stylesheet_directory() . '/lib/plugins/tgm-example-plugin.zip', // The plugin source
 		),
 		array(
 			'plugin' => 'edit-howdy/edithowdy.php',
