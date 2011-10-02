@@ -1,61 +1,54 @@
 === TGM Plugin Activation ===
 Contributors:		Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
 			Gary Jones (@GaryJones)
-Version: 		1.1.0
+Version: 		2.0.0
 Requires at least: 	3.0
 Tested up to: 		3.2.1
  
 == Description ==
 
-This class will revolutionize how plugins can be handled for WordPress themes. By using classes that are utilized within WordPress, the TGM_Plugin_Activation class can automatically install and activate multiple plugins that are either pre-packed with a theme or downloaded from the WordPress Plugin Repository. And all this is done in an intuitive and familiar UI. 
+This class will revolutionize how plugins can be handled for WordPress themes. By using classes that are utilized within WordPress, the TGM_Plugin_Activation class can automatically install and activate multiple plugins that are either pre-packaged with a theme or downloaded from the WordPress Plugin Repository.
 
-This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one for use based on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP credentials. To do the installing, this classes uses the Plugin_Upgrader and Plugin_Skin_Installer classes to download, install and activate the plugins. This class also uses WP_Error to display any errors to users during the plugin installation and activation process. 
+This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one for use based on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP credentials. To do the installing, this class uses the Plugin_Upgrader and Plugin_Skin_Installer classes to download, install and activate the plugins. This class also uses WP_Error to display any errors to users during the plugin installation and activation process. 
 
 == Installation ==
 
-This class is easy to use. Follow these instructions to get it setup.
+=== UPDATE ===
 
-1. If you have any pre-packaged plugins, create a .zip file of each plugin and place them within the tgm-plugin-activation/plugins folder.
-2. Within auto-install.php, look for the following lines at the beginning of the class:
+As as v2.0.0, the TGM_Plugin_Activation class now has an API for theme developers to hook into the class. Make sure you look at the example.php file and review the installation instructions below.
 
-	var $args = array(
-		array( 
-			'plugin' 	=> 'tgm-example-plugin/tgm-example-plugin.php', // The main plugin file (including the plugin folder) 
-			'plugin_name' 	=> 'TGM Example Plugin', // The name of your plugin 
-			'zip_file' 	=> 'tgm-example-plugin.zip', // The name of your zip file (if no zip file, leave empty - see below)
-			'repo_file' 	=> '', // The zip file to get from the repo (if no repo file, leave empty - see below for example if in use)
-			'input_name' 	=> 'tgm_tpe' // The form submit input name (used for checks and security
-		),
-		array( 
-			'plugin' 	=> 'edit-howdy/edithowdy.php', 
-			'plugin_name' 	=> 'Edit Howdy', 
-			'zip_file' 	=> '', 
-			'repo_file' 	=> 'http://downloads.wordpress.org/plugin/edit-howdy.zip', 
-			'input_name' 	=> 'tgm_eh' 
-		)
-	);
+The example.php file is a model for how you should include the class in your theme. Some important things to note:
 
-	1. Each plugin and its respective details is stored within an array within the $args property. These two plugins are included by default and should be replaced with your own plugins.
-	2. The top plugin represents a plugin that is pre-packaged with the theme. The bottom plugin represents a plugin that is automatically downloaded from the Repository.
-	3. If you want to include a pre-packaged plugin, simply leave the 'repo_file' value to ''. The opposite goes for a plugin automatically downloaded from the Repository.
-	4. If you want to add more plugins, simply copy/paste a new array and edit the details to point to your specific plugin.
-	5. There is no set order for these plugins, so you can re-order them how you would like within the array. 
+1. With the require_once call, make sure to amend the path to the correct location within your theme.
+2. For plugins pre-packaged with the theme, the 'source' argument for the plugin array is required and should reflect the directory path to your pre-packaged plugin.
+3. The $config variable holds an array of arguments that can be used to customized most everything within the class. 
+	- If you define a default absolute path for pre-packaged plugins, you do not need to specify the directory path for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file.
 
-3. Place the tgm-plugin-activation folder within a /lib folder in your theme ( e.g /wp-content/themes/your-theme/lib/tgm-plugin-activation )
-4. Include auto-install.php in your theme's functions.php file ( e.g. require_once( dirname( __FILE__ ) . '/lib/tgm-plugin-activation/auto-install.php' ); )
-5. Check it out for yourself and give your users more instructions if you desire.
-6. Let me know of any issues and be sure to submit your own patches to make it better. :)
+Other than this, everything should be smooth sailing from here.
 
 == TODO ==
 
 There are lots of things to do with this class (and tons of potential). Here is a short list:
 
-* Add a bulk installer button at the top of the page to allow users to install all included/repo plugins at once
-* Allow constructor to accept arguments and $args to be set via a register() method that can be called outside of the class (so no code within the class is touched)
+* Consolidate nag messages into one message split into two categories (plugins not installed and plugins installed but not activated)
+* Add a bulk installer button at the top of the install plugins page to allow users to install all included/repo plugins at once
 * Security and best practices audit
-* More testing to catch extraneous errors and issues with WP_Filesystem
 
 == Changelog ==
+
+= 2.0.0 =
+
+* Re-written structure to include an API for theme developers so no code inside the class needs to be touched
+* Introduction of new properties: $default_path and $strings
+* Ability to filter all message strings that are outputted by the class
+* tgmpa_register() hook for API
+* Removed unnecessary is_wp_error() check
+* Now uses Settings API to output admin notices
+* Internal CSS for optimization
+* Three new methods: register, config and actions
+* New API function: tgmpa()
+* Updated example.php file with example setup for theme authors
+* Ability to define custom text domain for localization
 
 = 1.1.0 =
 
