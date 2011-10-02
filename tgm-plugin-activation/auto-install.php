@@ -157,7 +157,7 @@ class TGM_Plugin_Activation {
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 			add_action( 'admin_notices', array( &$this, 'notices' ) );
-			add_action( 'admin_enqueue_scripts', array( &$this, 'styles' ) );
+			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
 
 		}
 		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
@@ -467,6 +467,7 @@ class TGM_Plugin_Activation {
 		$keys = array( 'default_path', 'domain', 'menu', 'strings' );
 
 		foreach ( $keys as $key ) {
+		
 			if ( isset( $config[$key]) && $config[$key] ) {
 				if ( is_array( $config[$key] ) ) {
 					foreach ( $config[$key] as $subkey => $value )
@@ -507,10 +508,12 @@ class TGM_Plugin_Activation {
 	protected function _get_plugin_basename_from_slug( $slug ) {
 
 		$keys = array_keys( get_plugins() );
+		
 		foreach ( $keys as $key ) {
 			if ( preg_match( '|^' . $slug .'|', $key ) )
 					return $key;
 		}
+		
 		return $slug;
 
 	}
