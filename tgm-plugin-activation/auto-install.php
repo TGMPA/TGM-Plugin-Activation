@@ -159,7 +159,7 @@ class TGM_Plugin_Activation {
 	 */
 	public function admin_menu() {
 
-		 // Make sure privileges are correct to see the page
+		// Make sure privileges are correct to see the page
 		if ( ! current_user_can( 'install_plugins' ) )
 			return;
 
@@ -239,6 +239,7 @@ class TGM_Plugin_Activation {
 					);
 					?>
 				</form>
+				</div><!-- closing div if plugin is not installed -->
 			<?php } ?>
 		</div>
 		<?php
@@ -353,6 +354,9 @@ class TGM_Plugin_Activation {
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 
 		foreach ( $this->plugins as $plugin ) {
+		
+			if ( is_plugin_active( $plugin['plugin'] ) ) // If a plugin is active, no need to display nag
+				continue;
 
 			if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Not installed
 
@@ -412,6 +416,7 @@ class TGM_Plugin_Activation {
 
 		$this->plugins[] = $plugin;
 	}
+	
 
 	/**
 	 * Amend action link after plugin installation.
