@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package	  TGM-Plugin-Activation
- * @version	  1.1.0
+ * @version	  2.0.0
  * @author	  Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
  * @license	  http://opensource.org/licenses/gpl-3.0.php GPL v3
@@ -233,7 +233,7 @@ class TGM_Plugin_Activation {
 
 				if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Plugin is not installed
 
-					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p></div>';
+					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
 
 				} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // The plugin is installed but not active
 
@@ -257,6 +257,7 @@ class TGM_Plugin_Activation {
 					);
 					?>
 				</form>
+				</div><!-- closing div if plugins need to be installed -->
 			<?php } ?>
 		</div>
 		<?php
@@ -368,6 +369,9 @@ class TGM_Plugin_Activation {
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 
 		foreach ( $this->plugins as $plugin ) {
+		
+			if ( is_plugin_active( $plugin['plugin'] ) ) // If the plugin is active, no need to display nag
+				continue;
 
 			if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Not installed
 
@@ -416,6 +420,8 @@ class TGM_Plugin_Activation {
 	 *
 	 * If the required keys are not set, the plugin is not added.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param type $plugin
 	 */
 	public function register( $plugin ) {
@@ -438,7 +444,7 @@ class TGM_Plugin_Activation {
 		$keys = array( 'default_path', 'domain', 'menu', 'strings' );
 
 		foreach ( $keys as $key ) {
-			if( isset( $config[$key]) && $config[$key] ) {
+			if ( isset( $config[$key]) && $config[$key] ) {
 				if ( is_array( $config[$key] ) ) {
 					foreach ( $config[$key] as $subkey => $value )
 						$this->{$key}[$subkey] = $value;
