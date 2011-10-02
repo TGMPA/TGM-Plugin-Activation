@@ -339,12 +339,6 @@ class TGM_Plugin_Activation {
 
 				$upgrader->install( $source ); // Perform the action and install the plugin from the $source URL
 
-				if ( is_wp_error( $upgrader ) ) { // Spit out an error if any exists
-					$upgrader_error = $upgrader->get_error_message();
-					echo '<div id="message" class="installation error"><p>' . $upgrader_error . '</p></div>';
-					return false;
-				}
-
 			}
 
 		}
@@ -486,13 +480,12 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $slug Plugin slug (folder name) as provided by the developer
+	 * @param string $slug Plugin slug (typically folder name) as provided by the developer
 	 * @return string Either file path for plugin if installed, or just the plugin slug
 	 */
 	protected function _get_plugin_basename_from_slug( $slug ) {
 
-		$plugins = get_plugins();
-		$keys = array_keys( $plugins );
+		$keys = array_keys( get_plugins() );
 		foreach ( $keys as $key ) {
 			if ( preg_match( '|^' . $slug .'|', $key ) )
 					return $key;
