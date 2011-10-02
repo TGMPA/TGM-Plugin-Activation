@@ -233,7 +233,7 @@ class TGM_Plugin_Activation {
 
 				if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Plugin is not installed
 
-					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p></div>';
+					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
 
 				} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // The plugin is installed but not active
 
