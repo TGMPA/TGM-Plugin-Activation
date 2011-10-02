@@ -183,9 +183,13 @@ class TGM_Plugin_Activation {
 		if ( ! current_user_can( 'install_plugins' ) )
 			return;
 
+		// Add file_path key for all plugins
+		foreach( $this->plugins as $plugin => $values )
+			$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
+
 		foreach ( $this->plugins as $plugin ) {
 
-			if ( ! is_plugin_active( $plugin['plugin'] ) ) {
+			if ( ! is_plugin_active( $plugin['file_path'] ) ) {
 
 				add_theme_page(
 						$this->strings['page_title'],           // Page title
@@ -228,14 +232,14 @@ class TGM_Plugin_Activation {
 
 			foreach ( $this->plugins as $plugin ) {
 
-				if ( is_plugin_active( $plugin['plugin'] ) ) // If the plugin is active, no need to display the form
+				if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display the form
 					continue;
 
-				if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Plugin is not installed
+				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Plugin is not installed
 
 					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
 
-				} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // The plugin is installed but not active
+				} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // The plugin is installed but not active
 
 					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_activate'], '<strong>' . $plugin['name'] . '</strong>', admin_url( 'plugins.php' ) ) . '</p></div>';
 					continue; // No need to display a form because it is already installed, just needs to be activated
@@ -310,17 +314,20 @@ class TGM_Plugin_Activation {
 				require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
 
-				$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['plugin'], 'fields' => array( 'sections' => false ) ) );
+				$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['slug'], 'fields' => array( 'sections' => false ) ) );
 
 				if ( is_wp_error( $api ) )
 					wp_die( $this->strings['oops'] . var_dump( $api ) );
 
 				// Prep variables for Plugin_Installer_Skin class
 				$title = sprintf( $this->strings['installing'], $plugin['name'] );
-				$nonce = 'install-plugin_' . $plugin['plugin'];
-				$url = add_query_arg( array( 'action' => 'install-plugin', 'plugin' => $plugin['plugin'] ), 'update.php' );
+				$nonce = 'install-plugin_' . $plugin['slug'];
+				$url = add_query_arg( array( 'action' => 'install-plugin', 'plugin' => $plugin['slug'] ), 'update.php' );
 				if ( isset( $_GET['from'] ) )
 					$url .= add_query_arg( 'from', urlencode( stripslashes( $_GET['from'] ) ), $url );
+
+				if ( ! isset( $plugin['source'] ) && isset( $api->download_link ) )
+					$plugin['source'] = $api->download_link;
 
 				/** Set type, based on whether the source starts with http:// or https:// */
 				$type = preg_match('|^http(s)?://|', $plugin['source'] ) ? 'web' : 'upload';
@@ -369,18 +376,18 @@ class TGM_Plugin_Activation {
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 
 		foreach ( $this->plugins as $plugin ) {
-		
-			if ( is_plugin_active( $plugin['plugin'] ) ) // If the plugin is active, no need to display nag
+
+			if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
 				continue;
 
-			if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Not installed
+			if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Not installed
 
 				if ( current_user_can( 'install_plugins' ) )
 					$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
 				else // Need higher privileges to install the plugin
 					$message = sprintf( $this->strings['notice_cannot_install'], '<em>' . $plugin['name'] . '</em>' );
 
-			} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // Installed but not active
+			} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // Installed but not active
 
 				if ( current_user_can( 'activate_plugins' ) )
 					$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
@@ -426,10 +433,11 @@ class TGM_Plugin_Activation {
 	 */
 	public function register( $plugin ) {
 
-		if ( ! isset( $plugin['plugin'] ) || ! isset( $plugin['name'] ) || ! isset( $plugin['source'] ) )
+		if ( ! isset( $plugin['slug'] ) || ! isset( $plugin['name'] ) )
 			return;
 
 		$this->plugins[] = $plugin;
+
 	}
 
 	/**
@@ -469,6 +477,27 @@ class TGM_Plugin_Activation {
 
 		$install_actions['plugins_page'] = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
 		return $install_actions;
+
+	}
+
+	/**
+	 * Helper function to extract the file path of the plugin file from the
+	 * plugin slug, if the plugin is installed.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $slug Plugin slug (folder name) as provided by the developer
+	 * @return string Either file path for plugin if installed, or just the plugin slug
+	 */
+	protected function _get_plugin_basename_from_slug( $slug ) {
+
+		$plugins = get_plugins();
+		$keys = array_keys( $plugins );
+		foreach ( $keys as $key ) {
+			if ( preg_match( '|^' . $slug .'|', $key ) )
+					return $key;
+		}
+		return $slug;
 
 	}
 
