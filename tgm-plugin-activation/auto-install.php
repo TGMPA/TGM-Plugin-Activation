@@ -3,15 +3,15 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package	  TGM-Plugin-Activation
- * @version	  1.1.0
+ * @version	  2.0.0
  * @author	  Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
  * @license	  http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
 
-
-/*  Copyright 2011  Thomas Griffin  (email : thomas@thomasgriffinmedia.com)
+/*
+    Copyright 2011  Thomas Griffin  (email : thomas@thomasgriffinmedia.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 3, as
@@ -25,9 +25,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
 */
-
 
 /**
  * Automatic plugin installation and activation class.
@@ -40,7 +38,6 @@
  *
  * @package TGM-Plugin-Activation
  * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
- * @author Gary Jones <gamajo@gamajo.com>
  */
 class TGM_Plugin_Activation {
 
@@ -91,6 +88,16 @@ class TGM_Plugin_Activation {
 	 */
 	var $default_path = '';
 
+	/**
+	 * Holds configurable array of strings.
+	 *
+	 * Default values are added in the constructor.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	var $strings = array();
 
 	/**
 	 * Constructor.
@@ -106,6 +113,21 @@ class TGM_Plugin_Activation {
 
 		self::$instance =& $this;
 
+		$this->strings = array(
+			'page_title'             => __( 'Install Required Plugins', $this->domain ),
+			'menu_title'             => __( 'Install Plugins', $this->domain ),
+			'instructions_install'   => __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
+			'instructions_activate'  => __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $this->domain ),
+			'button'                 => __( 'Install %s Now', $this->domain ),
+			'installing'             => __( 'Installing Plugin: %s', $this->domain ),
+			'oops'                   => __( 'Something went wrong.', $this->domain ),
+			'notice_can_install'     => __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ),
+			'notice_cannot_install'  => __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
+			'notice_can_activate'    => __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
+			'notice_cannot_activate' => __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
+			'return'                 => __( 'Return to Required Plugins Installer', $this->domain ),
+		);
+
 		/** Annouce that the class is ready, and pass the object (for advanced use) */
 		do_action_ref_array( 'tgmpa_init', array( &$this ) );
 
@@ -113,7 +135,6 @@ class TGM_Plugin_Activation {
 		add_action( 'init', array( &$this, 'init' ) );
 
 	}
-	
 
 	/**
 	 * Initialise the interactions between this class and WordPress.
@@ -143,7 +164,6 @@ class TGM_Plugin_Activation {
 
 	}
 
-
 	/**
 	 * Adds submenu page under 'Appearance' tab.
 	 *
@@ -159,7 +179,7 @@ class TGM_Plugin_Activation {
 	 */
 	public function admin_menu() {
 
-		// Make sure privileges are correct to see the page
+		 // Make sure privileges are correct to see the page
 		if ( ! current_user_can( 'install_plugins' ) )
 			return;
 
@@ -168,11 +188,11 @@ class TGM_Plugin_Activation {
 			if ( ! is_plugin_active( $plugin['plugin'] ) ) {
 
 				add_theme_page(
-						__( 'Install Required Plugins', $this->domain ), // Page title
-						__( 'Install Plugins', $this->domain ),          // Menu title
-						'edit_theme_options',                            // Capability
-						$this->menu,                                     // Menu slug
-						array( &$this, 'install_plugins_page' )          // Callback
+						$this->strings['page_title'],           // Page title
+						$this->strings['menu_title'],           // Menu title
+						'edit_theme_options',                   // Capability
+						$this->menu,                            // Menu slug
+						array( &$this, 'install_plugins_page' ) // Callback
 				);
 				break;
 
@@ -181,7 +201,6 @@ class TGM_Plugin_Activation {
 		}
 
 	}
-
 
 	/**
 	 * Echoes plugin installation form.
@@ -197,7 +216,6 @@ class TGM_Plugin_Activation {
 
 		if ( $this->do_plugin_install() )
 			return;
-			
 		?>
 		<div class="tgmpa wrap">
 		<?php
@@ -215,37 +233,36 @@ class TGM_Plugin_Activation {
 
 				if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Plugin is not installed
 
-					_e( '<div class="instructions"><p>The <strong>' . $plugin['name'] . '</strong> plugin is required for this theme. Click on the big blue button below to install and activate <strong>' . $plugin['name'] . '</strong>.</p>', $this->domain );
+					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p></div>';
 
 				} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // The plugin is installed but not active
 
-					_e( '<div class="instructions"><p>The <strong>' . $plugin['name'] . '</strong> is installed but currently inactive. Please go to the <a href="' . admin_url( 'plugins.php' ) . '">plugin administration page</a> page to activate it.</p></div>', $this->domain );
+					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_activate'], '<strong>' . $plugin['name'] . '</strong>', admin_url( 'plugins.php' ) ) . '</p></div>';
 					continue; // No need to display a form because it is already installed, just needs to be activated
 
 				}
 				?>
 				<form action="" method="post">
 					<?php
-					wp_nonce_field( 'tgm_pa', 'tgm_pa_nonce' );
+					wp_nonce_field( 'tgmpa', 'tgmpa_nonce' );
 					submit_button(
 							sprintf(
-									__( 'Install %s Now', $this->domain ),
+									$this->strings['button'],
 									$plugin['name']
-							),                                              // Text
-							'primary',                                      // Type
-							sanitize_key( $plugin['name'] ),                // Name
-							true,                                           // Wrap
-							array()                                         // Other attributes
+							),                                // Text
+							'primary',                        // Type
+							sanitize_key( $plugin['name'] ),  // Name
+							true,                             // Wrap
+							array()                           // Other attributes
 					);
 					?>
 				</form>
-				</div><!-- closing div if plugin is not installed -->
+				</div><!-- closing div if plugins need to be installed -->
 			<?php } ?>
 		</div>
 		<?php
 
 	}
-
 
 	/**
 	 * Installs and activates the plugin.
@@ -270,7 +287,7 @@ class TGM_Plugin_Activation {
 		if ( empty( $_POST ) ) // Bail out if the global $_POST is empty
 			return false;
 
-		check_admin_referer( 'tgm_pa', 'tgm_pa_nonce' ); // Security check
+		check_admin_referer( 'tgmpa', 'tgmpa_nonce' ); // Security check
 
 		foreach ( $this->plugins as $plugin ) { // Iterate and perform the action for each plugin in the array
 
@@ -280,7 +297,6 @@ class TGM_Plugin_Activation {
 			if ( isset( $_POST[sanitize_key( $plugin['name'] )] ) ) { // Don't do anything if the form has not been submitted
 
 				$url = wp_nonce_url( 'themes.php?page=' . $this->menu, 'tgm_pa' ); // Make sure we are coming from the right page
-				
 				if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
 					return true;
 
@@ -297,10 +313,10 @@ class TGM_Plugin_Activation {
 				$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['plugin'], 'fields' => array( 'sections' => false ) ) );
 
 				if ( is_wp_error( $api ) )
-					wp_die( __( 'Something went wrong.', $this->domain ) . var_dump( $api ) );
+					wp_die( $this->strings['oops'] . var_dump( $api ) );
 
 				// Prep variables for Plugin_Installer_Skin class
-				$title = sprintf( __( 'Installing Plugin: %s', $this->domain ), $plugin['name'] );
+				$title = sprintf( $this->strings['installing'], $plugin['name'] );
 				$nonce = 'install-plugin_' . $plugin['plugin'];
 				$url = add_query_arg( array( 'action' => 'install-plugin', 'plugin' => $plugin['plugin'] ), 'update.php' );
 				if ( isset( $_GET['from'] ) )
@@ -330,7 +346,6 @@ class TGM_Plugin_Activation {
 
 	}
 
-
 	/**
 	 * Echoes required plugin notice.
 	 *
@@ -348,29 +363,29 @@ class TGM_Plugin_Activation {
 		global $current_screen;
 
 		// Remove nag on the install pages
-		if ( 'appearance_page_install-required-plugins' == $current_screen->id )
+		if ( 'appearance_page_' . $this->menu == $current_screen->id )
 			return;
 
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 
 		foreach ( $this->plugins as $plugin ) {
 		
-			if ( is_plugin_active( $plugin['plugin'] ) ) // If a plugin is active, no need to display nag
+			if ( is_plugin_active( $plugin['plugin'] ) ) // If the plugin is active, no need to display nag
 				continue;
 
 			if ( ! isset( $installed_plugins[$plugin['plugin']] ) ) { // Not installed
 
 				if ( current_user_can( 'install_plugins' ) )
-					$message = sprintf( __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ), '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
+					$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
 				else // Need higher privileges to install the plugin
-					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ), '<em>' . $plugin['name'] . '</em>' );
+					$message = sprintf( $this->strings['notice_cannot_install'], '<em>' . $plugin['name'] . '</em>' );
 
 			} elseif ( is_plugin_inactive( $plugin['plugin'] ) ) { // Installed but not active
 
 				if ( current_user_can( 'activate_plugins' ) )
-					$message = sprintf( __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ), '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
+					$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
 				else // Need higher privileges to activate the plugin
-					$message = sprintf( __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ), '<em>' . $plugin['name'] . '</em>' );
+					$message = sprintf( $this->strings['notice_cannot_activate'], '<em>' . $plugin['name'] . '</em>' );
 
 			}
 			//printf( '<div class="updated"><p>%1$s</p></div>', $message );
@@ -381,7 +396,6 @@ class TGM_Plugin_Activation {
 		settings_errors( 'tgmpa' );
 
 	}
-
 
 	/**
 	 * Enqueue a style sheet for this admin page.
@@ -396,16 +410,17 @@ class TGM_Plugin_Activation {
 		global $current_screen;
 
 		// Only load the CSS file on the Install page
-		if ( 'appearance_page_install-required-plugins' == $current_screen->id )
+		if ( 'appearance_page_' . $this->menu == $current_screen->id )
 			wp_enqueue_style( 'tgmpa-admin', get_stylesheet_directory_uri() . '/lib/tgm-plugin-activation/admin-css.css', array(), '1.1.0' );
 
 	}
-
 
 	/**
 	 * Add individual plugin to our collection of plugins.
 	 *
 	 * If the required keys are not set, the plugin is not added.
+	 *
+	 * @since 2.0.0
 	 *
 	 * @param type $plugin
 	 */
@@ -416,7 +431,31 @@ class TGM_Plugin_Activation {
 
 		$this->plugins[] = $plugin;
 	}
-	
+
+	/**
+	 * Amend default configuration settings.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $config
+	 */
+	public function config( $config ) {
+
+		$keys = array( 'default_path', 'domain', 'menu', 'strings' );
+
+		foreach ( $keys as $key ) {
+			if( isset( $config[$key]) && $config[$key] ) {
+				if ( is_array( $config[$key] ) ) {
+					foreach ( $config[$key] as $subkey => $value )
+						$this->{$key}[$subkey] = $value;
+				} else {
+					$this->$key = $config[$key];
+				}
+			}
+
+		}
+
+	}
 
 	/**
 	 * Amend action link after plugin installation.
@@ -428,7 +467,7 @@ class TGM_Plugin_Activation {
 	 */
 	public function actions( $install_actions ) {
 
-		$install_actions['plugins_page'] = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr__( 'Return to Required Plugins Installer', $this->domain ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
+		$install_actions['plugins_page'] = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
 		return $install_actions;
 
 	}
@@ -444,10 +483,14 @@ new TGM_Plugin_Activation;
  * @api
  *
  * @param array $plugins An array of plugin arrays
+ * @param array $config Optional. An array of configuration values
  */
-function tgmpa_register_plugins( $plugins ) {
+function tgmpa( $plugins, $config = array() ) {
 
 	foreach ( $plugins as $plugin )
 		TGM_Plugin_Activation::$instance->register( $plugin );
+
+	if ( $config )
+		TGM_Plugin_Activation::$instance->config( $config );
 
 }
