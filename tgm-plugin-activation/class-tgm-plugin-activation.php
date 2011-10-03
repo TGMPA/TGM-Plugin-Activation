@@ -5,6 +5,7 @@
  * @package	  TGM-Plugin-Activation
  * @version	  2.0.0
  * @author	  Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author	  Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
  * @license	  http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
@@ -38,6 +39,7 @@
  *
  * @package TGM-Plugin-Activation
  * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author Gary Jones <gamajo@gamajo.com>
  */
 class TGM_Plugin_Activation {
 
@@ -82,7 +84,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var type
+	 * @var string Absolute path prefix to packaged zip file location. Default is empty string.
 	 */
 	var $default_path = '';
 
@@ -91,7 +93,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @var boolean Default is true (show admin notices)
+	 * @var boolean
 	 */
 	var $notices = true;
 
@@ -107,10 +109,8 @@ class TGM_Plugin_Activation {
 	var $strings = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * Adds a reference of this object to $instance, does the tgmpa_init action
-	 * hook, and hooks in the interactions to init.
+	 * Adds a reference of this object to $instance, populates default strings,
+	 * does the tgmpa_init action hook, and hooks in the interactions to init.
 	 *
 	 * @since 1.0.0
 	 *
@@ -413,7 +413,6 @@ class TGM_Plugin_Activation {
 	 * @since 1.1.0
 	 *
 	 * @global $current_screen
-	 * @todo Fix path so it looks for the style sheet in the same directory as this file.
 	 */
 	public function styles() {
 
@@ -453,7 +452,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param type $plugin
+	 * @param array $plugin Array of plugin arguments.
 	 */
 	public function register( $plugin ) {
 
