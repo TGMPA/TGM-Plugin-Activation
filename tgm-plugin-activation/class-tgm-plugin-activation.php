@@ -84,7 +84,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var type
+	 * @var string Absolute path prefix to packaged zip file location. Default is emptyy string.
 	 */
 	var $default_path = '';
 
@@ -93,7 +93,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @var boolean Default is true (show admin notices)
+	 * @var boolean
 	 */
 	var $notices = true;
 
@@ -109,10 +109,8 @@ class TGM_Plugin_Activation {
 	var $strings = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * Adds a reference of this object to $instance, does the tgmpa_init action
-	 * hook, and hooks in the interactions to init.
+	 * Adds a reference of this object to $instance, populates default strings,
+	 * does the tgmpa_init action hook, and hooks in the interactions to init.
 	 *
 	 * @since 1.0.0
 	 *
@@ -454,7 +452,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param type $plugin
+	 * @param array $plugin Array of plugin arguments.
 	 */
 	public function register( $plugin ) {
 
