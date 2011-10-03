@@ -5,6 +5,15 @@
  *
  * It is expected that theme authors would copy and paste this code into their
  * functions.php file, and amend to suit.
+ *
+ * @package	   TGM-Plugin-Activation
+ * @subpackage Example
+ * @version	   2.0.0
+ * @author	   Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author	   Gary Jones <gamajo@gamajo.com>
+ * @copyright  Copyright (c) 2011, Thomas Griffin
+ * @license	   http://opensource.org/licenses/gpl-3.0.php GPL v3
+ * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
 
 /**
