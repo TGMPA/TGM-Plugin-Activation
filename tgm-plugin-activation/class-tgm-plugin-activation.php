@@ -84,7 +84,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var string Absolute path prefix to packaged zip file location. Default is emptyy string.
+	 * @var string Absolute path prefix to packaged zip file location. Default is empty string.
 	 */
 	var $default_path = '';
 
