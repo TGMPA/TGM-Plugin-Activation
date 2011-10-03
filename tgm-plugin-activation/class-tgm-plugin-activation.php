@@ -5,6 +5,7 @@
  * @package	  TGM-Plugin-Activation
  * @version	  2.0.0
  * @author	  Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author	  Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
  * @license	  http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
@@ -38,6 +39,7 @@
  *
  * @package TGM-Plugin-Activation
  * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author Gary Jones <gamajo@gamajo.com>
  */
 class TGM_Plugin_Activation {
 
@@ -413,7 +415,6 @@ class TGM_Plugin_Activation {
 	 * @since 1.1.0
 	 *
 	 * @global $current_screen
-	 * @todo Fix path so it looks for the style sheet in the same directory as this file.
 	 */
 	public function styles() {
 
