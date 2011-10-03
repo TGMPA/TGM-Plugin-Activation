@@ -74,7 +74,6 @@ class TGM_Plugin_Activation {
 	 * @since 1.1.0
 	 *
 	 * @var string
-	 * @todo Make this value overwritable from outside of the class.
 	 */
 	var $domain = 'tgmpa';
 
@@ -84,9 +83,17 @@ class TGM_Plugin_Activation {
 	 * @since 2.0.0
 	 *
 	 * @var type
-	 * @todo Make this value overwritable from outside of the class.
 	 */
 	var $default_path = '';
+
+	/**
+	 * Flag to show admin notices or not.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @var boolean Default is true (show admin notices)
+	 */
+	var $notices = true;
 
 	/**
 	 * Holds configurable array of strings.
@@ -150,14 +157,16 @@ class TGM_Plugin_Activation {
 	public function init() {
 
 		do_action( 'tgmpa_register' );
-		/** After this point, the plugins should be registered */
+		/** After this point, the plugins should be registered and the configuration set */
 
 		/** Proceed only if we have plugins to handle */
 		if ( $this->plugins ) {
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-			add_action( 'admin_notices', array( &$this, 'notices' ) );
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
+
+			if ( $this->notices )
+				add_action( 'admin_notices', array( &$this, 'notices' ) );
 
 		}
 		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
@@ -389,7 +398,7 @@ class TGM_Plugin_Activation {
 					$message = sprintf( $this->strings['notice_cannot_activate'], '<em>' . $plugin['name'] . '</em>' );
 
 			}
-			//printf( '<div class="updated"><p>%1$s</p></div>', $message );
+
 			add_settings_error( 'tgmpa', 'tgmpa', $message, 'updated' );
 
 		}
@@ -412,7 +421,7 @@ class TGM_Plugin_Activation {
 
 		// Only load the CSS file on the Install page
 		if ( 'appearance_page_' . $this->menu == $current_screen->id )
-			echo '<style type="text/css">' . 
+			echo '<style type="text/css">' .
 				'.tgmpa .instructions {
 					-moz-border-radius: 3px;
 					-webkit-border-radius: 3px;
@@ -432,7 +441,7 @@ class TGM_Plugin_Activation {
 				.tgmpa p.submit {
 					border-top: 0 none;
 					padding-top: 0;
-				}' . 
+				}' .
 			'</style>';
 
 	}
@@ -464,11 +473,11 @@ class TGM_Plugin_Activation {
 	 */
 	public function config( $config ) {
 
-		$keys = array( 'default_path', 'domain', 'menu', 'strings' );
+		$keys = array( 'default_path', 'domain', 'notices', 'menu', 'strings' );
 
 		foreach ( $keys as $key ) {
-		
-			if ( isset( $config[$key] ) && $config[$key] ) {
+
+			if ( isset( $config[$key] ) ) {
 				if ( is_array( $config[$key] ) ) {
 					foreach ( $config[$key] as $subkey => $value )
 						$this->{$key}[$subkey] = $value;
@@ -508,12 +517,12 @@ class TGM_Plugin_Activation {
 	protected function _get_plugin_basename_from_slug( $slug ) {
 
 		$keys = array_keys( get_plugins() );
-		
+
 		foreach ( $keys as $key ) {
 			if ( preg_match( '|^' . $slug .'|', $key ) )
 				return $key;
 		}
-		
+
 		return $slug;
 
 	}

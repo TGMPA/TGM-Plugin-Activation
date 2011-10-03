@@ -59,7 +59,8 @@ function my_theme_register_required_plugins() {
 	$config = array(
 		/*'domain'       => $theme_text_domain,         // Text domain - likely want to be the same as your theme. */
 		/*'default_path' => '',                         // Default absolute path to pre-packaged plugins */
-		/*'menu'         => 'install-my-theme-plugins', // Menu slug */
+		/*'menu'         => 'install-required-plugins', // Menu slug */
+		/*'notices'      => true,                       // Show admin notices or not */
 		'strings'      => array(
 			/*'page_title'             => __( 'Install Required Plugins', $theme_text_domain ), // */
 			/*'menu_title'             => __( 'Install Plugins', $theme_text_domain ), // */
