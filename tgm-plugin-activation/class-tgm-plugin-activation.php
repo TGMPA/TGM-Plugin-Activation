@@ -5,6 +5,7 @@
  * @package	  TGM-Plugin-Activation
  * @version	  2.0.0
  * @author	  Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author	  Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
  * @license	  http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
@@ -38,6 +39,7 @@
  *
  * @package TGM-Plugin-Activation
  * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author Gary Jones <gamajo@gamajo.com>
  */
 class TGM_Plugin_Activation {
 
@@ -74,7 +76,6 @@ class TGM_Plugin_Activation {
 	 * @since 1.1.0
 	 *
 	 * @var string
-	 * @todo Make this value overwritable from outside of the class.
 	 */
 	var $domain = 'tgmpa';
 
@@ -83,10 +84,18 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @var type
-	 * @todo Make this value overwritable from outside of the class.
+	 * @var string Absolute path prefix to packaged zip file location. Default is empty string.
 	 */
 	var $default_path = '';
+
+	/**
+	 * Flag to show admin notices or not.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @var boolean
+	 */
+	var $notices = true;
 
 	/**
 	 * Holds configurable array of strings.
@@ -100,10 +109,8 @@ class TGM_Plugin_Activation {
 	var $strings = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * Adds a reference of this object to $instance, does the tgmpa_init action
-	 * hook, and hooks in the interactions to init.
+	 * Adds a reference of this object to $instance, populates default strings,
+	 * does the tgmpa_init action hook, and hooks in the interactions to init.
 	 *
 	 * @since 1.0.0
 	 *
@@ -114,18 +121,21 @@ class TGM_Plugin_Activation {
 		self::$instance =& $this;
 
 		$this->strings = array(
-			'page_title'             => __( 'Install Required Plugins', $this->domain ),
-			'menu_title'             => __( 'Install Plugins', $this->domain ),
-			'instructions_install'   => __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
-			'instructions_activate'  => __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $this->domain ),
-			'button'                 => __( 'Install %s Now', $this->domain ),
-			'installing'             => __( 'Installing Plugin: %s', $this->domain ),
-			'oops'                   => __( 'Something went wrong.', $this->domain ),
-			'notice_can_install'     => __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ),
-			'notice_cannot_install'  => __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
-			'notice_can_activate'    => __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
-			'notice_cannot_activate' => __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
-			'return'                 => __( 'Return to Required Plugins Installer', $this->domain ),
+			'page_title'             			=> __( 'Install Required Plugins', $this->domain ),
+			'menu_title'             			=> __( 'Install Plugins', $this->domain ),
+			'instructions_install'   			=> __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
+			'instructions_install_recommended'	=> __( 'The %1$s plugin is recommended for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
+			'instructions_activate'  			=> __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $this->domain ),
+			'button'                 			=> __( 'Install %s Now', $this->domain ),
+			'installing'             			=> __( 'Installing Plugin: %s', $this->domain ),
+			'oops'                   			=> __( 'Something went wrong.', $this->domain ),
+			'notice_can_install'     			=> __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ),
+			'notice_can_install_recommended'	=> __( 'This theme recommends the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ),
+			'notice_cannot_install'  			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
+			'notice_can_activate'    			=> __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
+			'notice_can_activate_recommended'	=> __( 'This theme recommends the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
+			'notice_cannot_activate' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
+			'return'                 			=> __( 'Return to Required Plugins Installer', $this->domain ),
 		);
 
 		/** Annouce that the class is ready, and pass the object (for advanced use) */
@@ -150,14 +160,16 @@ class TGM_Plugin_Activation {
 	public function init() {
 
 		do_action( 'tgmpa_register' );
-		/** After this point, the plugins should be registered */
+		/** After this point, the plugins should be registered and the configuration set */
 
 		/** Proceed only if we have plugins to handle */
 		if ( $this->plugins ) {
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-			add_action( 'admin_notices', array( &$this, 'notices' ) );
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
+
+			if ( $this->notices )
+				add_action( 'admin_notices', array( &$this, 'notices' ) );
 
 		}
 		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
@@ -236,8 +248,11 @@ class TGM_Plugin_Activation {
 					continue;
 
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Plugin is not installed
-
-					echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
+				
+					if ( $plugin['required'] )
+						echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
+					else // This plugin is only recommended
+						echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install_recommended'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
 
 				} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // The plugin is installed but not active
 
@@ -376,20 +391,30 @@ class TGM_Plugin_Activation {
 
 			if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Not installed
 
-				if ( current_user_can( 'install_plugins' ) )
-					$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
-				else // Need higher privileges to install the plugin
+				if ( current_user_can( 'install_plugins' ) ) {
+				
+					if ( $plugin['required'] )
+						$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
+					else // This plugin is only recommended
+						$message = sprintf( $this->strings['notice_can_install_recommended'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
+						
+				} else // Need higher privileges to install the plugin
 					$message = sprintf( $this->strings['notice_cannot_install'], '<em>' . $plugin['name'] . '</em>' );
 
 			} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // Installed but not active
 
-				if ( current_user_can( 'activate_plugins' ) )
-					$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
-				else // Need higher privileges to activate the plugin
+				if ( current_user_can( 'activate_plugins' ) ) {
+				
+					if ( $plugin['required'] )
+						$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
+					else // This plugin is only recommended
+						$message = sprintf( $this->strings['notice_can_activate_recommended'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
+						
+				} else // Need higher privileges to activate the plugin
 					$message = sprintf( $this->strings['notice_cannot_activate'], '<em>' . $plugin['name'] . '</em>' );
 
 			}
-			//printf( '<div class="updated"><p>%1$s</p></div>', $message );
+
 			add_settings_error( 'tgmpa', 'tgmpa', $message, 'updated' );
 
 		}
@@ -404,7 +429,6 @@ class TGM_Plugin_Activation {
 	 * @since 1.1.0
 	 *
 	 * @global $current_screen
-	 * @todo Fix path so it looks for the style sheet in the same directory as this file.
 	 */
 	public function styles() {
 
@@ -412,7 +436,7 @@ class TGM_Plugin_Activation {
 
 		// Only load the CSS file on the Install page
 		if ( 'appearance_page_' . $this->menu == $current_screen->id )
-			echo '<style type="text/css">' . 
+			echo '<style type="text/css">' .
 				'.tgmpa .instructions {
 					-moz-border-radius: 3px;
 					-webkit-border-radius: 3px;
@@ -432,7 +456,7 @@ class TGM_Plugin_Activation {
 				.tgmpa p.submit {
 					border-top: 0 none;
 					padding-top: 0;
-				}' . 
+				}' .
 			'</style>';
 
 	}
@@ -444,7 +468,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param type $plugin
+	 * @param array $plugin Array of plugin arguments.
 	 */
 	public function register( $plugin ) {
 
@@ -464,11 +488,11 @@ class TGM_Plugin_Activation {
 	 */
 	public function config( $config ) {
 
-		$keys = array( 'default_path', 'domain', 'menu', 'strings' );
+		$keys = array( 'default_path', 'domain', 'notices', 'menu', 'strings' );
 
 		foreach ( $keys as $key ) {
-		
-			if ( isset( $config[$key] ) && $config[$key] ) {
+
+			if ( isset( $config[$key] ) ) {
 				if ( is_array( $config[$key] ) ) {
 					foreach ( $config[$key] as $subkey => $value )
 						$this->{$key}[$subkey] = $value;
@@ -508,12 +532,12 @@ class TGM_Plugin_Activation {
 	protected function _get_plugin_basename_from_slug( $slug ) {
 
 		$keys = array_keys( get_plugins() );
-		
+
 		foreach ( $keys as $key ) {
 			if ( preg_match( '|^' . $slug .'|', $key ) )
 				return $key;
 		}
-		
+
 		return $slug;
 
 	}

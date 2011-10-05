@@ -37,12 +37,13 @@ function my_theme_register_required_plugins() {
 			'name'     => 'TGM Example Plugin', // The plugin name
 			'slug'     => 'tgm-example-plugin', // The plugin slug (typically the folder name)
 			'source'   => get_stylesheet_directory() . '/lib/plugins/tgm-example-plugin.zip', // The plugin source
-			'required' => false,
+			'required' => false // If false, the plugin is only 'recommended' instead of required
 		),
 		/** This is an example of how to include a plugin from the WordPress Plugin Repository */
 		array(
 			'name' => 'Edit Howdy',
 			'slug' => 'edit-howdy',
+			'required' => false
 		),
 	);
 
