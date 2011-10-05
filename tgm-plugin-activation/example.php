@@ -5,6 +5,15 @@
  *
  * It is expected that theme authors would copy and paste this code into their
  * functions.php file, and amend to suit.
+ *
+ * @package	   TGM-Plugin-Activation
+ * @subpackage Example
+ * @version	   2.0.0
+ * @author	   Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author	   Gary Jones <gamajo@gamajo.com>
+ * @copyright  Copyright (c) 2011, Thomas Griffin
+ * @license	   http://opensource.org/licenses/gpl-3.0.php GPL v3
+ * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
 
 /**
@@ -60,7 +69,8 @@ function my_theme_register_required_plugins() {
 	$config = array(
 		/*'domain'       => $theme_text_domain,         // Text domain - likely want to be the same as your theme. */
 		/*'default_path' => '',                         // Default absolute path to pre-packaged plugins */
-		/*'menu'         => 'install-my-theme-plugins', // Menu slug */
+		/*'menu'         => 'install-required-plugins', // Menu slug */
+		/*'notices'      => true,                       // Show admin notices or not */
 		'strings'      => array(
 			/*'page_title'             => __( 'Install Required Plugins', $theme_text_domain ), // */
 			/*'menu_title'             => __( 'Install Plugins', $theme_text_domain ), // */
