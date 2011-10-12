@@ -351,17 +351,6 @@ class TGM_Plugin_Activation {
 				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
 
 				$upgrader->install( $source ); // Perform the action and install the plugin from the $source urldecode()
-				
-				wp_cache_flush();
-				
-				$this->populate_file_path();
-				
-				$activate = activate_plugin( $plugin['file_path'] );
-				
-				if ( is_wp_error( $activate ) ) {
-					$activate_error = $activate->get_error_message();
-					echo $activate_error;
-				}
 
 			}
 
