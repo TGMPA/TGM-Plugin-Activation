@@ -351,6 +351,23 @@ class TGM_Plugin_Activation {
 				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
 
 				$upgrader->install( $source ); // Perform the action and install the plugin from the $source urldecode()
+				
+				$this->populate_file_path(); // Re-populate the file path now that the plugin has been installed
+				
+				$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method
+				
+				wp_cache_flush(); // Flush the cache to remove plugin header errors
+							
+				$activate = activate_plugin( $plugin_activate ); // Activate the plugin
+				
+				if ( is_wp_error( $activate ) ) {
+					$activate_error = $activate->get_error_message();
+					echo '<div id="message" class="error"><p>' . $activate_error . '</p></div>';
+					echo '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
+					return true; // End it here if there is an error with automatic activation
+				}
+				else
+					echo '<p>Plugin activated successfully.</p>';
 
 			}
 
@@ -382,8 +399,7 @@ class TGM_Plugin_Activation {
 
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 		
-		foreach( $this->plugins as $plugin => $values )
-				$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
+		$this->populate_file_path();
 
 		foreach ( $this->plugins as $plugin ) {
 
@@ -516,7 +532,11 @@ class TGM_Plugin_Activation {
 	 */
 	public function actions( $install_actions ) {
 
-		$install_actions['plugins_page'] = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
+		unset( $install_actions['plugins_page'] );
+		unset( $install_actions['activate_plugin'] );
+		unset( $install_actions['importers_page'] );
+		unset( $install_actions['network_activate'] );
+		
 		return $install_actions;
 
 	}
