@@ -84,7 +84,7 @@ function my_theme_register_required_plugins() {
 			/*'notice_can_activate'    => __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
 			/*'notice_cannot_activate' => __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $theme_text_domain ), // %1$s = plugin name */
 			/*'return'                 => __( 'Return to Required Plugins Installer', $theme_text_domain ), // */
-			/*'success' 			   => __( 'Plugin activated successfully.', $theme_text_domain ) // */
+			/*'plugin_activated' 	   => __( 'Plugin activated successfully.', $theme_text_domain ) // */
 		)
 	);
 
