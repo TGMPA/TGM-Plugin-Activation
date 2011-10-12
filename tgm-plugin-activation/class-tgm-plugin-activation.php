@@ -168,6 +168,7 @@ class TGM_Plugin_Activation {
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
+			add_action( 'admin_init', array( &$this, 'dismiss' ) );
 
 			if ( $this->notices )
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
@@ -238,7 +239,7 @@ class TGM_Plugin_Activation {
 		?>
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 		<?php
-
+			
 			$installed_plugins = get_plugins();
 
 			foreach ( $this->plugins as $plugin ) {
@@ -418,34 +419,52 @@ class TGM_Plugin_Activation {
 
 			if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
 				continue;
-
-			if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Not installed
-
-				if ( current_user_can( 'install_plugins' ) ) {
 				
-					if ( $plugin['required'] )
-						$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
-					else // This plugin is only recommended
-						$message = sprintf( $this->strings['notice_can_install_recommended'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
-						
-				} else // Need higher privileges to install the plugin
-					$message = sprintf( $this->strings['notice_cannot_install'], '<em>' . $plugin['name'] . '</em>' );
-
-			} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // Installed but not active
-
-				if ( current_user_can( 'activate_plugins' ) ) {
+			$already_dismissed = explode( ', ', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
 				
-					if ( $plugin['required'] )
-						$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
-					else // This plugin is only recommended
-						$message = sprintf( $this->strings['notice_can_activate_recommended'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
-						
-				} else // Need higher privileges to activate the plugin
-					$message = sprintf( $this->strings['notice_cannot_activate'], '<em>' . $plugin['name'] . '</em>' );
+			if ( ! in_array( $plugin['slug'], $already_dismissed ) ) { // Don't display if users have dismissed
 
+				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Not installed
+
+					if ( current_user_can( 'install_plugins' ) ) {
+				
+						if ( $plugin['required'] ) {
+							$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
+							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
+						}
+						else { // This plugin is only recommended
+							$message = sprintf( $this->strings['notice_can_install_recommended'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
+							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
+						}
+						
+					} else { // Need higher privileges to install the plugin
+						$message = sprintf( $this->strings['notice_cannot_install'], '<em>' . $plugin['name'] . '</em>' );
+						$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
+					}
+
+				} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // Installed but not active
+
+					if ( current_user_can( 'activate_plugins' ) ) {
+				
+						if ( $plugin['required'] ) {
+							$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
+							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
+						}
+						else { // This plugin is only recommended
+							$message = sprintf( $this->strings['notice_can_activate_recommended'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
+							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
+						}
+						
+					} else { // Need higher privileges to activate the plugin
+						$message = sprintf( $this->strings['notice_cannot_activate'], '<em>' . $plugin['name'] . '</em>' );
+						$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
+					}
+
+				}
+
+				add_settings_error( 'tgmpa', 'tgmpa', $message, 'updated' );
+				
 			}
-
-			add_settings_error( 'tgmpa', 'tgmpa', $message, 'updated' );
 
 		}
 
@@ -489,6 +508,35 @@ class TGM_Plugin_Activation {
 				}' .
 			'</style>';
 
+	}
+	
+	/**
+	 * Add dismissable admin notices.
+	 *
+	 * Appends a link to the admin nag messages. If clicked, the admin notice disappears and no longer is visible to users.
+	 *
+	 * @since 2.1.0
+	 */
+	public function dismiss() {
+	
+		if ( isset( $_GET[sanitize_key( 'dismiss' )] ) ) {
+		
+			$dismissable_notices = $_GET['dismiss'];
+			if ( $dismissable_notices != sanitize_key( $dismissable_notices ) )
+				die( 'Sorry, but this transaction is considered unsecure.' );
+			
+			$already_dismissed = explode( ', ', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
+		
+			if ( in_array( $dismissable_notices, $already_dismissed ) )
+				die( 'This value has already been stored.' );
+			
+			$already_dismissed[] = $dismissable_notices;
+			$already_dismissed = implode( ', ', $already_dismissed );
+		
+			update_user_meta( get_current_user_id(), 'dismissed_admin_notices', $already_dismissed );
+			
+		}
+	
 	}
 
 	/**
