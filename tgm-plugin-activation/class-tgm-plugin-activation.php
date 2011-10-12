@@ -195,9 +195,7 @@ class TGM_Plugin_Activation {
 		if ( ! current_user_can( 'install_plugins' ) )
 			return;
 
-		// Add file_path key for all plugins
-		foreach( $this->plugins as $plugin => $values )
-			$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
+		$this->populate_file_path();
 
 		foreach ( $this->plugins as $plugin ) {
 
@@ -352,7 +350,18 @@ class TGM_Plugin_Activation {
 
 				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
 
-				$upgrader->install( $source ); // Perform the action and install the plugin from the $source URL
+				$upgrader->install( $source ); // Perform the action and install the plugin from the $source urldecode()
+				
+				wp_cache_flush();
+				
+				$this->populate_file_path();
+				
+				$activate = activate_plugin( $plugin['file_path'] );
+				
+				if ( is_wp_error( $activate ) ) {
+					$activate_error = $activate->get_error_message();
+					echo $activate_error;
+				}
 
 			}
 
@@ -383,6 +392,9 @@ class TGM_Plugin_Activation {
 			return;
 
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
+		
+		foreach( $this->plugins as $plugin => $values )
+				$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
 
 		foreach ( $this->plugins as $plugin ) {
 
@@ -518,6 +530,19 @@ class TGM_Plugin_Activation {
 		$install_actions['plugins_page'] = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
 		return $install_actions;
 
+	}
+	
+	/**
+	 * Set file_path key for each installed plugin.
+	 *
+	 * @since 2.1.0
+	 */
+	public function populate_file_path() {
+	
+		// Add file_path key for all plugins
+		foreach( $this->plugins as $plugin => $values )
+			$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
+	
 	}
 
 	/**
