@@ -136,6 +136,7 @@ class TGM_Plugin_Activation {
 			'notice_can_activate_recommended'	=> __( 'This theme recommends the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
 			'notice_cannot_activate' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
 			'return'                 			=> __( 'Return to Required Plugins Installer', $this->domain ),
+			'success' 							=> __( 'Plugin activated successfully.', $this->domain )
 		);
 
 		/** Annouce that the class is ready, and pass the object (for advanced use) */
@@ -352,22 +353,34 @@ class TGM_Plugin_Activation {
 
 				$upgrader->install( $source ); // Perform the action and install the plugin from the $source urldecode()
 				
-				$this->populate_file_path(); // Re-populate the file path now that the plugin has been installed
-				
 				$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method
 				
 				wp_cache_flush(); // Flush the cache to remove plugin header errors
 							
 				$activate = activate_plugin( $plugin_activate ); // Activate the plugin
 				
+				$this->populate_file_path(); // Re-populate the file path now that the plugin has been installed and activated
+				
 				if ( is_wp_error( $activate ) ) {
-					$activate_error = $activate->get_error_message();
-					echo '<div id="message" class="error"><p>' . $activate_error . '</p></div>';
+					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
 					echo '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
 					return true; // End it here if there is an error with automatic activation
 				}
-				else
-					echo '<p>Plugin activated successfully.</p>';
+				else {
+					echo '<p>' . $this->strings['success'] . '</p>';
+					
+					foreach ( $this->plugins as $plugin ) {
+
+						if ( ! is_plugin_active( $plugin['file_path'] ) ) {
+
+							echo '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
+							break;
+
+						}
+
+					}
+					
+				}
 
 			}
 
