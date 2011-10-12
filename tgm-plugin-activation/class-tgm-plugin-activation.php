@@ -136,7 +136,7 @@ class TGM_Plugin_Activation {
 			'notice_can_activate_recommended'	=> __( 'This theme recommends the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
 			'notice_cannot_activate' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
 			'return'                 			=> __( 'Return to Required Plugins Installer', $this->domain ),
-			'success' 							=> __( 'Plugin activated successfully.', $this->domain )
+			'plugin_activated' 					=> __( 'Plugin activated successfully.', $this->domain )
 		);
 
 		/** Annouce that the class is ready, and pass the object (for advanced use) */
@@ -367,7 +367,7 @@ class TGM_Plugin_Activation {
 					return true; // End it here if there is an error with automatic activation
 				}
 				else {
-					echo '<p>' . $this->strings['success'] . '</p>';
+					echo '<p>' . $this->strings['plugin_activated'] . '</p>';
 					
 					foreach ( $this->plugins as $plugin ) {
 
