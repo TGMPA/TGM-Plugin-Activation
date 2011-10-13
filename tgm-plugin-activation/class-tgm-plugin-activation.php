@@ -168,7 +168,7 @@ class TGM_Plugin_Activation {
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
-			add_action( 'admin_init', array( &$this, 'dismiss' ) );
+			add_action( 'admin_head', array( &$this, 'dismiss' ) );
 
 			if ( $this->notices )
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
