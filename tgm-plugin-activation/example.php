@@ -76,7 +76,7 @@ function my_theme_register_required_plugins() {
 			/*'menu_title'             				=> __( 'Install Plugins', $theme_text_domain ), // */
 			/*'instructions_install'   				=> __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $theme_text_domain ), // %1$s = plugin name */
 			/*'instructions_install_recommended'	=> __( 'The %1$s plugin is recommended for this theme. Click on the big blue button below to install and activate %1$s.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
-			/*'instructions_activate'  				=> __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
+			/*'instructions_activate'  				=> __( 'The %1$s plugin is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
 			/*'button'                 				=> __( 'Install %s Now', $theme_text_domain ), // %1$s = plugin name */
 			/*'installing'             				=> __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name */
 			/*'oops'                   				=> __( 'Something went wrong with the plugin API.', $theme_text_domain ), // */
