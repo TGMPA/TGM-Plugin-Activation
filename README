@@ -1,9 +1,9 @@
 === TGM Plugin Activation ===
 Contributors:      Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
                    Gary Jones (Github: @GaryJones / Twitter: GaryJ)
-Version:           2.0.0
+Version:           2.1.0
 Requires at least: 3.0.0
-Tested up to:      3.2.1
+Tested up to:      3.3-beta1
 
 == Description ==
 
@@ -38,14 +38,25 @@ Some important things to note:
 
 == TODO ==
 
-Here is a short list of desired large improvements:
+Here is a short list of desired improvements:
 
-* Consolidate nag messages into one message split into two categories (plugins not installed and plugins installed but not activated)
-* Add a bulk installer button at the top of the install plugins page to allow users to install all included/repo plugins at once
+* Add a bulk installer button to allow users to install all included/repo plugins at once
+* Add a way for users to access the plugin info via thickbox
+* Dismiss nag with Ajax
 
-See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues, and for reporting bugs and enhancements
+See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
 == Changelog ==
+
+= 2.1.0 =
+
+* Plugins are now activated automatically (users no longer need to click the "Activate this plugin" link)
+* Nag messages have now been consolidated into one message instead of a message for each plugin
+* The nag message can be dismissed by users
+* The action links within the nag messages can be filtered by using the tgmpa_notice_action_links filter hook.
+* Cleanup of plugin messages and links on the page after a user clicks the Install Plugin button
+* Updated string labels for semantics
+* Two new methods: dismiss() and populate_file_path()
 
 = 2.0.0 =
 
