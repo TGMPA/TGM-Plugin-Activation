@@ -8,7 +8,7 @@
  *
  * @package	   TGM-Plugin-Activation
  * @subpackage Example
- * @version	   2.0.0
+ * @version	   2.1.0
  * @author	   Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author	   Gary Jones <gamajo@gamajo.com>
  * @copyright  Copyright (c) 2011, Thomas Griffin
@@ -46,7 +46,7 @@ function my_theme_register_required_plugins() {
 			'name'     => 'TGM Example Plugin', // The plugin name
 			'slug'     => 'tgm-example-plugin', // The plugin slug (typically the folder name)
 			'source'   => get_stylesheet_directory() . '/lib/plugins/tgm-example-plugin.zip', // The plugin source
-			'required' => false // If false, the plugin is only 'recommended' instead of required
+			'required' => true // If false, the plugin is only 'recommended' instead of required
 		),
 		/** This is an example of how to include a plugin from the WordPress Plugin Repository */
 		array(
@@ -72,19 +72,22 @@ function my_theme_register_required_plugins() {
 		/*'menu'         => 'install-required-plugins', // Menu slug */
 		/*'notices'      => true,                       // Show admin notices or not */
 		'strings'      => array(
-			/*'page_title'             => __( 'Install Required Plugins', $theme_text_domain ), // */
-			/*'menu_title'             => __( 'Install Plugins', $theme_text_domain ), // */
-			/*'instructions_install'   => __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $theme_text_domain ), // %1$s = plugin name */
-			/*'instructions_activate'  => __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
-			/*'button'                 => __( 'Install %s Now', $theme_text_domain ), // %1$s = plugin name */
-			/*'installing'             => __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name */
-			/*'oops'                   => __( 'Something went wrong with the plugin API.', $theme_text_domain ), // */
-			/*'notice_can_install'     => __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $theme_text_domain ), // %1$s = plugin name, %2$s = TGMPA page URL */
-			/*'notice_cannot_install'  => __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $theme_text_domain ), // %1$s = plugin name */
-			/*'notice_can_activate'    => __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
-			/*'notice_cannot_activate' => __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $theme_text_domain ), // %1$s = plugin name */
-			/*'return'                 => __( 'Return to Required Plugins Installer', $theme_text_domain ), // */
-			/*'plugin_activated' 	   => __( 'Plugin activated successfully.', $theme_text_domain ) // */
+			/*'page_title'             				=> __( 'Install Required Plugins', $theme_text_domain ), // */
+			/*'menu_title'             				=> __( 'Install Plugins', $theme_text_domain ), // */
+			/*'instructions_install'   				=> __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $theme_text_domain ), // %1$s = plugin name */
+			/*'instructions_install_recommended'	=> __( 'The %1$s plugin is recommended for this theme. Click on the big blue button below to install and activate %1$s.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
+			/*'instructions_activate'  				=> __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $theme_text_domain ), // %1$s = plugin name, %2$s = plugins page URL */
+			/*'button'                 				=> __( 'Install %s Now', $theme_text_domain ), // %1$s = plugin name */
+			/*'installing'             				=> __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name */
+			/*'oops'                   				=> __( 'Something went wrong with the plugin API.', $theme_text_domain ), // */
+			/*'notice_can_install_required'     	=> __( 'This theme requires the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names */
+			/*'notice_can_install_recommended'		=> __( 'This theme recommends the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names */
+			/*'notice_cannot_install'  				=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $theme_text_domain ), // %1$s = plugin name */
+			/*'notice_can_activate_required'    	=> __( 'The following required plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names */
+			/*'notice_can_activate_recommended'		=> __( 'The following recommended plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names */
+			/*'notice_cannot_activate' 				=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $theme_text_domain ), // %1$s = plugin name */
+			/*'return'                 				=> __( 'Return to Required Plugins Installer', $theme_text_domain ), // */
+			/*'plugin_activated' 	   				=> __( 'Plugin activated successfully.', $theme_text_domain ) // */
 		)
 	);
 
