@@ -125,7 +125,7 @@ class TGM_Plugin_Activation {
 			'menu_title'             			=> __( 'Install Plugins', $this->domain ),
 			'instructions_install'   			=> __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
 			'instructions_install_recommended'	=> __( 'The %1$s plugin is recommended for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
-			'instructions_activate'  			=> __( 'The %1$s is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $this->domain ),
+			'instructions_activate'  			=> __( 'The %1$s plugin is installed but currently inactive. Please go to the <a href="%2$s">plugin administration page</a> page to activate it.', $this->domain ),
 			'button'                 			=> __( 'Install %s Now', $this->domain ),
 			'installing'             			=> __( 'Installing Plugin: %s', $this->domain ),
 			'oops'                   			=> __( 'Something went wrong.', $this->domain ),
