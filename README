@@ -56,6 +56,7 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 * The action links within the nag messages can be filtered by using the tgmpa_notice_action_links filter hook.
 * Cleanup of plugin messages and links on the page after a user clicks the Install Plugin button
 * Updated string labels for semantics
+* Plugins are now sorted alphabetically in the nag messages and on the install plugins page
 * Two new methods: dismiss() and populate_file_path()
 
 = 2.0.0 =
