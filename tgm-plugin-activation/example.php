@@ -50,8 +50,8 @@ function my_theme_register_required_plugins() {
 		),
 		/** This is an example of how to include a plugin from the WordPress Plugin Repository */
 		array(
-			'name' => 'Edit Howdy',
-			'slug' => 'edit-howdy',
+			'name' => 'BuddyPress',
+			'slug' => 'buddypress',
 			'required' => false
 		)
 	);
