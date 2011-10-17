@@ -474,7 +474,7 @@ class TGM_Plugin_Activation {
 				$rendered .= '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a> | ';
 				$rendered .= '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a> | ';
 				$rendered .= '<a class="dismiss-notice" href="' . add_query_arg( 'dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a> ';
-				$rendered .= __( '(see Appearance > ' . $this->strings['menu_title'] . ' for future reference)', $this->domain );
+				$rendered .= sprintf( __( '(see Appearance > %1$s for future reference)', $this->domain ), $this->strings['menu_title'] );
 				$rendered .= '</p>';
 			
 				add_settings_error( 'tgmpa', 'tgmpa', $rendered, 'updated' );
