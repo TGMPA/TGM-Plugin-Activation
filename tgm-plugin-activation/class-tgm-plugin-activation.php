@@ -170,11 +170,49 @@ class TGM_Plugin_Activation {
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
 			add_action( 'admin_head', array( &$this, 'dismiss' ) );
 
-			if ( $this->notices )
+			if ( $this->notices ) {
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
+
+			}
 
 		}
 		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
+		add_action( 'admin_init', array( &$this, 'admin_init' ), 15 );
+	}
+
+	/**
+	 * Handles calls to show plugin information via links in the notices.
+	 *
+	 * We get the links in the admin notices to point to the TGMPA page, rather
+	 * than the typical plugin-install.php file, so we can prepare everything
+	 * beforehand.
+	 *
+	 * WP doesn't make it easy to show the plugin information in the thickbox -
+	 * here we have to require a file that includes a function that does the
+	 * main work of displaying it, enqueue some styles, set up some globals and
+	 * finally call that function before exiting.
+	 *
+	 * Down right easy once you know how...
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global string $tab Used as iframe div class names, helps with styling
+	 * @global string $body_id Used as the iframe body ID, helps with styling
+	 * @return null Returns early if not the TGMPA page.
+	 */
+	function admin_init() {
+
+		if ( ! $this->is_tgmpa_page() )
+			return;
+
+		if ( isset( $_REQUEST['tab'] ) && 'plugin_information' == $_REQUEST['tab'] ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for install_plugin_information()
+			wp_enqueue_style( 'plugin-install' );
+			global $tab, $body_id;
+			$body_id = $tab = 'plugin-information';
+			install_plugin_information();
+			exit;
+		}
 
 	}
 
@@ -405,10 +443,8 @@ class TGM_Plugin_Activation {
 	 */
 	public function notices() {
 
-		global $current_screen;
-
-		// Remove nag on the install pages
-		if ( 'appearance_page_' . $this->menu == $current_screen->id )
+		// Remove nag on the install page
+		if ( $this->is_tgmpa_page() )
 			return;
 
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
@@ -460,9 +496,31 @@ class TGM_Plugin_Activation {
 
 				foreach ( $message as $type => $plugin_groups ) { // Grab all plugin names
 
-					asort( $plugin_groups );
-					$name = array_pop( $plugin_groups ); // Pop off last name to prep for readability
-					$imploded = empty( $plugin_groups ) ? '<em>' . $name . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $name . '</em>' );
+					/** Loop through the plugin names to make the ones pulled from the .org repo linked */
+					foreach ( $plugin_groups as $plugin_group_single_name ) {
+
+						$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
+						if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+
+							$url = add_query_arg( array(
+								'page'      => $this->menu,
+								'tab'       => 'plugin_information',
+								'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
+								'TB_iframe' => 'true',
+								'width'     => '640',
+								'height'    => '540',
+							), admin_url( 'themes.php' ) );
+
+							$linked_plugin_groups[] = '<a href="' . $url . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
+
+						}
+
+						if ( isset( $linked_plugin_groups) && (array) $linked_plugin_groups )
+							$plugin_groups = $linked_plugin_groups;
+					}
+
+					$last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability
+					$imploded = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
 
 					$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
 
@@ -498,10 +556,8 @@ class TGM_Plugin_Activation {
 	 */
 	public function styles() {
 
-		global $current_screen;
-
 		// Only load the CSS file on the Install page
-		if ( 'appearance_page_' . $this->menu == $current_screen->id )
+		if ( $this->is_tgmpa_page() )
 			echo '<style type="text/css">' .
 				'.tgmpa .instructions {
 					-moz-border-radius: 3px;
@@ -595,10 +651,8 @@ class TGM_Plugin_Activation {
 	 */
 	public function actions( $install_actions ) {
 
-		global $current_screen;
-
-		// Remove action links on the TGMPa install page
-		if ( 'appearance_page_' . $this->menu == $current_screen->id )
+		// Remove action links on the TGMPA install page
+		if ( $this->is_tgmpa_page() )
 			return false;
 
 		return $install_actions;
@@ -637,6 +691,54 @@ class TGM_Plugin_Activation {
 		}
 
 		return $slug;
+
+	}
+
+	/**
+	 * Retrieve plugin data, given the plugin name.
+	 *
+	 * Loops through the registered plugins looking for $name. If it finds it,
+	 * it returns the $data from that plugin. Otherwise, returns false.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $name Name of the plugin, as it was registered
+	 * @return string|boolean Plugin slug if found, false otherwise.
+	 */
+	protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
+
+		foreach ( $this->plugins as $plugin => $values ) {
+			if ( $name == $values['name'] && isset( $values[$data] ) )
+				return $values[$data];
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Determine if we're on the TGMPA Install page.
+	 *
+	 * We use $current_screen when it is available, and a slightly less ideal
+	 * conditional when it isn't (like when displaying the plugin information
+	 * thickbox).
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global object $current_screen
+	 * @return boolean True when on the TGMPA page , false otherwise.
+	 */
+	protected function is_tgmpa_page() {
+
+		global $current_screen;
+
+		if ( ! is_null( $current_screen ) && 'appearance_page_' . $this->menu == $current_screen->id )
+			return true;
+
+		if ( isset( $_GET['page'] ) && $this->menu === $_GET['page'] )
+			return true;
+
+		return false;
 
 	}
 
