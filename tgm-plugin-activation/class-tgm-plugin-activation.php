@@ -129,11 +129,11 @@ class TGM_Plugin_Activation {
 			'button'                 			=> __( 'Install %s Now', $this->domain ),
 			'installing'             			=> __( 'Installing Plugin: %s', $this->domain ),
 			'oops'                   			=> __( 'Something went wrong.', $this->domain ),
-			'notice_can_install'     			=> __( 'This theme requires the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ),
-			'notice_can_install_recommended'	=> __( 'This theme recommends the %1$s plugin. <a href="%2$s"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup.', $this->domain ),
+			'notice_can_install_required'     	=> __( 'This theme requires the following plugins: %1$s.', $this->domain ),
+			'notice_can_install_recommended'	=> __( 'This theme recommends the following plugins: %1$s.', $this->domain ),
 			'notice_cannot_install'  			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
-			'notice_can_activate'    			=> __( 'This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
-			'notice_can_activate_recommended'	=> __( 'This theme recommends the %1$s plugin. That plugin is currently inactive, so please go to the <a href="%2$s">plugin administration page</a> to activate it.', $this->domain ),
+			'notice_can_activate_required'    	=> __( 'The following required plugins are currently inactive: %1$s.', $this->domain ),
+			'notice_can_activate_recommended'	=> __( 'The following recommended plugins are currently inactive: %1$s.', $this->domain ),
 			'notice_cannot_activate' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
 			'return'                 			=> __( 'Return to Required Plugins Installer', $this->domain ),
 			'plugin_activated' 					=> __( 'Plugin activated successfully.', $this->domain )
@@ -412,62 +412,78 @@ class TGM_Plugin_Activation {
 			return;
 
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
-		
+
 		$this->populate_file_path();
+
+		$message = array(); // Store the messages in an array to be outputted after plugins have looped through
 
 		foreach ( $this->plugins as $plugin ) {
 
 			if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
 				continue;
-				
-			$already_dismissed = explode( ', ', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
-				
-			if ( ! in_array( $plugin['slug'], $already_dismissed ) ) { // Don't display if users have dismissed
 
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Not installed
 
 					if ( current_user_can( 'install_plugins' ) ) {
-				
-						if ( $plugin['required'] ) {
-							$message = sprintf( $this->strings['notice_can_install'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
-							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
-						}
-						else { // This plugin is only recommended
-							$message = sprintf( $this->strings['notice_can_install_recommended'], '<em>' . $plugin['name'] . '</em>', add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) );
-							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
-						}
-						
-					} else { // Need higher privileges to install the plugin
-						$message = sprintf( $this->strings['notice_cannot_install'], '<em>' . $plugin['name'] . '</em>' );
-						$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
-					}
+
+						if ( $plugin['required'] )
+							$message['notice_can_install_required'][] = $plugin['name'];
+						else // This plugin is only recommended
+							$message['notice_can_install_recommended'][] = $plugin['name'];
+
+					} else // Need higher privileges to install the plugin
+						$message['notice_cannot_install'][] = $plugin['name'];
 
 				} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // Installed but not active
 
 					if ( current_user_can( 'activate_plugins' ) ) {
-				
-						if ( $plugin['required'] ) {
-							$message = sprintf( $this->strings['notice_can_activate'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
-							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
-						}
-						else { // This plugin is only recommended
-							$message = sprintf( $this->strings['notice_can_activate_recommended'], '<em>' . $plugin['name'] . '</em>', admin_url( 'plugins.php' ) );
-							$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
-						}
-						
-					} else { // Need higher privileges to activate the plugin
-						$message = sprintf( $this->strings['notice_cannot_activate'], '<em>' . $plugin['name'] . '</em>' );
-						$message .= ' <a class="dismiss-notice" href="' . add_query_arg( 'dismiss', $plugin['slug'] ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>';
-					}
+
+						if ( $plugin['required'] )
+							$message['notice_can_activate_required'][] = $plugin['name'];
+						else // This plugin is only recommended
+							$message['notice_can_activate_recommended'][] = $plugin['name'];
+
+					} else // Need higher privileges to activate the plugin
+						$message['notice_cannot_activate'][] = $plugin['name'];
 
 				}
+			
+		}
+		
+		$already_dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
 
-				add_settings_error( 'tgmpa', 'tgmpa', $message, 'updated' );
+		if ( ! in_array( 'dismiss_admin_notices', $already_dismissed ) ) { // Don't display if users have dismissed
+		
+			krsort( $message );
+		
+			if ( ! empty( $message ) ) { 
+		
+				$rendered = ''; // Display all nag messages as strings
+		
+				foreach ( $message as $type => $plugin_names ) { // Grab all plugin names
+					
+					$name = array_pop( $plugin_names ); // Pop off last name to prep for readability
+					$imploded = empty( $plugin_names ) ? '<em>' . $name . '</em>' : '<em>' . ( implode( ', ', $plugin_names ) . '</em> and <em>' . $name . '</em>' );
+			
+					$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
+
+				}
+				
+				/** Build all of the action links */
+				$rendered .= '<p>';
+				$rendered .= '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a> | ';
+				$rendered .= '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a> | ';
+				$rendered .= '<a class="dismiss-notice" href="' . add_query_arg( 'dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a> ';
+				$rendered .= __( '(see Appearance > ' . $this->strings['menu_title'] . ' for future reference)', $this->domain );
+				$rendered .= '</p>';
+			
+				add_settings_error( 'tgmpa', 'tgmpa', $rendered, 'updated' );
+				
 				
 			}
-
+			
 		}
-
+	
 		settings_errors( 'tgmpa' );
 
 	}
@@ -525,13 +541,13 @@ class TGM_Plugin_Activation {
 			if ( $dismissable_notices != sanitize_key( $dismissable_notices ) )
 				die( 'Sorry, but this transaction is considered unsecure.' );
 			
-			$already_dismissed = explode( ', ', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
+			$already_dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
 		
 			if ( in_array( $dismissable_notices, $already_dismissed ) )
 				die( 'This value has already been stored.' );
 			
 			$already_dismissed[] = $dismissable_notices;
-			$already_dismissed = implode( ', ', $already_dismissed );
+			$already_dismissed = implode( ',', $already_dismissed );
 		
 			update_user_meta( get_current_user_id(), 'dismissed_admin_notices', $already_dismissed );
 			
