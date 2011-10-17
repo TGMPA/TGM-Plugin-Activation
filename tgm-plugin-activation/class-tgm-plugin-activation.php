@@ -2,12 +2,12 @@
 /**
  * Plugin installation and activation for WordPress themes.
  *
- * @package	  TGM-Plugin-Activation
- * @version	  2.0.0
- * @author	  Thomas Griffin <thomas@thomasgriffinmedia.com>
- * @author	  Gary Jones <gamajo@gamajo.com>
+ * @package   TGM-Plugin-Activation
+ * @version   2.0.0
+ * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
+ * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
- * @license	  http://opensource.org/licenses/gpl-3.0.php GPL v3
+ * @license   http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
 
@@ -450,9 +450,7 @@ class TGM_Plugin_Activation {
 			
 		}
 		
-		$already_dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
-
-		if ( ! in_array( 'dismiss_admin_notices', $already_dismissed ) ) { // Don't display if users have dismissed
+		if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
 		
 			krsort( $message );
 		
@@ -460,22 +458,25 @@ class TGM_Plugin_Activation {
 		
 				$rendered = ''; // Display all nag messages as strings
 		
-				foreach ( $message as $type => $plugin_names ) { // Grab all plugin names
+				foreach ( $message as $type => $plugin_groups ) { // Grab all plugin names
 					
-					$name = array_pop( $plugin_names ); // Pop off last name to prep for readability
-					$imploded = empty( $plugin_names ) ? '<em>' . $name . '</em>' : '<em>' . ( implode( ', ', $plugin_names ) . '</em> and <em>' . $name . '</em>' );
+					asort( $plugin_groups );
+					$name = array_pop( $plugin_groups ); // Pop off last name to prep for readability
+					$imploded = empty( $plugin_groups ) ? '<em>' . $name . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $name . '</em>' );
 			
 					$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
 
 				}
 				
-				/** Build all of the action links */
-				$rendered .= '<p>';
-				$rendered .= '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a> | ';
-				$rendered .= '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a> | ';
-				$rendered .= '<a class="dismiss-notice" href="' . add_query_arg( 'dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a> ';
-				$rendered .= sprintf( __( '(see Appearance > %1$s for future reference)', $this->domain ), $this->strings['menu_title'] );
-				$rendered .= '</p>';
+				/** Define all of the action links */
+				$action_links = apply_filters( 'tgmpa_notice_action_links', array(
+					'install'  => '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>',
+					'activate' => '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>',
+					'dismiss'  => '<a class="dismiss-notice" href="' . add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a> ' . sprintf( __( '(see Appearance > %s for future reference)', $this->domain ), $this->strings['menu_title'] ) )
+				);
+
+				if ( $action_links )
+					$rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
 			
 				add_settings_error( 'tgmpa', 'tgmpa', $rendered, 'updated' );
 				
@@ -535,23 +536,8 @@ class TGM_Plugin_Activation {
 	 */
 	public function dismiss() {
 	
-		if ( isset( $_GET[sanitize_key( 'dismiss' )] ) ) {
-		
-			$dismissable_notices = $_GET['dismiss'];
-			if ( $dismissable_notices != sanitize_key( $dismissable_notices ) )
-				die( 'Sorry, but this transaction is considered unsecure.' );
-			
-			$already_dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_admin_notices', true ) );
-		
-			if ( in_array( $dismissable_notices, $already_dismissed ) )
-				die( 'This value has already been stored.' );
-			
-			$already_dismissed[] = $dismissable_notices;
-			$already_dismissed = implode( ',', $already_dismissed );
-		
-			update_user_meta( get_current_user_id(), 'dismissed_admin_notices', $already_dismissed );
-			
-		}
+		if ( isset( $_GET[sanitize_key( 'tgmpa-dismiss' )] ) )
+			update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', 1 );
 	
 	}
 
