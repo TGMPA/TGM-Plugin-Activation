@@ -478,6 +478,8 @@ class TGM_Plugin_Activation {
 	 * @return null Returns early if we're on the Install page
 	 */
 	public function notices() {
+	
+		global $current_screen;
 
 		// Remove nag on the install page
 		if ( $this->is_tgmpa_page() )
@@ -584,8 +586,10 @@ class TGM_Plugin_Activation {
 			}
 
 		}
-
-		settings_errors( 'tgmpa' );
+		
+		/** Admin options pages already output settings_errors, so this is to avoid duplication */
+		if ( 'options-general' !== $current_screen->parent_base )
+			settings_errors( 'tgmpa' );
 
 	}
 
