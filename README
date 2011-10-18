@@ -57,6 +57,7 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 * Cleanup of plugin messages and links on the page after a user clicks the Install Plugin button
 * Updated string labels for semantics
 * Plugins are now sorted alphabetically in the nag messages and on the install plugins page
+* Fixed duplicate nag message bug on admin options pages
 * Four new methods: dismiss(), populate_file_path(), _get_plugin_data_from_name() and is_tgmpa_page().
 
 = 2.0.0 =
