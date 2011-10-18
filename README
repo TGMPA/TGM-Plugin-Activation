@@ -36,12 +36,7 @@ Some important things to note:
    If you define an absolute default path for packaged plugins, you do not need to specify the directory path
    for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.
 
-== TODO ==
-
-Here is a short list of desired improvements:
-
-* Add a bulk installer button to allow users to install all included/repo plugins at once
-* Dismiss nag with Ajax
+== Feedback ==
 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
@@ -49,43 +44,45 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 
 = 2.1.0 =
 
-* Plugins are now activated automatically (users no longer need to click the "Activate this plugin" link)
-* Nag messages have now been consolidated into one message instead of a message for each plugin
-* Plugins linked to the repo are now linked to their info pages via thickbox
-* The nag message can be dismissed by users
-* The action links within the nag messages can be filtered by using the tgmpa_notice_action_links filter hook.
-* Cleanup of plugin messages and links on the page after a user clicks the Install Plugin button
-* Updated string labels for semantics
-* Plugins are now sorted alphabetically in the nag messages and on the install plugins page
-* Fixed duplicate nag message bug on admin options pages
-* Four new methods: dismiss(), populate_file_path(), _get_plugin_data_from_name() and is_tgmpa_page().
+* Fixed duplicate nag message on admin options pages
+* Fixed FTP nonce error when FTP credentials aren't defined in wp-config.php
+* Improved handling of failed FTP connections with WP_Filesystem
+* Improved string labeling for semantics
+* Improved nag messages so that they are now consolidated into one message
+* Improved plugin sorting by listing them alphabetically
+* Improved plugin messages after installation and activation
+* Added automatic activation of plugins after installation (users no longer need to click the "Activate this plugin" link)
+* Added links to repo plugins for their plugin details and information (done via thickbox)
+* Added option to dismiss nag message
+* Added tgmpa_notice_action_links filter hook to filter nag message action links
+* Added new methods: admin_init(), thickbox(), dismiss(), populate_file_path(), _get_plugin_data_from_name() and is_tgmpa_page()
 
 = 2.0.0 =
 
-* Re-written structure to include an API for theme developers so no code inside the class needs to be touched
-* Introduction of new properties: $default_path and $strings
-* Ability to filter all message strings that are outputted by the class
+* Improved nag messages by adding a strings argument to filter default messages
+* Improved nag message output by using the Settings API
+* Improved internals by adding API for developers to use (code in class no longer has to be touched)
+* Improved API function name (now tgmpa) for semantics
+* Improved example.php with instructions for setup
+* Added internal style sheet for styling
+* Added ability to define custom text domain for localization
+* Added new properties $default_path and $strings
+* Added new methods register(), config(), _get_plugin_basename_from_slug() and actions()
 * Removed unnecessary is_wp_error() check
-* Now uses Settings API to output admin notices
-* Internal style sheet for optimization
-* Three new methods: register, config and actions
-* Renamed API function: tgmpa()
-* Updated example.php file with example setup for theme authors
-* Ability to define custom text domain for localization
 
 = 1.1.0 =
 
+* Improved property $args to accept arrays of arguments for each plugin needed
+* Improved add_submenu_page to add_theme_page
+* Improved admin notices to display different messages based on status of plugin (not installed, installed but not activated)
+* Improved block-level documentation
+* Improved handling of plugin installation and activation with plugins_api, Plugin_Upgrader and Plugin_Skin_Installer
 * Added support for multiple plugins of each instance (pre-packaged and repo)
-* Removed unnecessary conditional check before class is defined
 * Added new property $domain to hold textdomain for internationalization
-* Changed property $args to accept arrays of arguments for each plugin needed
 * Added CSS for slight UI enhancements
 * Added extra conditional checks current_user_can( 'install_plugins' ) and current_user_can( 'activate_plugins' ) for security
-* Changed add_submenu_page to add_theme_page
 * Removed menu display if all included plugins were successfully installed and activated
-* Changed admin notices to display different messages based on status of plugin (not installed, installed but not activated)
-* Each instance of plugin installation/activation now uses plugins_api, Plugin_Upgrader and Plugin_Skin_Installer
-* Cleaned up block-level documentation
+* Removed unnecessary conditional check before class is defined
 
 = 1.0.0 =
 
