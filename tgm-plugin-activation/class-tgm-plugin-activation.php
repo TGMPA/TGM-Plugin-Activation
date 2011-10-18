@@ -209,8 +209,8 @@ class TGM_Plugin_Activation {
 	 */
 	function admin_init() {
 
-		if ( ! $this->is_tgmpa_page() )
-			return;
+		//if ( ! $this->is_tgmpa_page() )
+			//return;
 
 		if ( isset( $_REQUEST['tab'] ) && 'plugin_information' == $_REQUEST['tab'] ) {
 		
@@ -314,7 +314,7 @@ class TGM_Plugin_Activation {
 				?>
 				<form action="" method="post">
 					<?php
-					wp_nonce_field( 'tgmpa', 'tgmpa_nonce' );
+					wp_nonce_field( 'tgmpa' );
 					submit_button(
 							sprintf(
 									$this->strings['button'],
@@ -357,7 +357,7 @@ class TGM_Plugin_Activation {
 		if ( empty( $_POST ) ) // Bail out if the global $_POST is empty
 			return false;
 
-		check_admin_referer( 'tgmpa', 'tgmpa_nonce' ); // Security check
+		check_admin_referer( 'tgmpa' ); // Security check
 
 		foreach ( $this->plugins as $plugin ) { // Iterate and perform the action for each plugin in the array
 
@@ -366,13 +366,13 @@ class TGM_Plugin_Activation {
 
 			if ( isset( $_POST[sanitize_key( $plugin['name'] )] ) ) { // Don't do anything if the form has not been submitted
 
-				$url = wp_nonce_url( 'themes.php?page=' . $this->menu, 'tgm_pa' ); // Make sure we are coming from the right page
+				$url = wp_nonce_url( 'themes.php?page=' . $this->menu, 'tgmpa' ); // Make sure we are coming from the right page
 				if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
 					return true;
 
 				if ( ! WP_Filesystem( $creds ) ) {
 
-					request_filesystem_credentials( $url, $method, false, false, $fields ); // Setup WP_Filesystem
+					request_filesystem_credentials( $url, $method, true, false, $fields ); // Setup WP_Filesystem
 					return true;
 
 				}
@@ -529,15 +529,14 @@ class TGM_Plugin_Activation {
 							$linked_plugin_groups[] .= '<a href="' . $url . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
 
 						}
-						else
+						else {
 							$linked_plugin_groups[] .= $plugin_group_single_name; // No hyperlink
+						}
 						
 						if ( isset( $linked_plugin_groups) && (array) $linked_plugin_groups )
 							$plugin_groups = $linked_plugin_groups;
 
 					}
-					
-					$linked_plugin_groups[] = &$plugin_groups; // Pass reference back to original variable to keep conditionals in tact
 
 					$last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability
 					$imploded = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
