@@ -165,12 +165,12 @@ class TGM_Plugin_Activation {
 
 		/** Proceed only if we have plugins to handle */
 		if ( $this->plugins ) {
-		
+
 			$sorted = array(); // Prepare variable for sorting
-			
+
 			foreach ( $this->plugins as $plugin )
 				$sorted[] = $plugin['name'];
-				
+
 			array_multisort( $sorted, SORT_ASC, $this->plugins ); // Sort plugins alphabetically by name
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
@@ -213,18 +213,18 @@ class TGM_Plugin_Activation {
 			//return;
 
 		if ( isset( $_REQUEST['tab'] ) && 'plugin_information' == $_REQUEST['tab'] ) {
-		
+
 			require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for install_plugin_information()
-			
+
 			wp_enqueue_style( 'plugin-install' );
-			
+
 			global $tab, $body_id;
 			$body_id = $tab = 'plugin-information';
-			
+
 			install_plugin_information();
-			
+
 			exit;
-			
+
 		}
 
 	}
@@ -508,7 +508,7 @@ class TGM_Plugin_Activation {
 				$rendered = ''; // Display all nag messages as strings
 
 				foreach ( $message as $type => $plugin_groups ) { // Grab all plugin names
-				
+
 					$linked_plugin_groups = array();
 
 					/** Loop through the plugin names to make the ones pulled from the .org repo linked */
@@ -532,7 +532,7 @@ class TGM_Plugin_Activation {
 						else {
 							$linked_plugin_groups[] .= $plugin_group_single_name; // No hyperlink
 						}
-						
+
 						if ( isset( $linked_plugin_groups) && (array) $linked_plugin_groups )
 							$plugin_groups = $linked_plugin_groups;
 
