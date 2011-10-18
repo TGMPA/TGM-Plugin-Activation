@@ -177,11 +177,55 @@ class TGM_Plugin_Activation {
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
 			add_action( 'admin_head', array( &$this, 'dismiss' ) );
 
-			if ( $this->notices )
+			if ( $this->notices ) {
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
+
+			}
 
 		}
 		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
+		add_action( 'admin_init', array( &$this, 'admin_init' ), 15 );
+	}
+
+	/**
+	 * Handles calls to show plugin information via links in the notices.
+	 *
+	 * We get the links in the admin notices to point to the TGMPA page, rather
+	 * than the typical plugin-install.php file, so we can prepare everything
+	 * beforehand.
+	 *
+	 * WP doesn't make it easy to show the plugin information in the thickbox -
+	 * here we have to require a file that includes a function that does the
+	 * main work of displaying it, enqueue some styles, set up some globals and
+	 * finally call that function before exiting.
+	 *
+	 * Down right easy once you know how...
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global string $tab Used as iframe div class names, helps with styling
+	 * @global string $body_id Used as the iframe body ID, helps with styling
+	 * @return null Returns early if not the TGMPA page.
+	 */
+	function admin_init() {
+
+		if ( ! $this->is_tgmpa_page() )
+			return;
+
+		if ( isset( $_REQUEST['tab'] ) && 'plugin_information' == $_REQUEST['tab'] ) {
+		
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for install_plugin_information()
+			
+			wp_enqueue_style( 'plugin-install' );
+			
+			global $tab, $body_id;
+			$body_id = $tab = 'plugin-information';
+			
+			install_plugin_information();
+			
+			exit;
+			
+		}
 
 	}
 
@@ -246,7 +290,7 @@ class TGM_Plugin_Activation {
 		?>
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 		<?php
-			
+
 			$installed_plugins = get_plugins();
 
 			foreach ( $this->plugins as $plugin ) {
@@ -255,7 +299,7 @@ class TGM_Plugin_Activation {
 					continue;
 
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) { // Plugin is not installed
-				
+
 					if ( $plugin['required'] )
 						echo '<div class="instructions"><p>' . sprintf( $this->strings['instructions_install'], '<strong>' . $plugin['name'] . '</strong>' ) . '</p>'; // Leave <div> tag open, close after the form has been printed
 					else // This plugin is only recommended
@@ -360,15 +404,15 @@ class TGM_Plugin_Activation {
 				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) ); // Create a new instance of Plugin_Upgrader
 
 				$upgrader->install( $source ); // Perform the action and install the plugin from the $source urldecode()
-				
+
 				$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method
-				
+
 				wp_cache_flush(); // Flush the cache to remove plugin header errors
-							
+
 				$activate = activate_plugin( $plugin_activate ); // Activate the plugin
-				
+
 				$this->populate_file_path(); // Re-populate the file path now that the plugin has been installed and activated
-				
+
 				if ( is_wp_error( $activate ) ) {
 					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
 					echo '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
@@ -376,7 +420,7 @@ class TGM_Plugin_Activation {
 				}
 				else {
 					echo '<p>' . $this->strings['plugin_activated'] . '</p>';
-					
+
 					foreach ( $this->plugins as $plugin ) {
 
 						if ( ! is_plugin_active( $plugin['file_path'] ) ) {
@@ -387,7 +431,7 @@ class TGM_Plugin_Activation {
 						}
 
 					}
-					
+
 				}
 
 			}
@@ -412,10 +456,8 @@ class TGM_Plugin_Activation {
 	 */
 	public function notices() {
 
-		global $current_screen;
-
-		// Remove nag on the install pages
-		if ( 'appearance_page_' . $this->menu == $current_screen->id )
+		// Remove nag on the install page
+		if ( $this->is_tgmpa_page() )
 			return;
 
 		$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
@@ -454,26 +496,56 @@ class TGM_Plugin_Activation {
 						$message['notice_cannot_activate'][] = $plugin['name'];
 
 				}
-			
+
 		}
-		
+
 		if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
-		
+
 			krsort( $message );
-		
-			if ( ! empty( $message ) ) { 
-		
+
+			if ( ! empty( $message ) ) {
+
 				$rendered = ''; // Display all nag messages as strings
-		
+
 				foreach ( $message as $type => $plugin_groups ) { // Grab all plugin names
+				
+					$linked_plugin_groups = array();
+
+					/** Loop through the plugin names to make the ones pulled from the .org repo linked */
+					foreach ( $plugin_groups as $plugin_group_single_name ) {
+
+						$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
+						if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+
+							$url = add_query_arg( array(
+								'page'      => $this->menu,
+								'tab'       => 'plugin_information',
+								'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
+								'TB_iframe' => 'true',
+								'width'     => '640',
+								'height'    => '540',
+							), admin_url( 'themes.php' ) );
+
+							$linked_plugin_groups[] .= '<a href="' . $url . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
+
+						}
+						else
+							$linked_plugin_groups[] .= $plugin_group_single_name; // No hyperlink
+						
+						if ( isset( $linked_plugin_groups) && (array) $linked_plugin_groups )
+							$plugin_groups = $linked_plugin_groups;
+
+					}
 					
-					$name = array_pop( $plugin_groups ); // Pop off last name to prep for readability
-					$imploded = empty( $plugin_groups ) ? '<em>' . $name . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $name . '</em>' );
-			
+					$linked_plugin_groups[] = &$plugin_groups; // Pass reference back to original variable to keep conditionals in tact
+
+					$last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability
+					$imploded = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
+
 					$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
 
 				}
-				
+
 				/** Define all of the action links */
 				$action_links = apply_filters( 'tgmpa_notice_action_links', array(
 					'install'  => '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>',
@@ -483,14 +555,14 @@ class TGM_Plugin_Activation {
 
 				if ( $action_links )
 					$rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
-			
+
 				add_settings_error( 'tgmpa', 'tgmpa', $rendered, 'updated' );
-				
-				
+
+
 			}
-			
+
 		}
-	
+
 		settings_errors( 'tgmpa' );
 
 	}
@@ -504,10 +576,8 @@ class TGM_Plugin_Activation {
 	 */
 	public function styles() {
 
-		global $current_screen;
-
 		// Only load the CSS file on the Install page
-		if ( 'appearance_page_' . $this->menu == $current_screen->id )
+		if ( $this->is_tgmpa_page() )
 			echo '<style type="text/css">' .
 				'.tgmpa .instructions {
 					-moz-border-radius: 3px;
@@ -532,7 +602,7 @@ class TGM_Plugin_Activation {
 			'</style>';
 
 	}
-	
+
 	/**
 	 * Add dismissable admin notices.
 	 *
@@ -541,10 +611,10 @@ class TGM_Plugin_Activation {
 	 * @since 2.1.0
 	 */
 	public function dismiss() {
-	
+
 		if ( isset( $_GET[sanitize_key( 'tgmpa-dismiss' )] ) )
 			update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', 1 );
-	
+
 	}
 
 	/**
@@ -601,26 +671,25 @@ class TGM_Plugin_Activation {
 	 */
 	public function actions( $install_actions ) {
 
-		unset( $install_actions['plugins_page'] );
-		unset( $install_actions['activate_plugin'] );
-		unset( $install_actions['importers_page'] );
-		unset( $install_actions['network_activate'] );
-		
+		// Remove action links on the TGMPA install page
+		if ( $this->is_tgmpa_page() )
+			return false;
+
 		return $install_actions;
 
 	}
-	
+
 	/**
 	 * Set file_path key for each installed plugin.
 	 *
 	 * @since 2.1.0
 	 */
 	public function populate_file_path() {
-	
+
 		// Add file_path key for all plugins
 		foreach( $this->plugins as $plugin => $values )
 			$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
-	
+
 	}
 
 	/**
@@ -642,6 +711,54 @@ class TGM_Plugin_Activation {
 		}
 
 		return $slug;
+
+	}
+
+	/**
+	 * Retrieve plugin data, given the plugin name.
+	 *
+	 * Loops through the registered plugins looking for $name. If it finds it,
+	 * it returns the $data from that plugin. Otherwise, returns false.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $name Name of the plugin, as it was registered
+	 * @return string|boolean Plugin slug if found, false otherwise.
+	 */
+	protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
+
+		foreach ( $this->plugins as $plugin => $values ) {
+			if ( $name == $values['name'] && isset( $values[$data] ) )
+				return $values[$data];
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Determine if we're on the TGMPA Install page.
+	 *
+	 * We use $current_screen when it is available, and a slightly less ideal
+	 * conditional when it isn't (like when displaying the plugin information
+	 * thickbox).
+	 *
+	 * @since 2.1.0
+	 *
+	 * @global object $current_screen
+	 * @return boolean True when on the TGMPA page , false otherwise.
+	 */
+	protected function is_tgmpa_page() {
+
+		global $current_screen;
+
+		if ( ! is_null( $current_screen ) && 'appearance_page_' . $this->menu == $current_screen->id )
+			return true;
+
+		if ( isset( $_GET['page'] ) && $this->menu === $_GET['page'] )
+			return true;
+
+		return false;
 
 	}
 
