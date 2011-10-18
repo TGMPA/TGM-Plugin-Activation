@@ -165,6 +165,13 @@ class TGM_Plugin_Activation {
 
 		/** Proceed only if we have plugins to handle */
 		if ( $this->plugins ) {
+		
+			$sorted = array(); // Prepare variable for sorting
+			
+			foreach ( $this->plugins as $plugin )
+				$sorted[] = $plugin['name'];
+				
+			array_multisort( $sorted, SORT_ASC, $this->plugins ); // Sort plugins alphabetically by name
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
@@ -460,7 +467,6 @@ class TGM_Plugin_Activation {
 		
 				foreach ( $message as $type => $plugin_groups ) { // Grab all plugin names
 					
-					asort( $plugin_groups );
 					$name = array_pop( $plugin_groups ); // Pop off last name to prep for readability
 					$imploded = empty( $plugin_groups ) ? '<em>' . $name . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $name . '</em>' );
 			
