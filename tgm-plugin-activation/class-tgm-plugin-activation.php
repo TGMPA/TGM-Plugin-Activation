@@ -179,12 +179,13 @@ class TGM_Plugin_Activation {
 
 			if ( $this->notices ) {
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
-
 			}
 
 		}
 		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
 		add_action( 'admin_init', array( &$this, 'admin_init' ), 15 );
+		add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
+
 	}
 
 	/**
@@ -207,10 +208,10 @@ class TGM_Plugin_Activation {
 	 * @global string $body_id Used as the iframe body ID, helps with styling
 	 * @return null Returns early if not the TGMPA page.
 	 */
-	function admin_init() {
+	public function admin_init() {
 
-		//if ( ! $this->is_tgmpa_page() )
-			//return;
+		if ( ! $this->is_tgmpa_page() )
+			return;
 
 		if ( isset( $_REQUEST['tab'] ) && 'plugin_information' == $_REQUEST['tab'] ) {
 
@@ -227,6 +228,28 @@ class TGM_Plugin_Activation {
 
 		}
 
+	}
+	
+	/**
+	 * Enqueues thickbox scripts/styles for plugin info.
+	 *
+	 * Thickbox is not automatically included on all admin pages, so we must
+	 * manually enqueue it for those pages. 
+	 *
+	 * Thickbox is only loaded if the user has not dismissed the admin
+	 * notice or if there are any plugins left to install and activate.
+	 *
+	 * @since 2.1.0
+	 */
+	public function thickbox() {
+	
+		if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
+		
+			if ( $this->plugins )
+				add_thickbox();
+				
+		}
+	
 	}
 
 	/**
@@ -523,7 +546,7 @@ class TGM_Plugin_Activation {
 								'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
 								'TB_iframe' => 'true',
 								'width'     => '640',
-								'height'    => '540',
+								'height'    => '500',
 							), admin_url( 'themes.php' ) );
 
 							$linked_plugin_groups[] .= '<a href="' . $url . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
