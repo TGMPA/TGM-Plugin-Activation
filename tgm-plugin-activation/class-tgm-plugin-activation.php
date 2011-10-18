@@ -176,15 +176,15 @@ class TGM_Plugin_Activation {
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
 			add_action( 'admin_head', array( &$this, 'dismiss' ) );
+			add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
 
 			if ( $this->notices ) {
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
+				add_action( 'admin_init', array( &$this, 'admin_init' ), 1 );
+				add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
 			}
 
 		}
-		add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
-		add_action( 'admin_init', array( &$this, 'admin_init' ), 15 );
-		add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
 
 	}
 
@@ -242,13 +242,9 @@ class TGM_Plugin_Activation {
 	 * @since 2.1.0
 	 */
 	public function thickbox() {
-	
-		if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
 		
-			if ( $this->plugins )
+		if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) )
 				add_thickbox();
-				
-		}
 	
 	}
 
@@ -438,7 +434,7 @@ class TGM_Plugin_Activation {
 
 				if ( is_wp_error( $activate ) ) {
 					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
-					echo '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a>';
+					echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a></p>';
 					return true; // End it here if there is an error with automatic activation
 				}
 				else {
@@ -500,25 +496,31 @@ class TGM_Plugin_Activation {
 
 					if ( current_user_can( 'install_plugins' ) ) {
 
-						if ( $plugin['required'] )
+						if ( $plugin['required'] ) {
 							$message['notice_can_install_required'][] = $plugin['name'];
-						else // This plugin is only recommended
+						} 
+						else { // This plugin is only recommended
 							$message['notice_can_install_recommended'][] = $plugin['name'];
+						}
 
-					} else // Need higher privileges to install the plugin
+					} else { // Need higher privileges to install the plugin
 						$message['notice_cannot_install'][] = $plugin['name'];
+					}
 
 				} elseif ( is_plugin_inactive( $plugin['file_path'] ) ) { // Installed but not active
 
 					if ( current_user_can( 'activate_plugins' ) ) {
 
-						if ( $plugin['required'] )
+						if ( $plugin['required'] ) {
 							$message['notice_can_activate_required'][] = $plugin['name'];
-						else // This plugin is only recommended
+						}
+						else { // This plugin is only recommended
 							$message['notice_can_activate_recommended'][] = $plugin['name'];
+						}
 
-					} else // Need higher privileges to activate the plugin
+					} else { // Need higher privileges to activate the plugin
 						$message['notice_cannot_activate'][] = $plugin['name'];
+					}
 
 				}
 
@@ -574,7 +576,7 @@ class TGM_Plugin_Activation {
 				$action_links = apply_filters( 'tgmpa_notice_action_links', array(
 					'install'  => '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>',
 					'activate' => '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>',
-					'dismiss'  => '<a class="dismiss-notice" href="' . add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a> ' . sprintf( __( '(see Appearance > %s for future reference)', $this->domain ), $this->strings['menu_title'] ) )
+					'dismiss'  => '<a class="dismiss-notice" href="' . add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>' )
 				);
 
 				if ( $action_links )
