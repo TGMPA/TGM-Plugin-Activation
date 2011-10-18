@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.0.0
+ * @version   2.1.0
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
