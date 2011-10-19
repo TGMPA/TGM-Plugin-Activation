@@ -230,12 +230,12 @@ class TGM_Plugin_Activation {
 		}
 
 	}
-	
+
 	/**
 	 * Enqueues thickbox scripts/styles for plugin info.
 	 *
 	 * Thickbox is not automatically included on all admin pages, so we must
-	 * manually enqueue it for those pages. 
+	 * manually enqueue it for those pages.
 	 *
 	 * Thickbox is only loaded if the user has not dismissed the admin
 	 * notice or if there are any plugins left to install and activate.
@@ -243,10 +243,10 @@ class TGM_Plugin_Activation {
 	 * @since 2.1.0
 	 */
 	public function thickbox() {
-		
+
 		if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) )
 				add_thickbox();
-	
+
 	}
 
 	/**
@@ -475,7 +475,7 @@ class TGM_Plugin_Activation {
 	 * @return null Returns early if we're on the Install page
 	 */
 	public function notices() {
-	
+
 		global $current_screen;
 
 		// Remove nag on the install page
@@ -499,7 +499,7 @@ class TGM_Plugin_Activation {
 
 						if ( $plugin['required'] ) {
 							$message['notice_can_install_required'][] = $plugin['name'];
-						} 
+						}
 						else { // This plugin is only recommended
 							$message['notice_can_install_recommended'][] = $plugin['name'];
 						}
@@ -589,7 +589,7 @@ class TGM_Plugin_Activation {
 			}
 
 		}
-		
+
 		/** Admin options pages already output settings_errors, so this is to avoid duplication */
 		if ( 'options-general' !== $current_screen->parent_base )
 			settings_errors( 'tgmpa' );
@@ -752,6 +752,7 @@ class TGM_Plugin_Activation {
 	 * @since 2.1.0
 	 *
 	 * @param string $name Name of the plugin, as it was registered
+	 * @param string $data Optional. Array key of plugin data to return. Default is slug
 	 * @return string|boolean Plugin slug if found, false otherwise.
 	 */
 	protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
@@ -790,7 +791,7 @@ class TGM_Plugin_Activation {
 		return false;
 
 	}
-	
+
 	/**
 	 * Delete dismissable nag option when theme is switched.
 	 *
@@ -800,9 +801,9 @@ class TGM_Plugin_Activation {
 	 * @since 2.1.1
 	 */
 	public function update_dismiss() {
-	
+
 		delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice' );
-	
+
 	}
 
 }
