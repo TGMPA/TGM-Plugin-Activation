@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.1.0
+ * @version   2.1.1
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
@@ -182,6 +182,7 @@ class TGM_Plugin_Activation {
 				add_action( 'admin_notices', array( &$this, 'notices' ) );
 				add_action( 'admin_init', array( &$this, 'admin_init' ), 1 );
 				add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
+				add_action( 'switch_theme', array( &$this, 'update_dismiss' ) );
 			}
 
 		}
@@ -470,7 +471,7 @@ class TGM_Plugin_Activation {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global $current_screen
+	 * @global object $current_screen
 	 * @return null Returns early if we're on the Install page
 	 */
 	public function notices() {
@@ -788,6 +789,20 @@ class TGM_Plugin_Activation {
 
 		return false;
 
+	}
+	
+	/**
+	 * Delete dismissable nag option when theme is switched.
+	 *
+	 * This ensures that the user is again reminded via nag of required
+	 * and/or recommended plugins if they re-activate the theme.
+	 *
+	 * @since 2.1.1
+	 */
+	public function update_dismiss() {
+	
+		delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice' );
+	
 	}
 
 }
