@@ -752,7 +752,7 @@ class TGM_Plugin_Activation {
 	 * @since 2.1.0
 	 *
 	 * @param string $name Name of the plugin, as it was registered
-	 * @param string $data Optional. Array key of data to return. Default is slug
+	 * @param string $data Optional. Array key of plugin data to return. Default is slug
 	 * @return string|boolean Plugin slug if found, false otherwise.
 	 */
 	protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
