@@ -1,9 +1,9 @@
 === TGM Plugin Activation ===
 Contributors:      Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
                    Gary Jones (Github: @GaryJones / Twitter: GaryJ)
-Version:           2.1.1
+Version:           2.1.2
 Requires at least: 3.0.0
-Tested up to:      3.3-beta1
+Tested up to:      3.3-beta3-19254
 
 == Description ==
 
@@ -43,6 +43,10 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 You can also follow project progress and updates on Twitter. Follow us here at http://twitter.com/TGMPA.
 
 == Changelog ==
+
+= 2.1.2 =
+
+* Fixed erroneous tabbed links with plugins_api for plugins linked from the repository
 
 = 2.1.1 =
 
