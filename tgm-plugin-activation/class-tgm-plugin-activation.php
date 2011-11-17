@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.1.1
+ * @version   2.1.2
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2011, Thomas Griffin
@@ -214,7 +214,7 @@ class TGM_Plugin_Activation {
 		if ( ! $this->is_tgmpa_page() )
 			return;
 
-		if ( isset( $_REQUEST['tab'] ) && 'plugin_information' == $_REQUEST['tab'] ) {
+		if ( isset( $_REQUEST['tab'] ) && 'plugin-information' == $_REQUEST['tab'] ) {
 
 			require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for install_plugin_information()
 
@@ -546,13 +546,12 @@ class TGM_Plugin_Activation {
 						if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 
 							$url = add_query_arg( array(
-								'page'      => $this->menu,
-								'tab'       => 'plugin_information',
+								'tab'       => 'plugin-information',
 								'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
 								'TB_iframe' => 'true',
 								'width'     => '640',
 								'height'    => '500',
-							), admin_url( 'themes.php' ) );
+							), admin_url( 'plugin-install.php' ) );
 
 							$linked_plugin_groups[] .= '<a href="' . $url . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
 
