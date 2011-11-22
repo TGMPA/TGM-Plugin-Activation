@@ -174,7 +174,6 @@ class TGM_Plugin_Activation {
 			array_multisort( $sorted, SORT_ASC, $this->plugins ); // Sort plugins alphabetically by name
 
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-			add_action( 'admin_print_styles', array( &$this, 'styles' ) );
 			add_action( 'admin_head', array( &$this, 'dismiss' ) );
 			add_filter( 'install_plugin_complete_actions', array( &$this, 'actions' ) );
 			
@@ -319,9 +318,6 @@ class TGM_Plugin_Activation {
 		?>
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 		<?php
-		
-			if ( isset( $_GET[sanitize_key( 'tgmpa-activate' )] ) && 'activate-plugin' == $_GET[sanitize_key( 'tgmpa-activate' )] )
-				printf( '<div id="message" class="updated"><p>%1$s</p></div>', __( 'Plugin <strong>activated.</strong>', $this->domain ) );
 				
 			$plugin_table = new TGMPA_List_Table;
 			$plugin_table->prepare_items();
@@ -460,6 +456,9 @@ class TGM_Plugin_Activation {
 				echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
 				echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a></p>';
 				return true; // End it here if there is an error with activation
+			}
+			else {
+				printf( '<div id="message" class="updated"><p>%1$s %2$s %3$s</p></div>', __( 'Plugin', $this->domain ), '<strong>' . $plugin['name'] . '</strong>', __( 'activated.', $this->domain ) );
 			}
 			
 		}
