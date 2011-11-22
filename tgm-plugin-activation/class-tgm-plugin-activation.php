@@ -458,7 +458,7 @@ class TGM_Plugin_Activation {
 				return true; // End it here if there is an error with activation
 			}
 			else {
-				printf( '<div id="message" class="updated"><p>%1$s %2$s %3$s</p></div>', __( 'Plugin', $this->domain ), '<strong>' . $plugin['name'] . '</strong>', __( 'activated.', $this->domain ) );
+				printf( '<div id="message" class="updated"><p>%1$s</p></div>', __( 'Plugin ' . '<strong>' . $plugin['name'] . '</strong>' . ' activated.', $this->domain ) );
 			}
 			
 		}
