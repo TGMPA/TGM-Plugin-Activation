@@ -1195,9 +1195,15 @@ class TGMPA_List_Table extends WP_List_Table {
 				return;
 				
 			$plugins = array();
+			$plugin_names = array();
 				
-			foreach ( $plugins_to_activate as $plugin_string )
+			foreach ( $plugins_to_activate as $plugin_string ) {
 				$plugins[] = $plugin_string[0];
+				$plugin_names[] = $plugin_string[2];
+			}
+			
+			$last_plugin = array_pop( $plugin_names ); // Pop off last name to prep for readability
+			$imploded = empty( $plugin_names ) ? '<strong>' . $last_plugin . '</strong>' : '<strong>' . ( implode( ', ', $plugin_names ) . '</strong> and <strong>' . $last_plugin . '</strong>.' );
 				
 			/** Now we are good to go - let's start activating plugins */
 			$activate = activate_plugins( $plugins );
@@ -1205,7 +1211,7 @@ class TGMPA_List_Table extends WP_List_Table {
 			if ( is_wp_error( $activate ) )
 				echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
 			else
-				echo '<div id="message" class="updated"><p>Selected plugins <strong>activated.</strong></p></div>';
+				printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', __( 'The following plugins were successfully activated:', $_tgmpa->domain ), $imploded );
  			
  			/** Update recently activated plugins option */
 			$recent = (array) get_option( 'recently_activated' );
