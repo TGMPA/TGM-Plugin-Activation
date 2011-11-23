@@ -458,7 +458,8 @@ class TGM_Plugin_Activation {
 				return true; // End it here if there is an error with activation
 			}
 			else {
-				printf( '<div id="message" class="updated"><p>%1$s</p></div>', __( 'Plugin ' . '<strong>' . $plugin['name'] . '</strong>' . ' activated.', $this->domain ) );
+				$msg = sprintf( __( 'Plugin %s activated', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
+				echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 			}
 			
 		}
