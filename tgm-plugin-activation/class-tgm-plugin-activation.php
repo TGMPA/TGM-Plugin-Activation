@@ -121,6 +121,7 @@ class TGM_Plugin_Activation {
 		self::$instance =& $this;
 
 		$this->strings = array(
+			'parent_slug'					=> 'themes.php',
 			'page_title'             			=> __( 'Install Required Plugins', $this->domain ),
 			'menu_title'             			=> __( 'Install Plugins', $this->domain ),
 			'instructions_install'   			=> __( 'The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s.', $this->domain ),
@@ -281,7 +282,8 @@ class TGM_Plugin_Activation {
 
 			if ( ! is_plugin_active( $plugin['file_path'] ) ) {
 
-				add_theme_page(
+				add_submenu_page(
+						$this->strings['parent_slug'],		// Position in the wp-admin
 						$this->strings['page_title'],           // Page title
 						$this->strings['menu_title'],           // Menu title
 						'edit_theme_options',                   // Capability
