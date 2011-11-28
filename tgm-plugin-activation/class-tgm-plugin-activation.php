@@ -28,6 +28,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 /**
  * Automatic plugin installation and activation class.
  *
@@ -743,9 +744,11 @@ class TGM_Plugin_Activation {
 	}
 
 }
+}
 
 new TGM_Plugin_Activation;
 
+if ( ! function_exists( 'tgmpa' ) ) {
 /**
  * Helper function to register a collection of required plugins.
  *
@@ -764,6 +767,7 @@ function tgmpa( $plugins, $config = array() ) {
 		TGM_Plugin_Activation::$instance->config( $config );
 
 }
+}
 
 
 
@@ -777,6 +781,7 @@ function tgmpa( $plugins, $config = array() ) {
 if ( ! class_exists( 'WP_List_Table' ) )
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
+if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 /**
  * List table class for handling plugins.
  *
@@ -1203,4 +1208,5 @@ class TGMPA_List_Table extends WP_List_Table {
 
 	}
 
+}
 }
