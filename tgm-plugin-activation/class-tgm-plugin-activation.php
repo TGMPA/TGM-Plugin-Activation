@@ -472,6 +472,8 @@ class TGM_Plugin_Activation {
 		$this->populate_file_path();
 
 		$message = array(); // Store the messages in an array to be outputted after plugins have looped through
+		$install_message = false; // Set to false, change to true in loop if conditions exist, used for action link 'install'
+		$activate_message = false; // Set to false, change to true in loop if conditions exist, used for action link 'activate'
 
 		foreach ( $this->plugins as $plugin ) {
 			if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
@@ -479,6 +481,7 @@ class TGM_Plugin_Activation {
 
 			// Not installed
 			if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) {
+				$install_message = true; // We need to display the 'install' action link
 				if ( current_user_can( 'install_plugins' ) ) {
 					if ( $plugin['required'] )
 						$message['notice_can_install_required'][] = $plugin['name'];
@@ -493,6 +496,7 @@ class TGM_Plugin_Activation {
 			}
 			// Installed but not active
 			elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
+				$activate_message = true; // We need to display the 'activate' action link
 				if ( current_user_can( 'activate_plugins' ) ) {
 					if ( $plugin['required'] )
 						$message['notice_can_activate_required'][] = $plugin['name'];
@@ -547,19 +551,25 @@ class TGM_Plugin_Activation {
 
 					$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
 				}
+				
+				/** Setup variables to determine if action links are needed */
+				$install_link = $install_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '';
+				$activate_link = $activate_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>' : '';
 
 				/** Define all of the action links */
 				$action_links = apply_filters(
 					'tgmpa_notice_action_links',
 					array(
-						'install'  => '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>',
-						'activate' => '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>',
+						'install'  => $install_link,
+						'activate' => $activate_link,
 						'dismiss'  => '<a class="dismiss-notice" href="' . add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>',
 					)
 				);
 
-				if ( $action_links )
+				if ( $action_links ) {
+					$action_links = array_filter( $action_links ); // Remove any empty array items
 					$rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
+				}
 
 				add_settings_error( 'tgmpa', 'tgmpa', $rendered, 'updated' );
 			}
