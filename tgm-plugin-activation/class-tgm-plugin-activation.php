@@ -525,7 +525,7 @@ class TGM_Plugin_Activation {
 								array(
 									'tab'       => 'plugin-information',
 									'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
-									'tb_iframe' => 'true',
+									'TB_iframe' => 'true',
 									'width'     => '640',
 									'height'    => '500',
 								),
@@ -866,7 +866,7 @@ class TGMPA_List_Table extends WP_List_Table {
 					array(
 						'tab'       => 'plugin-information',
 						'plugin'    => $this->_get_plugin_data_from_name( $plugin['name'] ),
-						'tb_iframe' => 'true',
+						'TB_iframe' => 'true',
 						'width'     => '640',
 						'height'    => '500',
 					),
