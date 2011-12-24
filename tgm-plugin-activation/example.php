@@ -74,6 +74,7 @@ function my_theme_register_required_plugins() {
 		'default_path' => '',                         // Default absolute path to pre-packaged plugins
 		'menu'         => 'install-required-plugins', // Menu slug
 		'notices'      => true,                       // Show admin notices or not
+		'automatic'    => false,					  // Automatically activate plugins after installation or not
 		'strings'      => array(
 			'page_title'                       => __( 'Install Required Plugins', $theme_text_domain ),
 			'menu_title'                       => __( 'Install Plugins', $theme_text_domain ),
