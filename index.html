@@ -77,20 +77,20 @@ during the plugin installation and activation process.</p>
     
       <h2>Install</h2>
       <ol>
-        <li>1. Drop the class file somewhere in your theme hierarchy.</li>
-        <li>2. Add a require_once call within functions.php (or other theme file) referencing the class file.</li>
-        <li>3. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.</li>
+        <li>Drop the class file somewhere in your theme hierarchy.</li>
+        <li>Add a <code>require_once</code> call within functions.php (or other theme file) referencing the class file.</li>
+        <li>Create a function, hooked to <code>tgmpa_register</code>, that registers the plugin and configurations.</li>
       </ol>
 
-      <p>For steps 2 and 3, it is recommended your view, copy and paste the contents of example.php
-and amend to suit. The example.php file is a model for how you should include the class in your theme.</p>
+      <p>For steps 2 and 3, it is recommended your view, copy and paste the contents of <code>example.php</code>
+and amend to suit. The <code>example.php</code> file is a model for how you should include the class in your theme.</p>
 
       <p>Some important things to note:</p>
       <ol>
-        <li>1. With the `require_once` call, make sure to amend the path to the correct location within your theme.</li>
-        <li>2. For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
+        <li>With the <code>require_once</code> call, make sure to amend the path to the correct location within your theme.</li>
+        <li>For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
    to the absolute path for the plugin zips within your theme, or to a URL for zips elsewhere online.</li>
-        <li>3. The $config variable holds an array of arguments that can be used to customize aspects of the class.
+        <li>The <code>$config</code> variable holds an array of arguments that can be used to customize aspects of the class.
    If you define an absolute default path for packaged plugins, you do not need to specify the directory path
    for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.</li>
       </ol>
