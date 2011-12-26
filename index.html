@@ -8,20 +8,20 @@
   <style type="text/css">
     body {
       margin-top: 1.0em;
-      background-color: #e73a74;
+      background-color: #fff;
       font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
+      color: #838383;
     }
     #container {
       margin: 0 auto;
       width: 700px;
     }
-    h1 { font-size: 3.8em; color: #18c58b; margin-bottom: 3px; }
+    h1 { font-size: 3.8em; color: #b22c59; margin-bottom: 3px; }
     h1 .small { font-size: 0.4em; }
     h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #18c58b; }
-    h3 { text-align: center; color: #18c58b; }
-    a { color: #18c58b; }
+    h2 { font-size: 1.5em; color: #b22c59; }
+    h3 { text-align: center; color: #b22c59; }
+    a { color: #e73a74; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
     pre { background: #000; color: #fff; padding: 15px;}
@@ -69,21 +69,24 @@ during the plugin installation and activation process.</p>
 
     
       <h2>Install</h2>
-      <p>1. Drop the class file somewhere in your theme hierarchy.
-2. Add a require_once call within functions.php (or other theme file) referencing the class file.
-3. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.
+      <ol>
+        <li>1. Drop the class file somewhere in your theme hierarchy.</li>
+        <li>2. Add a require_once call within functions.php (or other theme file) referencing the class file.</li>
+        <li>3. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.</li>
+      </ol>
 
-For steps 2 and 3, it is recommended your view, copy and paste the contents of example.php
-and amend to suit. The example.php file is a model for how you should include the class in your theme.
+      <p>For steps 2 and 3, it is recommended your view, copy and paste the contents of example.php
+and amend to suit. The example.php file is a model for how you should include the class in your theme.</p>
 
-Some important things to note:
-
-1. With the `require_once` call, make sure to amend the path to the correct location within your theme.
-2. For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
-   to the absolute path for the plugin zips within your theme, or to a URL for zips elsewhere online.
-3. The $config variable holds an array of arguments that can be used to customize aspects of the class.
+      <p>Some important things to note:</p>
+      <ol>
+        <li>1. With the `require_once` call, make sure to amend the path to the correct location within your theme.</li>
+        <li>2. For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
+   to the absolute path for the plugin zips within your theme, or to a URL for zips elsewhere online.</li>
+        <li>3. The $config variable holds an array of arguments that can be used to customize aspects of the class.
    If you define an absolute default path for packaged plugins, you do not need to specify the directory path
-   for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.</p>
+   for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.</li>
+      </ol>
     
 
     
@@ -93,12 +96,15 @@ Some important things to note:
 
     
       <h2>Authors</h2>
-      <p>Gary Jones (gary@gamajotech.com)<br/>Thomas Griffin (thomas@thomasgriffinmedia.com)<br/>      </p>
+      <p>Gary Jones (gary@gamajotech.com)
+<br/>Thomas Griffin (thomas@thomasgriffinmedia.com)
+<br/>      </p>
     
 
     
       <h2>Contact</h2>
-      <p>Thomas Griffin (thomas@thomasgriffinmedia.com)<br/>      </p>
+      <p>Thomas Griffin (thomas@thomasgriffinmedia.com)
+<br/>      </p>
     
 
     <h2>Download</h2>
