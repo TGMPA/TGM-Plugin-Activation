@@ -106,6 +106,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @var boolean
 		 */
 		var $automatic = false;
+		
+		/**
+		 * Optional message to display before the plugins table.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @var string Message filtered by wp_kses_post(). Default is empty string.
+		 */
+		var $message = '';
 
 		/**
 		 * Holds configurable array of strings.
@@ -321,6 +330,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 				<?php $plugin_table->prepare_items(); ?>
 				
+				<?php if ( isset( $this->message ) ) echo wp_kses_post( $this->message ); ?>
+				
 				<form id="tgmpa-plugins" action="" method="post">
             		<input type="hidden" name="tgmpa-page" value="<?php echo $this->menu; ?>" />
             		<?php $plugin_table->display(); ?>
@@ -481,9 +492,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					return true; // End it here if there is an error with activation
 				}
 				else {
-					/** Redirect using JS to avoid nonce conflicts */
-					echo '<script type="text/javascript">' . esc_js( 'window.location("' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '"' ) . '</script>';
-					
 					$msg = sprintf( __( 'The following plugin was successfully activated: %s.', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
 					echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 				}
@@ -669,7 +677,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function config( $config ) {
 
-			$keys = array( 'default_path', 'domain', 'notices', 'menu', 'automatic', 'strings' );
+			$keys = array( 'default_path', 'domain', 'notices', 'menu', 'automatic', 'message', 'strings' );
 
 			foreach ( $keys as $key ) {
 				if ( isset( $config[$key] ) ) {
