@@ -61,6 +61,27 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 	 * @var array
 	 	 */
 		var $plugins = array();
+		
+		/**
+	 	 * Parent menu slug for plugins page.
+	 	 *
+	 	 * @since 2.2.0
+	 	 *
+	 	 * @var string Parent menu slug. Defaults to 'themes.php'.
+	 	 */
+		var $parent_menu_slug = 'themes.php';
+		
+		/**
+	 	 * Parent URL slug for URL references.
+	 	 *
+	 	 * This is useful if you want to place the custom plugins page as a 
+	 	 * submenu item under a custom parent menu.
+	 	 *
+	 	 * @since 2.2.0
+	 	 *
+	 	 * @var string Parent URL slug. Defaults to 'themes.php'.
+	 	 */
+		var $parent_url_slug = 'themes.php';
 
 		/**
 	 	 * Name of the querystring argument for the admin page.
@@ -295,7 +316,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			foreach ( $this->plugins as $plugin ) {
 				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-					add_theme_page(
+					add_submenu_page(
+						$this->parent_menu_slug,				// Parent menu slug
 						$this->strings['page_title'],           // Page title
 						$this->strings['menu_title'],           // Menu title
 						'edit_theme_options',                   // Capability
@@ -388,7 +410,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						'plugin_source' 	=> $plugin['source'], 
 						'tgmpa-install' 	=> 'install-plugin' 
 						), 
-					admin_url( 'themes.php' ) 
+					admin_url( $this->parent_url_slug ) 
 					), 
 					'tgmpa-install' 
 				);
@@ -445,7 +467,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 					if ( is_wp_error( $activate ) ) {
 						echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
-						echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a></p>';
+						echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( 'Return to Required Plugins Installer', $this->domain ) . '</a></p>';
 						return true; // End it here if there is an error with automatic activation
 					}
 					else {
@@ -457,7 +479,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$complete = array();
 				foreach ( $this->plugins as $plugin ) {
 					if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-						echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
+						echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
 						$complete[] = $plugin;
 						break;
 					}
@@ -492,7 +514,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				if ( is_wp_error( $activate ) ) {
 					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
-					echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
+					echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
 					return true; // End it here if there is an error with activation
 				}
 				else {
@@ -626,7 +648,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$plural_message = true;
 						
 					/** Determine plurality of action link text */
-					$install_plurality = $plural_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugin', $this->domain ) . '</a>';
+					$install_plurality = $plural_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . __( 'Begin installing plugin', $this->domain ) . '</a>';
 					$activate_plurality = $plural_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>' : '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugin', $this->domain ) . '</a>';
 				
 					/** Setup variables to determine if action links are needed */
@@ -699,7 +721,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function config( $config ) {
 
-			$keys = array( 'default_path', 'domain', 'notices', 'menu', 'automatic', 'message', 'strings' );
+			$keys = array( 'default_path', 'parent_menu_slug', 'parent_url_slug', 'domain', 'notices', 'menu', 'automatic', 'message', 'strings' );
 
 			foreach ( $keys as $key ) {
 				if ( isset( $config[$key] ) ) {
@@ -806,7 +828,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			global $current_screen;
 
-			if ( ! is_null( $current_screen ) && 'appearance_page_' . $this->menu == $current_screen->id )
+			if ( ! is_null( $current_screen ) && $this->parent_menu_slug == $current_screen->parent_file && isset( $_GET['page'] ) && $this->menu === $_GET['page'] )
 				return true;
 
 			if ( isset( $_GET['page'] ) && $this->menu === $_GET['page'] )
@@ -1082,7 +1104,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 								'plugin_source' 	=> $item['url'], 
 								'tgmpa-install' 	=> 'install-plugin' 
 								), 
-							admin_url( 'themes.php' ) 
+							admin_url( $_tgmpa->parent_url_slug ) 
 							), 
 							'tgmpa-install' 
 						), 
@@ -1102,7 +1124,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 								'plugin_source' 	=> $item['url'], 
 								'tgmpa-activate' 	=> 'activate-plugin' 
 								),
-							admin_url( 'themes.php' ) 
+							admin_url( $_tgmpa->parent_url_slug ) 
 							), 
 							'tgmpa-activate' 
 						), 
@@ -1309,12 +1331,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				/** Pass all necessary information via URL if WP_Filesystem is needed */
 				$url = wp_nonce_url( 
 					add_query_arg( array( 
+						'page' 			=> $_tgmpa->menu,
 						'tgmpa-action' 	=> 'install-selected', 
 						'plugins' 		=> urlencode( implode( ',', $plugins ) ), 
 						'plugin_paths' 	=> urlencode( implode( ',', $plugin_paths ) ), 
 						'plugin_names' 	=> urlencode( implode( ',', $plugin_names ) ) 
 						), 
-					'themes.php?page=' . $_tgmpa->menu 
+					admin_url( $_tgmpa->parent_url_slug ) 
 					),
 					'bulk-plugins' 
 				);
@@ -1357,7 +1380,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 			
 				/** Finally, all the data is prepared to be sent to the installer */
-				$url   = add_query_arg( array( 'page' => $_tgmpa->menu ), 'themes.php' );
+				$url   = add_query_arg( array( 'page' => $_tgmpa->menu ), admin_url( $_tgmpa->parent_url_slug ) );
 				$nonce = 'bulk-plugins';
 				$names = $plugin_names;
 			
@@ -1933,7 +1956,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 				$complete = array();
 				foreach ( $_tgmpa->plugins as $plugin ) {
 					if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-						echo '<p><a href="' . add_query_arg( 'page', $_tgmpa->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( $_tgmpa->strings['return'] ) . '" target="_parent">' . __( $_tgmpa->strings['return'], $_tgmpa->domain ) . '</a></p>';
+						echo '<p><a href="' . add_query_arg( 'page', $_tgmpa->menu, admin_url( $_tgmpa->parent_url_slug ) ) . '" title="' . esc_attr( $_tgmpa->strings['return'] ) . '" target="_parent">' . __( $_tgmpa->strings['return'], $_tgmpa->domain ) . '</a></p>';
 						$complete[] = $plugin;
 						break;
 					}
