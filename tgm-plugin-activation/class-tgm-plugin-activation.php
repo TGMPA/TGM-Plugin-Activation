@@ -529,8 +529,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$this->populate_file_path();
 
 			$message = array(); // Store the messages in an array to be outputted after plugins have looped through
+			$counter = array(); // Number to determine if action links should be plural or not
 			$install_message = false; // Set to false, change to true in loop if conditions exist, used for action link 'install'
 			$activate_message = false; // Set to false, change to true in loop if conditions exist, used for action link 'activate'
+			$plural_message = false; // Used to determine plurality for action links, singular by default
 
 			foreach ( $this->plugins as $plugin ) {
 				if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
@@ -583,6 +585,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						/** Set string to singular if only one plugin is in the plugin group */
 						if ( 1 == count( $plugin_groups ) )
 							$type = $type . '_singular';
+							
+						/** Get # of plugins per group */
+						$counter[] = count( $plugin_groups );
 
 						/** Loop through the plugin names to make the ones pulled from the .org repo linked */
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
@@ -614,10 +619,19 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 						$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
 					}
+					
+					/** Get the sum of plugins and if it's greater than one, we need plural action links */
+					$number = array_sum( $counter );
+					if ( 1 < $number )
+						$plural_message = true;
+						
+					/** Determine plurality of action link text */
+					$install_plurality = $plural_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugin', $this->domain ) . '</a>';
+					$activate_plurality = $plural_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>' : '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugin', $this->domain ) . '</a>';
 				
 					/** Setup variables to determine if action links are needed */
-					$show_install_link = $install_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '';
-					$show_activate_link = $activate_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins',$this->domain ) . '</a>' : '';
+					$show_install_link = $install_message ? $install_plurality : '';
+					$show_activate_link = $activate_message ? $activate_plurality  : '';
 
 					/** Define all of the action links */
 					$action_links = apply_filters(
