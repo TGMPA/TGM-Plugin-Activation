@@ -70,13 +70,15 @@ function my_theme_register_required_plugins() {
 	 * end of each line for what each argument will be.
 	 */
 	$config = array(
-		'domain'       	=> $theme_text_domain,         	// Text domain - likely want to be the same as your theme.
-		'default_path' 	=> '',                         	// Default absolute path to pre-packaged plugins
-		'menu'         	=> 'install-required-plugins', 	// Menu slug
-		'notices'      	=> true,                       	// Show admin notices or not
-		'automatic'    	=> false,					   	// Automatically activate plugins after installation or not
-		'message' 		=> '',							// Message to output right before the plugins table
-		'strings'      	=> array(
+		'domain'       		=> $theme_text_domain,         	// Text domain - likely want to be the same as your theme.
+		'default_path' 		=> '',                         	// Default absolute path to pre-packaged plugins
+		'parent_menu_slug' 	=> 'themes.php' 				// Default parent menu slug
+		'parent_url_slug' 	=> 'themes.php' 				// Default parent URL slug
+		'menu'         		=> 'install-required-plugins', 	// Menu slug
+		'notices'      		=> true,                       	// Show admin notices or not
+		'automatic'    		=> false,					   	// Automatically activate plugins after installation or not
+		'message' 			=> '',							// Message to output right before the plugins table
+		'strings'      		=> array(
 			'page_title'                       			=> __( 'Install Required Plugins', $theme_text_domain ),
 			'menu_title'                       			=> __( 'Install Plugins', $theme_text_domain ),
 			'installing'                       			=> __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name
