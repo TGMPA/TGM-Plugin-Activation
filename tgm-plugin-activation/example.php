@@ -77,19 +77,23 @@ function my_theme_register_required_plugins() {
 		'automatic'    	=> false,					   	// Automatically activate plugins after installation or not
 		'message' 		=> '',							// Message to output right before the plugins table
 		'strings'      	=> array(
-			'page_title'                       	=> __( 'Install Required Plugins', $theme_text_domain ),
-			'menu_title'                       	=> __( 'Install Plugins', $theme_text_domain ),
-			'installing'                       	=> __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name
-			'oops'                             	=> __( 'Something went wrong with the plugin API.', $theme_text_domain ),
-			'notice_can_install_required'      	=> __( 'This theme requires the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names
-			'notice_can_install_recommended'   	=> __( 'This theme recommends the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names
-			'notice_cannot_install'            	=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $theme_text_domain ), // %1$s = plugin name
-			'notice_can_activate_required'     	=> __( 'The following required plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names
-			'notice_can_activate_recommended'  	=> __( 'The following recommended plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names
-			'notice_cannot_activate'           	=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $theme_text_domain ), // %1$s = plugin name
-			'return'                           	=> __( 'Return to Required Plugins Installer', $theme_text_domain ),
-			'plugin_activated'                 	=> __( 'Plugin activated successfully.', $theme_text_domain ),
-			'complete' 							=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
+			'page_title'                       			=> __( 'Install Required Plugins', $theme_text_domain ),
+			'menu_title'                       			=> __( 'Install Plugins', $theme_text_domain ),
+			'installing'                       			=> __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name
+			'oops'                             			=> __( 'Something went wrong with the plugin API.', $theme_text_domain ),
+			'notice_can_install_required_singular' 		=> __( 'This theme requires the following plugin: %1$s.', $theme_text_domain ), // %1$s = plugin name
+			'notice_can_install_required'      			=> __( 'This theme requires the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names
+			'notice_can_install_recommended_singular' 	=> __( 'This theme recommends the following plugin: %1$s.', $theme_text_domain ), // %1$s = plugin name
+			'notice_can_install_recommended'   			=> __( 'This theme recommends the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names
+			'notice_cannot_install'            			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $theme_text_domain ), // %1$s = plugin name
+			'notice_can_activate_required_singular' 	=> __( 'The following required plugin is currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin name
+			'notice_can_activate_required'     			=> __( 'The following required plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names
+			'notice_can_activate_recommended_singular' 	=> __( 'The following recommended plugin is currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin name
+			'notice_can_activate_recommended'  			=> __( 'The following recommended plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names
+			'notice_cannot_activate'           			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $theme_text_domain ), // %1$s = plugin name
+			'return'                           			=> __( 'Return to Required Plugins Installer', $theme_text_domain ),
+			'plugin_activated'                 			=> __( 'Plugin activated successfully.', $theme_text_domain ),
+			'complete' 									=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
 		)
 	);
 
