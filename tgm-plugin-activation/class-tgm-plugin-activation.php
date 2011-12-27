@@ -500,7 +500,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 			/** Checks for actions from hover links to process the activation */
 			elseif ( isset( $_GET[sanitize_key( 'plugin' )] ) && ( isset( $_GET[sanitize_key( 'tgmpa-activate' )] ) && 'activate-plugin' == $_GET[sanitize_key( 'tgmpa-activate' )] ) ) {
-				check_admin_referer( 'tgmpa-activate' );
+				check_admin_referer( 'tgmpa-activate', 'tgmpa-activate-nonce' );
 
 				/** Populate $plugin array with necessary information */
 				$plugin['name']   = $_GET[sanitize_key( 'plugin_name' )];
@@ -518,8 +518,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					return true; // End it here if there is an error with activation
 				}
 				else {
-					$msg = sprintf( __( 'The following plugin was successfully activated: %s.', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
-					echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+					/** Make sure message doesn't display again if bulk activation is performed immediately after a single activation */
+					if ( ! isset( $_POST[sanitize_key( 'action' )] ) ) {
+						$msg = sprintf( __( 'The following plugin was successfully activated: %s.', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
+						echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+					}
 				}
 			}
 
@@ -1116,17 +1119,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			elseif ( is_plugin_inactive( $item['file_path'] ) ) {
 				$actions = array(
 					'activate' => sprintf( '<a href="%1$s" title="Activate %2$s">Activate</a>', 
-						wp_nonce_url( 
-							add_query_arg( array( 
-								'page' 				=> $_tgmpa->menu, 
-								'plugin' 			=> $item['slug'], 
-								'plugin_name' 		=> $item['sanitized_plugin'], 
-								'plugin_source' 	=> $item['url'], 
-								'tgmpa-activate' 	=> 'activate-plugin' 
-								),
-							admin_url( $_tgmpa->parent_url_slug ) 
-							), 
-							'tgmpa-activate' 
+						add_query_arg( array( 
+							'page' 					=> $_tgmpa->menu, 
+							'plugin' 				=> $item['slug'], 
+							'plugin_name' 			=> $item['sanitized_plugin'], 
+							'plugin_source' 		=> $item['url'], 
+							'tgmpa-activate' 		=> 'activate-plugin',
+							'tgmpa-activate-nonce' 	=> wp_create_nonce( 'tgmpa-activate' )
+						),
+						admin_url( $_tgmpa->parent_url_slug ) 
 						), 
 						$item['sanitized_plugin'] 
 					)
