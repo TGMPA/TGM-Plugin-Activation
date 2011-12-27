@@ -140,19 +140,23 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			self::$instance =& $this;
 
 			$this->strings = array(
-				'page_title'             			=> __( 'Install Required Plugins', $this->domain ),
-				'menu_title'             			=> __( 'Install Plugins', $this->domain ),
-				'installing'             			=> __( 'Installing Plugin: %s', $this->domain ),
-				'oops'                   			=> __( 'Something went wrong.', $this->domain ),
-				'notice_can_install_required'     	=> __( 'This theme requires the following plugins: %1$s.', $this->domain ),
-				'notice_can_install_recommended'	=> __( 'This theme recommends the following plugins: %1$s.', $this->domain ),
-				'notice_cannot_install'  			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
-				'notice_can_activate_required'    	=> __( 'The following required plugins are currently inactive: %1$s.', $this->domain ),
-				'notice_can_activate_recommended'	=> __( 'The following recommended plugins are currently inactive: %1$s.', $this->domain ),
-				'notice_cannot_activate' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
-				'return'                 			=> __( 'Return to Required Plugins Installer', $this->domain ),
-				'plugin_activated' 					=> __( 'Plugin activated successfully.', $this->domain ),
-				'complete' 							=> __( 'All plugins installed and activated successfully. %1$s', $this->domain )
+				'page_title'             					=> __( 'Install Required Plugins', $this->domain ),
+				'menu_title'             					=> __( 'Install Plugins', $this->domain ),
+				'installing'             					=> __( 'Installing Plugin: %s', $this->domain ),
+				'oops'                   					=> __( 'Something went wrong.', $this->domain ),
+				'notice_can_install_required_singular' 		=> __( 'This theme requires the following plugin: %1$s.', $this->domain ),
+				'notice_can_install_required'     			=> __( 'This theme requires the following plugins: %1$s.', $this->domain ),
+				'notice_can_install_recommended_singular' 	=> __( 'This theme recommends the following plugin: %1$s.', $this->domain ),
+				'notice_can_install_recommended'			=> __( 'This theme recommends the following plugins: %1$s.', $this->domain ),
+				'notice_cannot_install'  					=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
+				'notice_can_activate_required_singular'		=> __( 'The following required plugin is currently inactive: %1$s.', $this->domain ),
+				'notice_can_activate_required'    			=> __( 'The following required plugins are currently inactive: %1$s.', $this->domain ),
+				'notice_can_activate_recommended_singular' 	=> __( 'The following recommended plugin is currently inactive: %1$s.', $this->domain ),
+				'notice_can_activate_recommended'			=> __( 'The following recommended plugins are currently inactive: %1$s.', $this->domain ),
+				'notice_cannot_activate' 					=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
+				'return'                 					=> __( 'Return to Required Plugins Installer', $this->domain ),
+				'plugin_activated' 							=> __( 'Plugin activated successfully.', $this->domain ),
+				'complete' 									=> __( 'All plugins installed and activated successfully. %1$s', $this->domain )
 			);
 
 			/** Annouce that the class is ready, and pass the object (for advanced use) */
@@ -326,7 +330,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			?>
 			<div class="tgmpa wrap">
 			
-				<?php screen_icon( 'themes' ); ?>
+				<?php screen_icon( apply_filters( 'tgmpa_default_screen_icon', 'themes' ) ); ?>
 				<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 				<?php $plugin_table->prepare_items(); ?>
 				
@@ -554,8 +558,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						if ( $plugin['required'] )
 							$message['notice_can_activate_required'][] = $plugin['name'];
 						/** This plugin is only recommended */
-						else
+						else {
 							$message['notice_can_activate_recommended'][] = $plugin['name'];
+						}
 					}
 					/** Need higher privileges to activate the plugin */
 					else {
@@ -566,15 +571,18 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			/** Only process the nag messages if the user has not dismissed them already */
 			if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
-				krsort( $message );
-
 				/** If we have notices to display, we move forward */
 				if ( ! empty( $message ) ) {
+					krsort( $message ); // Sort messages
 					$rendered = ''; // Display all nag messages as strings
 
 					/** Grab all plugin names */
 					foreach ( $message as $type => $plugin_groups ) {
 						$linked_plugin_groups = array();
+						
+						/** Set string to singular if only one plugin is in the plugin group */
+						if ( 1 == count( $plugin_groups ) )
+							$type = $type . '_singular';
 
 						/** Loop through the plugin names to make the ones pulled from the .org repo linked */
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
@@ -605,11 +613,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$imploded    = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
 
 						$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
-				}
+					}
 				
 					/** Setup variables to determine if action links are needed */
 					$show_install_link = $install_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '';
-					$show_activate_link = $activate_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>' : '';
+					$show_activate_link = $activate_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins',$this->domain ) . '</a>' : '';
 
 					/** Define all of the action links */
 					$action_links = apply_filters(
@@ -1344,7 +1352,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				
 				/** Wrap the install process with the appropriate HTML */
 				echo '<div class="tgmpa wrap">';
-					screen_icon( 'themes' );
+					screen_icon( apply_filters( 'tgmpa_default_screen_icon', 'themes' ) );
 					echo '<h2>' . esc_html( get_admin_page_title() ) . '</h2>';
 					/** Process the bulk installation submissions */
 					$installer->bulk_install( $sources );
