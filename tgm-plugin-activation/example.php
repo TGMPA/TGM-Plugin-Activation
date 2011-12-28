@@ -87,12 +87,18 @@ function my_theme_register_required_plugins() {
 			'notice_can_install_required'      			=> __( 'This theme requires the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names
 			'notice_can_install_recommended_singular' 	=> __( 'This theme recommends the following plugin: %1$s.', $theme_text_domain ), // %1$s = plugin name
 			'notice_can_install_recommended'   			=> __( 'This theme recommends the following plugins: %1$s.', $theme_text_domain ), // %1$s = plugin names
-			'notice_cannot_install'            			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $theme_text_domain ), // %1$s = plugin name
+			'notice_cannot_install_singular'  			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ), // %1$s = plugin name
+			'notice_cannot_install'            			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', $theme_text_domain ), // %1$s = plugin names
 			'notice_can_activate_required_singular' 	=> __( 'The following required plugin is currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin name
 			'notice_can_activate_required'     			=> __( 'The following required plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names
 			'notice_can_activate_recommended_singular' 	=> __( 'The following recommended plugin is currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin name
 			'notice_can_activate_recommended'  			=> __( 'The following recommended plugins are currently inactive: %1$s.', $theme_text_domain ), // %1$s = plugin names
-			'notice_cannot_activate'           			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $theme_text_domain ), // %1$s = plugin name
+			'notice_cannot_activate_singular' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ), // %1$s = plugin name
+			'notice_cannot_activate'           			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.', $theme_text_domain ), // %1$s = plugin names
+			'notice_ask_to_update_singular' 			=> __( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', $theme_text_domain ), // %1$s = plugin name
+			'notice_ask_to_update' 						=> __( 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', $theme_text_domain ), // %1$s = plugin name
+			'notice_cannot_update_singular' 			=> __( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', $this->domain ), // %1$s = plugin name
+			'notice_cannot_update' 						=> __( 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', $this->domain ), // %1$s = plugin names
 			'return'                           			=> __( 'Return to Required Plugins Installer', $theme_text_domain ),
 			'plugin_activated'                 			=> __( 'Plugin activated successfully.', $theme_text_domain ),
 			'complete' 									=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
