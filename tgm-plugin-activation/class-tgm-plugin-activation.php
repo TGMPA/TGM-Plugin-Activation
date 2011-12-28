@@ -554,10 +554,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$this->populate_file_path();
 
 			$message = array(); // Store the messages in an array to be outputted after plugins have looped through
-			$counter = array(); // Number to determine if action links should be plural or not
-			$install_message = false; // Set to false, change to true in loop if conditions exist, used for action link 'install'
-			$activate_message = false; // Set to false, change to true in loop if conditions exist, used for action link 'activate'
-			$plural_message = false; // Used to determine plurality for action links, singular by default
+			$install_link = false; // Set to false, change to true in loop if conditions exist, used for action link 'install'
+			$install_link_plural = false; // Flag for install link text, singular by default
+			$install_link_count = 0; // Used to determine plurality of install action link text
+			$activate_link = false; // Set to false, change to true in loop if conditions exist, used for action link 'activate'
+			$activate_link_plural = false; // Flag for action link text, singular by default
+			$activate_link_count = 0; // Used to determine plurality of activate action link text
 
 			foreach ( $this->plugins as $plugin ) {
 				if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
@@ -565,7 +567,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				/** Not installed */
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) {
-					$install_message = true; // We need to display the 'install' action link
+					$install_link = true; // We need to display the 'install' action link
+					$install_link_count++; // Increment the install link count
 					if ( current_user_can( 'install_plugins' ) ) {
 						if ( $plugin['required'] )
 							$message['notice_can_install_required'][] = $plugin['name'];
@@ -580,7 +583,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 				/** Installed but not active */
 				elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
-					$activate_message = true; // We need to display the 'activate' action link
+					$activate_link = true; // We need to display the 'activate' action link
+					$activate_link_count++; // Increment the activate link count
 					if ( current_user_can( 'activate_plugins' ) ) {
 						if ( $plugin['required'] )
 							$message['notice_can_activate_required'][] = $plugin['name'];
@@ -610,9 +614,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						/** Set string to singular if only one plugin is in the plugin group */
 						if ( 1 == count( $plugin_groups ) )
 							$type = $type . '_singular';
-							
-						/** Get # of plugins per group */
-						$counter[] = count( $plugin_groups );
 
 						/** Loop through the plugin names to make the ones pulled from the .org repo linked */
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
@@ -646,17 +647,19 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					}
 					
 					/** Get the sum of plugins and if it's greater than one, we need plural action links */
-					$number = array_sum( $counter );
-					if ( 1 < $number )
-						$plural_message = true;
+					if ( 1 < $install_link_count )
+						$install_link_plural = true;
+						
+					if ( 1 < $activate_link_count )
+						$activate_link_plural = true;
 						
 					/** Determine plurality of action link text */
-					$install_plurality = $plural_message ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . __( 'Begin installing plugins', $this->domain ) . '</a>' : '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . __( 'Begin installing plugin', $this->domain ) . '</a>';
-					$activate_plurality = $plural_message ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugins', $this->domain ) . '</a>' : '<a href="' . admin_url( 'plugins.php' ) . '">' . __( 'Activate installed plugin', $this->domain ) . '</a>';
+					$install_plurality = $install_link_plural ? 'Begin installing plugins' : 'Begin installing plugin';
+					$activate_plurality = $activate_link_plural ? 'Activate installed plugins' : 'Activate installed plugin';
 				
 					/** Setup variables to determine if action links are needed */
-					$show_install_link = $install_message ? $install_plurality : '';
-					$show_activate_link = $activate_message ? $activate_plurality  : '';
+					$show_install_link = $install_link ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . __( $install_plurality, $this->domain ) . '</a>' : '';
+					$show_activate_link = $activate_link ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( $activate_plurality, $this->domain ) . '</a>'  : '';
 
 					/** Define all of the action links */
 					$action_links = apply_filters(
@@ -1243,8 +1246,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$plugin_name = array();
 			
 				/** Look first to see if information has been passed via WP_Filesystem */
-				if ( isset( $_GET['plugins'] ) )
-					$plugins = explode( ',', stripslashes( $_GET['plugins'] ) );
+				if ( isset( $_GET[sanitize_key( 'plugins' )] ) )
+					$plugins = explode( ',', stripslashes( $_GET[sanitize_key( 'plugins' )] ) );
 				/** Looks like the user can use the direct method, take from $_POST */
 				elseif ( isset( $_POST[sanitize_key( 'plugin' )] ) )
 					$plugins = (array) $_POST[sanitize_key( 'plugin' )];
@@ -1278,8 +1281,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 				
 				/** Look first to see if information has been passed via WP_Filesystem */
-				if ( isset( $_GET['plugin_paths'] ) )
-					$plugin_paths = explode( ',', stripslashes( $_GET['plugin_paths'] ) );
+				if ( isset( $_GET[sanitize_key( 'plugin_paths' )] ) )
+					$plugin_paths = explode( ',', stripslashes( $_GET[sanitize_key( 'plugin_paths' )] ) );
 				/** Looks like the user doesn't need to enter his FTP creds */
 				elseif ( isset( $_POST[sanitize_key( 'plugin' )] ) )
 					$plugin_paths = (array) $plugin_path;
@@ -1288,8 +1291,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					$plugin_paths = array();
 				
 				/** Look first to see if information has been passed via WP_Filesystem */
-				if ( isset( $_GET['plugin_names'] ) )
-					$plugin_names = explode( ',', stripslashes( $_GET['plugin_names'] ) );
+				if ( isset( $_GET[sanitize_key( 'plugin_names' )] ) )
+					$plugin_names = explode( ',', stripslashes( $_GET[sanitize_key( 'plugin_names' )] ) );
 				/** Looks like the user doesn't need to enter his FTP creds */
 				elseif ( isset( $_POST[sanitize_key( 'plugin' )] ) )
 					$plugin_names = (array) $plugin_name;
@@ -1305,11 +1308,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						unset( $plugin_installs[$key] );
 							
 						/** If the plugin path isn't in the $_GET variable, we can unset the corresponding path */
-						if ( ! isset( $_GET['plugin_paths'] ) )
+						if ( ! isset( $_GET[sanitize_key( 'plugin_paths' )] ) )
 							unset( $plugin_paths[$b] );
 								
 						/** If the plugin name isn't in the $_GET variable, we can unset the corresponding name */
-						if ( ! isset( $_GET['plugin_names'] ) )
+						if ( ! isset( $_GET[sanitize_key( 'plugin_names' )] ) )
 							unset( $plugin_names[$b] );
 					}
 					$b++;
