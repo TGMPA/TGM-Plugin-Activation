@@ -169,12 +169,18 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'notice_can_install_required'     			=> __( 'This theme requires the following plugins: %1$s.', $this->domain ),
 				'notice_can_install_recommended_singular' 	=> __( 'This theme recommends the following plugin: %1$s.', $this->domain ),
 				'notice_can_install_recommended'			=> __( 'This theme recommends the following plugins: %1$s.', $this->domain ),
-				'notice_cannot_install'  					=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
+				'notice_cannot_install_singular'  			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
+				'notice_cannot_install'  					=> __( 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', $this->domain ),
 				'notice_can_activate_required_singular'		=> __( 'The following required plugin is currently inactive: %1$s.', $this->domain ),
 				'notice_can_activate_required'    			=> __( 'The following required plugins are currently inactive: %1$s.', $this->domain ),
 				'notice_can_activate_recommended_singular' 	=> __( 'The following recommended plugin is currently inactive: %1$s.', $this->domain ),
 				'notice_can_activate_recommended'			=> __( 'The following recommended plugins are currently inactive: %1$s.', $this->domain ),
-				'notice_cannot_activate' 					=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
+				'notice_cannot_activate_singular' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
+				'notice_cannot_activate' 					=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.', $this->domain ),
+				'notice_ask_to_update_singular' 			=> __( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', $this->domain ),
+				'notice_ask_to_update' 						=> __( 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', $this->domain ),
+				'notice_cannot_update_singular' 			=> __( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', $this->domain ),
+				'notice_cannot_update' 						=> __( 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', $this->domain ),
 				'return'                 					=> __( 'Return to Required Plugins Installer', $this->domain ),
 				'plugin_activated' 							=> __( 'Plugin activated successfully.', $this->domain ),
 				'complete' 									=> __( 'All plugins installed and activated successfully. %1$s', $this->domain )
@@ -520,7 +526,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				else {
 					/** Make sure message doesn't display again if bulk activation is performed immediately after a single activation */
 					if ( ! isset( $_POST[sanitize_key( 'action' )] ) ) {
-						$msg = sprintf( __( 'The following plugin was successfully activated: %s.', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
+						$msg = sprintf( __( 'The following plugin was activated successfully: %s.', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
 						echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 					}
 				}
@@ -562,9 +568,27 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$activate_link_count = 0; // Used to determine plurality of activate action link text
 
 			foreach ( $this->plugins as $plugin ) {
-				if ( is_plugin_active( $plugin['file_path'] ) ) // If the plugin is active, no need to display nag
-					continue;
+				/** If the plugin is installed and active, check for minimum version argument before moving forward */
+				if ( is_plugin_active( $plugin['file_path'] ) ) {
+					/** A minimum version has been specified */
+					if ( isset( $plugin['version'] ) ) {
+						$plugin_split = explode( '/', $plugin['file_path'] );
+						$plugin_info = get_plugins( '/' . plugin_dir_path( $plugin['file_path'] ) );
 
+						/** If the current version is less than the minimum required version, we display a message */
+						if ( version_compare( $plugin_info[$plugin_split[1]]['Version'], $plugin['version'], '<' ) ) {
+							if ( current_user_can( 'install_plugins' ) )
+								$message['notice_ask_to_update'][] = $plugin['name'];
+							else
+								$message['notice_cannot_update'][] = $plugin['name'];
+						}
+					}
+					/** No minimum version specified, so iterate over the plugin */
+					else {
+						continue;
+					}
+				}
+				
 				/** Not installed */
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) ) {
 					$install_link = true; // We need to display the 'install' action link
@@ -610,7 +634,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					/** Grab all plugin names */
 					foreach ( $message as $type => $plugin_groups ) {
 						$linked_plugin_groups = array();
-						
+
 						/** Set string to singular if only one plugin is in the plugin group */
 						if ( 1 == count( $plugin_groups ) )
 							$type = $type . '_singular';
@@ -1442,7 +1466,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( is_wp_error( $activate ) )
 					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
 				else
-					printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', _n( 'The following plugin was successfully activated:', 'The following plugins were successfully activated:', $count, $_tgmpa->domain ), $imploded );
+					printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, $_tgmpa->domain ), $imploded );
 
  				/** Update recently activated plugins option */
 				$recent = (array) get_option( 'recently_activated' );
