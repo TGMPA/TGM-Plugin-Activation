@@ -618,6 +618,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						/** Loop through the plugin names to make the ones pulled from the .org repo linked */
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
 							$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
+
 							if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 								$url = add_query_arg(
 									array(
@@ -630,10 +631,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 									admin_url( 'plugin-install.php' )
 								);
 
-								$linked_plugin_groups[] .= '<a href="' . $url . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
+								$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
 							}
 							else {
-								$linked_plugin_groups[] .= $plugin_group_single_name; // No hyperlink
+								$linked_plugin_groups[] = $plugin_group_single_name; // No hyperlink
 							}
 
 							if ( isset( $linked_plugin_groups ) && (array) $linked_plugin_groups )
@@ -975,6 +976,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$table_data[$i]['slug'] = $this->_get_plugin_data_from_name( $plugin['name'] );
 
 				$source = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
+							
 				if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 					$url = add_query_arg(
 						array(
@@ -987,8 +989,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						admin_url( 'plugin-install.php' )
 					);
 
-					$table_data[$i]['plugin'] = '<strong><a href="' . $url . '" class="thickbox" title="' . $plugin['name'] . '">' . $plugin['name'] . '</a></strong>';
-			}
+					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin['name'] . '">' . $plugin['name'] . '</a></strong>';
+				}
 				else {
 					$table_data[$i]['plugin'] = '<strong>' . $plugin['name'] . '</strong>'; // No hyperlink
 				}
@@ -1020,7 +1022,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', $_tgmpa->domain ) );
 
 				$table_data[$i]['file_path'] = $plugin['file_path'];
-
 				$table_data[$i]['url'] = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
 
 				$i++;
