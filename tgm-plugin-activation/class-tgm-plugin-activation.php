@@ -117,7 +117,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var boolean
 		 */
-		var $notices = true;
+		var $has_notices = true;
 
 		/**
 		 * Flag to set automatic activation of plugins. Off by default.
@@ -126,7 +126,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var boolean
 		 */
-		var $automatic = false;
+		var $is_automatic = false;
 
 		/**
 		 * Optional message to display before the plugins table.
@@ -223,7 +223,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					add_action( 'admin_head', 'wp_admin_bar_render', 1000 );
 				}
 
-				if ( $this->notices ) {
+				if ( $this->has_notices ) {
 					add_action( 'admin_notices', array( &$this, 'notices' ) );
 					add_action( 'admin_init', array( &$this, 'admin_init' ), 1 );
 					add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
@@ -460,7 +460,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				wp_cache_flush();
 
 				/** Only activate plugins if the config option is set to true */
-				if ( $this->automatic ) {
+				if ( $this->is_automatic ) {
 					$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method
 					$activate = activate_plugin( $plugin_activate ); // Activate the plugin
 					$this->populate_file_path(); // Re-populate the file path now that the plugin has been installed and activated
@@ -745,7 +745,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function config( $config ) {
 
-			$keys = array( 'default_path', 'parent_menu_slug', 'parent_url_slug', 'domain', 'notices', 'menu', 'automatic', 'message', 'strings' );
+			$keys = array( 'default_path', 'parent_menu_slug', 'parent_url_slug', 'domain', 'has_notices', 'menu', 'is_automatic', 'message', 'strings' );
 
 			foreach ( $keys as $key ) {
 				if ( isset( $config[$key] ) ) {
@@ -936,21 +936,16 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * References parent constructor and sets defaults for class.
 		 *
 		 * The constructor also grabs a copy of $instance from the TGMPA class
-		 * and stores it in the global object $_tgmpa.
+		 * and stores it in the global object TGM_Plugin_Activation::$instance.
 		 *
 		 * @since 2.2.0
 		 *
 		 * @global unknown $status
 		 * @global string $page
-		 * @global object $tgmpa
 		 */
 		public function __construct() {
 
-			global $status, $page, $_tgmpa;
-
-			/** Store TGMPA instance in object - it will be available for the bulk installer and bulk installer skin */
-			$object = new ReflectionProperty( 'TGM_Plugin_Activation', 'instance' );
-			$_tgmpa = $object->getValue();
+			global $status, $page;
 
 			parent::__construct(
 				array(
@@ -968,23 +963,20 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @global object $_tgmpa
-		 *
+		 * @return array $table_data Information for use in table
 		 */
 		protected function _gather_plugin_data() {
 
-			global $_tgmpa;
-
 			/** Load thickbox for plugin links */
-			$_tgmpa->admin_init();
-			$_tgmpa->thickbox();
+			TGM_Plugin_Activation::$instance->admin_init();
+			TGM_Plugin_Activation::$instance->thickbox();
 
 			/** Prep variables for use and grab list of all installed plugins */
 			$table_data = array();
 			$i = 0;
 			$installed_plugins = get_plugins();
 
-			foreach ( $_tgmpa->plugins as $plugin ) {
+			foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
 				if ( is_plugin_active( $plugin['file_path'] ) )
 					continue; // No need to display plugins if they are installed and activated
 
@@ -1018,25 +1010,25 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $plugin['source'] ) ) {
 					/** The plugin must be from a private repository */
 					if ( preg_match( '|^http(s)?://|', $plugin['source'] ) )
-						$table_data[$i]['source'] = __( 'Private Repository', $_tgmpa->domain );
+						$table_data[$i]['source'] = __( 'Private Repository', TGM_Plugin_Activation::$instance->domain );
 					/** The plugin is pre-packaged with the theme */
 					else
-						$table_data[$i]['source'] = __( 'Pre-Packaged', $_tgmpa->domain );
+						$table_data[$i]['source'] = __( 'Pre-Packaged', TGM_Plugin_Activation::$instance->domain );
 				}
 				/** The plugin is from the WordPress repository */
 				else {
-					$table_data[$i]['source'] = __( 'WordPress Repository', $_tgmpa->domain );
+					$table_data[$i]['source'] = __( 'WordPress Repository', TGM_Plugin_Activation::$instance->domain );
 				}
 
-				$table_data[$i]['type'] = $plugin['required'] ? __( 'Required', $_tgmpa->domain ) : __( 'Recommended', $_tgmpa->domain );
+				$table_data[$i]['type'] = $plugin['required'] ? __( 'Required', TGM_Plugin_Activation::$instance->domain ) : __( 'Recommended', TGM_Plugin_Activation::$instance->domain );
 
 				if ( is_plugin_active( $plugin['file_path'] ) )
-					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed And Activated', $_tgmpa->domain ) );
+					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed And Activated', TGM_Plugin_Activation::$instance->domain ) );
 
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) )
-					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', $_tgmpa->domain ) );
+					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', TGM_Plugin_Activation::$instance->domain ) );
 				elseif ( is_plugin_inactive( $plugin['file_path'] ) )
-					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', $_tgmpa->domain ) );
+					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', TGM_Plugin_Activation::$instance->domain ) );
 
 				$table_data[$i]['file_path'] = $plugin['file_path'];
 				$table_data[$i]['url'] = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
@@ -1057,16 +1049,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @global object $_tgmpa
 		 * @param string $name Name of the plugin, as it was registered
 		 * @param string $data Optional. Array key of plugin data to return. Default is slug
 		 * @return string|boolean Plugin slug if found, false otherwise
 		 */
 		protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
-			global $_tgmpa;
-
-			foreach ( $_tgmpa->plugins as $plugin => $values ) {
+			foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin => $values ) {
 				if ( $name == $values['name'] && isset( $values[$data] ) )
 					return $values[$data];
 			}
@@ -1102,13 +1091,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @since 2.2.0
 		 *
 		 * @param array $item
-		 *
-		 * @global object $_tgmpa
 		 * @return string The action hover links
 		 */
 		public function column_plugin( $item ) {
-
-			global $_tgmpa;
 
 			$installed_plugins = get_plugins();
 
@@ -1124,13 +1109,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						wp_nonce_url(
 							add_query_arg(
 								array(
-									'page'          => $_tgmpa->menu,
+									'page'          => TGM_Plugin_Activation::$instance->menu,
 									'plugin'        => $item['slug'],
 									'plugin_name'   => $item['sanitized_plugin'],
 									'plugin_source' => $item['url'],
 									'tgmpa-install' => 'install-plugin',
 								),
-								admin_url( $_tgmpa->parent_url_slug )
+								admin_url( TGM_Plugin_Activation::$instance->parent_url_slug )
 							),
 							'tgmpa-install'
 						),
@@ -1145,14 +1130,14 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						'<a href="%1$s" title="Activate %2$s">Activate</a>',
 						add_query_arg(
 							array(
-								'page'                 => $_tgmpa->menu,
+								'page'                 => TGM_Plugin_Activation::$instance->menu,
 								'plugin'               => $item['slug'],
 								'plugin_name'          => $item['sanitized_plugin'],
 								'plugin_source'        => $item['url'],
 								'tgmpa-activate'       => 'activate-plugin',
 								'tgmpa-activate-nonce' => wp_create_nonce( 'tgmpa-activate' ),
 							),
-							admin_url( $_tgmpa->parent_url_slug )
+							admin_url( TGM_Plugin_Activation::$instance->parent_url_slug )
 						),
 						$item['sanitized_plugin']
 					),
@@ -1185,14 +1170,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * are left for interaction.
 		 *
 		 * @since 2.2.0
-		 *
-		 * @global object $_tgmpa
 		 */
 		public function no_items() {
 
-			global $_tgmpa;
-
-			_e( 'No plugins to install or activate. <a href="' . admin_url() . '" title="Return to the Dashboard">Return to the Dashboard</a>', $_tgmpa->domain );
+			printf( __( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', TGM_Plugin_Activation::$instance->domain ), admin_url() );
 
 		}
 
@@ -1201,19 +1182,16 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @global object $_tgmpa
 		 * @return array $columns The column names
 		 */
 		public function get_columns() {
 
-			global $_tgmpa;
-
 			$columns = array(
 				'cb' 		=> '<input type="checkbox" />',
-				'plugin' 	=> __( 'Plugin', $_tgmpa->domain ),
-				'source' 	=> __( 'Source', $_tgmpa->domain ),
-				'type' 		=> __( 'Type', $_tgmpa->domain ),
-				'status' 	=> __( 'Status', $_tgmpa->domain )
+				'plugin' 	=> __( 'Plugin', TGM_Plugin_Activation::$instance->domain ),
+				'source' 	=> __( 'Source', TGM_Plugin_Activation::$instance->domain ),
+				'type' 		=> __( 'Type', TGM_Plugin_Activation::$instance->domain ),
+				'status' 	=> __( 'Status', TGM_Plugin_Activation::$instance->domain )
 			);
 
 			return $columns;
@@ -1226,16 +1204,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @global object $_tgmpa
 		 * @return array $actions The bulk actions for the plugin install table
 		 */
 		public function get_bulk_actions() {
 
-			global $_tgmpa;
-
 			$actions = array(
-				'tgmpa-bulk-install' 	=> __( 'Install', $_tgmpa->domain ),
-				'tgmpa-bulk-activate' 	=> __( 'Activate', $_tgmpa->domain ),
+				'tgmpa-bulk-install' 	=> __( 'Install', TGM_Plugin_Activation::$instance->domain ),
+				'tgmpa-bulk-activate' 	=> __( 'Activate', TGM_Plugin_Activation::$instance->domain ),
 			);
 
 			return $actions;
@@ -1250,12 +1225,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * a user has to use WP_Filesystem to enter their credentials.
 		 *
 		 * @since 2.2.0
-		 *
-		 * @global object $_tgmpa
 		 */
 		public function process_bulk_actions() {
-
-			global $_tgmpa;
 
 			/** Bulk installation process */
 			if ( 'tgmpa-bulk-install' === $this->current_action() ) {
@@ -1358,13 +1329,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$url = wp_nonce_url(
 					add_query_arg(
 						array(
-							'page' 			=> $_tgmpa->menu,
+							'page' 			=> TGM_Plugin_Activation::$instance->menu,
 							'tgmpa-action' 	=> 'install-selected',
 							'plugins' 		=> urlencode( implode( ',', $plugins ) ),
 							'plugin_paths' 	=> urlencode( implode( ',', $plugin_paths ) ),
 							'plugin_names' 	=> urlencode( implode( ',', $plugin_names ) ),
 						),
-						admin_url( $_tgmpa->parent_url_slug )
+						admin_url( TGM_Plugin_Activation::$instance->parent_url_slug )
 					),
 					'bulk-plugins'
 				);
@@ -1396,7 +1367,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				if ( is_wp_error( $api ) )
-					wp_die( $_tgmpa->strings['oops'] . var_dump( $api ) );
+					wp_die( TGM_Plugin_Activation::$instance->strings['oops'] . var_dump( $api ) );
 
 				$d = 0;	// Incremental variable
 
@@ -1407,7 +1378,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				/** Finally, all the data is prepared to be sent to the installer */
-				$url   = add_query_arg( array( 'page' => $_tgmpa->menu ), admin_url( $_tgmpa->parent_url_slug ) );
+				$url   = add_query_arg( array( 'page' => TGM_Plugin_Activation::$instance->menu ), admin_url( TGM_Plugin_Activation::$instance->parent_url_slug ) );
 				$nonce = 'bulk-plugins';
 				$names = $plugin_names;
 
@@ -1464,7 +1435,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( is_wp_error( $activate ) )
 					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
 				else
-					printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, $_tgmpa->domain ), $imploded );
+					printf( '<div id="message" class="updated"><p>%1$s %2$s</p></div>', _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, TGM_Plugin_Activation::$instance->domain ), $imploded );
 
  				/** Update recently activated plugins option */
 				$recent = (array) get_option( 'recently_activated' );
@@ -1554,13 +1525,11 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 *
-	 		 * @global object $_tgmpa
+	 		 * @global object TGM_Plugin_Activation::$instance
 	 		 * @param array $packages The plugin sources needed for installation
 	 		 * @return string/boolean Install confirmation messages on success, false on failure
 	 		 */
 			public function bulk_install( $packages ) {
-
-				global $_tgmpa;
 
 				/** Pass installer skin object and set bulk property to true */
 				$this->init();
@@ -1568,7 +1537,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 
 				/** Set install strings and automatic activation strings (if config option is set to true) */
 				$this->install_strings();
-				if ( $_tgmpa->automatic )
+				if ( TGM_Plugin_Activation::$instance->is_automatic )
 					$this->activate_strings();
 
 				/** Run the header string to notify user that the process has begun */
@@ -1630,13 +1599,10 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 *
-	 		 * @global object $_tgmpa
 	 		 * @param array $options The installation cofig options
 	 		 * @return null/array Return early if error, array of installation data on success
 	 		 */
 			public function run( $options ) {
-
-				global $_tgmpa;
 
 				/** Default config options */
 				$defaults = array(
@@ -1714,7 +1680,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 				}
 
 				/** Only process the activation of installed plugins if the automatic flag is set to true */
-				if ( $_tgmpa->automatic ) {
+				if ( TGM_Plugin_Activation::$instance->is_automatic ) {
 					/** Flush plugins cache so we can make sure that the installed plugins list is always up to date */
 					wp_cache_flush();
 
@@ -1723,7 +1689,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 					$activate    = activate_plugin( $plugin_info );
 
 					/** Re-populate the file path now that the plugin has been installed and activated */
-					$_tgmpa->populate_file_path();
+					TGM_Plugin_Activation::$instance->populate_file_path();
 
 					/** Set correct strings based on results */
 					if ( is_wp_error( $activate ) ) {
@@ -1752,19 +1718,15 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 * Sets the correct install strings for the installer skin to use.
 	 		 *
 	 		 * @since 2.2.0
-	 		 *
-	 		 * @global object $_tgmpa
 	 		 */
 			public function install_strings() {
 
-				global $_tgmpa;
-
-				$this->strings['no_package']          = __( 'Install package not available.', $_tgmpa->domain );
-				$this->strings['downloading_package'] = __( 'Downloading install package from <span class="code">%s</span>&#8230;', $_tgmpa->domain );
-				$this->strings['unpack_package']      = __( 'Unpacking the package&#8230;', $_tgmpa->domain );
-				$this->strings['installing_package']  = __( 'Installing the plugin&#8230;', $_tgmpa->domain );
-				$this->strings['process_failed']      = __( 'Plugin install failed.', $_tgmpa->domain );
-				$this->strings['process_success']     = __( 'Plugin installed successfully.', $_tgmpa->domain );
+				$this->strings['no_package']          = __( 'Install package not available.', TGM_Plugin_Activation::$instance->domain );
+				$this->strings['downloading_package'] = __( 'Downloading install package from <span class="code">%s</span>&#8230;', TGM_Plugin_Activation::$instance->domain );
+				$this->strings['unpack_package']      = __( 'Unpacking the package&#8230;', TGM_Plugin_Activation::$instance->domain );
+				$this->strings['installing_package']  = __( 'Installing the plugin&#8230;', TGM_Plugin_Activation::$instance->domain );
+				$this->strings['process_failed']      = __( 'Plugin install failed.', TGM_Plugin_Activation::$instance->domain );
+				$this->strings['process_success']     = __( 'Plugin installed successfully.', TGM_Plugin_Activation::$instance->domain );
 
 			}
 
@@ -1772,15 +1734,11 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 * Sets the correct activation strings for the installer skin to use.
 	 		 *
 	 		 * @since 2.2.0
-	 		 *
-	 		 * @global object $_tgmpa
 	 		 */
 			public function activate_strings() {
 
-				global $_tgmpa;
-
-				$this->strings['activation_failed']  = __( 'Plugin activation failed.', $_tgmpa->domain );
-				$this->strings['activation_success'] = __( 'Plugin activated successfully.', $_tgmpa->domain );
+				$this->strings['activation_failed']  = __( 'Plugin activation failed.', TGM_Plugin_Activation::$instance->domain );
+				$this->strings['activation_success'] = __( 'Plugin activated successfully.', TGM_Plugin_Activation::$instance->domain );
 
 			}
 
@@ -1885,27 +1843,25 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 *
-	 		 * @global object $_tgmpa
+	 		 * @global object TGM_Plugin_Activation::$instance
 	 		 */
 			public function add_strings() {
 
-				global $_tgmpa;
-
 				/** Automatic activation strings */
-				if ( $_tgmpa->automatic ) {
-					$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', $_tgmpa->domain );
-					$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', $_tgmpa->domain ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', $_tgmpa->domain ) . '</span><span class="hidden">' . __( 'Hide Details', $_tgmpa->domain ) . '</span>.</a>';
-					$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', $_tgmpa->domain );
-					$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', $_tgmpa->domain );
+				if ( TGM_Plugin_Activation::$instance->is_automatic ) {
+					$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', TGM_Plugin_Activation::$instance->domain );
+					$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', TGM_Plugin_Activation::$instance->domain ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', TGM_Plugin_Activation::$instance->domain ) . '</span><span class="hidden">' . __( 'Hide Details', TGM_Plugin_Activation::$instance->domain ) . '</span>.</a>';
+					$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', TGM_Plugin_Activation::$instance->domain );
+					$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', TGM_Plugin_Activation::$instance->domain );
 				}
 				/** Default installation strings */
 				else {
-					$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', $_tgmpa->domain );
-					$this->upgrader->strings['skin_update_failed_error']  = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', $_tgmpa->domain );
-					$this->upgrader->strings['skin_update_failed']        = __( 'The installation of %1$s failed.', $_tgmpa->domain );
-					$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', $_tgmpa->domain ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', $_tgmpa->domain ) . '</span><span class="hidden">' . __( 'Hide Details', $_tgmpa->domain ) . '</span>.</a>';
-					$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', $_tgmpa->domain );
-					$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', $_tgmpa->domain );
+					$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', TGM_Plugin_Activation::$instance->domain );
+					$this->upgrader->strings['skin_update_failed_error']  = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', TGM_Plugin_Activation::$instance->domain );
+					$this->upgrader->strings['skin_update_failed']        = __( 'The installation of %1$s failed.', TGM_Plugin_Activation::$instance->domain );
+					$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', TGM_Plugin_Activation::$instance->domain ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', TGM_Plugin_Activation::$instance->domain ) . '</span><span class="hidden">' . __( 'Hide Details', TGM_Plugin_Activation::$instance->domain ) . '</span>.</a>';
+					$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', TGM_Plugin_Activation::$instance->domain );
+					$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', TGM_Plugin_Activation::$instance->domain );
 				}
 
 			}
@@ -1968,12 +1924,8 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 * Outputs links after bulk plugin installation is complete.
 	 		 *
 	 		 * @since 2.2.0
-	 		 *
-	 		 * @global object $_tgmpa
 	 		 */
-			function bulk_footer() {
-
-				global $_tgmpa;
+			public function bulk_footer() {
 
 				/** Serve up the string to say installations (and possibly activations) are complete */
 				parent::bulk_footer();
@@ -1983,9 +1935,9 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 
 				/** Display message based on if all plugins are now active or not */
 				$complete = array();
-				foreach ( $_tgmpa->plugins as $plugin ) {
+				foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
 					if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-						echo '<p><a href="' . add_query_arg( 'page', $_tgmpa->menu, admin_url( $_tgmpa->parent_url_slug ) ) . '" title="' . esc_attr( $_tgmpa->strings['return'] ) . '" target="_parent">' . __( $_tgmpa->strings['return'], $_tgmpa->domain ) . '</a></p>';
+						echo '<p><a href="' . add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, admin_url( TGM_Plugin_Activation::$instance->parent_url_slug ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . __( TGM_Plugin_Activation::$instance->strings['return'], TGM_Plugin_Activation::$instance->domain ) . '</a></p>';
 						$complete[] = $plugin;
 						break;
 					}
@@ -2000,7 +1952,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 
 				/** All plugins are active, so we display the complete string */
 				if ( empty( $complete ) )
-					echo '<p>' .  sprintf( $_tgmpa->strings['complete'], '<a href="' . admin_url() . '" title="' . __( 'Return to the Dashboard', $_tgmpa->domain ) . '">' . __( 'Return to the Dashboard', $_tgmpa->domain ) . '</a>' ) . '</p>';
+					echo '<p>' .  sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . admin_url() . '" title="' . __( 'Return to the Dashboard', TGM_Plugin_Activation::$instance->domain ) . '">' . __( 'Return to the Dashboard', TGM_Plugin_Activation::$instance->domain ) . '</a>' ) . '</p>';
 
 			}
 
@@ -2009,7 +1961,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 */
-			function before_flush_output() {
+			public function before_flush_output() {
 
 				wp_ob_end_flush_all();
 				flush();
@@ -2022,7 +1974,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 */
-			function after_flush_output() {
+			public function after_flush_output() {
 
 				wp_ob_end_flush_all();
 				flush();
