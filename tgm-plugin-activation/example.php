@@ -72,8 +72,8 @@ function my_theme_register_required_plugins() {
 	$config = array(
 		'domain'       		=> $theme_text_domain,         	// Text domain - likely want to be the same as your theme.
 		'default_path' 		=> '',                         	// Default absolute path to pre-packaged plugins
-		'parent_menu_slug' 	=> 'themes.php' 				// Default parent menu slug
-		'parent_url_slug' 	=> 'themes.php' 				// Default parent URL slug
+		'parent_menu_slug' 	=> 'themes.php', 				// Default parent menu slug
+		'parent_url_slug' 	=> 'themes.php', 				// Default parent URL slug
 		'menu'         		=> 'install-required-plugins', 	// Menu slug
 		'notices'      		=> true,                       	// Show admin notices or not
 		'automatic'    		=> false,					   	// Automatically activate plugins after installation or not
