@@ -1597,7 +1597,6 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 *
-	 		 * @global object TGM_Plugin_Activation::$instance
 	 		 * @param array $packages The plugin sources needed for installation
 	 		 * @return string/boolean Install confirmation messages on success, false on failure
 	 		 */
@@ -1914,8 +1913,6 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 * the proper strings accordingly.
 	 		 *
 	 		 * @since 2.2.0
-	 		 *
-	 		 * @global object TGM_Plugin_Activation::$instance
 	 		 */
 			public function add_strings() {
 
