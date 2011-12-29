@@ -175,7 +175,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'notice_cannot_update'            => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ),
 				'return'                          => __( 'Return to Required Plugins Installer', $this->domain ),
 				'plugin_activated'                => __( 'Plugin activated successfully.', $this->domain ),
-				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', $this->domain )
+				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', $this->domain ),
 			);
 
 			/** Annouce that the class is ready, and pass the object (for advanced use) */
@@ -229,7 +229,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
 					add_action( 'switch_theme', array( &$this, 'update_dismiss' ) );
 				}
-				
+
 				/** Setup the force activation hook */
 				foreach ( $this->plugins as $plugin ) {
 					if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] ) {
@@ -237,7 +237,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						break;
 					}
 				}
-				
+
 				/** Setup the force deactivation hook */
 				foreach ( $this->plugins as $plugin ) {
 					if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] ) {
@@ -419,11 +419,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$url = wp_nonce_url(
 					add_query_arg(
 						array(
-							'page' 				=> $this->menu,
-							'plugin' 			=> $plugin['slug'],
-							'plugin_name' 		=> $plugin['name'],
-							'plugin_source' 	=> $plugin['source'],
-							'tgmpa-install' 	=> 'install-plugin',
+							'page'          => $this->menu,
+							'plugin'        => $plugin['slug'],
+							'plugin_name'   => $plugin['name'],
+							'plugin_source' => $plugin['source'],
+							'tgmpa-install' => 'install-plugin',
 						),
 						admin_url( $this->parent_url_slug )
 					),
@@ -891,7 +891,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice' );
 
 		}
-		
+
 		/**
 		 * Forces plugin activation if the parameter 'force_activation' is
 		 * set to true.
@@ -910,15 +910,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			/** Set file_path parameter for any installed plugins */
 			$this->populate_file_path();
-			
+
 			foreach ( $this->plugins as $plugin ) {
 				/** Only proceed forward if the paramter is set to true and plugin is inactive */
-				if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) )
+				if ( isset( $plugin['force_activation'] ) && $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) )
 					activate_plugin( $plugin['file_path'] );
 			}
-			
+
 		}
-		
+
 		/**
 		 * Forces plugin deactivation if the parameter 'force_deactivation'
 		 * is set to true.
@@ -926,8 +926,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * This allows theme authors to specify certain plugins that must be
 		 * deactived upon switching from the current theme to another.
 		 *
-		 * We are forced to hook into admin_init instead of switch_theme 
-		 * because switch_theme occurs after the theme has already been 
+		 * We are forced to hook into admin_init instead of switch_theme
+		 * because switch_theme occurs after the theme has already been
 		 * switched, which is too late to process this request.
 		 *
 		 * Please take special care when using this parameter as it has the
@@ -942,7 +942,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			foreach ( $this->plugins as $plugin ) {
 				/** Only proceed forward if the paramter is set to true and plugin is active */
-				if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] && is_plugin_active( $plugin['file_path'] ) )
+				if ( isset( $plugin['force_deactivation'] ) && $plugin['force_deactivation'] && is_plugin_active( $plugin['file_path'] ) )
 					deactivate_plugins( $plugin['file_path'] );
 			}
 
@@ -1021,9 +1021,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 			parent::__construct(
 				array(
-					'singular' 	=> 'plugin',
-					'plural' 	=> 'plugins',
-					'ajax' 		=> false,
+					'singular' => 'plugin',
+					'plural'   => 'plugins',
+					'ajax'     => false,
 				)
 			);
 
@@ -1259,11 +1259,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		public function get_columns() {
 
 			$columns = array(
-				'cb' 		=> '<input type="checkbox" />',
-				'plugin' 	=> __( 'Plugin', TGM_Plugin_Activation::$instance->domain ),
-				'source' 	=> __( 'Source', TGM_Plugin_Activation::$instance->domain ),
-				'type' 		=> __( 'Type', TGM_Plugin_Activation::$instance->domain ),
-				'status' 	=> __( 'Status', TGM_Plugin_Activation::$instance->domain )
+				'cb'     => '<input type="checkbox" />',
+				'plugin' => __( 'Plugin', TGM_Plugin_Activation::$instance->domain ),
+				'source' => __( 'Source', TGM_Plugin_Activation::$instance->domain ),
+				'type'   => __( 'Type', TGM_Plugin_Activation::$instance->domain ),
+				'status' => __( 'Status', TGM_Plugin_Activation::$instance->domain )
 			);
 
 			return $columns;
@@ -1281,8 +1281,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		public function get_bulk_actions() {
 
 			$actions = array(
-				'tgmpa-bulk-install' 	=> __( 'Install', TGM_Plugin_Activation::$instance->domain ),
-				'tgmpa-bulk-activate' 	=> __( 'Activate', TGM_Plugin_Activation::$instance->domain ),
+				'tgmpa-bulk-install'  => __( 'Install', TGM_Plugin_Activation::$instance->domain ),
+				'tgmpa-bulk-activate' => __( 'Activate', TGM_Plugin_Activation::$instance->domain ),
 			);
 
 			return $actions;
@@ -1426,9 +1426,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
 
 				/** Store all information in arrays since we are processing a bulk installation */
-				$api 			= array();
-				$sources 		= array();
-				$install_path 	= array();
+				$api          = array();
+				$sources      = array();
+				$install_path = array();
 
 				$c = 0; // Incremental variable
 
@@ -1473,7 +1473,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				check_admin_referer( 'bulk-' . $this->_args['plural'] );
 
 				/** Grab plugin data from $_POST */
-				$plugins = isset( $_POST[sanitize_key( 'plugin' )] ) ? (array) $_POST[sanitize_key( 'plugin' )] : array();
+				$plugins             = isset( $_POST[sanitize_key( 'plugin' )] ) ? (array) $_POST[sanitize_key( 'plugin' )] : array();
 				$plugins_to_activate = array();
 
 				/** Split plugin value into array with plugin file path, plugin source and plugin name */
@@ -1489,8 +1489,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( empty( $plugins_to_activate ) )
 					return;
 
-				$plugins 		= array();
-				$plugin_names 	= array();
+				$plugins      = array();
+				$plugin_names = array();
 
 				foreach ( $plugins_to_activate as $plugin_string ) {
 					$plugins[] = $plugin_string[0];
@@ -1529,10 +1529,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 */
 		public function prepare_items() {
 
-			$per_page = 100; // Set it high so we shouldn't have to worry about pagination
-			$columns = $this->get_columns(); // Get all necessary column information
-			$hidden = array(); // No columns to hide, but we must set as an array
-			$sortable = array(); // No reason to make sortable columns
+			$per_page              = 100; // Set it high so we shouldn't have to worry about pagination
+			$columns               = $this->get_columns(); // Get all necessary column information
+			$hidden                = array(); // No columns to hide, but we must set as an array
+			$sortable              = array(); // No reason to make sortable columns
 			$this->_column_headers = array( $columns, $hidden, $sortable ); // Get all necessary column headers
 
 			/** Process our bulk actions here */
@@ -1637,12 +1637,12 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 					/** Do the plugin install */
 					$result = $this->run(
 						array(
-							'package' 				=> $plugin, // The plugin source
-							'destination' 			=> WP_PLUGIN_DIR, // The destination dir
-							'clear_destination' 	=> false, // Do we want to clear the destination or not?
-							'clear_working' 		=> true, // Remove original install file
-							'is_multi' 				=> true, // Are we processing multiple installs?
-							'hook_extra' 			=> array( 'plugin' => $plugin, ), // Pass plugin source as extra data
+							'package'           => $plugin, // The plugin source
+							'destination'       => WP_PLUGIN_DIR, // The destination dir
+							'clear_destination' => false, // Do we want to clear the destination or not?
+							'clear_working'     => true, // Remove original install file
+							'is_multi'          => true, // Are we processing multiple installs?
+							'hook_extra'        => array( 'plugin' => $plugin, ), // Pass plugin source as extra data
 						)
 					);
 
