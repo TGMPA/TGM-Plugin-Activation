@@ -165,22 +165,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'menu_title'             					=> __( 'Install Plugins', $this->domain ),
 				'installing'             					=> __( 'Installing Plugin: %s', $this->domain ),
 				'oops'                   					=> __( 'Something went wrong.', $this->domain ),
-				'notice_can_install_required_singular' 		=> __( 'This theme requires the following plugin: %1$s.', $this->domain ),
-				'notice_can_install_required'     			=> __( 'This theme requires the following plugins: %1$s.', $this->domain ),
-				'notice_can_install_recommended_singular' 	=> __( 'This theme recommends the following plugin: %1$s.', $this->domain ),
-				'notice_can_install_recommended'			=> __( 'This theme recommends the following plugins: %1$s.', $this->domain ),
-				'notice_cannot_install_singular'  			=> __( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', $this->domain ),
-				'notice_cannot_install'  					=> __( 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.', $this->domain ),
-				'notice_can_activate_required_singular'		=> __( 'The following required plugin is currently inactive: %1$s.', $this->domain ),
-				'notice_can_activate_required'    			=> __( 'The following required plugins are currently inactive: %1$s.', $this->domain ),
-				'notice_can_activate_recommended_singular' 	=> __( 'The following recommended plugin is currently inactive: %1$s.', $this->domain ),
-				'notice_can_activate_recommended'			=> __( 'The following recommended plugins are currently inactive: %1$s.', $this->domain ),
-				'notice_cannot_activate_singular' 			=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', $this->domain ),
-				'notice_cannot_activate' 					=> __( 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.', $this->domain ),
-				'notice_ask_to_update_singular' 			=> __( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', $this->domain ),
-				'notice_ask_to_update' 						=> __( 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', $this->domain ),
-				'notice_cannot_update_singular' 			=> __( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', $this->domain ),
-				'notice_cannot_update' 						=> __( 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', $this->domain ),
+				'notice_can_install_required'     			=> _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.' ),
+				'notice_can_install_recommended'			=> _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.' ),
+				'notice_cannot_install'  					=> _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.' ),
+				'notice_can_activate_required'    			=> _n_noop( 'The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.' ),
+				'notice_can_activate_recommended'			=> _n_noop( 'The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.' ),
+				'notice_cannot_activate' 					=> _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.' ),
+				'notice_ask_to_update' 						=> _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.' ),
+				'notice_cannot_update' 						=> _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ),
 				'return'                 					=> __( 'Return to Required Plugins Installer', $this->domain ),
 				'plugin_activated' 							=> __( 'Plugin activated successfully.', $this->domain ),
 				'complete' 									=> __( 'All plugins installed and activated successfully. %1$s', $this->domain )
@@ -635,9 +627,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					foreach ( $message as $type => $plugin_groups ) {
 						$linked_plugin_groups = array();
 
-						/** Set string to singular if only one plugin is in the plugin group */
-						if ( 1 == count( $plugin_groups ) )
-							$type = $type . '_singular';
+						/** Count number of plugins in each message group to calculate singular/plural message */
+						$count = count( $plugin_groups );
 
 						/** Loop through the plugin names to make the ones pulled from the .org repo linked */
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
@@ -668,7 +659,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability
 						$imploded    = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
 
-						$rendered .= '<p>' . sprintf( $this->strings[$type], $imploded ) . '</p>'; // All messages now stored
+						$rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[$type], $count, $this->domain ), $imploded, $count ) . '</p>'; // All messages now stored
 					}
 					
 					/** Get the sum of plugins and if it's greater than one, we need plural action links */
