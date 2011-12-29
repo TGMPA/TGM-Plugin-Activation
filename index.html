@@ -1,1 +1,136 @@
-My GitHub Page
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+
+  <title>TGM Plugin Activation - the Best Way to Include Plugins with WordPress Themes</title>
+
+  <style type="text/css">
+    body {
+      margin-top: 1.0em;
+      background-color: #f4f4f4;
+      font-family: 'Helvetica Neue', Helvetica, Arial, FreeSans, san-serif;
+      font-size: .8em;
+      color: #838383;
+      line-height: 1.6;
+    }
+    #container {
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      background: #fff;
+      margin: 0 auto;
+      padding: 20px;
+      width: 760px;
+    }
+    h1 { font-size: 3em; color: #e73a74; margin-bottom: 3px; margin-top: 33px; }
+    h1 .small { font-size: 0.4em; }
+    h1 a { text-decoration: none; }
+    h2 { font-size: 1.5em; color: #e73a74; }
+    h3 { text-align: center; color: #e73a74; }
+    a { color: #e73a74; }
+    .description { font-family: Georgia; color: #b3b3b3; font-size: 1.4em; margin-bottom: 30px; margin-top: 30px; font-style: italic; }
+    .download { float: right; }
+    code { background: #d4d4d4; color: #000; font-size: 1.2em; }
+    pre { background: #000; color: #fff; padding: 15px; font-size: 1.2em; }
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa; }
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+  </style>
+</head>
+
+<body>
+  <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="container">
+
+    <div class="download">
+      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
+      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/tarball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
+    </div>
+
+    <h1><a href="https://github.com/thomasgriffin/TGM-Plugin-Activation">TGM-Plugin-Activation</a>
+      <span class="small">by <a href="https://github.com/thomasgriffin">thomasgriffin</a></span></h1>
+
+    <div class="description">
+      This class provides an efficient way to allow theme authors to either include plugins within themes or automatically download them straight from the WordPress Plugin Repository or a private repository and prompt users to install/activate them upon theme activation.
+    </div>
+
+    
+      <p>This class revolutionizes how plugins can be handled for WordPress themes. By using classes that are
+utilized within WordPress, the TGM_Plugin_Activation class can automatically install and activate multiple
+plugins that are either packaged with a theme or downloaded from the WordPress Plugin Repository or a private repository.
+
+This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem
+searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one for use based
+on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP
+credentials. To do the installing, this class uses the Plugin_Upgrader and Plugin_Skin_Installer classes to
+download, install and activate the plugins. This class also uses WP_Error to display any errors to users
+during the plugin installation and activation process.</p>
+    
+
+    
+      <h2>Dependencies</h2>
+      <p>This class requires at least WordPress 3.0 and PHP 5 to function correctly.</p>
+    
+
+    
+      <h2>Install</h2>
+      <ol>
+        <li>Drop the class file somewhere in your theme hierarchy.</li>
+        <li>Add a <code>require_once</code> call within functions.php (or other theme file) referencing the class file.</li>
+        <li>Create a function, hooked to <code>tgmpa_register</code>, that registers the plugin and configurations.</li>
+      </ol>
+
+      <p>For steps 2 and 3, it is recommended your view, copy and paste the contents of <code>example.php</code>
+and amend to suit. The <code>example.php</code> file is a model for how you should include the class in your theme.</p>
+
+      <p>Some important things to note:</p>
+      <ol>
+        <li>With the <code>require_once</code> call, make sure to amend the path to the correct location within your theme.</li>
+        <li>For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
+   to the absolute path for the plugin zips within your theme, or to a URL for zips elsewhere online.</li>
+        <li>The <code>$config</code> variable holds an array of arguments that can be used to customize aspects of the class.
+   If you define an absolute default path for packaged plugins, you do not need to specify the directory path
+   for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.</li>
+      </ol>
+    
+
+    
+      <h2>License</h2>
+      <p>GPL v3</p>
+    
+
+    
+      <h2>Authors</h2>
+      <p>Gary Jones (gary@gamajotech.com)
+<br/>Thomas Griffin (thomas@thomasgriffinmedia.com)
+<br/>      </p>
+    
+
+    
+      <h2>Contact</h2>
+      <p>Thomas Griffin (thomas@thomasgriffinmedia.com)
+<br/>      </p>
+    
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">zip</a> or
+      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/tarball/master">tar formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/thomasgriffin/TGM-Plugin-Activation</pre>
+    </p>
+
+    <div class="footer">
+      get the source code on GitHub : <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation">thomasgriffin/TGM-Plugin-Activation</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
