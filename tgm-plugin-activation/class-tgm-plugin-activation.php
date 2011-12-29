@@ -60,7 +60,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 	 *
 	 	 * @var array
 	 	 */
-		var $plugins = array();
+		public $plugins = array();
 
 		/**
 	 	 * Parent menu slug for plugins page.
@@ -69,7 +69,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 	 *
 	 	 * @var string Parent menu slug. Defaults to 'themes.php'.
 	 	 */
-		var $parent_menu_slug = 'themes.php';
+		public $parent_menu_slug = 'themes.php';
 
 		/**
 	 	 * Parent URL slug for URL references.
@@ -81,7 +81,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 	 *
 	 	 * @var string Parent URL slug. Defaults to 'themes.php'.
 	 	 */
-		var $parent_url_slug = 'themes.php';
+		public $parent_url_slug = 'themes.php';
 
 		/**
 	 	 * Name of the querystring argument for the admin page.
@@ -90,7 +90,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 	 *
 	 	 * @var string
 	 	 */
-		var $menu = 'install-required-plugins';
+		public $menu = 'install-required-plugins';
 
 		/**
 		 * Text domain for localization support.
@@ -99,7 +99,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var string
 		 */
-		var $domain = 'tgmpa';
+		public $domain = 'tgmpa';
 
 		/**
 		 * Default absolute path to folder containing pre-packaged plugin zip files.
@@ -108,7 +108,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var string Absolute path prefix to packaged zip file location. Default is empty string.
 		 */
-		var $default_path = '';
+		public $default_path = '';
 
 		/**
 		 * Flag to show admin notices or not.
@@ -117,7 +117,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var boolean
 		 */
-		var $has_notices = true;
+		public $has_notices = true;
 
 		/**
 		 * Flag to set automatic activation of plugins. Off by default.
@@ -126,7 +126,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var boolean
 		 */
-		var $is_automatic = false;
+		public $is_automatic = false;
 
 		/**
 		 * Optional message to display before the plugins table.
@@ -135,7 +135,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var string Message filtered by wp_kses_post(). Default is empty string.
 		 */
-		var $message = '';
+		public $message = '';
 
 		/**
 		 * Holds configurable array of strings.
@@ -146,7 +146,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var array
 		 */
-		var $strings = array();
+		public $strings = array();
 
 		/**
 		 * Adds a reference of this object to $instance, populates default strings,
@@ -1509,7 +1509,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @var string
 	 		 */
-			var $result;
+			public $result;
 
 			/**
 	 		 * Flag to check if bulk installation is occurring or not.
@@ -1518,7 +1518,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @var boolean
 	 		 */
-			var $bulk = false;
+			public $bulk = false;
 
 			/**
 	 		 * Processes the bulk installation of plugins.
@@ -1794,7 +1794,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @var array
 	 		 */
-			var $plugin_info = array();
+			public $plugin_info = array();
 
 			/**
 	 		 * Holds names of plugins that are undergoing bulk installations.
@@ -1803,7 +1803,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @var array
 	 		 */
-			var $plugin_names = array();
+			public $plugin_names = array();
 
 			/**
 	 		 * Integer to use for iteration through each plugin installation.
@@ -1812,7 +1812,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @var integer
 	 		 */
-			var $i = 0;
+			public $i = 0;
 
 			/**
 	 		 * Constructor. Parses default args with new ones and extracts them for use.
