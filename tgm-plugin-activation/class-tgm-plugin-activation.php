@@ -229,6 +229,22 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					add_action( 'admin_enqueue_scripts', array( &$this, 'thickbox' ) );
 					add_action( 'switch_theme', array( &$this, 'update_dismiss' ) );
 				}
+				
+				/** Setup the force activation hook */
+				foreach ( $this->plugins as $plugin ) {
+					if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] ) {
+						add_action( 'admin_init', array( &$this, 'force_activation' ) );
+						break;
+					}
+				}
+				
+				/** Setup the force deactivation hook */
+				foreach ( $this->plugins as $plugin ) {
+					if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] ) {
+						add_action( 'switch_theme', array( &$this, 'force_deactivation' ) );
+						break;
+					}
+				}
 			}
 
 		}
@@ -873,6 +889,62 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public function update_dismiss() {
 
 			delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice' );
+
+		}
+		
+		/**
+		 * Forces plugin activation if the parameter 'force_activation' is
+		 * set to true.
+		 *
+		 * This allows theme authors to specify certain plugins that must be
+		 * active at all times while using the current theme.
+		 *
+		 * Please take special care when using this parameter as it has the
+		 * potential to be harmful if not used correctly. Setting this parameter
+		 * to true will not allow the specified plugin to be deactivated unless
+		 * the user switches themes.
+		 *
+		 * @since 2.2.0
+		 */
+		public function force_activation() {
+
+			/** Set file_path parameter for any installed plugins */
+			$this->populate_file_path();
+			
+			foreach ( $this->plugins as $plugin ) {
+				/** Only proceed forward if the paramter is set to true and plugin is inactive */
+				if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) )
+					activate_plugin( $plugin['file_path'] );
+			}
+			
+		}
+		
+		/**
+		 * Forces plugin deactivation if the parameter 'force_deactivation'
+		 * is set to true.
+		 *
+		 * This allows theme authors to specify certain plugins that must be
+		 * deactived upon switching from the current theme to another.
+		 *
+		 * We are forced to hook into admin_init instead of switch_theme 
+		 * because switch_theme occurs after the theme has already been 
+		 * switched, which is too late to process this request.
+		 *
+		 * Please take special care when using this parameter as it has the
+		 * potential to be harmful if not used correctly.
+		 *
+		 * @since 2.2.0
+		 */
+		public function force_deactivation() {
+
+			/** Set file_path parameter for any installed plugins */
+			$this->populate_file_path();
+
+			foreach ( $this->plugins as $plugin ) {
+				/** Only proceed forward if the paramter is set to true and plugin is active */
+				if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] && is_plugin_active( $plugin['file_path'] ) )
+					deactivate_plugins( $plugin['file_path'] );
+			}
 
 		}
 
