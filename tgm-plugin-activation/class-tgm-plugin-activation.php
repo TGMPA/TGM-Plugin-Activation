@@ -30,11 +30,11 @@
 
 if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	/**
- 	 * Automatic plugin installation and activation class.
+ 	 * Automatic plugin installation and activation library.
  	 *
  	 * Creates a way to automatically install and activate plugins from within themes.
- 	 * The plugins can be either pre-packaged or downloaded from the WordPress
- 	 * Plugin Repository.
+ 	 * The plugins can be either pre-packaged, downloaded from the WordPress
+ 	 * Plugin Repository or downloaded from a private repository.
  	 *
  	 * @since 1.0.0
  	 *
@@ -582,15 +582,18 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( is_plugin_active( $plugin['file_path'] ) ) {
 					/** A minimum version has been specified */
 					if ( isset( $plugin['version'] ) ) {
-						$plugin_split = explode( '/', $plugin['file_path'] );
-						$plugin_info  = get_plugins( '/' . plugin_dir_path( $plugin['file_path'] ) );
-
-						/** If the current version is less than the minimum required version, we display a message */
-						if ( version_compare( $plugin_info[$plugin_split[1]]['Version'], $plugin['version'], '<' ) ) {
-							if ( current_user_can( 'install_plugins' ) )
-								$message['notice_ask_to_update'][] = $plugin['name'];
-							else
-								$message['notice_cannot_update'][] = $plugin['name'];
+						if ( isset( $installed_plugins[$plugin['file_path']]['Version'] ) ) {
+							/** If the current version is less than the minimum required version, we display a message */
+							if ( version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' ) ) {
+								if ( current_user_can( 'install_plugins' ) )
+									$message['notice_ask_to_update'][] = $plugin['name'];
+								else
+									$message['notice_cannot_update'][] = $plugin['name'];
+							}
+						}
+						/** Can't find the plugin, so iterate to the next condition */
+						else {
+							continue;
 						}
 					}
 					/** No minimum version specified, so iterate over the plugin */
@@ -802,7 +805,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public function populate_file_path() {
 
 			/** Add file_path key for all plugins */
-			foreach( $this->plugins as $plugin => $values )
+			foreach ( $this->plugins as $plugin => $values )
 				$this->plugins[$plugin]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
 
 		}
@@ -910,10 +913,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			/** Set file_path parameter for any installed plugins */
 			$this->populate_file_path();
+			
+			$installed_plugins = get_plugins();
 
 			foreach ( $this->plugins as $plugin ) {
-				/** Only proceed forward if the paramter is set to true and plugin is inactive */
-				if ( isset( $plugin['force_activation'] ) && $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) )
+				/** Oops, plugin isn't there so iterate to next condition */
+				if ( isset( $plugin['force_activation'] ) && $plugin['force_activation'] && ! isset( $installed_plugins[$plugin['file_path']] ) )
+					continue;
+				/** There we go, activate the plugin */
+				elseif ( isset( $plugin['force_activation'] ) && $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) )
 					activate_plugin( $plugin['file_path'] );
 			}
 
@@ -925,10 +933,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * This allows theme authors to specify certain plugins that must be
 		 * deactived upon switching from the current theme to another.
-		 *
-		 * We are forced to hook into admin_init instead of switch_theme
-		 * because switch_theme occurs after the theme has already been
-		 * switched, which is too late to process this request.
 		 *
 		 * Please take special care when using this parameter as it has the
 		 * potential to be harmful if not used correctly.
@@ -1598,7 +1602,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 * @since 2.2.0
 	 		 *
 	 		 * @param array $packages The plugin sources needed for installation
-	 		 * @return string/boolean Install confirmation messages on success, false on failure
+	 		 * @return string|boolean Install confirmation messages on success, false on failure
 	 		 */
 			public function bulk_install( $packages ) {
 
@@ -1818,7 +1822,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( ! isset( $_GET[sanitize_key( 'action' 
 	 		 *
 	 		 * @since 2.2.0
 	 		 *
-	 		 * @return string/boolean Return plugin file on success, false on failure
+	 		 * @return string|boolean Return plugin file on success, false on failure
 	 		 */
 			public function plugin_info() {
 
