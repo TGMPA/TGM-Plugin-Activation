@@ -1,104 +1,256 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset='utf-8'>
-  <title>TGM Plugin Activation - the Best Way to Include Plugins with WordPress Themes</title>
-  <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
-</head>
+	<head>
+		<meta charset="utf-8">
+		<title>TGM Plugin Activation - the Best Way to Include Plugins with WordPress Themes (and Other Plugins)</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="shCore.css">
+		<link rel="stylesheet" href="shThemeDefault.css">
+		<script type="text/javascript" src="shCore.js"></script>
+		<script type="text/javascript" src="shBrushPhp.js"></script>
+		<!-- Functionality -->
+		<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="doc">
+			<div class="doc-content">
+				<div class="doc-head">
+					<div class="doc-head-content">
+						<div class="text">
+							<h1>
+								TGM Plugin Activation
+							</h1>
+							<subline>
+								<h2>
+									The best way to require and recommend plugins for WordPress themes (and other plugins)
+								</h2>
+							</subline>
+						</div>
+						<div class="download">
+      						<a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">
+        						<img border="0" width="90" src="https://github.com/images/modules/download/zip.png">
+        					</a>
+      						<a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/tarball/master">
+        						<img border="0" width="90" src="https://github.com/images/modules/download/tar.png">
+        					</a>
+    					</div>
+    					<div class="clear"></div>
+					</div>
+				</div>
+				<div class="doc-body">
+					<div class="doc-body-content">
+						<p>
+							<strong>TGM Plugin Activation</strong> is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins). It allows your users to install and even automatically activate plugins in singular or bulk fashion using native WordPress classes, functions and interfaces. You can reference pre-packaged plugins, plugins from the WordPress Plugin Repository or even plugins hosted elsewhere on the internet.
+						</p>
+						<nav>
+							<ul>
+								<li>
+									<a href="#download">Download</a>
+								</li>
+								<li>
+									<a href="#dependencies">Dependencies</a>
+								</li>
+								<li>
+									<a href="#installation">Installation</a>
+								</li>
+								<li>
+									<a href="#features">Features</a>
+								</li>
+								<li>
+									<a href="#license">License</a>
+								</li>
+								<li>
+									<a href="#authors">Authors</a>
+								</li>
+							</ul>
+						</nav>
+						<!-- -->
+						<h3 id="download">
+							Download
+						</h3>
+						<p>
+							Download the latest stable version release <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">zipball</a> or <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/tarball/master">tarball</a>. You can also download your own package (such as the development version) <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation">on GitHub</a>.
+						</p>
+						<!-- -->
+						<h3 id="dependencies">
+							Dependenices
+						</h3>
+						<p>
+							The <strong>TGM Plugin Activation</strong> library requires at least WordPress 3.0 and PHP 5 to work properly.
+						</p>
+						<h3 id="installation">
+							Installation
+						</h3>
+						<p>
+							Installing the <strong>TGM Plugin Activation</strong> library is easy. Follow the instructions below:
+						</p>
+						<ol>
+        					<li>Drop the class file somewhere in your theme hierarchy.</li>
+        					<li>Add a <code>require_once</code> call within functions.php (or other theme file) referencing the class file.</li>
+        					<li>Create a function, hooked to <code>tgmpa_register</code>, that registers the plugin and configurations.</li>
+      					</ol>
 
-<body>
-  <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="https://github.com/thomasgriffin/TGM-Plugin-Activation">TGM-Plugin-Activation</a>
-      <span class="small">by <a href="https://github.com/thomasgriffin">thomasgriffin</a></span></h1>
-
-    <div class="description">
-      This class provides an efficient way to allow theme authors to either include plugins within themes or automatically download them straight from the WordPress Plugin Repository or a private repository and prompt users to install/activate them upon theme activation.
-    </div>
-
-    
-      <p>This class revolutionizes how plugins can be handled for WordPress themes. By using classes that are
-utilized within WordPress, the TGM_Plugin_Activation class can automatically install and activate multiple
-plugins that are either packaged with a theme or downloaded from the WordPress Plugin Repository or a private repository.
-
-This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem
-searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one for use based
-on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP
-credentials. To do the installing, this class uses the Plugin_Upgrader and Plugin_Skin_Installer classes to
-download, install and activate the plugins. This class also uses WP_Error to display any errors to users
-during the plugin installation and activation process.</p>
-    
-
-    
-      <h2>Dependencies</h2>
-      <p>This class requires at least WordPress 3.0 and PHP 5 to function correctly.</p>
-    
-
-    
-      <h2>Install</h2>
-      <ol>
-        <li>Drop the class file somewhere in your theme hierarchy.</li>
-        <li>Add a <code>require_once</code> call within functions.php (or other theme file) referencing the class file.</li>
-        <li>Create a function, hooked to <code>tgmpa_register</code>, that registers the plugin and configurations.</li>
-      </ol>
-
-      <p>For steps 2 and 3, it is recommended your view, copy and paste the contents of <code>example.php</code>
+     					<p>For steps 2 and 3, it is recommended your view, copy and paste the contents of <code>example.php</code>
 and amend to suit. The <code>example.php</code> file is a model for how you should include the class in your theme.</p>
 
-      <p>Some important things to note:</p>
-      <ol>
-        <li>With the <code>require_once</code> call, make sure to amend the path to the correct location within your theme.</li>
-        <li>For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
+      					<p>Some important things to note:</p>
+      					<ol>
+        					<li>With the <code>require_once</code> call, make sure to amend the path to the correct location within your theme.</li>
+        					<li>For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
    to the absolute path for the plugin zips within your theme, or to a URL for zips elsewhere online.</li>
-        <li>The <code>$config</code> variable holds an array of arguments that can be used to customize aspects of the class.
+        					<li>The <code>$config</code> variable holds an array of arguments that can be used to customize aspects of the class.
    If you define an absolute default path for packaged plugins, you do not need to specify the directory path
    for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.</li>
-      </ol>
-    
+     					</ol>
+						<h3 id="features">
+							Features
+						</h3>
+						<p>
+							The <strong>TGM Plugin Activation</strong> library revolutionizes how plugins can be handled with WordPress themes and other plugins. By using classes that are utilized within WordPress, the <strong>TGM Plugin Activation</strong> library can automatically install and activate multiple plugins that are either packaged with a theme, downloaded from the WordPress Plugin Repository or downloaded elsewhere on the internet (perhaps a private repository). The library uses the WP_Filesystem Abstraction class to find the best way to install the plugins - WP_Filesystem searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one to use based on the user's server setup. If any FTP credentials are needed, a form will be displayed to prompt users to input their FTP credentials in order to continue processing the request. The library uses WordPress' own Plugin_Upgrader and Plugin_Installer_Skin and extensions of other WordPress upgrader classes to handle singular and bulk installations.
+						<h4>
+							API
+						</h4>
+						<p>
+							The <strong>TGM Plugin Activation</strong> library has an easy to use API to reference plugins and set config options. Consider the code below (taken from <code>example.php</code>):
+						</p>
+						<div class="codeblock">
+						<pre class="brush: php">
+/**
+ * Include the TGM_Plugin_Activation class.
+ */
+require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
 
-    
-      <h2>License</h2>
-      <p>GPL v3</p>
-    
+add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
+/**
+ * Register the required plugins for this theme.
+ *
+ * In this example, we register two plugins - one included with the TGMPA library
+ * and one from the .org repo.
+ *
+ * The variable passed to tgmpa_register_plugins() should be an array of plugin
+ * arrays.
+ *
+ * This function is hooked into tgmpa_init, which is fired within the
+ * TGM_Plugin_Activation class constructor.
+ */
+function my_theme_register_required_plugins() {
 
-    
-      <h2>Authors</h2>
-      <p>Gary Jones (gary@gamajotech.com)
-<br/>Thomas Griffin (thomas@thomasgriffinmedia.com)
-<br/>      </p>
-    
+	/**
+	 * Array of plugin arrays. Required keys are name, slug and required.
+	 * If the source is NOT from the .org repo, then source is also required.
+	 */
+	$plugins = array(
 
-    
-      <h2>Contact</h2>
-      <p>Thomas Griffin (thomas@thomasgriffinmedia.com)
-<br/>      </p>
-    
+		// This is an example of how to include a plugin pre-packaged with a theme
+		array(
+			'name'     				=> 'TGM Example Plugin', // The plugin name
+			'slug'     				=> 'tgm-example-plugin', // The plugin slug (typically the folder name)
+			'source'   				=> get_stylesheet_directory() . '/lib/plugins/tgm-example-plugin.zip', // The plugin source
+			'required' 				=> true, // If false, the plugin is only 'recommended' instead of required
+			'version' 				=> '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+			'force_activation' 		=> false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
+			'force_deactivation' 	=> false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
+			'external_url' 			=> '', // If set, overrides default API URL and points to an external URL
+		),
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">zip</a> or
-      <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/thomasgriffin/TGM-Plugin-Activation</pre>
-    </p>
+		// This is an example of how to include a plugin from the WordPress Plugin Repository
+		array(
+			'name' 		=> 'BuddyPress',
+			'slug' 		=> 'buddypress',
+			'required' 	=> false,
+		),
 
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/thomasgriffin/TGM-Plugin-Activation">thomasgriffin/TGM-Plugin-Activation</a>
-    </div>
+	);
 
-  </div>
+	// Change this to your theme text domain, used for internationalising strings
+	$theme_text_domain = 'tgmpa';
 
-</body>
+	/**
+	 * Array of configuration settings. Amend each line as needed.
+	 * If you want the default strings to be available under your own theme domain,
+	 * leave the strings uncommented.
+	 * Some of the strings are added into a sprintf, so see the comments at the
+	 * end of each line for what each argument will be.
+	 */
+	$config = array(
+		'domain'       		=> $theme_text_domain,         	// Text domain - likely want to be the same as your theme.
+		'default_path' 		=> '',                         	// Default absolute path to pre-packaged plugins
+		'parent_menu_slug' 	=> 'themes.php', 		// Default parent menu slug
+		'parent_url_slug' 	=> 'themes.php', 		// Default parent URL slug
+		'menu'         		=> 'install-required-plugins', 	// Menu slug
+		'has_notices'      	=> true,                       	// Show admin notices or not
+		'is_automatic'    	=> false,			// Automatically activate plugins after installation or not
+		'message' 			=> '',				// Message to output right before the plugins table
+		'strings'      		=> array(
+			'page_title'                       			=> __( 'Install Required Plugins', $theme_text_domain ),
+			'menu_title'                       			=> __( 'Install Plugins', $theme_text_domain ),
+			'installing'                       			=> __( 'Installing Plugin: %s', $theme_text_domain ), // %1$s = plugin name
+			'oops'                             			=> __( 'Something went wrong with the plugin API.', $theme_text_domain ),
+			'notice_can_install_required'     			=> _n_noop( 'This theme requires the following plugin: %1$s.', 'This theme requires the following plugins: %1$s.' ), // %1$s = plugin name(s)
+			'notice_can_install_recommended'			=> _n_noop( 'This theme recommends the following plugin: %1$s.', 'This theme recommends the following plugins: %1$s.' ), // %1$s = plugin name(s)
+			'notice_cannot_install'  					=> _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.' ), // %1$s = plugin name(s)
+			'notice_can_activate_required'    			=> _n_noop( 'The following required plugin is currently inactive: %1$s.', 'The following required plugins are currently inactive: %1$s.' ), // %1$s = plugin name(s)
+			'notice_can_activate_recommended'			=> _n_noop( 'The following recommended plugin is currently inactive: %1$s.', 'The following recommended plugins are currently inactive: %1$s.' ), // %1$s = plugin name(s)
+			'notice_cannot_activate' 					=> _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.' ), // %1$s = plugin name(s)
+			'notice_ask_to_update' 						=> _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.' ), // %1$s = plugin name(s)
+			'notice_cannot_update' 						=> _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ), // %1$s = plugin name(s)
+			'return'                           			=> __( 'Return to Required Plugins Installer', $theme_text_domain ),
+			'plugin_activated'                 			=> __( 'Plugin activated successfully.', $theme_text_domain ),
+			'complete' 									=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
+		)
+	);
+
+	tgmpa( $plugins, $config );
+
+}
+						</pre>
+						<p>
+							Each plugin can take an array of parameters, as indicated below (parameters in red are required):
+						</p>
+						<ul>
+							<li><span class="required"><em><strong>name</strong></em></span> - The name of the plugin.</li>
+							<li><span class="required"><em><strong>slug</strong></em></span> - The plugin slug, which is typically the name of the folder that holds the plugin.</li>
+							<li><span class="required"><em><strong>required</strong></em></span> - Either <em>true</em> or <em>false</em>. If set to true, the plugin is "required". If set to false, the plugin is "recommended".</li>
+							<li><span class="possibly-required"><em><strong>source</strong></em></span> - The source of the plugin. This parameter is required if the plugin you are referencing <u>is not</u> from the WordPress Plugin Repository. You can reference either pre-packaged plugins or plugins elsewhere on the internet from this parameter.</li>
+							<li><em><strong>version</strong></em> - The minimum version required for the plugin. This parameter is useful if you require a minimum version of a plugin in order for your theme to work. If the user has the plugin installed but does not meet the minimum version specified, they are given a notice asking them to update the plugin to the latest version.</li>
+							<li><em><strong>force_activation</strong></em> - Either <em>true</em> or <em>false</em>. If set to true, it forces the specified plugin to be active at all times while the current theme is active. The plugin can only be deactivated by switching themes.</li>
+							<li><em><strong>force_deactivation</strong></em> - Either <em>true</em> or <em>false</em>. If set to true, it forces the specified plugin to be deactivated when the current theme is switched. This is useful for deactivating theme-specific plugins.</li>
+							<li><em><strong>external_url</strong></em> - An external URL for the plugin. By default, plugins referenced from the WordPress Plugin Repository are linked to their plugin information via thickbox. This parameter overrides this default behavior and allows you to specify any URL for the plugin.</li>
+						</ul>
+						<p>
+							The library also has a set of configuration options for you to manipulate on a global scale, as indicated below:
+						</p>
+						<ul>
+							<li><em><strong>domain</strong></em> - $theme_text_domain - The text domain for translatable text. You probably want to set this to the same text domain as your theme or plugin.</li>
+							<li><em><strong>default_path</strong></em> - The default absolute path for pre-packaged plugins.</li>
+							<li><em><strong>parent_menu_slug</strong></em> - The parent menu slug for the plugin install page. This is useful if you are placing the plugin install page underneath a custom admin menu page.</li>
+							<li><em><strong>parent_menu_url</strong></em> - The parent menu URL for the plugin install page. The URL slug for referencing your plugin install page.</li>
+							<li><em><strong>menu</strong></em> - The menu slug for the plugin install page. The slug for the actual plugin install page, by default it looks like this: <code>?page=install-required-plugins</code></li>
+							<li><em><strong>has_notices</strong></em> - Either <em>true</em> or <em>false</em>. If true, admin notices are shown for required/recommended plugins.</li>
+							<li><em><strong>is_automatic</strong></em> - Either <em>true</em> or <em>false</em>. If true, plugins will automatically be activated upon successful installation (for both singular and bulk installation processes).</li>
+							<li><em><strong>message</strong></em> - Optional HTML content to include before the plugins table is output. This is filtered by <code>wp_kses_post()</code>.</li>
+							<li><em><strong>strings</strong></em> - An array of customizable strings used throughout the library. Strings prefixed with <code>_n_noop()</code> have both singular in plural forms (in that order).</li>
+						</ul>
+						</div>
+						</p>
+						<h3 id="license">
+							License
+						</h3>
+						<p>
+							The <strong>TGM Plugin Activation</strong> library is licensed under the <a href="http://www.opensource.org/licenses/GPL-3.0">GPL-3.0 license</a>.
+						</p>
+						<h3 id="authors">
+							Authors
+						</h3>
+						<p>
+							The <strong>TGM Plugin Activation</strong> was created and is maintained by <a href="http://thomasgriffinmedia.com">Thomas Griffin</a> and <a href="http://garyjones.co.uk">Gary Jones</a>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+     		SyntaxHighlighter.all()
+		</script>
+	</body>
 </html>
