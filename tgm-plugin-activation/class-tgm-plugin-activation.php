@@ -653,9 +653,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 						/** Loop through the plugin names to make the ones pulled from the .org repo linked */
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
+							$external_url = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'external_url' );
 							$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
-
-							if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+							
+							if ( ! $external_url || preg_match( '|^http(s)?://|', $external_url ) ) {
+								$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
+							}
+							elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 								$url = add_query_arg(
 									array(
 										'tab'       => 'plugin-information',
@@ -1057,12 +1061,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					continue; // No need to display plugins if they are installed and activated
 
 				$table_data[$i]['sanitized_plugin'] = $plugin['name'];
-
 				$table_data[$i]['slug'] = $this->_get_plugin_data_from_name( $plugin['name'] );
 
+				$external_url = $this->_get_plugin_data_from_name( $plugin['name'], 'external_url' );
 				$source = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
 
-				if ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+				if ( ! $external_url || preg_match( '|^http(s)?://|', $external_url ) ) {
+					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
+				}
+				elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 					$url = add_query_arg(
 						array(
 							'tab'       => 'plugin-information',
@@ -1083,7 +1090,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $table_data[$i]['plugin'] ) && (array) $table_data[$i]['plugin'] )
 					$plugin['name'] = $table_data[$i]['plugin'];
 
-				if ( isset( $plugin['source'] ) ) {
+				if ( isset( $plugin['external_url'] ) ) {
+					/** The plugin is linked to an external source */
+					$table_data[$i]['source'] = __( 'External Link', TGM_Plugin_Activation::$instance->domain );
+				}
+				elseif ( isset( $plugin['source'] ) ) {
 					/** The plugin must be from a private repository */
 					if ( preg_match( '|^http(s)?://|', $plugin['source'] ) )
 						$table_data[$i]['source'] = __( 'Private Repository', TGM_Plugin_Activation::$instance->domain );
