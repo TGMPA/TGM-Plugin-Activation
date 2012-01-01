@@ -655,8 +655,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						foreach ( $plugin_groups as $plugin_group_single_name ) {
 							$external_url = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'external_url' );
 							$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
-							
-							if ( ! $external_url || preg_match( '|^http(s)?://|', $external_url ) ) {
+
+							if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
 								$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
 							}
 							elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
@@ -1066,7 +1066,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$external_url = $this->_get_plugin_data_from_name( $plugin['name'], 'external_url' );
 				$source = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
 
-				if ( ! $external_url || preg_match( '|^http(s)?://|', $external_url ) ) {
+				if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
 					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
 				}
 				elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
