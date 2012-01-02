@@ -60,11 +60,6 @@ a:active, a:focus, a:hover { text-decoration: underline; }
 	padding: 20px;
 }
 
-.doc-head {
-	clear: both;
-	padding-bottom: 29px;
-}
-
 .text {
 	color: #000;
 	float: left;
@@ -79,7 +74,7 @@ a:active, a:focus, a:hover { text-decoration: underline; }
 	display: inline-block;
 }
 
-subline h2 {
+hgroup h2 {
 	color: #444;
 	font-size: 1.3em;
 }
@@ -88,10 +83,8 @@ subline h2 {
 	background: #FFF;
 	border-radius: 1em;
 	box-shadow: 0 0 4px #DDD;
-	padding-bottom: 20px;
 	padding: 20px 25px;
 	position: relative;
-	top: -2.25em;
 }
 
 nav ul {
@@ -137,4 +130,9 @@ pre code { font-size: 1em; }
 
 .possibly-required {
 	color: #FFA500;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
 }

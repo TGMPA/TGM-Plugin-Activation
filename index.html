@@ -6,8 +6,8 @@
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="shCore.css">
 		<link rel="stylesheet" href="shThemeDefault.css">
-		<script type="text/javascript" src="shCore.js"></script>
-		<script type="text/javascript" src="shBrushPhp.js"></script>
+		<script src="shCore.js"></script>
+		<script src="shBrushPhp.js"></script>
 		<!-- Functionality -->
 		<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	</head>
@@ -16,16 +16,14 @@
 			<div class="doc-content">
 				<div class="doc-head">
 					<div class="doc-head-content">
-						<div class="text">
+						<hgroup class="text">
 							<h1>
 								TGM Plugin Activation
 							</h1>
-							<subline>
-								<h2>
-									The best way to require and recommend plugins for WordPress themes (and other plugins)
-								</h2>
-							</subline>
-						</div>
+							<h2>
+								The best way to require and recommend plugins for WordPress themes (and other plugins)
+							</h2>
+						</hgroup>
 						<div class="download">
       						<a href="https://github.com/thomasgriffin/TGM-Plugin-Activation/zipball/master">
         						<img border="0" width="90" src="https://github.com/images/modules/download/zip.png">
@@ -55,6 +53,9 @@
 								</li>
 								<li>
 									<a href="#features">Features</a>
+								</li>
+								<li>
+									<a href="#screenshots">Screenshots</a>
 								</li>
 								<li>
 									<a href="#license">License</a>
@@ -204,6 +205,7 @@ function my_theme_register_required_plugins() {
 
 }
 						</pre>
+						</div>
 						<p>
 							Each plugin can take an array of parameters, as indicated below (parameters in red are required):
 						</p>
@@ -229,9 +231,26 @@ function my_theme_register_required_plugins() {
 							<li><em><strong>has_notices</strong></em> - Either <em>true</em> or <em>false</em>. If true, admin notices are shown for required/recommended plugins.</li>
 							<li><em><strong>is_automatic</strong></em> - Either <em>true</em> or <em>false</em>. If true, plugins will automatically be activated upon successful installation (for both singular and bulk installation processes).</li>
 							<li><em><strong>message</strong></em> - Optional HTML content to include before the plugins table is output. This is filtered by <code>wp_kses_post()</code>.</li>
-							<li><em><strong>strings</strong></em> - An array of customizable strings used throughout the library. Strings prefixed with <code>_n_noop()</code> have both singular in plural forms (in that order).</li>
+							<li><em><strong>strings</strong></em> - An array of customizable strings used throughout the library. Strings prefixed with <code>_n_noop()</code> have both singular and plural forms (in that order).</li>
 						</ul>
-						</div>
+						</p>
+						<h4 id="screenshots">
+							Screenshots
+						</h4>
+						<p>
+							Below are a few screenshots to give you an idea of how the <strong>TGM Plugin Activation</strong> library interacts with WordPress.
+						</p>
+						<p>
+							<img src="images/admin-notice.png" />
+						</p>
+						<p>
+							<img src="images/admin-notice-all.png" />
+						</p>
+						<p>
+							<img src="images/plugin-table.png" />
+						</p>
+						<p>
+							<img src="images/bulk-install.png" />
 						</p>
 						<h3 id="license">
 							License
