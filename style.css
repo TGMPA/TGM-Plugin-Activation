@@ -1,8 +1,3 @@
-nav, 
-subline { 
-	display: block; 
-}
-
 body {
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
@@ -12,6 +7,11 @@ body {
 	margin: 0;
 }
 
+nav, 
+subline { 
+	display: block; 
+}
+
 .clear {
 	clear: both;
 }
@@ -19,46 +19,85 @@ body {
 dl, 
 nav, 
 ol, 
-p, pre, ul {
+p, 
+pre, 
+ul {
 	margin: 1em 0;
 }
 
-dl, ol, ul {
+dl,
+ol, 
+ul {
 	padding: 0 0 0 3em;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6 {
 	color: #E73A74;
 	line-height: 1.1;
 	margin: 1.5em 0;
 }
 
-h1 { font-size: 2.5em; }
+h1 { 
+	font-size: 2.5em; 
+}
 
-h2, h3 { font-size: 1.5em; }
+h2, 
+h3 { 
+	font-size: 1.5em; 
+}
 
-h4, h5, h6 { font-size: 1em; }
+h4, 
+h5, 
+h6 { 
+	font-size: 1em; 
+}
 
-a { color: #4183C4; text-decoration: none; }
+a { 
+	color: #4183C4; 
+	text-decoration: none; 
+}
 
-a:active, a:focus, a:hover { text-decoration: underline; }
+a:active, 
+a:focus, 
+a:hover { 
+	text-decoration: underline; 
+}
 
-.doc-head h1, .doc-head h2, .doc-head h3, .doc-head h4, .doc-head h5, .doc-head h6 {
+.doc-head h1, 
+.doc-head h2, 
+.doc-head h3, 
+.doc-head h4, 
+.doc-head h5, 
+.doc-head h6 {
 	margin: 0;
 }
 
-.doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4, .doc-body h5, .doc-body h6 {
+.doc-body h1, 
+.doc-body h2, 
+.doc-body h3, 
+.doc-body h4, 
+.doc-body h5, 
+.doc-body h6 {
 	border-top: 0.2em solid #EEE;
 	padding-top: 0.5em;
 }
 
-.doc-head, .doc-body, .doc-foot { padding: 0 10px; }
+.doc-head, 
+.doc-body, 
+.doc-foot { padding: 0 10px; }
 
 .doc-body {
 	margin-bottom: 25px;
 }
 
-.doc-head-content, .doc-body-content, .doc-foot-content {
+.doc-head-content, 
+.doc-body-content, 
+.doc-foot-content {
 	margin: 0 auto;
 	max-width: 860px;
 	padding: 20px;
@@ -113,10 +152,15 @@ nav a {
 	padding: 0.5em 1em;
 }
 
-.codeblock { position: relative; }
-.codeblock .open { background: #FCFCFC; border: 1px solid #EEE; border-radius: 0.5em; font-size: 75%; padding: 0.25em 0.5em; position: absolute; right: 0.5em; top: 0.5em; }
+.codeblock { 
+	position: relative; 
+}
 
-pre, pre code { font: 75%/1.5 'Bitstream Vera Sans Mono', 'Courier', monospace; }
+pre, 
+pre code { 
+	font: 75%/1.5 'Bitstream Vera Sans Mono', 'Courier', monospace; 
+}
+
 pre {
 	background: #F9F9F9;
 	border: 1px solid #EEE;
@@ -126,7 +170,10 @@ pre {
 	padding: 0.5em 0.75em;
 	overflow: auto;
 }
-pre code { font-size: 1em; }
+
+pre code { 
+	font-size: 1em; 
+}
 
 .required {
 	color: #ff0000;
