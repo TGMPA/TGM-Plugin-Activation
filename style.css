@@ -117,6 +117,12 @@ a:hover {
 	display: inline-block;
 }
 
+hgroup h1 a,
+hgroup h1 a:hover {
+	color: #E73A74;
+	text-decoration: none;
+}
+
 hgroup h2 {
 	color: #444;
 	font-size: 1.3em;
