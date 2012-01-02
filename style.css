@@ -54,6 +54,10 @@ a:active, a:focus, a:hover { text-decoration: underline; }
 
 .doc-head, .doc-body, .doc-foot { padding: 0 10px; }
 
+.doc-body {
+	margin-bottom: 25px;
+}
+
 .doc-head-content, .doc-body-content, .doc-foot-content {
 	margin: 0 auto;
 	max-width: 860px;
