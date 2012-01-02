@@ -7,16 +7,7 @@ Tested up to:      3.3
 
 == Description ==
 
-This class revolutionizes how plugins can be handled for WordPress themes. By using classes that are
-utilized within WordPress, the TGM_Plugin_Activation class can automatically install and activate multiple
-plugins that are either packaged with a theme or downloaded from the WordPress Plugin Repository or a private repository.
-
-This class uses the WP_Filesystem Abstraction class to find the best way to install the plugin. WP_Filesystem
-searches through a number of methods (Direct, FTP, FTP Sockets, SSH) and determines the best one for use based
-on the user's server setup. If FTP is needed, a form will be displayed to prompt users to input their FTP
-credentials. To do the installing, this class uses the Plugin_Upgrader and Plugin_Skin_Installer classes to
-download, install and activate the plugins. This class also uses WP_Error to display any errors to users
-during the plugin installation and activation process.
+TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins). It allows your users to install and even automatically activate plugins in singular or bulk fashion using native WordPress classes, functions and interfaces. You can reference pre-packaged plugins, plugins from the WordPress Plugin Repository or even plugins hosted elsewhere on the internet.
 
 == Installation ==
 
@@ -49,16 +40,17 @@ You can also follow project progress and updates on Twitter. Follow us here at h
 * Fixed erroneous links for plugins linked to the WordPress Repo
 * Improved UI of plugins by listing them in WordPress' default table layout
 * Improved support for installing plugins if security credentials require FTP information
+* Improved support for MultiSite
 * Added 3 new classes (all extensions of existing WordPress classes): TGMPA_List_Table for outputting required/recommended plugins in a familiar table format, TGM_Bulk_Installer for bulk installing plugins and TGM_Bulk_Installer_Skin for skinning the bulk install process
 * Added extra defensive measures to prevent duplication of classes
 * Added ability to bulk install and bulk activate plugins
-* Added two new config options: 'automatic' (whether or not to automatically activate plugins after successful installation) and 'message' (ability to add a custom message before the plugins table)
+* Added new config options: 'parent_menu_slug', 'parent_menu_url', 'is_automatic', and 'message'
 * Added new string: 'complete' (displayed when all plugins have been successfully installed and activated)
+* Added support for singular/plural strings throughout the library
+* Added permission checks to action links
+* Added new filter tgmpa_default_screen_icon to set the default icon for the plugin table page
+* Added new optional plugin parameters: 'version', 'force_activation', 'force_deactivation' and 'external_url'
 * Removed 'button' string (deprecated with use of plugins table)
-
-= 2.1.2 =
-
-* Fixed erroneous tabbed links with plugins_api for plugins linked from the repository
 
 = 2.1.1 =
 
