@@ -1256,11 +1256,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * Sets default message within the plugins table if no plugins
 		 * are left for interaction.
 		 *
+		 * Hides the menu item to prevent the user from clicking and
+		 * getting a permissions error.
+		 *
 		 * @since 2.2.0
 		 */
 		public function no_items() {
 
 			printf( __( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', TGM_Plugin_Activation::$instance->domain ), admin_url() );
+			echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 
 		}
 
@@ -2034,9 +2038,11 @@ if ( ! class_exists( 'WP_Upgrader' ) && isset( $_GET[sanitize_key( 'page' )] ) &
 				/** Filter out any empty entries */
 				$complete = array_filter( $complete );
 
-				/** All plugins are active, so we display the complete string */
-				if ( empty( $complete ) )
+				/** All plugins are active, so we display the complete string and hide the menu to protect users */
+				if ( empty( $complete ) ) {
 					echo '<p>' .  sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . admin_url() . '" title="' . __( 'Return to the Dashboard', TGM_Plugin_Activation::$instance->domain ) . '">' . __( 'Return to the Dashboard', TGM_Plugin_Activation::$instance->domain ) . '</a>' ) . '</p>';
+					echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
+				}
 
 			}
 
