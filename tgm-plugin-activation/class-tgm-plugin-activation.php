@@ -1124,6 +1124,28 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$i++;
 			}
+			
+			/** Sort plugins by Required/Recommended type and by alphabetical listing within each type */
+			$resort = array();
+			$req = array();
+			$rec = array();
+			
+			/** Grab all the plugin types */
+			foreach ( $table_data as $plugin )
+				$resort[] = $plugin['type'];
+			
+			/** Sort each plugin by type */
+			foreach ( $resort as $type )
+				if ( 'Required' == $type )
+					$req[] = $type;
+				else
+					$rec[] = $type;
+			
+			/** Sort alphabetically each plugin type array, merge them and then sort in reverse	(lists Required plugins first) */	
+			sort( $req );
+			sort( $rec );
+			array_merge( $resort, $req, $rec );
+			array_multisort( $resort, SORT_DESC, $table_data );
 
 			return $table_data;
 
