@@ -508,9 +508,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				/** Filter out any empty entries */
 				$complete = array_filter( $complete );
 
-				/** All plugins are active, so we display the complete string */
-				if ( empty( $complete ) )
+				/** All plugins are active, so we display the complete string and hide the plugin menu */
+				if ( empty( $complete ) ) {
 					echo '<p>' .  sprintf( $this->strings['complete'], '<a href="' . admin_url() . '" title="' . __( 'Return to the Dashboard', $this->domain ) . '">' . __( 'Return to the Dashboard', $this->domain ) . '</a>' ) . '</p>';
+					echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
+				}
 
 				return true;
 			}
