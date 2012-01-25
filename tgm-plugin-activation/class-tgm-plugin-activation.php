@@ -3,16 +3,16 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.2.2
+ * @version   2.3.0
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
- * @copyright Copyright (c) 2011, Thomas Griffin
+ * @copyright Copyright (c) 2012, Thomas Griffin
  * @license   http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
 
 /*
-    Copyright 2011  Thomas Griffin  (email : thomas@thomasgriffinmedia.com)
+    Copyright 2012  Thomas Griffin  (email : thomas@thomasgriffinmedia.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 3, as
@@ -173,6 +173,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'notice_cannot_activate'          => _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.' ),
 				'notice_ask_to_update'            => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.' ),
 				'notice_cannot_update'            => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ),
+				'install_link' 					  => _n_noop( 'Begin installing plugin', 'Begin installing plugins' ),
+				'activate_link' 				  => _n_noop( 'Activate installed plugin', 'Activate installed plugins' ),
 				'return'                          => __( 'Return to Required Plugins Installer', $this->domain ),
 				'plugin_activated'                => __( 'Plugin activated successfully.', $this->domain ),
 				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', $this->domain ),
@@ -370,7 +372,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 				<?php $plugin_table->prepare_items(); ?>
 
-				<?php if ( isset( $this->message ) ) echo wp_kses_post( $this->message ); ?>
+				<?php if ( isset( $this->message ) ) _e( wp_kses_post( $this->message ), $this->domain ); ?>
 
 				<form id="tgmpa-plugins" action="" method="post">
             		<input type="hidden" name="tgmpa-page" value="<?php echo $this->menu; ?>" />
@@ -467,7 +469,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$source = ( 'upload' == $type ) ? $this->default_path . $plugin['source'] : $plugin['source'];
 
 				/** Create a new instance of Plugin_Upgrader */
-				$upgrader = new Plugin_Upgrader( $skin = new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+				$upgrader = new TGM_Plugin_Installer( $skin = new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
 
 				/** Perform the action and install the plugin from the $source urldecode() */
 				$upgrader->install( $source );
@@ -573,10 +575,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			$message              = array(); // Store the messages in an array to be outputted after plugins have looped through
 			$install_link         = false; // Set to false, change to true in loop if conditions exist, used for action link 'install'
-			$install_link_plural  = false; // Flag for install link text, singular by default
 			$install_link_count   = 0; // Used to determine plurality of install action link text
 			$activate_link        = false; // Set to false, change to true in loop if conditions exist, used for action link 'activate'
-			$activate_link_plural = false; // Flag for action link text, singular by default
 			$activate_link_count  = 0; // Used to determine plurality of activate action link text
 
 			foreach ( $this->plugins as $plugin ) {
@@ -689,20 +689,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[$type], $count, $this->domain ), $imploded, $count ) . '</p>'; // All messages now stored
 					}
 
-					/** Get the sum of plugins and if it's greater than one, we need plural action links */
-					if ( 1 < $install_link_count )
-						$install_link_plural = true;
-
-					if ( 1 < $activate_link_count )
-						$activate_link_plural = true;
-
-					/** Determine plurality of action link text */
-					$install_plurality  = $install_link_plural ? 'Begin installing plugins' : 'Begin installing plugin';
-					$activate_plurality = $activate_link_plural ? 'Activate installed plugins' : 'Activate installed plugin';
-
 					/** Setup variables to determine if action links are needed */
-					$show_install_link  = $install_link ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . __( $install_plurality, $this->domain ) . '</a>' : '';
-					$show_activate_link = $activate_link ? '<a href="' . admin_url( 'plugins.php' ) . '">' . __( $activate_plurality, $this->domain ) . '</a>'  : '';
+					$show_install_link  = $install_link ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, $this->domain ) . '</a>' : '';
+					$show_activate_link = $activate_link ? '<a href="' . admin_url( 'plugins.php' ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, $this->domain ) . '</a>'  : '';
 
 					/** Define all of the action links */
 					$action_links = apply_filters(
@@ -1111,9 +1100,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$table_data[$i]['type'] = $plugin['required'] ? __( 'Required', TGM_Plugin_Activation::$instance->domain ) : __( 'Recommended', TGM_Plugin_Activation::$instance->domain );
 
-				if ( is_plugin_active( $plugin['file_path'] ) )
-					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed And Activated', TGM_Plugin_Activation::$instance->domain ) );
-
 				if ( ! isset( $installed_plugins[$plugin['file_path']] ) )
 					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', TGM_Plugin_Activation::$instance->domain ) );
 				elseif ( is_plugin_inactive( $plugin['file_path'] ) )
@@ -1124,6 +1110,28 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$i++;
 			}
+			
+			/** Sort plugins by Required/Recommended type and by alphabetical listing within each type */
+			$resort = array();
+			$req = array();
+			$rec = array();
+			
+			/** Grab all the plugin types */
+			foreach ( $table_data as $plugin )
+				$resort[] = $plugin['type'];
+			
+			/** Sort each plugin by type */
+			foreach ( $resort as $type )
+				if ( 'Required' == $type )
+					$req[] = $type;
+				else
+					$rec[] = $type;
+			
+			/** Sort alphabetically each plugin type array, merge them and then sort in reverse	(lists Required plugins first) */	
+			sort( $req );
+			sort( $rec );
+			array_merge( $resort, $req, $rec );
+			array_multisort( $resort, SORT_DESC, $table_data );
 
 			return $table_data;
 
@@ -1579,6 +1587,59 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  */
 if ( ! class_exists( 'WP_Upgrader' ) && isset( $_GET[sanitize_key( 'page' )] ) && TGM_Plugin_Activation::$instance->menu == $_GET[sanitize_key( 'page' )] ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	
+	if ( ! class_exists( 'TGM_Plugin_Installer' ) ) {
+		/**
+		 * Installer class to handle singular plugin installations.
+		 *
+		 * Extends Plugin_Upgrader and customizes the install location.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @package TGM-Plugin-Activation
+		 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
+		 * @author Gary Jones <gamajo@gamajo.com>
+		 */
+		class TGM_Plugin_Installer extends Plugin_Upgrader {
+		
+			/**
+	 		 * Processes the plugin installation.
+	 		 *
+	 		 * @since 2.3.0
+	 		 *
+	 		 * @param array $package The plugin source needed for installation
+	 		 * @param boolean $must_use Whether or not the plugin is a 'must-use' plugin
+	 		 * @return null|boolean Return early on failure, installation success if true
+	 		 */
+			public function install( $package ) {
+			
+				$this->init();
+				$this->install_strings();
+
+				add_filter( 'upgrader_source_selection', array( &$this, 'check_package' ) );
+
+				$this->run( array(
+					'package' 			=> $package,
+					'destination' 		=> WP_PLUGIN_DIR,
+					'clear_destination' => false,
+					'clear_working' 	=> true,
+					'hook_extra' 		=> array()
+				) );
+
+				remove_filter( 'upgrader_source_selection', array( &$this, 'check_package' ) );
+
+				if ( ! $this->result || is_wp_error( $this->result ) )
+					return $this->result;
+
+				// Force refresh of plugin update information
+				delete_site_transient( 'update_plugins' );
+
+				return true;
+			
+			}
+		
+		}
+	}
 
 	if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
 		/**

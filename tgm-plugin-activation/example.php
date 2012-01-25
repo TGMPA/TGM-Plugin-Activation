@@ -8,10 +8,10 @@
  *
  * @package	   TGM-Plugin-Activation
  * @subpackage Example
- * @version	   2.2.2
+ * @version	   2.3.0
  * @author	   Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author	   Gary Jones <gamajo@gamajo.com>
- * @copyright  Copyright (c) 2011, Thomas Griffin
+ * @copyright  Copyright (c) 2012, Thomas Griffin
  * @license	   http://opensource.org/licenses/gpl-3.0.php GPL v3
  * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
@@ -95,6 +95,8 @@ function my_theme_register_required_plugins() {
 			'notice_cannot_activate' 					=> _n_noop( 'Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated.', 'Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated.' ), // %1$s = plugin name(s)
 			'notice_ask_to_update' 						=> _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.' ), // %1$s = plugin name(s)
 			'notice_cannot_update' 						=> _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ), // %1$s = plugin name(s)
+			'install_link' 					  			=> _n_noop( 'Begin installing plugin', 'Begin installing plugins' ),
+			'activate_link' 				  			=> _n_noop( 'Activate installed plugin', 'Activate installed plugins' ),
 			'return'                           			=> __( 'Return to Required Plugins Installer', $theme_text_domain ),
 			'plugin_activated'                 			=> __( 'Plugin activated successfully.', $theme_text_domain ),
 			'complete' 									=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
