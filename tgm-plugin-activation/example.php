@@ -8,11 +8,11 @@
  *
  * @package	   TGM-Plugin-Activation
  * @subpackage Example
- * @version	   2.3.2
+ * @version	   2.3.3
  * @author	   Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author	   Gary Jones <gamajo@gamajo.com>
  * @copyright  Copyright (c) 2012, Thomas Griffin
- * @license	   http://opensource.org/licenses/gpl-3.0.php GPL v3
+ * @license	   http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
  * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
  */
 
