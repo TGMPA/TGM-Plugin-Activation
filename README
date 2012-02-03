@@ -1,7 +1,7 @@
 === TGM Plugin Activation ===
 Contributors:      Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
                    Gary Jones (Github: @GaryJones / Twitter: GaryJ)
-Version:           2.3.0
+Version:           2.3.1
 Requires at least: 3.0.0
 Tested up to:      3.3.1
 
@@ -34,6 +34,10 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 You can also follow project progress and updates on Twitter. Follow us here at http://twitter.com/TGMPA.
 
 == Changelog ==
+
+= 2.3.1 =
+
+* Fixed bug with not finding class (reverted back to Plugin_Upgrader)
 
 = 2.3.0 =
 
