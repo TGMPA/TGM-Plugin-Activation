@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.3.1
+ * @version   2.3.2
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2012, Thomas Griffin
@@ -1585,7 +1585,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  *
  * @since 2.2.0
  */
-if ( ! class_exists( 'WP_Upgrader' ) && isset( $_GET[sanitize_key( 'page' )] ) && TGM_Plugin_Activation::$instance->menu == $_GET[sanitize_key( 'page' )] ) {
+if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET[sanitize_key( 'page' )] ) && TGM_Plugin_Activation::$instance->menu = $_GET[sanitize_key( 'page' )] ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
