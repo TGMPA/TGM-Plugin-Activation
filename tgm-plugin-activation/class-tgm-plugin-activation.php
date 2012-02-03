@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.3.0
+ * @version   2.3.1
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2012, Thomas Griffin
@@ -469,7 +469,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$source = ( 'upload' == $type ) ? $this->default_path . $plugin['source'] : $plugin['source'];
 
 				/** Create a new instance of Plugin_Upgrader */
-				$upgrader = new TGM_Plugin_Installer( $skin = new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+				$upgrader = new Plugin_Upgrader( $skin = new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
 
 				/** Perform the action and install the plugin from the $source urldecode() */
 				$upgrader->install( $source );
@@ -1587,59 +1587,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  */
 if ( ! class_exists( 'WP_Upgrader' ) && isset( $_GET[sanitize_key( 'page' )] ) && TGM_Plugin_Activation::$instance->menu == $_GET[sanitize_key( 'page' )] ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	
-	if ( ! class_exists( 'TGM_Plugin_Installer' ) ) {
-		/**
-		 * Installer class to handle singular plugin installations.
-		 *
-		 * Extends Plugin_Upgrader and customizes the install location.
-		 *
-		 * @since 2.3.0
-		 *
-		 * @package TGM-Plugin-Activation
-		 * @author Thomas Griffin <thomas@thomasgriffinmedia.com>
-		 * @author Gary Jones <gamajo@gamajo.com>
-		 */
-		class TGM_Plugin_Installer extends Plugin_Upgrader {
-		
-			/**
-	 		 * Processes the plugin installation.
-	 		 *
-	 		 * @since 2.3.0
-	 		 *
-	 		 * @param array $package The plugin source needed for installation
-	 		 * @param boolean $must_use Whether or not the plugin is a 'must-use' plugin
-	 		 * @return null|boolean Return early on failure, installation success if true
-	 		 */
-			public function install( $package ) {
-			
-				$this->init();
-				$this->install_strings();
-
-				add_filter( 'upgrader_source_selection', array( &$this, 'check_package' ) );
-
-				$this->run( array(
-					'package' 			=> $package,
-					'destination' 		=> WP_PLUGIN_DIR,
-					'clear_destination' => false,
-					'clear_working' 	=> true,
-					'hook_extra' 		=> array()
-				) );
-
-				remove_filter( 'upgrader_source_selection', array( &$this, 'check_package' ) );
-
-				if ( ! $this->result || is_wp_error( $this->result ) )
-					return $this->result;
-
-				// Force refresh of plugin update information
-				delete_site_transient( 'update_plugins' );
-
-				return true;
-			
-			}
-		
-		}
-	}
 
 	if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
 		/**
