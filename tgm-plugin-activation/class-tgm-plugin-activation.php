@@ -625,7 +625,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					$activate_link = true; // We need to display the 'activate' action link
 					$activate_link_count++; // Increment the activate link count
 					if ( current_user_can( 'activate_plugins' ) ) {
-						if ( $plugin['required'] )
+						if ( isset( $plugin['required'] ) )
 							$message['notice_can_activate_required'][] = $plugin['name'];
 						/** This plugin is only recommended */
 						else {
