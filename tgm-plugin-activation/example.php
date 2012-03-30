@@ -8,7 +8,7 @@
  *
  * @package	   TGM-Plugin-Activation
  * @subpackage Example
- * @version	   2.3.3
+ * @version	   2.3.4
  * @author	   Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author	   Gary Jones <gamajo@gamajo.com>
  * @copyright  Copyright (c) 2012, Thomas Griffin
@@ -99,7 +99,8 @@ function my_theme_register_required_plugins() {
 			'activate_link' 				  			=> _n_noop( 'Activate installed plugin', 'Activate installed plugins' ),
 			'return'                           			=> __( 'Return to Required Plugins Installer', $theme_text_domain ),
 			'plugin_activated'                 			=> __( 'Plugin activated successfully.', $theme_text_domain ),
-			'complete' 									=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ) // %1$s = dashboard link
+			'complete' 									=> __( 'All plugins installed and activated successfully. %s', $theme_text_domain ), // %1$s = dashboard link
+			'nag_type'									=> 'updated' // Determines admin notice type - can only be 'updated' or 'error'
 		)
 	);
 
