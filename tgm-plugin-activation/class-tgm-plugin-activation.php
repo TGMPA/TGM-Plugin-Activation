@@ -708,7 +708,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
 
 					/** Register the nag messages and prepare them to be processed */
-					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ), 'updated' ) );
+               				if ( isset( $this->strings['nag_type'] ) )
+						add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ), 'updated' ) );
 				}
 			}
 
