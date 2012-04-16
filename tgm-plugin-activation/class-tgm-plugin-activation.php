@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.3.4
+ * @version   2.3.5
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2012, Thomas Griffin
@@ -708,8 +708,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
 
 					/** Register the nag messages and prepare them to be processed */
-               				if ( isset( $this->strings['nag_type'] ) )
+               		if ( isset( $this->strings['nag_type'] ) )
 						add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ), 'updated' ) );
+					else
+						add_settings_error( 'tgmpa', 'tgmpa', $rendered, 'updated' );
 				}
 			}
 
