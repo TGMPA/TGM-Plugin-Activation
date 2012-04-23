@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.3.5
+ * @version   2.3.6
  * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo@gamajo.com>
  * @copyright Copyright (c) 2012, Thomas Griffin
@@ -445,14 +445,16 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
 
-				$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['slug'], 'fields' => array( 'sections' => false ) ) );
-
-				if ( is_wp_error( $api ) )
-					wp_die( $this->strings['oops'] . var_dump( $api ) );
-
 				/** Set plugin source to WordPress API link if available */
-				if ( isset( $plugin['source'] ) && 'repo' == $plugin['source'] && isset( $api->download_link ) )
-					$plugin['source'] = $api->download_link;
+				if ( isset( $plugin['source'] ) && 'repo' == $plugin['source'] ) {
+					$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['slug'], 'fields' => array( 'sections' => false ) ) );
+					
+					if ( is_wp_error( $api ) )
+						wp_die( $this->strings['oops'] . var_dump( $api ) );
+						
+					if ( isset( $api->download_link ) )
+						$plugin['source'] = $api->download_link;
+				}
 
 				/** Set type, based on whether the source starts with http:// or https:// */
 				$type = preg_match( '|^http(s)?://|', $plugin['source'] ) ? 'web' : 'upload';
