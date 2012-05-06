@@ -327,12 +327,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Make sure privileges are correct to see the page
 			if ( ! current_user_can( 'install_plugins' ) )
 				return;
-
-			$this->populate_file_path();
-
-			foreach ( $this->plugins as $plugin ) {
-				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-					add_submenu_page(
+				
+			if( ! $this->are_plugins_active() ) {
+				add_submenu_page(
 						$this->parent_menu_slug,				// Parent menu slug
 						$this->strings['page_title'],           // Page title
 						$this->strings['menu_title'],           // Menu title
@@ -340,10 +337,85 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$this->menu,                            // Menu slug
 						array( &$this, 'install_plugins_page' ) // Callback
 					);
-				break;
-				}
 			}
 
+		}
+		
+		/**
+		 * Checks to determine whether all the plugins are active.
+		 *
+		 * @since 2.3.5
+		 *
+		 * @see TGM_Plugin_Activation::admin_init()
+		 * @return boolean True if all plugins are active
+		 */
+		public function plugins_active() {
+
+			// Make sure privileges are correct to see the page
+			if ( ! current_user_can( 'install_plugins' ) )
+				return;
+
+			$this->populate_file_path();
+
+			foreach ( $this->plugins as $plugin ) {
+				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
+					return false;
+				}
+			}
+			return true;
+
+		}
+		
+		/**
+		 * Checks to determine whether plugins are active.
+		 *
+		 * @since 2.3.5
+		 *
+		 * @see TGM_Plugin_Activation::admin_init()
+		 * @param string $type Takes 'required', 'recommended', {plugin_slug}, 'all'
+		 * @param boolean $return True returns list, false returns boolean
+		 */
+		public function are_plugins_active( $type = 'all', $return = false ) {
+
+			// Make sure privileges are correct to see the page
+			if ( ! current_user_can( 'install_plugins' ) )
+				return;
+			$list = array();
+			$this->populate_file_path();
+			
+			if ( 'all' != $type && 'recommended' != $type && 'required' != $type ) {
+				
+				// If file_path not entered, search for slug
+				if ( is_plugin_active( $type ) )
+					return is_plugin_active( $type );
+				else {
+					foreach ( $this->plugins as $plugin ) {
+						if ( $type == $plugin['slug'] )
+							return is_plugin_active( $plugin['file_path'] );
+					}
+					return false;
+				}	
+			}
+			
+			foreach ( $this->plugins as $plugin ) {
+			
+				// Check if request is for required
+				if ( ( ( 'recommended' == $type ) && ( isset( $plugin['required'] ) && $plugin['required'] ) ) || ( ( 'required' == $type ) && ( ! isset( $plugin['required'] ) || ( isset( $plugin['required'] ) && ! $plugin['required'] ) ) ) )
+						continue;
+				
+				// Now check if plugin active
+				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
+					if ( ! $return )
+						return false;
+					else 
+						$list[] = $plugin;
+				}
+			}
+			
+			if ( ! $return )
+				return true;
+			else
+				return $list;
 		}
 
 		/**
