@@ -1183,6 +1183,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', TGM_Plugin_Activation::$instance->domain ) );
 
 				$table_data[$i]['file_path'] = $plugin['file_path'];
+				if ( isset( $plugin['source'] ) && ! preg_match( "~^(?:f|ht)tps?://~i", $plugin['source'] ) )
+					$plugin['source'] = "http://" . $plugin['source'];
 				$table_data[$i]['url'] = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
 
 				$i++;
