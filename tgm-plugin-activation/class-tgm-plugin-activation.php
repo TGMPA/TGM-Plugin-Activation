@@ -1281,7 +1281,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			if ( ! isset( $installed_plugins[$item['file_path']] ) ) {
 				$actions = array(
 					'install' => sprintf(
-						'<a href="%1$s" title="Install %2$s">Install</a>',
+						'<a href="%1$s" title="Install %2$s">' . __( 'Install', TGM_Plugin_Activation::$instance->domain ) . '</a>',
 						wp_nonce_url(
 							add_query_arg(
 								array(
@@ -1303,7 +1303,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			elseif ( is_plugin_inactive( $item['file_path'] ) ) {
 				$actions = array(
 					'activate' => sprintf(
-						'<a href="%1$s" title="Activate %2$s">Activate</a>',
+						'<a href="%1$s" title="Activate %2$s">' . __( 'Activate', TGM_Plugin_Activation::$instance->domain ) . '</a>',
 						add_query_arg(
 							array(
 								'page'                 => TGM_Plugin_Activation::$instance->menu,
