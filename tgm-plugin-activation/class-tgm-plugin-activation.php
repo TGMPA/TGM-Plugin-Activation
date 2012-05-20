@@ -529,7 +529,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				/** Set type, based on whether the source starts with http:// or https:// */
-				$type = preg_match( '|^http(s)?://|', $plugin['source'] ) ? 'web' : 'upload';
+				$type = $this->is_url( $plugin['source'] ) ? 'web' : 'upload';
 
 				/** Prep variables for Plugin_Installer_Skin class */
 				$title = sprintf( $this->strings['installing'], $plugin['name'] );
@@ -732,10 +732,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 							$external_url = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'external_url' );
 							$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
 
-							if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
+							if ( $external_url && $this->is_url( $external_url ) ) {
 								$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
 							}
-							elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+							elseif ( ! $source || $this->is_url( $source, 'repo' ) ) {
 								$url = add_query_arg(
 									array(
 										'tab'       => 'plugin-information',
@@ -1023,7 +1023,45 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 		}
-
+		
+		/**
+		 * Validates URL
+		 *
+		 * Adds http:// if the URL is missing it
+		 *
+		 * @since 2.3.7
+		 *
+		 * @param string $url Plugin URL
+		 * @return string $url with http:// prepended or 
+		 */
+		public function url( $url ) {
+			if ( isset( $url ) && ! preg_match( "~^(?:f|ht)tps?://~i", $url ) )
+				return 'http://' . $url;
+			else
+				return $url;
+		}
+		
+		/**
+		 * Determies whether string is an URL
+		 *
+		 * Adds http:// if the URL is missing it
+		 *
+		 * @since 2.3.7
+		 *
+		 * @param string $type Takes url or repo
+		 * @param string $url Plugin URL
+		 * @return boolean True if valid URL, False otherwise
+		 */
+		public function is_url( $url, $type = 'url' ) {
+		
+			if ( isset( $url ) && 'url' == $type && preg_match( '/^((https?|ftps?)\:\/\/)?([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?([a-z0-9-.]*)\.([a-z]{2,3})(\:[0-9]{2,5})?(\/([a-z0-9+\$_-]\.?)+)*\/?(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?(#[a-z_.-][a-z0-9+\$_.-]*)?/', $url ) )
+				return true;
+			elseif ( 'repo' == $type && preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) )
+				return true;
+			else
+				return false;
+		}
+		
 	}
 }
 
@@ -1134,10 +1172,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$external_url = $this->_get_plugin_data_from_name( $plugin['name'], 'external_url' );
 				$source = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
 
-				if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
-					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
+				if ( $external_url && TGM_Plugin_Activation::is_url( $external_url ) ) {
+					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( TGM_Plugin_Activation::url( $external_url ) )  . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
 				}
-				elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+				elseif ( ! $source || TGM_Plugin_Activation::is_url( $source, 'repo' ) ) {
 					$url = add_query_arg(
 						array(
 							'tab'       => 'plugin-information',
@@ -1164,7 +1202,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 				elseif ( isset( $plugin['source'] ) ) {
 					/** The plugin must be from a private repository */
-					if ( preg_match( '/^((https?|ftps?)\:\/\/)?([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?([a-z0-9-.]*)\.([a-z]{2,3})(\:[0-9]{2,5})?(\/([a-z0-9+\$_-]\.?)+)*\/?(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?(#[a-z_.-][a-z0-9+\$_.-]*)?/', $plugin['source'] ) )
+					if ( TGM_Plugin_Activation::is_url( $plugin['source'] ) )
 						$table_data[$i]['source'] = __( 'Private Repository', TGM_Plugin_Activation::$instance->domain );
 					/** The plugin is pre-packaged with the theme */
 					else
@@ -1183,9 +1221,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', TGM_Plugin_Activation::$instance->domain ) );
 
 				$table_data[$i]['file_path'] = $plugin['file_path'];
-				if ( isset( $plugin['source'] ) && ! preg_match( "~^(?:f|ht)tps?://~i", $plugin['source'] ) )
-					$plugin['source'] = "http://" . $plugin['source'];
-				$table_data[$i]['url'] = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
+				$table_data[$i]['url'] = isset( $plugin['source'] ) ? TGM_Plugin_Activation::url( $plugin['source'] ) : 'repo';
 
 				$i++;
 			}
