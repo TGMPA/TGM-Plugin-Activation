@@ -1164,7 +1164,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 				elseif ( isset( $plugin['source'] ) ) {
 					/** The plugin must be from a private repository */
-					if ( preg_match( '|^http(s)?://|', $plugin['source'] ) )
+					if ( preg_match( '/^((https?|ftps?)\:\/\/)?([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?([a-z0-9-.]*)\.([a-z]{2,3})(\:[0-9]{2,5})?(\/([a-z0-9+\$_-]\.?)+)*\/?(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?(#[a-z_.-][a-z0-9+\$_.-]*)?/', $plugin['source'] ) )
 						$table_data[$i]['source'] = __( 'Private Repository', TGM_Plugin_Activation::$instance->domain );
 					/** The plugin is pre-packaged with the theme */
 					else
