@@ -1317,6 +1317,34 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			if ( is_plugin_active( $item['file_path'] ) )
 				$actions = array();
 
+			/** We need to display the 'Purchase' hover link */
+			if ( isset( $item['source'] ) && (
+					__( 'External Link', TGM_Plugin_Activation::$instance->domain ) != $item['source'] ||
+					__( 'Private Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source'] ||
+					__( 'Pre-Packaged', TGM_Plugin_Activation::$instance->domain ) != $item['source'] ||
+					__( 'WordPress Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source']
+				)
+				) {
+				$actions = array(
+					'install' => sprintf(
+						'<a href="%1$s" title="' . __( 'Purchase', TGM_Plugin_Activation::$instance->domain ) . ' %2$s">' . __( 'Purchase', TGM_Plugin_Activation::$instance->domain ) . '</a>',
+						wp_nonce_url(
+							add_query_arg(
+								array(
+									'page'          => TGM_Plugin_Activation::$instance->menu,
+									'plugin'        => $item['slug'],
+									'plugin_name'   => $item['sanitized_plugin'],
+									'plugin_source' => $item['url'],
+									'tgmpa-install' => 'install-plugin',
+								),
+								admin_url( TGM_Plugin_Activation::$instance->parent_url_slug )
+							),
+							'tgmpa-install'
+						),
+						$item['sanitized_plugin']
+					),
+				);
+			}
 			/** We need to display the 'Install' hover link */
 			if ( ! isset( $installed_plugins[$item['file_path']] ) ) {
 				$actions = array(
