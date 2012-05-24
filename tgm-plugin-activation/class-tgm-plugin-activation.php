@@ -1320,9 +1320,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			/** We need to display the 'Purchase' hover link */
 			if ( isset( $item['source'] ) && (
 					__( 'External Link', TGM_Plugin_Activation::$instance->domain ) != $item['source'] ||
-					__( 'Private Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source'] ||
-					__( 'Pre-Packaged', TGM_Plugin_Activation::$instance->domain ) != $item['source'] ||
-					__( 'WordPress Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source']
+					__( 'Private Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source']
 				)
 				) {
 				$actions = array(
