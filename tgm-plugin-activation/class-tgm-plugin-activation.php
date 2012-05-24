@@ -1196,7 +1196,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $table_data[$i]['plugin'] ) && (array) $table_data[$i]['plugin'] )
 					$plugin['name'] = $table_data[$i]['plugin'];
 
-				if ( isset( $plugin['external_url'] ) ) {
+				if ( isset( $plugin['source_type'] ) ) {
+					/** The plugin is linked to an external source */
+					$table_data[$i]['source'] = $plugin['source_type'];
+				}
+				elseif ( isset( $plugin['external_url'] ) ) {
 					/** The plugin is linked to an external source */
 					$table_data[$i]['source'] = __( 'External Link', TGM_Plugin_Activation::$instance->domain );
 				}
