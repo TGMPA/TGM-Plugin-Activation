@@ -156,9 +156,17 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @see TGM_Plugin_Activation::init()
 		 */
+
+                private   $plugin_install_file;
+
 		public function __construct() {
 
 			self::$instance =& $this;
+			
+				if ( is_multisite() ) {
+                                  $this->plugin_install_file = admin_url( 'network/plugin-install.php' );}
+                                else{ $this->plugin_install_file = admin_url( 'plugin-install.php' ); }
+
 
 			$this->strings = array(
 				'page_title'                      => __( 'Install Required Plugins', $this->domain ),
@@ -664,7 +672,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 								$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
 							}
 							elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
-								$url = add_query_arg(
+
+                                                                $url = add_query_arg(
 									array(
 										'tab'       => 'plugin-information',
 										'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
@@ -672,9 +681,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 										'width'     => '640',
 										'height'    => '500',
 									),
-									admin_url( 'plugin-install.php' )
+									$this->plugin_install_file
 								);
-
+                                                              
 								$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
 							}
 							else {
@@ -1074,7 +1083,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 							'width'     => '640',
 							'height'    => '500',
 						),
-						admin_url( 'plugin-install.php' )
+						$this->plugin_install_file
 					);
 
 					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin['name'] . '">' . $plugin['name'] . '</a></strong>';
