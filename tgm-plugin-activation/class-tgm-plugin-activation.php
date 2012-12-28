@@ -203,7 +203,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                         if ( is_multisite() ) //Determine if Multisite support is enabled.
 
                              /** multisite supported, so grab the path to the plugin-install.php from the network folder*/
-                             $this->plugin_install_file = admin_url( 'network/plugin-install.php' );
+                             /*uses network_admin_url() to pull the url of the base blog, because multisite plugins can only be installed from the base blog. */
+
+                             
+                             $this->plugin_install_file = network_admin_url('plugin-install.php' );
 
                         else /** multisite is not supported so use the regular plugin-install.php file*/
                              $this->plugin_install_file = admin_url( 'plugin-install.php' );
