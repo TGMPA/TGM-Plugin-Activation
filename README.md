@@ -20,7 +20,7 @@ TGM Plugin Activation is a PHP library that allows you to easily require or reco
 For steps 2 and 3, it is recommended you view, copy and paste the contents of example.php
 and amend to suit. The example.php file is a model for how you should include the class in your theme.
 
-Some important things to note:
+*Some important things to note:*
 
 1. With the `require_once` call, make sure to amend the path to the correct location within your theme.
 2. For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
@@ -33,52 +33,50 @@ Some important things to note:
 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
-You can also follow project progress and updates on Twitter. Follow us here at http://twitter.com/TGMPA.
-
 ## Changelog ##
 
-# 2.3.6 #
+### 2.3.6 ###
 
 * Fixed API error when clicking on the plugin install row action link for an externally hosted plugin
 
-# 2.3.5 #
+### 2.3.5 ###
 
 * Fixed nag message not working when nag_type string was not set (props @jeffsebring)
 
-# 2.3.4 #
+### 2.3.4 ###
 
 * Fixed undefined index notice when checking for required plugins (props @jeffsebring)
 * Fixed bug where, during a bulk install, if the plugin was defined in the source as pre-packaged but also existed in the repo, it would erroneously pull the plugin from the repo instead (props @wpsmith)
 * Added ability to set nag type for the admin notice via 'nag_type' string (props @wpsmith)
 
-# 2.3.3 #
+### 2.3.3 ###
 
 * Changed license to reflect GPL v2 or later (to be compatible with the WordPress repo)
 
-# 2.3.2 #
+### 2.3.2 ###
 
 * Fixed bug (100%) with not loading class properly
 
-# 2.3.1 #
+### 2.3.1 ###
 
 * Fixed bug with not finding class (reverted back to Plugin_Upgrader)
 
-# 2.3.0 #
+### 2.3.0 ###
 
 * Improved sorting of plugins by sorting them by required/recommended (while still maintaining alphabetical order within each group)
 * Improved output of strings in nag messages
 * Added 2 new strings: install_link and activate_link to customize the text for the nag action links
 * Added new class: TGM_Plugin_Installer to prepare for must-use plugin support
 
-# 2.2.2 #
+### 2.2.2 ###
 
 * Fixed bug that allowed users to click on the Install Plugins page when all the plugin installations and activations were already complete
 
-# 2.2.1 #
+### 2.2.1 ###
 
 * Fixed bug that caused WordPress core upgrades to fail (WordPress doesn't check for including WP_Upgrader on core upgrades)
 
-# 2.2.0 #
+### 2.2.0 ###
 
 * Fixed erroneous links for plugins linked to the WordPress Repo
 * Improved UI of plugins by listing them in WordPress' default table layout
@@ -95,11 +93,11 @@ You can also follow project progress and updates on Twitter. Follow us here at h
 * Added new optional plugin parameters: 'version', 'force_activation', 'force_deactivation' and 'external_url'
 * Removed 'button' string (deprecated with use of plugins table)
 
-# 2.1.1 #
+### 2.1.1 ###
 
 * Fixed nag not re-appearing if user switched themes and then re-activated the previous theme (UX improvement)
 
-# 2.1.0 #
+### 2.1.0 ###
 
 * Fixed duplicate nag message on admin options pages
 * Fixed FTP nonce error when FTP credentials aren't defined in wp-config.php
@@ -114,7 +112,7 @@ You can also follow project progress and updates on Twitter. Follow us here at h
 * Added tgmpa_notice_action_links filter hook to filter nag message action links
 * Added new methods: admin_init(), thickbox(), dismiss(), populate_file_path(), _get_plugin_data_from_name() and is_tgmpa_page()
 
-# 2.0.0 #
+### 2.0.0 ###
 
 * Improved nag messages by adding a strings argument to filter default messages
 * Improved nag message output by using the Settings API
@@ -127,7 +125,7 @@ You can also follow project progress and updates on Twitter. Follow us here at h
 * Added new methods register(), config(), _get_plugin_basename_from_slug() and actions()
 * Removed unnecessary is_wp_error() check
 
-# 1.1.0 #
+### 1.1.0 ###
 
 * Improved property $args to accept arrays of arguments for each plugin needed
 * Improved add_submenu_page to add_theme_page
@@ -141,6 +139,6 @@ You can also follow project progress and updates on Twitter. Follow us here at h
 * Removed menu display if all included plugins were successfully installed and activated
 * Removed unnecessary conditional check before class is defined
 
-# 1.0.0 #
+### 1.0.0 ###
 
 * Initial release into the wild
