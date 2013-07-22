@@ -35,6 +35,11 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 
 ## Changelog ##
 
+### Next ###
+
+* Changed development to be more like the git-flow model - master is the latest release, develop is where commits are made etc.
+* Fixed i18n strings to use a literal textdomain instead of a variable (@GaryJones)
+
 ### 2.3.6 ###
 
 * Fixed API error when clicking on the plugin install row action link for an externally hosted plugin
