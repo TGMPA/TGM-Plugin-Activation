@@ -169,7 +169,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'return'                          => __( 'Return to Required Plugins Installer', 'tgmpa' ),
 				'dashboard'                       => __( 'Return to the dashboard', 'tgmpa' ),
 				'plugin_activated'                => __( 'Plugin activated successfully.', 'tgmpa' ),
-				'activated_successfully'          => __( 'The following plugin was activated successfully:' ),
+				'activated_successfully'          => __( 'The following plugin was activated successfully:', 'tgmpa' ),
 				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'tgmpa' ),
 				'dismiss'                         => __( 'Dismiss this notice', 'tgmpa' ),
 			);
