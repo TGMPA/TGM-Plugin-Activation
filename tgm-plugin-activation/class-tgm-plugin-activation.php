@@ -2034,7 +2034,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET[sanitize_key( 'page' )] )
 				$complete = array();
 				foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
 					if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-						echo '<p><a href="' . add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, admin_url( TGM_Plugin_Activation::$instance->parent_url_slug ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . __( TGM_Plugin_Activation::$instance->strings['return'], 'tgmpa' ) . '</a></p>';
+						echo '<p><a href="' . add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, admin_url( TGM_Plugin_Activation::$instance->parent_url_slug ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . TGM_Plugin_Activation::$instance->strings['return'] . '</a></p>';
 						$complete[] = $plugin;
 						break;
 					}
