@@ -146,9 +146,21 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var array
 		 */
+
 		public $strings = array();
 
 		/**
+		* Path to the Wordpress plugin install administration API file
+		*
+		* @since 2.3.6
+		*
+		* Value is added in the constructor.
+		*/
+                private   $plugin_install_file = '';
+                
+                
+                
+                /**
 		 * Adds a reference of this object to $instance, populates default strings,
 		 * does the tgmpa_init action hook, and hooks in the interactions to init.
 		 *
@@ -156,9 +168,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @see TGM_Plugin_Activation::init()
 		 */
+
 		public function __construct() {
 
 			self::$instance =& $this;
+
 
 			$this->strings = array(
 				'page_title'                      => __( 'Install Required Plugins', $this->domain ),
@@ -179,8 +193,27 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'plugin_activated'                => __( 'Plugin activated successfully.', $this->domain ),
 				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', $this->domain ),
 			);
+ 			
+                        /**
+                        * Assign to $plugin_install_file the path to the WordPress plugin install administration API file (plugin-install.php)
+                        *
+                        * @since 2.3.6
+                        *
+                        */
+                        if ( is_multisite() ) //Determine if Multisite support is enabled.
 
-			/** Annouce that the class is ready, and pass the object (for advanced use) */
+                             /** multisite supported, so grab the path to the plugin-install.php from the network folder*/
+                             /*uses network_admin_url() to pull the url of the base blog, because multisite plugins can only be installed from the base blog. */
+
+                             
+                             $this->plugin_install_file = network_admin_url('plugin-install.php' );
+
+                        else /** multisite is not supported so use the regular plugin-install.php file*/
+                             $this->plugin_install_file = admin_url( 'plugin-install.php' );
+                             
+                             
+
+			/** Announce that the class is ready, and pass the object (for advanced use) */
 			do_action_ref_array( 'tgmpa_init', array( &$this ) );
 
 			/** When the rest of WP has loaded, kick-start the rest of the class */
@@ -664,7 +697,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 								$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
 							}
 							elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
-								$url = add_query_arg(
+
+                                                                $url = add_query_arg(
 									array(
 										'tab'       => 'plugin-information',
 										'plugin'    => $this->_get_plugin_data_from_name( $plugin_group_single_name ),
@@ -672,7 +706,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 										'width'     => '640',
 										'height'    => '500',
 									),
-									admin_url( 'plugin-install.php' )
+									$this->plugin_install_file
 								);
 
 								$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
@@ -1074,7 +1108,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 							'width'     => '640',
 							'height'    => '500',
 						),
-						admin_url( 'plugin-install.php' )
+						$this->plugin_install_file
 					);
 
 					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin['name'] . '">' . $plugin['name'] . '</a></strong>';
