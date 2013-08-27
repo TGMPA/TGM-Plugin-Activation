@@ -140,6 +140,24 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public $strings = array();
 
 		/**
+		 * Get singleton instance.
+		 *
+		 * Make sure only single instance of the class used.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @return TGM_Plugin_Activation Returns the class instance.
+		 */
+		public static function instance()
+		{
+			if (is_null(self::$instance))
+			{
+				self::$instance = new self();
+			}
+			return self::$instance;
+		}
+
+		/**
 		 * Adds a reference of this object to $instance, populates default strings,
 		 * does the tgmpa_init action hook, and hooks in the interactions to init.
 		 *
@@ -147,9 +165,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @see TGM_Plugin_Activation::init()
 		 */
-		public function __construct() {
-
-			self::$instance =& $this;
+		private function __construct() {
 
 			$this->strings = array(
 				'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
@@ -950,7 +966,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 }
 
 /** Create a new instance of the class */
-new TGM_Plugin_Activation;
+TGM_Plugin_Activation::instance();
 
 if ( ! function_exists( 'tgmpa' ) ) {
 	/**
