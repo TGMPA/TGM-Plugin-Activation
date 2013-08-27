@@ -761,6 +761,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( ! isset( $plugin['slug'] ) || ! isset( $plugin['name'] ) )
 				return;
 
+			// Check if plugin with the same name and version already registered.
+			foreach ($this->plugins as $reg) {
+				if( $plugin['name'] === $reg['name'] and $plugin['version'] === $reg['version'] )
+					return;
+			}
+
 			$this->plugins[] = $plugin;
 
 		}
