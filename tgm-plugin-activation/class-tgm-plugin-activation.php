@@ -140,24 +140,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public $strings = array();
 
 		/**
-		 * Get singleton instance.
-		 *
-		 * Make sure only single instance of the class used.
-		 *
-		 * @since 2.2.0
-		 *
-		 * @return TGM_Plugin_Activation Returns the class instance.
-		 */
-		public static function instance()
-		{
-			if (is_null(self::$instance))
-			{
-				self::$instance = new self();
-			}
-			return self::$instance;
-		}
-
-		/**
 		 * Adds a reference of this object to $instance, populates default strings,
 		 * does the tgmpa_init action hook, and hooks in the interactions to init.
 		 *
@@ -165,7 +147,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @see TGM_Plugin_Activation::init()
 		 */
-		private function __construct() {
+		public function __construct() {
+
+			if (is_null(self::$instance))
+				self::$instance =& $this;
+			else
+				return self::$instance;
 
 			$this->strings = array(
 				'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
@@ -762,7 +749,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return;
 
 			// Check if plugin with the same name and version already registered.
+			!isset($plugin['version']) and $plugin['version'] = false;
 			foreach ($this->plugins as $reg) {
+				!isset($reg['version']) and $reg['version'] = false;
 				if( $plugin['name'] === $reg['name'] and $plugin['version'] === $reg['version'] )
 					return;
 			}
@@ -972,7 +961,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 }
 
 /** Create a new instance of the class */
-TGM_Plugin_Activation::instance();
+new TGM_Plugin_Activation();
 
 if ( ! function_exists( 'tgmpa' ) ) {
 	/**
