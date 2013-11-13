@@ -356,7 +356,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$plugin_table = new TGMPA_List_Table;
 
 			/** Return early if processing a plugin installation action */
-			if ( isset( $_POST[sanitize_key( 'action' )] ) && 'tgmpa-bulk-install' == $_POST[sanitize_key( 'action' )] && $plugin_table->process_bulk_actions() || $this->do_plugin_install() )
+			if ( isset( $_POST['action'] ) && 'tgmpa-bulk-install' == $_POST['action'] && $plugin_table->process_bulk_actions() || $this->do_plugin_install() )
 				return;
 
 			?>
@@ -404,12 +404,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$plugin = array();
 
 			/** Checks for actions from hover links to process the installation */
-			if ( isset( $_GET[sanitize_key( 'plugin' )] ) && ( isset( $_GET[sanitize_key( 'tgmpa-install' )] ) && 'install-plugin' == $_GET[sanitize_key( 'tgmpa-install' )] ) ) {
+			if ( isset( $_GET['plugin'] ) && ( isset( $_GET['tgmpa-install'] ) && 'install-plugin' == $_GET['tgmpa-install'] ) ) {
 				check_admin_referer( 'tgmpa-install' );
 
-				$plugin['name']   = $_GET[sanitize_key( 'plugin_name' )]; // Plugin name
-				$plugin['slug']   = $_GET[sanitize_key( 'plugin' )]; // Plugin slug
-				$plugin['source'] = $_GET[sanitize_key( 'plugin_source' )]; // Plugin source
+				$plugin['name']   = $_GET['plugin_name']; // Plugin name
+				$plugin['slug']   = $_GET['plugin']; // Plugin slug
+				$plugin['source'] = $_GET['plugin_source']; // Plugin source
 
 				/** Pass all necessary information via URL if WP_Filesystem is needed */
 				$url = wp_nonce_url(
@@ -426,7 +426,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'tgmpa-install'
 				);
 				$method = ''; // Leave blank so WP_Filesystem can populate it as necessary
-				$fields = array( sanitize_key( 'tgmpa-install' ) ); // Extra fields to pass to WP_Filesystem
+				$fields = array( 'tgmpa-install' ); // Extra fields to pass to WP_Filesystem
 
 				if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
 					return true;
@@ -515,13 +515,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return true;
 			}
 			/** Checks for actions from hover links to process the activation */
-			elseif ( isset( $_GET[sanitize_key( 'plugin' )] ) && ( isset( $_GET[sanitize_key( 'tgmpa-activate' )] ) && 'activate-plugin' == $_GET[sanitize_key( 'tgmpa-activate' )] ) ) {
+			elseif ( isset( $_GET['plugin'] ) && ( isset( $_GET['tgmpa-activate'] ) && 'activate-plugin' == $_GET['tgmpa-activate'] ) ) {
 				check_admin_referer( 'tgmpa-activate', 'tgmpa-activate-nonce' );
 
 				/** Populate $plugin array with necessary information */
-				$plugin['name']   = $_GET[sanitize_key( 'plugin_name' )];
-				$plugin['slug']   = $_GET[sanitize_key( 'plugin' )];
-				$plugin['source'] = $_GET[sanitize_key( 'plugin_source' )];
+				$plugin['name']   = $_GET['plugin_name'];
+				$plugin['slug']   = $_GET['plugin'];
+				$plugin['source'] = $_GET['plugin_source'];
 
 				$plugin_data = get_plugins( '/' . $plugin['slug'] ); // Retrieve all plugins
 				$plugin_file = array_keys( $plugin_data ); // Retrieve all plugin files from installed plugins
@@ -535,7 +535,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 				else {
 					/** Make sure message doesn't display again if bulk activation is performed immediately after a single activation */
-					if ( ! isset( $_POST[sanitize_key( 'action' )] ) ) {
+					if ( ! isset( $_POST['action'] ) ) {
 						$msg = $this->strings['activated_successfully'] . ' <strong>' . $plugin['name'] . '</strong>';
 						echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 					}
@@ -726,7 +726,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function dismiss() {
 
-			if ( isset( $_GET[sanitize_key( 'tgmpa-dismiss' )] ) )
+			if ( isset( $_GET['tgmpa-dismiss'] ) )
 				update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', 1 );
 
 		}
@@ -1339,11 +1339,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$plugin_name        = array();
 
 				/** Look first to see if information has been passed via WP_Filesystem */
-				if ( isset( $_GET[sanitize_key( 'plugins' )] ) )
-					$plugins = explode( ',', stripslashes( $_GET[sanitize_key( 'plugins' )] ) );
+				if ( isset( $_GET['plugins'] ) )
+					$plugins = explode( ',', stripslashes( $_GET['plugins'] ) );
 				/** Looks like the user can use the direct method, take from $_POST */
-				elseif ( isset( $_POST[sanitize_key( 'plugin' )] ) )
-					$plugins = (array) $_POST[sanitize_key( 'plugin' )];
+				elseif ( isset( $_POST['plugin'] ) )
+					$plugins = (array) $_POST['plugin'];
 				/** Nothing has been submitted */
 				else
 					$plugins = array();
@@ -1351,7 +1351,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$a = 0; // Incremental variable
 
 				/** Grab information from $_POST if available */
-				if ( isset( $_POST[sanitize_key( 'plugin' )] ) ) {
+				if ( isset( $_POST['plugin'] ) ) {
 					foreach ( $plugins as $plugin_data )
 						$plugins_to_install[] = explode( ',', $plugin_data );
 
@@ -1374,20 +1374,20 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				/** Look first to see if information has been passed via WP_Filesystem */
-				if ( isset( $_GET[sanitize_key( 'plugin_paths' )] ) )
-					$plugin_paths = explode( ',', stripslashes( $_GET[sanitize_key( 'plugin_paths' )] ) );
+				if ( isset( $_GET['plugin_paths'] ) )
+					$plugin_paths = explode( ',', stripslashes( $_GET['plugin_paths'] ) );
 				/** Looks like the user doesn't need to enter his FTP creds */
-				elseif ( isset( $_POST[sanitize_key( 'plugin' )] ) )
+				elseif ( isset( $_POST['plugin'] ) )
 					$plugin_paths = (array) $plugin_path;
 				/** Nothing has been submitted */
 				else
 					$plugin_paths = array();
 
 				/** Look first to see if information has been passed via WP_Filesystem */
-				if ( isset( $_GET[sanitize_key( 'plugin_names' )] ) )
-					$plugin_names = explode( ',', stripslashes( $_GET[sanitize_key( 'plugin_names' )] ) );
+				if ( isset( $_GET['plugin_names'] ) )
+					$plugin_names = explode( ',', stripslashes( $_GET['plugin_names'] ) );
 				/** Looks like the user doesn't need to enter his FTP creds */
-				elseif ( isset( $_POST[sanitize_key( 'plugin' )] ) )
+				elseif ( isset( $_POST['plugin'] ) )
 					$plugin_names = (array) $plugin_name;
 				/** Nothing has been submitted */
 				else
@@ -1401,11 +1401,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						unset( $plugin_installs[$key] );
 
 						/** If the plugin path isn't in the $_GET variable, we can unset the corresponding path */
-						if ( ! isset( $_GET[sanitize_key( 'plugin_paths' )] ) )
+						if ( ! isset( $_GET['plugin_paths'] ) )
 							unset( $plugin_paths[$b] );
 
 						/** If the plugin name isn't in the $_GET variable, we can unset the corresponding name */
-						if ( ! isset( $_GET[sanitize_key( 'plugin_names' )] ) )
+						if ( ! isset( $_GET['plugin_names'] ) )
 							unset( $plugin_names[$b] );
 					}
 					$b++;
@@ -1440,7 +1440,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					'bulk-plugins'
 				);
 				$method = ''; // Leave blank so WP_Filesystem can populate it as necessary
-				$fields = array( sanitize_key( 'action' ), sanitize_key( '_wp_http_referer' ), sanitize_key( '_wpnonce' ) ); // Extra fields to pass to WP_Filesystem
+				$fields = array( 'action', '_wp_http_referer', '_wpnonce' ); // Extra fields to pass to WP_Filesystem
 
 				if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) )
 					return true;
@@ -1501,7 +1501,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				check_admin_referer( 'bulk-' . $this->_args['plural'] );
 
 				/** Grab plugin data from $_POST */
-				$plugins             = isset( $_POST[sanitize_key( 'plugin' )] ) ? (array) $_POST[sanitize_key( 'plugin' )] : array();
+				$plugins             = isset( $_POST['plugin'] ) ? (array) $_POST['plugin'] : array();
 				$plugins_to_activate = array();
 
 				/** Split plugin value into array with plugin file path, plugin source and plugin name */
@@ -1584,7 +1584,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  *
  * @since 2.2.0
  */
-if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET[sanitize_key( 'page' )] ) && TGM_Plugin_Activation::$instance->menu === $_GET[sanitize_key( 'page' )] ) ) {
+if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && TGM_Plugin_Activation::$instance->menu === $_GET['page'] ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
