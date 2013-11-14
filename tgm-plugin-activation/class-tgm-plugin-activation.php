@@ -751,6 +751,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( ! isset( $plugin['slug'] ) || ! isset( $plugin['name'] ) )
 				return;
 
+			if ( ! isset( $plugin['version'] ) )
+				$plugin['version'] = '0.0';
+
 			$this->plugins[] = $plugin;
 
 		}
