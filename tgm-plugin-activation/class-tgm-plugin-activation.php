@@ -585,22 +585,16 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				/** If the plugin is installed and active, check for minimum version argument before moving forward */
 				if ( is_plugin_active( $plugin['file_path'] ) ) {
 					/** A minimum version has been specified */
-					if ( isset( $plugin['version'] ) ) {
-						if ( isset( $installed_plugins[$plugin['file_path']]['Version'] ) ) {
-							/** If the current version is less than the minimum required version, we display a message */
-							if ( version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' ) ) {
-								if ( current_user_can( 'install_plugins' ) )
-									$message['notice_ask_to_update'][] = $plugin['name'];
-								else
-									$message['notice_cannot_update'][] = $plugin['name'];
-							}
-						}
-						/** Can't find the plugin, so iterate to the next condition */
-						else {
-							continue;
+					if ( isset( $installed_plugins[$plugin['file_path']]['Version'] ) ) {
+						/** If the current version is less than the minimum required version, we display a message */
+						if ( version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' ) ) {
+							if ( current_user_can( 'install_plugins' ) )
+								$message['notice_ask_to_update'][] = $plugin['name'];
+							else
+								$message['notice_cannot_update'][] = $plugin['name'];
 						}
 					}
-					/** No minimum version specified, so iterate over the plugin */
+					/** Can't find the plugin, so iterate to the next condition */
 					else {
 						continue;
 					}
