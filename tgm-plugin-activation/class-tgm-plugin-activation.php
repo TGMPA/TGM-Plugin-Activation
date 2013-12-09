@@ -824,7 +824,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$keys = array_keys( get_plugins() );
 
 			foreach ( $keys as $key ) {
-				if ( preg_match( '|^' . $slug .'|', $key ) )
+				if ( preg_match( '|^' . $slug .'/|', $key ) )
 					return $key;
 			}
 
