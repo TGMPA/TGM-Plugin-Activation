@@ -149,7 +149,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function __construct() {
 
-			self::$instance =& $this;
+			if (is_null(self::$instance))
+				self::$instance =& $this;
+			else
+				return self::$instance;
 
 			$this->strings = array(
 				'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
@@ -745,6 +748,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( ! isset( $plugin['slug'] ) || ! isset( $plugin['name'] ) )
 				return;
 
+			// Check if plugin with the same name and version already registered.
+			!isset($plugin['version']) and $plugin['version'] = false;
+			foreach ($this->plugins as $reg) {
+				!isset($reg['version']) and $reg['version'] = false;
+				if( $plugin['name'] === $reg['name'] and $plugin['version'] === $reg['version'] )
+					return;
+			}
+
 			$this->plugins[] = $plugin;
 
 		}
@@ -950,7 +961,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 }
 
 /** Create a new instance of the class */
-new TGM_Plugin_Activation;
+new TGM_Plugin_Activation();
 
 if ( ! function_exists( 'tgmpa' ) ) {
 	/**
