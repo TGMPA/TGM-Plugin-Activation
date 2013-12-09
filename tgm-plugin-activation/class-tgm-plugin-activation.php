@@ -327,12 +327,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Make sure privileges are correct to see the page
 			if ( ! current_user_can( 'install_plugins' ) )
 				return;
-
-			$this->populate_file_path();
-
-			foreach ( $this->plugins as $plugin ) {
-				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-					add_submenu_page(
+				
+			if( ! $this->are_plugins_active() ) {
+				add_submenu_page(
 						$this->parent_menu_slug,				// Parent menu slug
 						$this->strings['page_title'],           // Page title
 						$this->strings['menu_title'],           // Menu title
@@ -340,10 +337,85 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$this->menu,                            // Menu slug
 						array( &$this, 'install_plugins_page' ) // Callback
 					);
-				break;
-				}
 			}
 
+		}
+		
+		/**
+		 * Checks to determine whether all the plugins are active.
+		 *
+		 * @since 2.3.5
+		 *
+		 * @see TGM_Plugin_Activation::admin_init()
+		 * @return boolean True if all plugins are active
+		 */
+		public function plugins_active() {
+
+			// Make sure privileges are correct to see the page
+			if ( ! current_user_can( 'install_plugins' ) )
+				return;
+
+			$this->populate_file_path();
+
+			foreach ( $this->plugins as $plugin ) {
+				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
+					return false;
+				}
+			}
+			return true;
+
+		}
+		
+		/**
+		 * Checks to determine whether plugins are active.
+		 *
+		 * @since 2.3.5
+		 *
+		 * @see TGM_Plugin_Activation::admin_init()
+		 * @param string $type Takes 'required', 'recommended', {plugin_slug}, 'all'
+		 * @param boolean $return True returns list, false returns boolean
+		 */
+		public function are_plugins_active( $type = 'all', $return = false ) {
+
+			// Make sure privileges are correct to see the page
+			if ( ! current_user_can( 'install_plugins' ) )
+				return;
+			$list = array();
+			$this->populate_file_path();
+			
+			if ( 'all' != $type && 'recommended' != $type && 'required' != $type ) {
+				
+				// If file_path not entered, search for slug
+				if ( is_plugin_active( $type ) )
+					return is_plugin_active( $type );
+				else {
+					foreach ( $this->plugins as $plugin ) {
+						if ( $type == $plugin['slug'] )
+							return is_plugin_active( $plugin['file_path'] );
+					}
+					return false;
+				}	
+			}
+			
+			foreach ( $this->plugins as $plugin ) {
+			
+				// Check if request is for required
+				if ( ( ( 'recommended' == $type ) && ( isset( $plugin['required'] ) && $plugin['required'] ) ) || ( ( 'required' == $type ) && ( ! isset( $plugin['required'] ) || ( isset( $plugin['required'] ) && ! $plugin['required'] ) ) ) )
+						continue;
+				
+				// Now check if plugin active
+				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
+					if ( ! $return )
+						return false;
+					else 
+						$list[] = $plugin;
+				}
+			}
+			
+			if ( ! $return )
+				return true;
+			else
+				return $list;
 		}
 
 		/**
@@ -457,7 +529,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				/** Set type, based on whether the source starts with http:// or https:// */
-				$type = preg_match( '|^http(s)?://|', $plugin['source'] ) ? 'web' : 'upload';
+				$type = $this->is_url( $plugin['source'] ) ? 'web' : 'upload';
 
 				/** Prep variables for Plugin_Installer_Skin class */
 				$title = sprintf( $this->strings['installing'], $plugin['name'] );
@@ -660,10 +732,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 							$external_url = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'external_url' );
 							$source = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
 
-							if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
+							if ( $external_url && $this->is_url( $external_url ) ) {
 								$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
 							}
-							elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+							elseif ( ! $source || $this->is_url( $source, 'repo' ) ) {
 								$url = add_query_arg(
 									array(
 										'tab'       => 'plugin-information',
@@ -951,7 +1023,45 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 		}
-
+		
+		/**
+		 * Validates URL
+		 *
+		 * Adds http:// if the URL is missing it
+		 *
+		 * @since 2.3.7
+		 *
+		 * @param string $url Plugin URL
+		 * @return string $url with http:// prepended or 
+		 */
+		public function url( $url ) {
+			if ( isset( $url ) && ! preg_match( "~^(?:f|ht)tps?://~i", $url ) )
+				return 'http://' . $url;
+			else
+				return $url;
+		}
+		
+		/**
+		 * Determies whether string is an URL
+		 *
+		 * Adds http:// if the URL is missing it
+		 *
+		 * @since 2.3.7
+		 *
+		 * @param string $type Takes url or repo
+		 * @param string $url Plugin URL
+		 * @return boolean True if valid URL, False otherwise
+		 */
+		public function is_url( $url, $type = 'url' ) {
+		
+			if ( isset( $url ) && 'url' == $type && preg_match( '/^((https?|ftps?)\:\/\/)?([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?([a-z0-9-.]*)\.([a-z]{2,3})(\:[0-9]{2,5})?(\/([a-z0-9+\$_-]\.?)+)*\/?(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?(#[a-z_.-][a-z0-9+\$_.-]*)?/', $url ) )
+				return true;
+			elseif ( 'repo' == $type && preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) )
+				return true;
+			else
+				return false;
+		}
+		
 	}
 }
 
@@ -1062,10 +1172,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$external_url = $this->_get_plugin_data_from_name( $plugin['name'], 'external_url' );
 				$source = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
 
-				if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
-					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
+				if ( $external_url && TGM_Plugin_Activation::is_url( $external_url ) ) {
+					$table_data[$i]['plugin'] = '<strong><a href="' . esc_url( TGM_Plugin_Activation::url( $external_url ) )  . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
 				}
-				elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
+				elseif ( ! $source || TGM_Plugin_Activation::is_url( $source, 'repo' ) ) {
 					$url = add_query_arg(
 						array(
 							'tab'       => 'plugin-information',
@@ -1086,13 +1196,17 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $table_data[$i]['plugin'] ) && (array) $table_data[$i]['plugin'] )
 					$plugin['name'] = $table_data[$i]['plugin'];
 
-				if ( isset( $plugin['external_url'] ) ) {
+				if ( isset( $plugin['source_type'] ) ) {
+					/** The plugin is linked to an external source */
+					$table_data[$i]['source'] = $plugin['source_type'];
+				}
+				elseif ( isset( $plugin['external_url'] ) ) {
 					/** The plugin is linked to an external source */
 					$table_data[$i]['source'] = __( 'External Link', TGM_Plugin_Activation::$instance->domain );
 				}
 				elseif ( isset( $plugin['source'] ) ) {
 					/** The plugin must be from a private repository */
-					if ( preg_match( '|^http(s)?://|', $plugin['source'] ) )
+					if ( TGM_Plugin_Activation::is_url( $plugin['source'] ) )
 						$table_data[$i]['source'] = __( 'Private Repository', TGM_Plugin_Activation::$instance->domain );
 					/** The plugin is pre-packaged with the theme */
 					else
@@ -1111,7 +1225,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					$table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', TGM_Plugin_Activation::$instance->domain ) );
 
 				$table_data[$i]['file_path'] = $plugin['file_path'];
-				$table_data[$i]['url'] = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
+				$table_data[$i]['url'] = isset( $plugin['source'] ) ? TGM_Plugin_Activation::url( $plugin['source'] ) : 'repo';
 
 				$i++;
 			}
@@ -1203,11 +1317,39 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			if ( is_plugin_active( $item['file_path'] ) )
 				$actions = array();
 
+			if ( isset( $item['source'] ) && (
+					__( 'External Link', TGM_Plugin_Activation::$instance->domain ) != $item['source'] &&
+					__( 'Private Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source'] &&
+					__( 'Pre-Packaged', TGM_Plugin_Activation::$instance->domain ) != $item['source'] &&
+					__( 'WordPress Repository', TGM_Plugin_Activation::$instance->domain ) != $item['source'] &&
+					'' != $item['source']
+				)
+				) {
+				$actions = array(
+					'install' => sprintf(
+						'<a href="%1$s" title="' . __( 'Purchase', TGM_Plugin_Activation::$instance->domain ) . ' %2$s">' . __( 'Purchase', TGM_Plugin_Activation::$instance->domain ) . '</a>',
+						wp_nonce_url(
+							add_query_arg(
+								array(
+									'page'          => TGM_Plugin_Activation::$instance->menu,
+									'plugin'        => $item['slug'],
+									'plugin_name'   => $item['sanitized_plugin'],
+									'plugin_source' => $item['url'],
+									'tgmpa-install' => 'install-plugin',
+								),
+								admin_url( TGM_Plugin_Activation::$instance->parent_url_slug )
+							),
+							'tgmpa-install'
+						),
+						$item['sanitized_plugin']
+					),
+				);
+			}
 			/** We need to display the 'Install' hover link */
 			if ( ! isset( $installed_plugins[$item['file_path']] ) ) {
 				$actions = array(
 					'install' => sprintf(
-						'<a href="%1$s" title="Install %2$s">Install</a>',
+						'<a href="%1$s" title="' . __( 'Install', TGM_Plugin_Activation::$instance->domain ) . ' %2$s">' . __( 'Install', TGM_Plugin_Activation::$instance->domain ) . '</a>',
 						wp_nonce_url(
 							add_query_arg(
 								array(
@@ -1229,7 +1371,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			elseif ( is_plugin_inactive( $item['file_path'] ) ) {
 				$actions = array(
 					'activate' => sprintf(
-						'<a href="%1$s" title="Activate %2$s">Activate</a>',
+						'<a href="%1$s" title="' . __( 'Activate', TGM_Plugin_Activation::$instance->domain ) . ' %2$s">' . __( 'Activate', TGM_Plugin_Activation::$instance->domain ) . '</a>',
 						add_query_arg(
 							array(
 								'page'                 => TGM_Plugin_Activation::$instance->menu,
