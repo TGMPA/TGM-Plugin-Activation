@@ -448,10 +448,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				/** Set plugin source to WordPress API link if available */
 				if ( isset( $plugin['source'] ) && 'repo' == $plugin['source'] ) {
 					$api = plugins_api( 'plugin_information', array( 'slug' => $plugin['slug'], 'fields' => array( 'sections' => false ) ) );
-					
+
 					if ( is_wp_error( $api ) )
 						wp_die( $this->strings['oops'] . var_dump( $api ) );
-						
+
 					if ( isset( $api->download_link ) )
 						$plugin['source'] = $api->download_link;
 				}
@@ -913,7 +913,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			/** Set file_path parameter for any installed plugins */
 			$this->populate_file_path();
-			
+
 			$installed_plugins = get_plugins();
 
 			foreach ( $this->plugins as $plugin ) {
@@ -1115,24 +1115,24 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$i++;
 			}
-			
+
 			/** Sort plugins by Required/Recommended type and by alphabetical listing within each type */
 			$resort = array();
 			$req = array();
 			$rec = array();
-			
+
 			/** Grab all the plugin types */
 			foreach ( $table_data as $plugin )
 				$resort[] = $plugin['type'];
-			
+
 			/** Sort each plugin by type */
 			foreach ( $resort as $type )
 				if ( 'Required' == $type )
 					$req[] = $type;
 				else
 					$rec[] = $type;
-			
-			/** Sort alphabetically each plugin type array, merge them and then sort in reverse	(lists Required plugins first) */	
+
+			/** Sort alphabetically each plugin type array, merge them and then sort in reverse	(lists Required plugins first) */
 			sort( $req );
 			sort( $rec );
 			array_merge( $resort, $req, $rec );
@@ -1974,7 +1974,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET[sanitize_key( 'page' )] )
 	 		 *
 	 		 * @since 2.2.0
 	 		 */
-			public function before() {
+			public function before( $title = '' ) {
 
 				/** We are currently in the plugin installation loop, so set to true */
 				$this->in_loop = true;
@@ -1996,7 +1996,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET[sanitize_key( 'page' )] )
 	 		 *
 	 		 * @since 2.2.0
 	 		 */
-			public function after() {
+			public function after( $title = '' ) {
 
 				/** Close install strings */
 				echo '</p></div>';
