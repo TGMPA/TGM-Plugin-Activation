@@ -1,11 +1,11 @@
 TGM Plugin Activation
 =====================
 
-Contributors:      Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)  
-                   Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
-Version:           2.3.6  
-Requires at least: 3.0.0  
-Tested up to:      3.4-beta3  
+Contributors:      Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
+                   Gary Jones (Github: @GaryJones / Twitter: GaryJ)
+Version:           2.4.0b
+Requires at least: 3.0.0
+Tested up to:      3.4-beta3
 
 ## Description ##
 
@@ -35,10 +35,9 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 
 ## Changelog ##
 
-### Next ###
+### 2.4.0b ###
 
-* Changed development to be more like the git-flow model - master is the latest release, develop is where commits are made etc.
-* Fixed i18n strings to use a literal textdomain instead of a variable (@GaryJones)
+* Tons of bug fixes and UI improvements (more to come in official release of 2.4.0)
 
 ### 2.3.6 ###
 
