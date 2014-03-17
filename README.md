@@ -3,9 +3,9 @@ TGM Plugin Activation
 
 Contributors:      Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com)
                    Gary Jones (Github: @GaryJones / Twitter: GaryJ)
-Version:           2.4.0b
+Version:           2.4.0
 Requires at least: 3.0.0
-Tested up to:      3.4-beta3
+Tested up to:      3.9-beta1
 
 ## Description ##
 
@@ -14,20 +14,20 @@ TGM Plugin Activation is a PHP library that allows you to easily require or reco
 ## Installation ##
 
 1. Drop the class file somewhere in your theme hierarchy.
-2. Add a require_once call within functions.php (or other theme file) referencing the class file.
+2. Add a `require_once` call within `functions.php` (or other theme file) referencing the class file.
 3. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.
 
-For steps 2 and 3, it is recommended you view, copy and paste the contents of example.php
-and amend to suit. The example.php file is a model for how you should include the class in your theme.
+For steps 2 and 3, it is recommended you view, copy and paste the contents of `example.php`
+and amend to suit. The `example.php` file is a model for how you should include the class in your theme.
 
 *Some important things to note:*
 
 1. With the `require_once` call, make sure to amend the path to the correct location within your theme.
 2. For plugins pulled from the .org repo, the source argument is optional. Otherwise it is required and should point
    to the absolute path for the plugin zips within your theme, or to a URL for zips elsewhere online.
-3. The $config variable holds an array of arguments that can be used to customize aspects of the class.
+3. The `$config` variable holds an array of arguments that can be used to customize aspects of the class.
    If you define an absolute default path for packaged plugins, you do not need to specify the directory path
-   for your pre-packaged plugin within the 'source' argument. You will only need to specify the zip file name.
+   for your pre-packaged plugin within the `'source'` argument. You will only need to specify the zip file name.
 
 ## Feedback ##
 
@@ -35,9 +35,26 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 
 ## Changelog ##
 
-### 2.4.0b ###
+### 2.4.0 ###
 
-* Tons of bug fixes and UI improvements (more to come in official release of 2.4.0)
+* All textdomain strings now made to `tgmpa` and remove all notices dealing with textdomain and translation issues.
+* The `_get_plugin_basename_from_slug` method now checks for exact slug matches to prevent issues with plugins that start with the same slug.
+* Commenting style now adjusted so it is easier to comment large chunks of code if necessary.
+* Plugins from an external source now properly say `Private Repository` in the list table output.
+* `add_submenu_page` has been changed to `add_theme_page` for better theme check compatibility.
+* Removed the use for `parent_menu_slug` and `parent_menu_url` for $config options (see above).
+* Nag messages can now be forced on via a new `dismissable` config property. When set to false, nag cannot be dismissed.
+* New config `dismiss_msg` used in conjunction with `dismissable`. If `dismissable` is false, then if `dismiss_msg` is not empty, it will be output at the top of the nag message.
+* Better contextual message for activating plugins - changed to "Activate installed plugin(s)" to "Begin activating plugin(s)".
+* Added cache flushing on theme switch to prevent stale entries from remaining in the list table if coming back to a theme with TGMPA.
+* TGMPA is now a singleton to prevent extra settings overrides.
+* Fixed bug with duplicating plugins if multiple themes/plugins that used TGMPA were active at the same time.
+* Added contextual message updates depending on WordPress version.
+* Better nag message handling. If the nag has been dimissed, don't even attempt to build message (performance enhancement).
+* Ensure class can only be instantiated once (instantion moved inside the `class_exists` check for TGMPA).
+* Change instances of `admin_url` to `network_admin_url` to add better support for MultiSite (falls back gracefully for non-MultiSite installs).
+* Updated much of the code to match WP Coding Standards (braces, yoda conditionals, etc.).
+* Myriads of other bug fixes and enhancements
 
 ### 2.3.6 ###
 
