@@ -8,7 +8,7 @@
  *
  * @package    TGM-Plugin-Activation
  * @subpackage Example
- * @version    2.4.0b
+ * @version    2.4.0
  * @author     Thomas Griffin <thomasgriffinmedia.com>
  * @author     Gary Jones <gamajo.com>
  * @copyright  Copyright (c) 2014, Thomas Griffin
@@ -54,6 +54,15 @@ function my_theme_register_required_plugins() {
             'external_url'       => '', // If set, overrides default API URL and points to an external URL.
         ),
 
+        // This is an example of how to include a plugin from a private repo in your theme.
+        array(
+            'name'               => 'TGM New Media Plugin', // The plugin name.
+            'slug'               => 'tgm-new-media-plugin', // The plugin slug (typically the folder name).
+            'source'             => 'https://s3.amazonaws.com/tgm/tgm-new-media-plugin.zip', // The plugin source.
+            'required'           => true, // If false, the plugin is only 'recommended' instead of required.
+            'external_url'       => 'https://github.com/thomasgriffin/New-Media-Image-Uploader', // If set, overrides default API URL and points to an external URL.
+        ),
+
         // This is an example of how to include a plugin from the WordPress Plugin Repository.
         array(
             'name'      => 'BuddyPress',
@@ -71,11 +80,13 @@ function my_theme_register_required_plugins() {
      * end of each line for what each argument will be.
      */
     $config = array(
-        'default_path' => '',                         // Default absolute path to pre-packaged plugins.
-        'menu'         => 'install-required-plugins', // Menu slug.
-        'has_notices'  => true,                       // Show admin notices or not.
-        'is_automatic' => false,                      // Automatically activate plugins after installation or not.
-        'message'      => '',                         // Message to output right before the plugins table.
+        'default_path' => '',                      // Default absolute path to pre-packaged plugins.
+        'menu'         => 'tgmpa-install-plugins', // Menu slug.
+        'has_notices'  => true,                    // Show admin notices or not.
+        'dismissable'  => true,                    // If false, a user cannot dismiss the nag message.
+        'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
+        'is_automatic' => false,                   // Automatically activate plugins after installation or not.
+        'message'      => '',                      // Message to output right before the plugins table.
         'strings'      => array(
             'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
             'menu_title'                      => __( 'Install Plugins', 'tgmpa' ),
@@ -90,11 +101,11 @@ function my_theme_register_required_plugins() {
             'notice_ask_to_update'            => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.' ), // %1$s = plugin name(s).
             'notice_cannot_update'            => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ), // %1$s = plugin name(s).
             'install_link'                    => _n_noop( 'Begin installing plugin', 'Begin installing plugins' ),
-            'activate_link'                   => _n_noop( 'Activate installed plugin', 'Activate installed plugins' ),
+            'activate_link'                   => _n_noop( 'Begin activating plugin', 'Begin activating plugins' ),
             'return'                          => __( 'Return to Required Plugins Installer', 'tgmpa' ),
             'plugin_activated'                => __( 'Plugin activated successfully.', 'tgmpa' ),
             'complete'                        => __( 'All plugins installed and activated successfully. %s', 'tgmpa' ), // %s = dashboard link.
-            'nag_type'                        => 'updated' // Determines admin notice type - can only be 'updated' or 'error'.
+            'nag_type'                        => 'updated' // Determines admin notice type - can only be 'updated', 'update-nag' or 'error'.
         )
     );
 
