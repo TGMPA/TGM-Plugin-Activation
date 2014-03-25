@@ -985,7 +985,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          * is set to true.
          *
          * This allows theme authors to specify certain plugins that must be
-         * deactived upon switching from the current theme to another.
+         * deactivated upon switching from the current theme to another.
          *
          * Please take special care when using this parameter as it has the
          * potential to be harmful if not used correctly.
@@ -998,7 +998,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             $this->populate_file_path();
 
             foreach ( $this->plugins as $plugin ) {
-                // Only proceed forward if the paramter is set to true and plugin is active.
+                // Only proceed forward if the parameter is set to true and plugin is active.
                 if ( isset( $plugin['force_deactivation'] ) && $plugin['force_deactivation'] && is_plugin_active( $plugin['file_path'] ) ) {
                     deactivate_plugins( $plugin['file_path'] );
                 }
@@ -1801,7 +1801,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && TGM_Plugin_A
              *
              * @since 2.2.0
              *
-             * @param array $options The installation cofig options
+             * @param array $options The installation config options
              * @return null/array Return early if error, array of installation data on success
              */
             public function run( $options ) {
