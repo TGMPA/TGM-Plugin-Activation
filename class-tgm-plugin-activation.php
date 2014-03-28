@@ -1099,13 +1099,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          * and stores it in the global object TGM_Plugin_Activation::$instance.
          *
          * @since 2.2.0
-         *
-         * @global unknown $status
-         * @global string $page
          */
         public function __construct() {
-
-            global $status, $page;
 
             parent::__construct(
                 array(
@@ -1514,6 +1509,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
                 // No need to proceed further if we have no plugins to install.
                 if ( empty( $plugin_installs ) ) {
+                    echo '<div id="message" class="error"><p>' . __( 'No plugins are available to be installed at this time.', 'tgmpa' ) . '</p></div>';
                     return false;
                 }
 
@@ -1621,7 +1617,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
                 // Return early if there are no plugins to activate.
                 if ( empty( $plugins_to_activate ) ) {
-                    return;
+                    echo '<div id="message" class="error"><p>' . __( 'No plugins are available to be activated at this time.', 'tgmpa' ) . '</p></div>';
+                    return false;
                 }
 
                 $plugins      = array();
@@ -1657,6 +1654,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 update_option( 'recently_activated', $recent );
 
                 unset( $_POST ); // Reset the $_POST variable in case user wants to perform one action after another.
+
+                return true;
             }
         }
 
@@ -1667,7 +1666,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          */
         public function prepare_items() {
 
-            $per_page              = 100; // Set it high so we shouldn't have to worry about pagination.
             $columns               = $this->get_columns(); // Get all necessary column information.
             $hidden                = array(); // No columns to hide, but we must set as an array.
             $sortable              = array(); // No reason to make sortable columns.
