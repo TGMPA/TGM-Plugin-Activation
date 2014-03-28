@@ -1260,12 +1260,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          */
         public function column_default( $item, $column_name ) {
 
-            switch ( $column_name ) {
-                case 'source':
-                case 'type':
-                case 'status':
-                    return $item[$column_name];
-            }
+            return $item[$column_name];
 
         }
 
