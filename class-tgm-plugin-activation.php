@@ -63,6 +63,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         public $plugins = array();
 
         /**
+         * Name of the unique ID to hash notices.
+         *
+         * @since 2.4.0
+         *
+         * @var string
+         */
+        public $id = 'tgmpa';
+
+        /**
          * Name of the querystring argument for the admin page.
          *
          * @since 1.0.0
@@ -311,7 +320,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public function thickbox() {
 
-            if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
+            if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
                 add_thickbox();
             }
 
@@ -591,7 +600,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             }
 
             // Return early if the nag message has been dismissed.
-            if ( get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
+            if ( get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
                 return;
             }
 
@@ -767,7 +776,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         public function dismiss() {
 
             if ( isset( $_GET['tgmpa-dismiss'] ) ) {
-                update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', 1 );
+                update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, 1 );
             }
 
         }
@@ -807,7 +816,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public function config( $config ) {
 
-            $keys = array( 'default_path', 'has_notices', 'dismissable', 'dismiss_msg', 'menu', 'is_automatic', 'message', 'strings' );
+            $keys = array( 'id', 'default_path', 'has_notices', 'dismissable', 'dismiss_msg', 'menu', 'is_automatic', 'message', 'strings' );
 
             foreach ( $keys as $key ) {
                 if ( isset( $config[$key] ) ) {
@@ -942,7 +951,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public function update_dismiss() {
 
-            delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice' );
+            delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id );
 
         }
 

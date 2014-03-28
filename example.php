@@ -80,6 +80,7 @@ function my_theme_register_required_plugins() {
      * end of each line for what each argument will be.
      */
     $config = array(
+        'id'           => 'tgmpa',                 // Unique ID for hashing notices for multiple instances of TGMPA.
         'default_path' => '',                      // Default absolute path to pre-packaged plugins.
         'menu'         => 'tgmpa-install-plugins', // Menu slug.
         'has_notices'  => true,                    // Show admin notices or not.
