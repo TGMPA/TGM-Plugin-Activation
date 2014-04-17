@@ -3,7 +3,7 @@
  * Plugin installation and activation for WordPress themes.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.4.0
+ * @version   2.4.1
  * @author    Thomas Griffin <thomasgriffinmedia.com>
  * @author    Gary Jones <gamajo.com>
  * @copyright Copyright (c) 2012, Thomas Griffin
@@ -351,7 +351,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             foreach ( $this->plugins as $plugin ) {
                 if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-                    add_theme_page(
+                    add_submenu_page(
+                        apply_filters('tgmpa_submenu_parent_slug', 'themes.php'),
                         $this->strings['page_title'],          // Page title.
                         $this->strings['menu_title'],          // Menu title.
                         'edit_theme_options',                  // Capability.
@@ -748,7 +749,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
                 $action_links = array_filter( $action_links ); // Remove any empty array items.
                 if ( $action_links ) {
-                    $rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
+                    $rendered .= apply_filters('tgmpa_notice_rendered_action_links', '<p>' . implode( ' | ', $action_links ) . '</p>');
                 }
 
                 // Register the nag messages and prepare them to be processed.
@@ -1190,8 +1191,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                     $table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', 'tgmpa' ) );
                 }
 
+                $table_data[$i]['description'] = isset( $plugin['description'] ) ? $plugin['description'] : '';
                 $table_data[$i]['file_path'] = $plugin['file_path'];
                 $table_data[$i]['url']       = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
+
+                $table_data[$i] = apply_filters( 'tgmpa_table_data_item', $table_data[$i], $plugin );
 
                 $i++;
             }
@@ -1380,7 +1384,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 'status' => __( 'Status', 'tgmpa' )
             );
 
-            return $columns;
+            return apply_filters( 'tgmpa_table_columns', $columns );
 
         }
 
