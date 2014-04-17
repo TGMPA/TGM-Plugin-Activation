@@ -351,15 +351,23 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             foreach ( $this->plugins as $plugin ) {
                 if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-                    add_submenu_page(
-                        apply_filters('tgmpa_submenu_parent_slug', 'themes.php'),
-                        $this->strings['page_title'],          // Page title.
-                        $this->strings['menu_title'],          // Menu title.
-                        'edit_theme_options',                  // Capability.
-                        $this->menu,                           // Menu slug.
-                        array( $this, 'install_plugins_page' ) // Callback.
-                    );
-                break;
+
+                    $args = apply_filters('tgmpa_admin_menu_args', array(
+                        'parent_slug'=> 'themes.php',                          // Parent Menu slug.
+                        'page_title' => $this->strings['page_title'],          // Page title.
+                        'menu_title' => $this->strings['menu_title'],          // Menu title.
+                        'capability' => 'edit_theme_options',                  // Capability.
+                        'menu_slug'  => $this->menu,                           // Menu slug.
+                        'function'   => array( $this, 'install_plugins_page' ) // Callback.
+                    ));
+
+                    if(apply_filters( 'tgmpa_admin_menu_use_add_theme_page', true )) {
+                        add_theme_page($args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
+                    } else {
+                        add_submenu_page( $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
+                    }
+
+                    break;
                 }
             }
 
