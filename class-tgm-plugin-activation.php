@@ -616,7 +616,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             foreach ( $this->plugins as $plugin ) {
                 // If the plugin is installed and active, check for minimum version argument before moving forward.
-                if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
+                if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
                     // A minimum version has been specified.
                     if ( isset( $plugin['version'] ) ) {
                         if ( isset( $installed_plugins[$plugin['file_path']]['Version'] ) ) {
