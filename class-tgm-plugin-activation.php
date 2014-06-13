@@ -351,14 +351,26 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             foreach ( $this->plugins as $plugin ) {
                 if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-                    add_theme_page(
-                        $this->strings['page_title'],          // Page title.
-                        $this->strings['menu_title'],          // Menu title.
-                        'edit_theme_options',                  // Capability.
-                        $this->menu,                           // Menu slug.
-                        array( $this, 'install_plugins_page' ) // Callback.
-                    );
-                break;
+
+                    $args = apply_filters(
+                    	'tgmpa_admin_menu_args',
+                    	array(
+	                        'parent_slug'=> 'themes.php',                          // Parent Menu slug.
+	                        'page_title' => $this->strings['page_title'],          // Page title.
+	                        'menu_title' => $this->strings['menu_title'],          // Menu title.
+	                        'capability' => 'edit_theme_options',                  // Capability.
+	                        'menu_slug'  => $this->menu,                           // Menu slug.
+	                        'function'   => array( $this, 'install_plugins_page' ) // Callback.
+	                    )
+					);
+
+                    if( apply_filters( 'tgmpa_admin_menu_use_add_theme_page', true ) ) {
+                        add_theme_page($args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
+                    } else {
+                        add_submenu_page( $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
+                    }
+
+                    break;
                 }
             }
 
@@ -748,7 +760,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
                 $action_links = array_filter( $action_links ); // Remove any empty array items.
                 if ( $action_links ) {
-                    $rendered .= '<p>' . implode( ' | ', $action_links ) . '</p>';
+                    $rendered .= apply_filters( 'tgmpa_notice_rendered_action_links', '<p>' . implode( ' | ', $action_links ) . '</p>' );
                 }
 
                 // Register the nag messages and prepare them to be processed.
@@ -1193,6 +1205,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 $table_data[$i]['file_path'] = $plugin['file_path'];
                 $table_data[$i]['url']       = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
 
+                $table_data[$i] = apply_filters( 'tgmpa_table_data_item', $table_data[$i], $plugin );
+
                 $i++;
             }
 
@@ -1380,7 +1394,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 'status' => __( 'Status', 'tgmpa' )
             );
 
-            return $columns;
+            return apply_filters( 'tgmpa_table_columns', $columns );
 
         }
 
