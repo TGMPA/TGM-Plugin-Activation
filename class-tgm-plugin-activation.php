@@ -233,14 +233,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 add_filter( 'install_plugin_complete_actions', array( $this, 'actions' ) );
                 add_action( 'switch_theme', array( $this, 'flush_plugins_cache' ) );
 
-                // Load admin bar in the header to remove flash when installing plugins.
-                if ( $this->is_tgmpa_page() ) {
-                    remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
-                    remove_action( 'admin_footer', 'wp_admin_bar_render', 1000 );
-                    add_action( 'wp_head', 'wp_admin_bar_render', 1000 );
-                    add_action( 'admin_head', 'wp_admin_bar_render', 1000 );
-                }
-
                 if ( $this->has_notices ) {
                     add_action( 'admin_notices', array( $this, 'notices' ) );
                     add_action( 'admin_init', array( $this, 'admin_init' ), 1 );
