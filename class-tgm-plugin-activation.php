@@ -1145,7 +1145,14 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
             $installed_plugins = get_plugins();
 
             foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
-                if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
+
+                $do_update = false;
+                if (isset($installed_plugins[$plugin['file_path']]) && isset($plugin['version'])) {
+                  $do_update = version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' );
+                }
+
+                if ( ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) && !$do_update) {
+
                     continue; // No need to display plugins if they are installed and activated.
                 }
 
@@ -1200,6 +1207,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                     $table_data[$i]['status'] = sprintf( '%1$s', __( 'Not Installed', 'tgmpa' ) );
                 } elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
                     $table_data[$i]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', 'tgmpa' ) );
+                } elseif ($do_update) {
+                    $table_data[$i]['status'] = sprintf( '%1$s', __( 'Need Updating', 'tgmpa' ) );
                 }
 
                 $table_data[$i]['file_path'] = $plugin['file_path'];
@@ -1411,6 +1420,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
             $actions = array(
                 'tgmpa-bulk-install'  => __( 'Install', 'tgmpa' ),
                 'tgmpa-bulk-activate' => __( 'Activate', 'tgmpa' ),
+                'tgmpa-bulk-update' => __( 'Update', 'tgmpa' ),
             );
 
             return $actions;
@@ -1666,6 +1676,187 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 unset( $_POST ); // Reset the $_POST variable in case user wants to perform one action after another.
 
                 return true;
+
+            }
+
+
+            // Bulk update process.
+            if ( 'tgmpa-bulk-update' === $this->current_action() ) {
+              check_admin_referer( 'bulk-' . $this->_args['plural'] );
+
+              // Prep variables to be populated.
+              $plugins_to_install = array();
+              $plugin_installs    = array();
+              $plugin_path        = array();
+              $plugin_name        = array();
+
+              // Look first to see if information has been passed via WP_Filesystem.
+              if ( isset( $_GET['plugins'] ) ) {
+                $plugins = explode( ',', stripslashes( $_GET['plugins'] ) );
+              }
+              // Looks like the user can use the direct method, take from $_POST.
+              elseif ( isset( $_POST['plugin'] ) ) {
+                $plugins = (array) $_POST['plugin'];
+              }
+              // Nothing has been submitted.
+              else {
+                $plugins = array();
+              }
+
+
+              // Grab information from $_POST if available.
+              if ( isset( $_POST['plugin'] ) ) {
+                foreach ( $plugins as $plugin_data ) {
+                  $plugins_to_install[] = explode( ',', $plugin_data );
+                }
+
+                foreach ( $plugins_to_install as $plugin_data ) {
+                  $plugin_installs[] = $plugin_data[0];
+                  $plugin_path[]     = $plugin_data[1];
+                  $plugin_name[]     = $plugin_data[2];
+                }
+              }
+              // Information has been passed via $_GET.
+              else {
+                foreach ( $plugins as $key => $value ) {
+                  // Grab plugin slug for each plugin.
+                  if ( 0 == $key % 3 || 0 == $key ) {
+                    $plugins_to_install[] = $value;
+                    $plugin_installs[]    = $value;
+                  }
+                }
+              }
+
+              // Look first to see if information has been passed via WP_Filesystem.
+              if ( isset( $_GET['plugin_paths'] ) ) {
+                $plugin_paths = explode( ',', stripslashes( $_GET['plugin_paths'] ) );
+              }
+              // Looks like the user doesn't need to enter his FTP creds.
+              elseif ( isset( $_POST['plugin'] ) ) {
+                $plugin_paths = (array) $plugin_path;
+              }
+              // Nothing has been submitted.
+              else {
+                $plugin_paths = array();
+              }
+
+              // Look first to see if information has been passed via WP_Filesystem.
+              if ( isset( $_GET['plugin_names'] ) ) {
+                $plugin_names = explode( ',', stripslashes( $_GET['plugin_names'] ) );
+              }
+              // Looks like the user doesn't need to enter his FTP creds.
+              elseif ( isset( $_POST['plugin'] ) ) {
+                $plugin_names = (array) $plugin_name;
+              }
+              // Nothing has been submitted.
+              else {
+                $plugin_names = array();
+              }
+
+              // Loop through plugin slugs and remove already installed plugins from the list.
+              $i = 0;
+              foreach ( $plugin_installs as $key => $plugin ) {
+                if ( !preg_match( '|.php$|', $plugin ) ) {
+                  unset( $plugin_installs[$key] );
+
+                  // If the plugin path isn't in the $_GET variable, we can unset the corresponding path.
+                  if ( ! isset( $_GET['plugin_paths'] ) )
+                    unset( $plugin_paths[$i] );
+
+                  // If the plugin name isn't in the $_GET variable, we can unset the corresponding name.
+                  if ( ! isset( $_GET['plugin_names'] ) )
+                    unset( $plugin_names[$i] );
+                }
+                $i++;
+              }
+
+              // No need to proceed further if we have no plugins to install.
+              if ( empty( $plugin_installs ) ) {
+                echo '<div id="message" class="error"><p>' . __( 'No plugins are available to be updated at this time.', 'tgmpa' ) . '</p></div>';
+                return false;
+              }
+
+              // Reset array indexes in case we removed already installed plugins.
+              $plugin_installs = array_values( $plugin_installs );
+              $plugin_paths    = array_values( $plugin_paths );
+              $plugin_names    = array_values( $plugin_names );
+
+              // If we grabbed our plugin info from $_GET, we need to decode it for use.
+              $plugin_installs = array_map( 'urldecode', $plugin_installs );
+              $plugin_paths    = array_map( 'urldecode', $plugin_paths );
+              $plugin_names    = array_map( 'urldecode', $plugin_names );
+
+              // Pass all necessary information via URL if WP_Filesystem is needed.
+              $url = wp_nonce_url(
+                add_query_arg(
+                  array(
+                    'page'          => TGM_Plugin_Activation::$instance->menu,
+                    'tgmpa-action'  => 'update-selected',
+                    'plugins'       => urlencode( implode( ',', $plugins ) ),
+                    'plugin_paths'  => urlencode( implode( ',', $plugin_paths ) ),
+                    'plugin_names'  => urlencode( implode( ',', $plugin_names ) ),
+                  ),
+                  admin_url( 'themes.php' )
+                ),
+                'bulk-plugins'
+              );
+              $method = ''; // Leave blank so WP_Filesystem can populate it as necessary.
+              $fields = array( 'action', '_wp_http_referer', '_wpnonce' ); // Extra fields to pass to WP_Filesystem.
+
+              if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, $fields ) ) ) {
+                return true;
+              }
+
+              if ( ! WP_Filesystem( $creds ) ) {
+                request_filesystem_credentials( $url, $method, true, false, $fields ); // Setup WP_Filesystem.
+                return true;
+              }
+
+              require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
+              require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
+
+              // Store all information in arrays since we are processing a bulk installation.
+              $api          = array();
+              $sources      = array();
+              $install_path = array();
+
+              // Loop through each plugin to install and try to grab information from WordPress API, if not create 'tgmpa-empty' scalar.
+              $i = 0;
+              foreach ( $plugin_installs as $plugin ) {
+                $api[$i] = plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) ) ? plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) ) : (object) $api[$i] = 'tgmpa-empty';
+                $i++;
+              }
+
+              if ( is_wp_error( $api ) ) {
+                wp_die( TGM_Plugin_Activation::$instance->strings['oops'] . var_dump( $api ) );
+              }
+
+              // Capture download links from $api or set install link to pre-packaged/private repo.
+              $i = 0;
+              foreach ( $api as $object ) {
+                $sources[$i] = isset( $object->download_link ) && 'repo' == $plugin_paths[$i] ? $object->download_link : $plugin_paths[$i];
+                $i++;
+              }
+
+              // Finally, all the data is prepared to be sent to the installer.
+              $url   = add_query_arg( array( 'page' => TGM_Plugin_Activation::$instance->menu ), admin_url( 'themes.php' ) );
+              $nonce = 'bulk-plugins';
+              $names = $plugin_names;
+
+              // Create a new instance of TGM_Bulk_Installer.
+              $installer = new TGM_Bulk_Installer( $skin = new TGM_Bulk_Installer_Skin( compact( 'url', 'nonce', 'names' ) ) );
+
+              // Wrap the install process with the appropriate HTML.
+              echo '<div class="tgmpa wrap">';
+              if ( version_compare( TGM_Plugin_Activation::$instance->wp_version, '3.8', '<' ) ) {
+                screen_icon( apply_filters( 'tgmpa_default_screen_icon', 'themes' ) );
+              }
+              echo '<h2>' . esc_html( get_admin_page_title() ) . '</h2>';
+              // Process the bulk installation submissions.
+              $installer->bulk_install( $sources , true);
+              echo '</div>';
+
+              return true;
             }
         }
 
@@ -1749,7 +1940,8 @@ function tgmpa_load_bulk_installer() {
                  * @param array $packages The plugin sources needed for installation.
                  * @return string|boolean Install confirmation messages on success, false on failure.
                  */
-                public function bulk_install( $packages ) {
+
+                public function bulk_install( $packages , $update = false) {
 
                     // Pass installer skin object and set bulk property to true.
                     $this->init();
@@ -1788,10 +1980,10 @@ function tgmpa_load_bulk_installer() {
                             array(
                                 'package'           => $plugin, // The plugin source.
                                 'destination'       => WP_PLUGIN_DIR, // The destination dir.
-                                'clear_destination' => false, // Do we want to clear the destination or not?
+                                'clear_destination' => $update, // Do we want to clear the destination or not?
                                 'clear_working'     => true, // Remove original install file.
                                 'is_multi'          => true, // Are we processing multiple installs?
-                                'hook_extra'        => array( 'plugin' => $plugin, ), // Pass plugin source as extra data.
+                                'hook_extra'        => array( 'plugin' => $plugin, 'update' => $update), // Pass plugin source as extra data.
                             )
                         );
 
@@ -1926,7 +2118,14 @@ function tgmpa_load_bulk_installer() {
                     }
 
                     // Flush plugins cache so we can make sure that the installed plugins list is always up to date.
-                    wp_cache_flush();
+                    if ($hook_extra['update']) {
+                      // Force refresh of plugin update information
+                      wp_clean_plugins_cache( true );
+
+                    }
+                    else {
+                      wp_cache_flush();
+                    }
 
                     // Set install footer strings.
                     $this->skin->after();
