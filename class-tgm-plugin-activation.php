@@ -206,6 +206,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 'notice_ask_to_update'           => _n_noop( 'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.', 'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.', 'tgmpa' ),
                 'notice_cannot_update'           => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.', 'tgmpa' ),
                 'install_link'                   => _n_noop( 'Begin installing plugin', 'Begin installing plugins', 'tgmpa' ),
+                'update_link'                    => _n_noop( 'Begin updating plugin', 'Begin updating plugins', 'tgmpa' ),
                 'activate_link'                  => _n_noop( 'Begin activating plugin', 'Begin activating plugins', 'tgmpa' ),
                 'return'                         => __( 'Return to Required Plugins Installer', 'tgmpa' ),
                 'dashboard'                      => __( 'Return to the dashboard', 'tgmpa' ),
@@ -348,9 +349,17 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             }
 
             $this->populate_file_path();
+            $installed_plugins = get_plugins(); // Retrieve a list of all the plugins
 
             foreach ( $this->plugins as $plugin ) {
-                if ( ! is_plugin_active( $plugin['file_path'] ) ) {
+
+                $update = false;
+                if (isset($plugin['version']) && isset($installed_plugins[$plugin['file_path']]['Version'])) {
+                  $update = version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' );
+                }
+
+                if ( ! is_plugin_active( $plugin['file_path'] )
+                    || $update) {
 
                     $args = apply_filters(
                     	'tgmpa_admin_menu_args',
@@ -361,8 +370,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	                        'capability' => 'edit_theme_options',                  // Capability.
 	                        'menu_slug'  => $this->menu,                           // Menu slug.
 	                        'function'   => array( $this, 'install_plugins_page' ) // Callback.
-	                    )
-					);
+	                    ));
 
                     if( apply_filters( 'tgmpa_admin_menu_use_add_theme_page', true ) ) {
                         add_theme_page($args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
@@ -392,7 +400,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             $plugin_table = new TGMPA_List_Table;
 
             // Return early if processing a plugin installation action.
-            if ( isset( $_POST['action'] ) && 'tgmpa-bulk-install' == $_POST['action'] && $plugin_table->process_bulk_actions() || $this->do_plugin_install() ) {
+            if ( isset( $_POST['action'] ) && ('tgmpa-bulk-install' == $_POST['action']  || $_POST['action'] == 'tgmpa-bulk-update')&& $plugin_table->process_bulk_actions() || $this->do_plugin_install() ) {
                 return;
             }
 
@@ -625,31 +633,38 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             $install_link_count  = 0;       // Used to determine plurality of install action link text.
             $activate_link       = false;   // Set to false, change to true in loop if conditions exist, used for action link 'activate'.
             $activate_link_count = 0;       // Used to determine plurality of activate action link text.
+            $update_link         = false;
+            $update_link_count   = false;
 
             foreach ( $this->plugins as $plugin ) {
+
+
                 // If the plugin is installed and active, check for minimum version argument before moving forward.
                 if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
-                    // A minimum version has been specified.
-                    if ( isset( $plugin['version'] ) ) {
-                        if ( isset( $installed_plugins[$plugin['file_path']]['Version'] ) ) {
-                            // If the current version is less than the minimum required version, we display a message.
-                            if ( version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' ) ) {
-                                if ( current_user_can( 'install_plugins' ) ) {
-                                    $message['notice_ask_to_update'][] = $plugin['name'];
-                                } else {
-                                    $message['notice_cannot_update'][] = $plugin['name'];
-                                }
-                            }
-                        }
-                        // Can't find the plugin, so iterate to the next condition.
-                        else {
-                            continue;
-                        }
-                    }
-                    // No minimum version specified, so iterate over the plugin.
-                    else {
-                        continue;
-                    }
+
+                  // Nothing to do move forward
+                  if (!isset($plugin['version'])
+                      || !isset($installed_plugins[$plugin['file_path']]['Version'])) {
+
+                    continue;
+                  }
+
+
+                  // A minimum version has been specified and the current version is
+                  // less than the minimum required version, we display a message.
+                  if ( version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' ) ) {
+                      if ( current_user_can( 'install_plugins' ) ) {
+
+                          $update_link = true; // We need to display the 'install' action link.
+                          $update_link_count++; // Increment the install link count.
+
+                          $message['notice_ask_to_update'][] = $plugin['name'];
+                      } else {
+                          $message['notice_cannot_update'][] = $plugin['name'];
+                      }
+                  }
+
+
                 }
 
                 // Not installed.
@@ -748,6 +763,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 $show_install_link  = $install_link ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ) . '</a>' : '';
                 $show_activate_link = $activate_link ? '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ) . '</a>'  : '';
 
+                if (empty($show_install_link) && $update_link) {
+                  $show_install_link  = '<a href="' . add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) . '">' . translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ) . '</a>';
+                }
                 // Define all of the action links.
                 $action_links = apply_filters(
                     'tgmpa_notice_action_links',
