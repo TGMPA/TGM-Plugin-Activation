@@ -1300,7 +1300,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                                     'page'          => TGM_Plugin_Activation::$instance->menu,
                                     'plugin'        => $item['slug'],
                                     'plugin_name'   => $item['sanitized_plugin'],
-                                    'plugin_source' => $item['url'],
+                                    'plugin_source' => urlencode( $item['url'] ),
                                     'tgmpa-install' => 'install-plugin',
                                 ),
                                 admin_url( 'themes.php' )
@@ -1321,7 +1321,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                                 'page'                 => TGM_Plugin_Activation::$instance->menu,
                                 'plugin'               => $item['slug'],
                                 'plugin_name'          => $item['sanitized_plugin'],
-                                'plugin_source'        => $item['url'],
+                                'plugin_source'        => urlencode( $item['url'] ),
                                 'tgmpa-activate'       => 'activate-plugin',
                                 'tgmpa-activate-nonce' => wp_create_nonce( 'tgmpa-activate' ),
                             ),
