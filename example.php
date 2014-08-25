@@ -9,9 +9,9 @@
  * @package    TGM-Plugin-Activation
  * @subpackage Example
  * @version    2.4.0
- * @author     Thomas Griffin <thomasgriffinmedia.com>
- * @author     Gary Jones <gamajo.com>
- * @copyright  Copyright (c) 2014, Thomas Griffin
+ * @author     Thomas Griffin
+ * @author     Gary Jones
+ * @copyright  Copyright (c) 2011, Thomas Griffin
  * @license    http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
  * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
  */

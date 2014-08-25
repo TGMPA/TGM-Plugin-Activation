@@ -2,17 +2,22 @@
 /**
  * Plugin installation and activation for WordPress themes.
  *
+ * Please note that this is a drop-in library for a theme or plugin.
+ * The authors of this library (Thomas and Gary) are NOT responsible
+ * for the support of your plugin or theme. Please contact the plugin
+ * or theme author for support.
+ *
  * @package   TGM-Plugin-Activation
  * @version   2.4.0
- * @author    Thomas Griffin <thomasgriffinmedia.com>
- * @author    Gary Jones <gamajo.com>
- * @copyright Copyright (c) 2012, Thomas Griffin
- * @license   http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
- * @link      https://github.com/thomasgriffin/TGM-Plugin-Activation
+ * @link      http://tgmpluginactivation.com/
+ * @author    Thomas Griffin
+ * @author    Gary Jones
+ * @copyright Copyright (c) 2011, Thomas Griffin
+ * @license   GPL-2.0+
  */
 
 /*
-    Copyright 2014 Thomas Griffin (thomasgriffinmedia.com)
+    Copyright 2011 Thomas Griffin (thomasgriffinmedia.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -39,8 +44,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
      * @since 1.0.0
      *
      * @package TGM-Plugin-Activation
-     * @author  Thomas Griffin <thomasgriffinmedia.com>
-     * @author  Gary Jones <gamajo.com>
+     * @author  Thomas Griffin
+     * @author  Gary Jones
      */
     class TGM_Plugin_Activation {
 
@@ -1092,8 +1097,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
      * @since 2.2.0
      *
      * @package TGM-Plugin-Activation
-     * @author  Thomas Griffin <thomas@thomasgriffinmedia.com>
-     * @author  Gary Jones <gamajo@gamajo.com>
+     * @author  Thomas Griffin
+     * @author  Gary Jones
      */
     class TGMPA_List_Table extends WP_List_Table {
 
@@ -1711,8 +1716,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                  * @since 2.2.0
                  *
                  * @package TGM-Plugin-Activation
-                 * @author  Thomas Griffin <thomasgriffinmedia.com>
-                 * @author  Gary Jones <gamajo.com>
+                 * @author  Thomas Griffin
+                 * @author  Gary Jones
                  */
                 class TGM_Bulk_Installer extends WP_Upgrader {
     
@@ -2003,8 +2008,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                  * @since 2.2.0
                  *
                  * @package TGM-Plugin-Activation
-                 * @author  Thomas Griffin <thomasgriffinmedia.com>
-                 * @author  Gary Jones <gamajo.com>
+                 * @author  Thomas Griffin
+                 * @author  Gary Jones
                  */
                 class TGM_Bulk_Installer_Skin extends Bulk_Upgrader_Skin {
     
