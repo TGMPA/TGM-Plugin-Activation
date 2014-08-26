@@ -635,7 +635,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                     $install_link = true; // We need to display the 'install' action link.
                     $install_link_count++; // Increment the install link count.
                     if ( current_user_can( 'install_plugins' ) ) {
-                        if ( $plugin['required'] ) {
+                        if ( array_key_exists('required', $plugin) ) {
+                        if ( isset($plugin['required']) ) {
                             $message['notice_can_install_required'][] = $plugin['name'];
                         }
                         // This plugin is only recommended.
