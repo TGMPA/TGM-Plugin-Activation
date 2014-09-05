@@ -1034,8 +1034,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public static function get_instance() {
 
-            if ( ! isset( self::$instance ) && ! ( self::$instance instanceof TGM_Plugin_Activation ) ) {
-                self::$instance = new TGM_Plugin_Activation();
+            if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
+                self::$instance = new self();
             }
 
             return self::$instance;
@@ -1044,8 +1044,19 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
     }
 
-    // Ensure only one instance of the class is ever invoked.
-    $tgmpa = TGM_Plugin_Activation::get_instance();
+	if ( did_action( 'plugins_loaded' ) ) {
+		load_tgm_plugin_activation();
+	}
+	else {
+		add_action( 'plugins_loaded', 'load_tgm_plugin_activation' );
+	}
+
+	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
+	    // Ensure only one instance of the class is ever invoked.
+		function load_tgm_plugin_activation() {
+			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
+		}
+	}
 
 }
 
