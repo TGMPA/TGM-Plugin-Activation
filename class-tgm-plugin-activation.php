@@ -1073,11 +1073,11 @@ if ( ! function_exists( 'tgmpa' ) ) {
     function tgmpa( $plugins, $config = array() ) {
 
         foreach ( $plugins as $plugin ) {
-            TGM_Plugin_Activation::$instance->register( $plugin );
+            $GLOBALS['tgmpa']::$instance->register( $plugin );
         }
 
         if ( $config ) {
-            TGM_Plugin_Activation::$instance->config( $config );
+            $GLOBALS['tgmpa']::$instance->config( $config );
         }
 
     }
@@ -1144,15 +1144,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
         protected function _gather_plugin_data() {
 
             // Load thickbox for plugin links.
-            TGM_Plugin_Activation::$instance->admin_init();
-            TGM_Plugin_Activation::$instance->thickbox();
+            $GLOBALS['tgmpa']::$instance->admin_init();
+            $GLOBALS['tgmpa']::$instance->thickbox();
 
             // Prep variables for use and grab list of all installed plugins.
             $table_data        = array();
             $i                 = 0;
             $installed_plugins = get_plugins();
 
-            foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
+            foreach ( $GLOBALS['tgmpa']::$instance->plugins as $plugin ) {
                 if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
                     continue; // No need to display plugins if they are installed and activated.
                 }
@@ -1262,7 +1262,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          */
         protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
-            foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin => $values ) {
+            foreach ( $GLOBALS['tgmpa']::$instance->plugins as $plugin => $values ) {
                 if ( $name == $values['name'] && isset( $values[$data] ) ) {
                     return $values[$data];
                 }
@@ -1313,7 +1313,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                         wp_nonce_url(
                             add_query_arg(
                                 array(
-                                    'page'          => TGM_Plugin_Activation::$instance->menu,
+                                    'page'          => $GLOBALS['tgmpa']::$instance->menu,
                                     'plugin'        => $item['slug'],
                                     'plugin_name'   => $item['sanitized_plugin'],
                                     'plugin_source' => urlencode( $item['url'] ),
@@ -1334,7 +1334,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                         '<a href="%1$s" title="' . __( 'Activate', 'tgmpa' ) . ' %2$s">' . __( 'Activate', 'tgmpa' ) . '</a>',
                         add_query_arg(
                             array(
-                                'page'                 => TGM_Plugin_Activation::$instance->menu,
+                                'page'                 => $GLOBALS['tgmpa']::$instance->menu,
                                 'plugin'               => $item['slug'],
                                 'plugin_name'          => $item['sanitized_plugin'],
                                 'plugin_source'        => urlencode( $item['url'] ),
@@ -1545,7 +1545,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 $url = wp_nonce_url(
                     add_query_arg(
                         array(
-                            'page'          => TGM_Plugin_Activation::$instance->menu,
+                            'page'          => $GLOBALS['tgmpa']::$instance->menu,
                             'tgmpa-action'  => 'install-selected',
                             'plugins'       => urlencode( implode( ',', $plugins ) ),
                             'plugin_paths'  => urlencode( implode( ',', $plugin_paths ) ),
@@ -1583,7 +1583,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 }
 
                 if ( is_wp_error( $api ) ) {
-                    wp_die( TGM_Plugin_Activation::$instance->strings['oops'] . var_dump( $api ) );
+                    wp_die( $GLOBALS['tgmpa']::$instance->strings['oops'] . var_dump( $api ) );
                 }
 
                 // Capture download links from $api or set install link to pre-packaged/private repo.
@@ -1594,7 +1594,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 }
 
                 // Finally, all the data is prepared to be sent to the installer.
-                $url   = add_query_arg( array( 'page' => TGM_Plugin_Activation::$instance->menu ), admin_url( 'themes.php' ) );
+                $url   = add_query_arg( array( 'page' =>  $GLOBALS['tgmpa']::$instance->menu ), admin_url( 'themes.php' ) );
                 $nonce = 'bulk-plugins';
                 $names = $plugin_names;
 
@@ -1603,7 +1603,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
                 // Wrap the install process with the appropriate HTML.
                 echo '<div class="tgmpa wrap">';
-                    if ( version_compare( TGM_Plugin_Activation::$instance->wp_version, '3.8', '<' ) ) {
+                    if ( version_compare( $GLOBALS['tgmpa']::$instance->wp_version, '3.8', '<' ) ) {
                         screen_icon( apply_filters( 'tgmpa_default_screen_icon', 'themes' ) );
                     }
                     echo '<h2>' . esc_html( get_admin_page_title() ) . '</h2>';
@@ -1714,7 +1714,7 @@ add_action( 'admin_init', 'tgmpa_load_bulk_installer' );
 if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     function tgmpa_load_bulk_installer() {
     
-        if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && TGM_Plugin_Activation::$instance->menu === $_GET['page'] ) ) {
+        if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && $GLOBALS['tgmpa']::$instance->menu === $_GET['page'] ) ) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
     
             if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
@@ -1766,7 +1766,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     
                         // Set install strings and automatic activation strings (if config option is set to true).
                         $this->install_strings();
-                        if ( TGM_Plugin_Activation::$instance->is_automatic ) {
+                        if ( $GLOBALS['tgmpa']::$instance->is_automatic ) {
                             $this->activate_strings();
                         }
     
@@ -1912,7 +1912,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                         }
     
                         // Only process the activation of installed plugins if the automatic flag is set to true.
-                        if ( TGM_Plugin_Activation::$instance->is_automatic ) {
+                        if ( $GLOBALS['tgmpa']::$instance->is_automatic ) {
                             // Flush plugins cache so we can make sure that the installed plugins list is always up to date.
                             wp_cache_flush();
     
@@ -1921,7 +1921,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                             $activate    = activate_plugin( $plugin_info );
     
                             // Re-populate the file path now that the plugin has been installed and activated.
-                            TGM_Plugin_Activation::$instance->populate_file_path();
+                            $GLOBALS['tgmpa']::$instance->populate_file_path();
     
                             // Set correct strings based on results.
                             if ( is_wp_error( $activate ) ) {
@@ -2083,7 +2083,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                     public function add_strings() {
     
                         // Automatic activation strings.
-                        if ( TGM_Plugin_Activation::$instance->is_automatic ) {
+                        if ( $GLOBALS['tgmpa']::$instance->is_automatic ) {
                             $this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
                             $this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', 'tgmpa' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . __( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
                             $this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', 'tgmpa' );
@@ -2171,9 +2171,9 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     
                         // Display message based on if all plugins are now active or not.
                         $complete = array();
-                        foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
+                        foreach ( $GLOBALS['tgmpa']::$instance->plugins as $plugin ) {
                             if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-                                echo '<p><a href="' . add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, admin_url( 'themes.php' ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . TGM_Plugin_Activation::$instance->strings['return'] . '</a></p>';
+                                echo '<p><a href="' . add_query_arg( 'page', $GLOBALS['tgmpa']::$instance->menu, admin_url('themes.php' ) ) . '" title="' . esc_attr( $GLOBALS['tgmpa']::$instance->strings['return'] ) . '" target="_parent">' . $GLOBALS['tgmpa']::$instance->strings['return'] . '</a></p>';
                                 $complete[] = $plugin;
                                 break;
                             }
@@ -2188,7 +2188,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     
                         // All plugins are active, so we display the complete string and hide the menu to protect users.
                         if ( empty( $complete ) ) {
-                            echo '<p>' .  sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . admin_url() . '" title="' . __( 'Return to the Dashboard', 'tgmpa' ) . '">' . __( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ) . '</p>';
+                            echo '<p>' .  sprintf( $GLOBALS['tgmpa']::$instance->strings['complete'], '<a href="' . admin_url() . '" title="' . __( 'Return to the Dashboard', 'tgmpa' ) . '">' . __( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ) . '</p>';
                             echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
                         }
     
