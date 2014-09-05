@@ -167,9 +167,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          *
          * @see TGM_Plugin_Activation::init()
          */
-        public function __construct() {
-
-            self::$instance = $this;
+        protected function __construct() {
 
             // Set the current WordPress version.
             global $wp_version;
