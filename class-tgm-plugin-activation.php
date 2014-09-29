@@ -1705,7 +1705,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     
         if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && TGM_Plugin_Activation::$instance->menu === $_GET['page'] ) ) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-    
+        }
             if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
                 /**
                  * Installer class to handle bulk plugin installations.
@@ -2211,7 +2211,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     
                 }
             }
-        }
+
     
     }
 }
