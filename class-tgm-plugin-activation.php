@@ -1115,7 +1115,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
             parent::__construct(
                 array(
                     'singular' => 'plugin',
-                    'plural'   => 'plugins',
                     'ajax'     => false,
                 )
             );
