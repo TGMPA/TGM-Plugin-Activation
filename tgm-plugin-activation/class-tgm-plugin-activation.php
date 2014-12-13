@@ -680,7 +680,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						}
 
 						$last_plugin = array_pop( $plugin_groups ); // Pop off last name to prep for readability
-						$imploded    = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) . '</em> and <em>' . $last_plugin . '</em>' );
+						$imploded    = empty( $plugin_groups ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $plugin_groups ) .'</em> '. _x( 'and', 'delimiter text between listing of multiple plugins listed', 'tgmpa' ) . ' <em>' . $last_plugin . '</em>' );
 
 						$rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[$type], $count, 'tgmpa' ), $imploded, $count ) . '</p>'; // All messages now stored
 					}
@@ -1528,7 +1528,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$count = count( $plugin_names ); // Count so we can use _n function
 				$last_plugin = array_pop( $plugin_names ); // Pop off last name to prep for readability
-				$imploded    = empty( $plugin_names ) ? '<strong>' . $last_plugin . '</strong>' : '<strong>' . ( implode( ', ', $plugin_names ) . '</strong> and <strong>' . $last_plugin . '</strong>.' );
+				$imploded    = empty( $plugin_names ) ? '<strong>' . $last_plugin . '</strong>' : '<strong>' . ( implode( ', ', $plugin_names ) . '</strong> '. _x( 'and', 'delimiter text between listing of multiple plugins listed for activation', 'tgmpa' ) . ' <strong>' . $last_plugin . '</strong>.' );
 
 				/** Now we are good to go - let's start activating plugins */
 				$activate = activate_plugins( $plugins );
