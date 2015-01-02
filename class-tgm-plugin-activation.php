@@ -1337,8 +1337,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 );
             }
 
-			$prefix  = ( defined( 'WP_NETWORK_ADMIN' ) && WP_NETWORK_ADMIN ) ? 'network_admin_' : '';
-			$actions = apply_filters( $prefix . 'tgmpa-plugin_action_links', array_filter( $actions ), $item['slug'] );
+            $actions = apply_filters( 'tgmpa-plugin_action_links', array_filter( $actions ), $item['slug'] );
 
             return sprintf( '%1$s %2$s', $item['plugin'], $this->row_actions( $actions ) );
 
