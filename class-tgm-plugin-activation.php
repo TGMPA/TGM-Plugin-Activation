@@ -1014,10 +1014,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 }
                 // There we go, activate the plugin.
                 elseif ( isset( $plugin['force_activation'] ) && $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) ) {
-                    activate_plugin( $plugin['file_path'] );
+                    $data = get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $plugin['file_path']);
+                    if (!isset($plugin['version']) || version_compare($data['Version'], $plugin['version']) >= 0) {
+                      activate_plugin( $plugin['file_path'] );
+                    }
                 }
             }
-
         }
 
         /**
