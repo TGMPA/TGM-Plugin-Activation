@@ -146,6 +146,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         public $wp_version;
 
         /**
+         * Holds the hook name for the admin page
+         *
+         * @since 2.4.x
+         *
+         * @var string
+         */
+        public $page_hook;
+
+		/**
          * Adds a reference of this object to $instance, populates default strings,
          * does the tgmpa_init action hook, and hooks in the interactions to init.
          *
@@ -341,7 +350,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             foreach ( $this->plugins as $plugin ) {
                 if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-                    add_theme_page(
+                    $this->page_hook = add_theme_page(
                         $this->strings['page_title'],          // Page title.
                         $this->strings['menu_title'],          // Menu title.
                         'edit_theme_options',                  // Capability.
