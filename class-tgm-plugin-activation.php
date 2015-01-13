@@ -95,6 +95,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         public $parent_slug = 'themes.php';
 
         /**
+         * Capability needed to view the plugin installation menu item
+         *
+         * @since 2.4.x
+         *
+         * @var string
+         */
+        public $capability = 'edit_theme_options';
+
+        /**
          * Default absolute path to folder containing pre-packaged plugin zip files.
          *
          * @since 2.0.0
@@ -364,7 +373,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                             'parent_slug'=> $this->parent_slug,                    // Parent Menu slug.
                             'page_title' => $this->strings['page_title'],          // Page title.
                             'menu_title' => $this->strings['menu_title'],          // Menu title.
-                            'capability' => 'edit_theme_options',                  // Capability.
+                            'capability' => $this->capability,                     // Capability.
                             'menu_slug'  => $this->menu,                           // Menu slug.
                             'function'   => array( $this, 'install_plugins_page' ) // Callback.
                         )
@@ -835,7 +844,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public function config( $config ) {
 
-            $keys = array( 'id', 'default_path', 'has_notices', 'dismissable', 'dismiss_msg', 'menu', 'parent_slug', 'is_automatic', 'message', 'strings' );
+            $keys = array( 'id', 'default_path', 'has_notices', 'dismissable', 'dismiss_msg', 'menu', 'parent_slug', 'capability', 'is_automatic', 'message', 'strings' );
 
             foreach ( $keys as $key ) {
                 if ( isset( $config[$key] ) ) {
