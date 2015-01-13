@@ -761,18 +761,18 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          * Display settings errors and remove those which have been displayed to avoid duplicate messages showing
          */
         private function display_settings_errors() {
-			global $wp_settings_errors;
+            global $wp_settings_errors;
 
-			settings_errors( 'tgmpa' );
-			
-			foreach ( (array) $wp_settings_errors as $key => $details ) {
-				if ( 'tgmpa' === $details['setting'] ) {
-					unset( $wp_settings_errors[ $key ] );
-					break;
-				}
-			}
-		}
-		
+            settings_errors( 'tgmpa' );
+
+            foreach ( (array) $wp_settings_errors as $key => $details ) {
+                if ( 'tgmpa' === $details['setting'] ) {
+                    unset( $wp_settings_errors[ $key ] );
+                    break;
+                }
+            }
+        }
+
         /**
          * Add dismissable admin notices.
          *
