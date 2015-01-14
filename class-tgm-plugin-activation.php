@@ -343,7 +343,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         }
 
         /**
-         * Adds submenu page under 'Appearance' tab.
+         * Adds submenu page if there are plugin actions to take.
          *
          * This method adds the submenu page letting users know that a required
          * plugin needs to be installed.
@@ -379,16 +379,22 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                         )
                     );
 
-                    if( apply_filters( 'tgmpa_admin_menu_use_add_theme_page', true ) ) {
-                        add_theme_page($args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
-                    } else {
-                        add_submenu_page( $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
-                    }
-
+                    $this->add_admin_menu( $args );
                     break;
                 }
             }
 
+        }
+        
+        /**
+         * Add the actual submenu.
+         */
+        protected function add_admin_menu( $args ) {
+            if( apply_filters( 'tgmpa_admin_menu_use_add_theme_page', true ) ) {
+                add_theme_page($args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
+            } else {
+                add_submenu_page( $args['parent_slug'], $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], $args['function']);
+            }
         }
 
         /**
