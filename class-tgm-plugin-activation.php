@@ -321,8 +321,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public function thickbox() {
 
-            if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
-                add_thickbox();
+            if ( ! is_multisite() || ( is_multisite() && is_network_admin() ) ) {
+
+                if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
+                    add_thickbox();
+                }
             }
 
         }
