@@ -218,7 +218,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
                 array_multisort( $sorted, SORT_ASC, $this->plugins );
 
-                add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+                $ms_hook = is_multisite() ? 'network_' : '';
+
+                add_action( $ms_hook . 'admin_menu', array( $this, 'admin_menu' ) );
                 add_action( 'admin_head', array( $this, 'dismiss' ) );
                 add_filter( 'install_plugin_complete_actions', array( $this, 'actions' ) );
                 add_action( 'switch_theme', array( $this, 'flush_plugins_cache' ) );
@@ -232,7 +234,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 }
 
                 if ( $this->has_notices ) {
-                    add_action( 'admin_notices', array( $this, 'notices' ) );
+                    // @todo: add notice for individual sites that the network admin needs to do something ?
+                    add_action( $ms_hook . 'admin_notices', array( $this, 'notices' ) );
                     add_action( 'admin_init', array( $this, 'admin_init' ), 1 );
                     add_action( 'admin_enqueue_scripts', array( $this, 'thickbox' ) );
                     add_action( 'switch_theme', array( $this, 'update_dismiss' ) );
@@ -311,8 +314,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         public function thickbox() {
 
-            if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice', true ) ) {
-                add_thickbox();
+            if ( ! is_multisite() || ( is_multisite() && is_network_admin() ) ) {
+
+                if ( ! get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
+                    add_thickbox();
+                }
             }
 
         }
