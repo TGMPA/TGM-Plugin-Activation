@@ -987,14 +987,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         /**
          * Delete dismissable nag option when theme is switched.
          *
-         * This ensures that the user is again reminded via nag of required
+         * This ensures that the user(s) is/are again reminded via nag of required
          * and/or recommended plugins if they re-activate the theme.
          *
          * @since 2.1.1
          */
         public function update_dismiss() {
 
-            delete_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id );
+            delete_metadata( 'user', null, 'tgmpa_dismissed_notice_' . $this->id, null, true );
 
         }
 
