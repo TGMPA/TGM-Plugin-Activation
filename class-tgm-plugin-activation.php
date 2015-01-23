@@ -1134,6 +1134,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
      * @author  Gary Jones
      */
     class TGMPA_List_Table extends WP_List_Table {
+		
+        /**
+         * Parent menu file slug
+         *
+         * @since 2.4.x
+         *
+         * @var string
+         */
+        protected $admin_page_base;
 
         /**
          * References parent constructor and sets defaults for class.
@@ -1144,6 +1153,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          * @since 2.2.0
          */
         public function __construct() {
+			
+			$this->admin_page_base = TGM_Plugin_Activation::$instance->parent_slug;
 
             parent::__construct(
                 array(
@@ -1340,7 +1351,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                                     'plugin_source' => urlencode( $item['url'] ),
                                     'tgmpa-install' => 'install-plugin',
                                 ),
-                                admin_url( TGM_Plugin_Activation::$instance->parent_slug )
+                                admin_url( $this->admin_page_base )
                             ),
                             'tgmpa-install'
                         ),
@@ -1362,7 +1373,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                                 'tgmpa-activate'       => 'activate-plugin',
                                 'tgmpa-activate-nonce' => wp_create_nonce( 'tgmpa-activate' ),
                             ),
-                            admin_url( TGM_Plugin_Activation::$instance->parent_slug )
+                            admin_url( $this->admin_page_base )
                         ),
                         $item['sanitized_plugin']
                     ),
@@ -1572,7 +1583,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                             'plugin_paths'  => urlencode( implode( ',', $plugin_paths ) ),
                             'plugin_names'  => urlencode( implode( ',', $plugin_names ) ),
                         ),
-                        admin_url( TGM_Plugin_Activation::$instance->parent_slug )
+                        admin_url( $this->admin_page_base )
                     ),
                     'bulk-plugins'
                 );
@@ -1615,7 +1626,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 }
 
                 // Finally, all the data is prepared to be sent to the installer.
-                $url   = add_query_arg( array( 'page' => TGM_Plugin_Activation::$instance->menu ), admin_url( TGM_Plugin_Activation::$instance->parent_slug ) );
+                $url   = add_query_arg( array( 'page' => TGM_Plugin_Activation::$instance->menu ), admin_url( $this->admin_page_base ) );
                 $nonce = 'bulk-plugins';
                 $names = $plugin_names;
 
@@ -2092,7 +2103,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                         parent::__construct( $args );
     
                     }
-    
+
                     /**
                      * Sets install skin strings for each individual plugin.
                      *
@@ -2194,7 +2205,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                         $complete = array();
                         foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
                             if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-                                echo '<p><a href="' . add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, admin_url( TGM_Plugin_Activation::$instance->parent_slug ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . TGM_Plugin_Activation::$instance->strings['return'] . '</a></p>';
+                                echo '<p><a href="' . add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, admin_url( $this->admin_page_base ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . TGM_Plugin_Activation::$instance->strings['return'] . '</a></p>';
                                 $complete[] = $plugin;
                                 break;
                             }
