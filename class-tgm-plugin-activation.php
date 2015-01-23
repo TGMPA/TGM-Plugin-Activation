@@ -759,8 +759,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
         /**
          * Display settings errors and remove those which have been displayed to avoid duplicate messages showing
+         *
+         * @since 2.4.x
          */
-        private function display_settings_errors() {
+        protected function display_settings_errors() {
             global $wp_settings_errors;
 
             settings_errors( 'tgmpa' );
