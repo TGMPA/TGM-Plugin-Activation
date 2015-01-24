@@ -1057,7 +1057,7 @@ if ( ! function_exists( 'tgmpa' ) ) {
  * @since 2.2.0
  */
 if ( ! class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+    require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 if ( ! class_exists( 'TGMPA_List_Table' ) ) {
