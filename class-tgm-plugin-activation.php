@@ -780,10 +780,28 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             // Admin options pages already output settings_errors, so this is to avoid duplication.
             if ( 'options-general' !== $current_screen->parent_base ) {
-                settings_errors( 'tgmpa' );
+                $this->display_settings_errors();
             }
 
         }
+        
+        /**
+         * Display settings errors and remove those which have been displayed to avoid duplicate messages showing
+         *
+         * @since 2.4.x
+         */
+        protected function display_settings_errors() {
+			global $wp_settings_errors;
+
+			settings_errors( 'tgmpa' );
+			
+			foreach ( (array) $wp_settings_errors as $key => $details ) {
+				if ( 'tgmpa' === $details['setting'] ) {
+					unset( $wp_settings_errors[ $key ] );
+					break;
+				}
+			}
+		}
 
         /**
          * Add dismissable admin notices.
