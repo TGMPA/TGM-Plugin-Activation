@@ -1812,7 +1812,7 @@ if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && TGM_Plugin_A
 
                 // Parse default options with config options from $this->bulk_upgrade and extract them.
                 $options = wp_parse_args( $options, $defaults );
-                extract( $options );
+                extract( $options, EXTR_SKIP );
 
                 // Connect to the Filesystem.
                 $res = $this->fs_connect( array( WP_CONTENT_DIR, $destination ) );
