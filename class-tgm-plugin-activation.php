@@ -1860,12 +1860,11 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                             'hook_extra'        => array(),
                         );
     
-                        // Parse default options with config options from $this->bulk_upgrade and extract them.
+                        // Parse default options with config options from $this->bulk_upgrade.
                         $options = wp_parse_args( $options, $defaults );
-                        extract( $options );
     
                         // Connect to the Filesystem.
-                        $res = $this->fs_connect( array( WP_CONTENT_DIR, $destination ) );
+                        $res = $this->fs_connect( array( WP_CONTENT_DIR, $options['destination'] ) );
                         if ( ! $res ) {
                             return false;
                         }
@@ -1877,14 +1876,14 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                         }
     
                         // Call $this->header separately if running multiple times.
-                        if ( ! $is_multi )
+                        if ( ! $options['is_multi'] )
                             $this->skin->header();
     
                         // Set strings before the package is installed.
                         $this->skin->before();
     
                         // Download the package (this just returns the filename of the file if the package is a local file).
-                        $download = $this->download_package( $package );
+                        $download = $this->download_package( $options['package'] );
                         if ( is_wp_error( $download ) ) {
                             $this->skin->error( $download );
                             $this->skin->after();
@@ -1892,7 +1891,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                         }
     
                         // Don't accidentally delete a local file.
-                        $delete_package = ( $download != $package );
+                        $delete_package = ( $download != $options['package'] );
     
                         // Unzip file into a temporary working directory.
                         $working_dir = $this->unpack_package( $download, $delete_package );
@@ -1906,10 +1905,10 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                         $result = $this->install_package(
                             array(
                                 'source'            => $working_dir,
-                                'destination'       => $destination,
-                                'clear_destination' => $clear_destination,
-                                'clear_working'     => $clear_working,
-                                'hook_extra'        => $hook_extra,
+                                'destination'       => $options['destination'],
+                                'clear_destination' => $options['clear_destination'],
+                                'clear_working'     => $options['clear_working'],
+                                'hook_extra'        => $options['hook_extra'],
                             )
                         );
     
@@ -1932,7 +1931,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
                             wp_cache_flush();
     
                             // Get the installed plugin file and activate it.
-                            $plugin_info = $this->plugin_info( $package );
+                            $plugin_info = $this->plugin_info( $options['package'] );
                             $activate    = activate_plugin( $plugin_info );
     
                             // Re-populate the file path now that the plugin has been installed and activated.
@@ -1954,7 +1953,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
     
                         // Set install footer strings.
                         $this->skin->after();
-                        if ( ! $is_multi ) {
+                        if ( ! $options['is_multi'] ) {
                             $this->skin->footer();
                         }
     
