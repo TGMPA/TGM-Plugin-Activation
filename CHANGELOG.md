@@ -1,5 +1,9 @@
 # Changelog for TGM Plugin Activation library
 
+## 2.4.1 (2015-04-22)
+
+* Improve escaping for URLs and attributes.
+
 ## 2.4.0 (2014-03-17)
 
 * All textdomain strings now made to `tgmpa` and remove all notices dealing with textdomain and translation issues.
