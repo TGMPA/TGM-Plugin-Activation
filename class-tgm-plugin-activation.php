@@ -1332,47 +1332,47 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 			// We need to display the 'Install' hover link.
 			if ( ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
+				$install_nonce_url = wp_nonce_url(
+					add_query_arg(
+						array(
+							'page'          => urlencode( TGM_Plugin_Activation::$instance->menu ),
+							'plugin'        => urlencode( $item['slug'] ),
+							'plugin_name'   => urlencode( $item['sanitized_plugin'] ),
+							'plugin_source' => urlencode( $item['url'] ),
+							'tgmpa-install' => 'install-plugin',
+						),
+						self_admin_url( 'themes.php' )
+					),
+					'tgmpa-install'
+				);
+
 				$actions = array(
 					'install' => sprintf(
-						'<a href="%1$s">' . __( 'Install', 'tgmpa' ) . '<span class="screen-reader-text"> %2$s</span></a>',
-						esc_url(
-							wp_nonce_url(
-								add_query_arg(
-									array(
-										'page'          => urlencode( TGM_Plugin_Activation::$instance->menu ),
-										'plugin'        => urlencode( $item['slug'] ),
-										'plugin_name'   => urlencode( $item['sanitized_plugin'] ),
-										'plugin_source' => urlencode( $item['url'] ),
-										'tgmpa-install' => 'install-plugin',
-									),
-									self_admin_url( 'themes.php' )
-								),
-								'tgmpa-install'
-							)
-						),
-						$item['sanitized_plugin']
+						'<a href="%1$s">' . esc_attr_x( 'Install %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
+						esc_url( $install_nonce_url ),
+						'<span class="screen-reader-text">' . $item['sanitized_plugin'] . '</span>'
 					),
 				);
 			}
 			// We need to display the 'Activate' hover link.
 			elseif ( is_plugin_inactive( $item['file_path'] ) ) {
+				$activate_url = add_query_arg(
+					array(
+						'page'                 => urlencode( TGM_Plugin_Activation::$instance->menu ),
+						'plugin'               => urlencode( $item['slug'] ),
+						'plugin_name'          => urlencode( $item['sanitized_plugin'] ),
+						'plugin_source'        => urlencode( $item['url'] ),
+						'tgmpa-activate'       => 'activate-plugin',
+						'tgmpa-activate-nonce' => urlencode( wp_create_nonce( 'tgmpa-activate' ) ),
+					),
+					self_admin_url( 'themes.php' )
+				);
+
 				$actions = array(
 					'activate' => sprintf(
-						'<a href="%1$s">' . __( 'Activate', 'tgmpa' ) . '<span class="screen-reader-text"> %2$s</span></a>',
-						esc_url(
-							add_query_arg(
-								array(
-									'page'                 => urlencode( TGM_Plugin_Activation::$instance->menu ),
-									'plugin'               => urlencode( $item['slug'] ),
-									'plugin_name'          => urlencode( $item['sanitized_plugin'] ),
-									'plugin_source'        => urlencode( $item['url'] ),
-									'tgmpa-activate'       => 'activate-plugin',
-									'tgmpa-activate-nonce' => urlencode( wp_create_nonce( 'tgmpa-activate' ) ),
-								),
-								self_admin_url( 'themes.php' )
-							)
-						),
-						$item['sanitized_plugin']
+						'<a href="%1$s">' . esc_attr_x( 'Activate %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
+						esc_url( $activate_url ),
+						'<span class="screen-reader-text">' . $item['sanitized_plugin'] . '</span>'
 					),
 				);
 			}
