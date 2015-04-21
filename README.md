@@ -35,7 +35,7 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 ## Changelog ##
 
 ### 2.4.1 ###
-* Escape urls for `add_query_arg` calls
+* Escaped urls for `add_query_arg` calls
 * Removed call to deprecated `function screen_icon()`
 
 ### 2.4.0 ###
