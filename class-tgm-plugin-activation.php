@@ -532,7 +532,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 					if ( is_wp_error( $activate ) ) {
 						echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
-						echo '<p><a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( 'themes.php' ) ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . $this->strings['return'] . '</a></p>';
+						echo '<p><a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( 'themes.php' ) ) ) . '" target="_parent">' . $this->strings['return'] . '</a></p>';
 						return true; // End it here if there is an error with automatic activation
 					}
 					else {
@@ -544,7 +544,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$complete = array();
 				foreach ( $this->plugins as $plugin ) {
 					if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-						echo '<p><a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( 'themes.php' ) ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . $this->strings['return'] . '</a></p>';
+						echo '<p><a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( 'themes.php' ) ) ) . '" target="_parent">' . $this->strings['return'] . '</a></p>';
 						$complete[] = $plugin;
 						break;
 					}
@@ -559,7 +559,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				// All plugins are active, so we display the complete string and hide the plugin menu.
 				if ( empty( $complete ) ) {
-					echo '<p>' . sprintf( $this->strings['complete'], '<a href="' . esc_url( self_admin_url() ) . '" title="' . __( 'Return to the Dashboard', 'tgmpa' ) . '">' . __( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ) . '</p>';
+					echo '<p>' . sprintf( $this->strings['complete'], '<a href="' . esc_url( self_admin_url() ) . '">' . __( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ) . '</p>';
 					echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 				}
 
@@ -581,7 +581,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				if ( is_wp_error( $activate ) ) {
 					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
-					echo '<p><a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( 'themes.php' ) ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . $this->strings['return'] . '</a></p>';
+					echo '<p><a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( 'themes.php' ) ) ) . '" target="_parent">' . $this->strings['return'] . '</a></p>';
 					return true; // End it here if there is an error with activation.
 				}
 				else {
@@ -719,7 +719,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$source       = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
 
 						if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
-							$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" title="' . $plugin_group_single_name . '" target="_blank">' . $plugin_group_single_name . '</a>';
+							$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" target="_blank">' . $plugin_group_single_name . '</a>';
 						}
 						elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 							$url = add_query_arg(
@@ -733,7 +733,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 								self_admin_url( 'plugin-install.php' )
 							);
 
-							$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin_group_single_name . '">' . $plugin_group_single_name . '</a>';
+							$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox">' . $plugin_group_single_name . '</a>';
 						}
 						else {
 							$linked_plugin_groups[] = $plugin_group_single_name; // No hyperlink.
@@ -1189,7 +1189,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$source       = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
 
 				if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
-					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" title="' . $plugin['name'] . '" target="_blank">' . $plugin['name'] . '</a></strong>';
+					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" target="_blank">' . $plugin['name'] . '</a></strong>';
 				}
 				elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 					$url = add_query_arg(
@@ -1203,7 +1203,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						self_admin_url( 'plugin-install.php' )
 					);
 
-					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox" title="' . $plugin['name'] . '">' . $plugin['name'] . '</a></strong>';
+					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox">' . $plugin['name'] . '</a></strong>';
 				}
 				else {
 					$table_data[ $i ]['plugin'] = '<strong>' . $plugin['name'] . '</strong>'; // No hyperlink.
@@ -1334,7 +1334,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			if ( ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
 				$actions = array(
 					'install' => sprintf(
-						'<a href="%1$s" title="' . __( 'Install %2$s', 'tgmpa' ) . '">' . __( 'Install', 'tgmpa' ) . '</a>',
+						'<a href="%1$s">' . __( 'Install', 'tgmpa' ) . '<span class="screen-reader-text"> %2$s</span></a>',
 						esc_url(
                             wp_nonce_url(
     							add_query_arg(
@@ -1358,7 +1358,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			elseif ( is_plugin_inactive( $item['file_path'] ) ) {
 				$actions = array(
 					'activate' => sprintf(
-						'<a href="%1$s" title="' . __( 'Activate', 'tgmpa' ) . ' %2$s">' . __( 'Activate', 'tgmpa' ) . '</a>',
+						'<a href="%1$s">' . __( 'Activate', 'tgmpa' ) . '<span class="screen-reader-text"> %2$s</span></a>',
                         esc_url(
     						add_query_arg(
     							array(
@@ -1409,7 +1409,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 */
 		public function no_items() {
 
-			printf( __( 'No plugins to install or activate. <a href="%1$s" title="Return to the Dashboard">Return to the Dashboard</a>', 'tgmpa' ), self_admin_url() );
+			printf( __( 'No plugins to install or activate. <a href="%1$s">Return to the Dashboard</a>', 'tgmpa' ), self_admin_url() );
 			echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 
 		}
@@ -2202,7 +2202,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$complete = array();
 						foreach ( TGM_Plugin_Activation::$instance->plugins as $plugin ) {
 							if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-								echo '<p><a href="' . esc_url( add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, self_admin_url( 'themes.php' ) ) ) . '" title="' . esc_attr( TGM_Plugin_Activation::$instance->strings['return'] ) . '" target="_parent">' . TGM_Plugin_Activation::$instance->strings['return'] . '</a></p>';
+								echo '<p><a href="' . esc_url( add_query_arg( 'page', TGM_Plugin_Activation::$instance->menu, self_admin_url( 'themes.php' ) ) ) . '" target="_parent">' . TGM_Plugin_Activation::$instance->strings['return'] . '</a></p>';
 								$complete[] = $plugin;
 								break;
 							}
@@ -2217,7 +2217,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
 						// All plugins are active, so we display the complete string and hide the menu to protect users.
 						if ( empty( $complete ) ) {
-							echo '<p>' . sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . esc_url( self_admin_url() ) . '" title="' . __( 'Return to the Dashboard', 'tgmpa' ) . '">' . __( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ) . '</p>';
+							echo '<p>' . sprintf( TGM_Plugin_Activation::$instance->strings['complete'], '<a href="' . esc_url( self_admin_url() ) . '">' . __( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ) . '</p>';
 							echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 						}
 
