@@ -5,7 +5,7 @@
 	<file>example.php</file>
 	<arg name="report" value="full"/>
 	<arg value="sp"/>
-	<rule ref="WordPress-Extra">
-		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
+	<rule ref="WordPress">
+		<exclude name="WordPress.VIP" />
 	</rule>
 </ruleset>
