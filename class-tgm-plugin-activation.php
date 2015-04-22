@@ -1348,7 +1348,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          */
         public function column_cb( $item ) {
 
-            $value = $item['file_path'] . ',' . esc_url( $item['url'] ) . ',' . $item['sanitized_plugin'];
+        	$plugin_url = ( 'repo' === $item['url'] ) ? $item['url'] : esc_url( $item['url'] );
+            $value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
             return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $value ), esc_attr( $item['sanitized_plugin'] ) );
 
         }
