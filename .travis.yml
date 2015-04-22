@@ -10,10 +10,12 @@ language: php
 
 # Declare versions of PHP to use. Use one decimal max.
 php:
-    # aliased to a recent 5.5.x version
-    - "5.5"
+    # Aliased to a recent high PHP version
+    - 5.6
+    # Might as well test HHVM too
+    - hhvm
     # Lowest currently possible in travis
-    - "5.2"
+    - 5.2
 
 before_script:
     # Install CodeSniffer for WordPress Coding Standards checks.
