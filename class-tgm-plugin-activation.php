@@ -2269,7 +2269,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$complete = array();
 						foreach ( $GLOBALS['tgmpa']::$instance->plugins as $plugin ) {
 							if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-								echo '<p><a href="', esc_url( add_query_arg( 'page', $GLOBALS['tgmpa']::$instance->menu, self_admin_url( $this->admin_page_base ) ) ), '" target="_parent">', esc_html( $GLOBALS['tgmpa']::$instance->strings['return'] ), '</a></p>';
+								echo '<p><a href="', esc_url( add_query_arg( 'page', $GLOBALS['tgmpa']::$instance->menu, self_admin_url( $GLOBALS['tgmpa']::$instance->parent_slug ) ) ), '" target="_parent">', esc_html( $GLOBALS['tgmpa']::$instance->strings['return'] ), '</a></p>';
 								$complete[] = $plugin;
 								break;
 							}
