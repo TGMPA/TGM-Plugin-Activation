@@ -1856,7 +1856,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						// Get TGMPA class instance
 						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 			
-						parent::construct( $skin );
+						parent::__construct( $skin );
 					}
 
 					/**
