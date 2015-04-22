@@ -856,7 +856,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @param array $plugin Array of plugin arguments.
 		 */
 		public function register( $plugin ) {
-
 			if ( ! isset( $plugin['slug'] ) || ! isset( $plugin['name'] ) ) {
 				return;
 			}
@@ -1138,7 +1137,7 @@ if ( ! function_exists( 'tgmpa' ) ) {
 		$instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
 		foreach ( $plugins as $plugin ) {
-			call_user_func( array( $instance, 'register' ), $plugins );
+			call_user_func( array( $instance, 'register' ), $plugin );
 		}
 
 		if ( $config ) {
