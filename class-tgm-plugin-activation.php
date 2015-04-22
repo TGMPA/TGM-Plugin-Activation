@@ -1665,9 +1665,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				// Loop through each plugin to install and try to grab information from WordPress API, if not create 'tgmpa-empty' scalar.
 				$i = 0;
 				foreach ( $plugin_installs as $plugin ) {
-					$api[ $i ] = plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) ) ? plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) ) : (object) $api[ $i ] = 'tgmpa-empty';
+					$temp = plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) );
+
+					$api[ $i ] = (object) 'tgmpa-empty';
+					if ( ! is_wp_error( $temp ) ) {
+						$api[ $i ] = $temp;
+					}
 					$i++;
 				}
+				unset( $plugin, $temp );
 
 				if ( is_wp_error( $api ) ) {
 					if ( WP_DEBUG === true ) {
