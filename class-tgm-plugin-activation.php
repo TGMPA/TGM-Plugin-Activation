@@ -1135,7 +1135,7 @@ if ( ! function_exists( 'tgmpa' ) ) {
 	 * @param array $config  Optional. An array of configuration values.
 	 */
 	function tgmpa( $plugins, $config = array() ) {
-		$instance = call_user_func( get_class( $GLOBALS['tgmpa'] ), get_instance() );
+		$instance = call_user_func( get_class( $GLOBALS['tgmpa'] ), 'get_instance' );
 
 		foreach ( $plugins as $plugin ) {
 			call_user_func( array( $instance, 'register' ), $plugins );
@@ -1201,7 +1201,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @since 2.2.0
 		 */
 		public function __construct() {
-			$this->tgmpa           = call_user_func( get_class( $GLOBALS['tgmpa'] ), get_instance() );
+			$this->tgmpa           = call_user_func( get_class( $GLOBALS['tgmpa'] ), 'get_instance' );
 			$this->admin_page_base = $this->tgmpa->parent_slug;
 
 			parent::__construct(
@@ -1800,7 +1800,7 @@ add_action( 'admin_init', 'tgmpa_load_bulk_installer' );
 if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 	function tgmpa_load_bulk_installer() {
 		// Get TGMPA class instance
-		$tgmpa_instance = call_user_func( get_class( $GLOBALS['tgmpa'] ), get_instance() );
+		$tgmpa_instance = call_user_func( get_class( $GLOBALS['tgmpa'] ), 'get_instance' );
 
 
 		if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) ) {
@@ -1855,7 +1855,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 */
 					public function __construct( $skin = null ) {
 						// Get TGMPA class instance
-						$this->tgmpa = call_user_func( get_class( $GLOBALS['tgmpa'] ), get_instance() );
+						$this->tgmpa = call_user_func( get_class( $GLOBALS['tgmpa'] ), 'get_instance' );
 			
 						parent::construct( $skin );
 					}
@@ -2179,7 +2179,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 */
 					public function __construct( $args = array() ) {
 						// Get TGMPA class instance
-						$this->tgmpa = call_user_func( get_class( $GLOBALS['tgmpa'] ), get_instance() );
+						$this->tgmpa = call_user_func( get_class( $GLOBALS['tgmpa'] ), 'get_instance' );
 
 						// Parse default and new args.
 						$defaults = array( 'url' => '', 'nonce' => '', 'names' => array() );
