@@ -222,7 +222,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public function init() {
 
 			// Load class strings.
-			$this->strings = array(
+			$this->strings = apply_filters( 'tgmpa_configuration_settings', array(
 				'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
 				'menu_title'                      => __( 'Install Plugins', 'tgmpa' ),
 				'installing'                      => __( 'Installing Plugin: %s', 'tgmpa' ),
@@ -243,7 +243,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'activated_successfully'          => __( 'The following plugin was activated successfully:', 'tgmpa' ),
 				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'tgmpa' ),
 				'dismiss'                         => __( 'Dismiss this notice', 'tgmpa' ),
-			);
+			) );
 
 			do_action( 'tgmpa_register' );
 			// After this point, the plugins should be registered and the configuration set.
