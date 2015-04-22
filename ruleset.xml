@@ -5,5 +5,7 @@
 	<file>example.php</file>
 	<arg name="report" value="full"/>
 	<arg value="sp"/>
-	<rule ref="WordPress"/>
+	<rule ref="WordPress">
+		<exclude name="WordPress.VIP" />
+	</rule>
 </ruleset>
