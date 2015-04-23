@@ -555,7 +555,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$upgrader->install( $source );
 
 				// Flush plugins cache so we can make sure that the installed plugins list is always up to date.
-				wp_cache_flush();
+				$this->flush_plugins_cache();
 
 				// Only activate plugins if the config option is set to true.
 				if ( $this->is_automatic ) {
@@ -942,7 +942,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function flush_plugins_cache() {
 
-			wp_cache_flush();
+			wp_clean_plugins_cache();
 
 		}
 
@@ -2047,7 +2047,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						// Only process the activation of installed plugins if the automatic flag is set to true.
 						if ( $this->tgmpa->is_automatic ) {
 							// Flush plugins cache so we can make sure that the installed plugins list is always up to date.
-							wp_cache_flush();
+							wp_clean_plugins_cache();
 
 							// Get the installed plugin file and activate it.
 							$plugin_info = $this->plugin_info( $options['package'] );
@@ -2068,7 +2068,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						}
 
 						// Flush plugins cache so we can make sure that the installed plugins list is always up to date.
-						wp_cache_flush();
+						wp_clean_plugins_cache();
 
 						// Set install footer strings.
 						$this->skin->after();
@@ -2313,7 +2313,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						parent::bulk_footer();
 
 						// Flush plugins cache so we can make sure that the installed plugins list is always up to date.
-						wp_cache_flush();
+						wp_clean_plugins_cache();
 
 						// Display message based on if all plugins are now active or not.
 						$complete = array();
