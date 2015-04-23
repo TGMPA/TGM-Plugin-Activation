@@ -752,7 +752,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$source       = $this->_get_plugin_data_from_name( $plugin_group_single_name, 'source' );
 
 						if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
-							$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" target="_blank">' . $plugin_group_single_name . '</a>';
+							$linked_plugin_groups[] = '<a href="' . esc_url( $external_url ) . '" target="_blank">' . esc_html( $plugin_group_single_name ) . '</a>';
 						}
 						elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 							$url = add_query_arg(
@@ -766,7 +766,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 								self_admin_url( 'plugin-install.php' )
 							);
 
-							$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox">' . $plugin_group_single_name . '</a>';
+							$linked_plugin_groups[] = '<a href="' . esc_url( $url ) . '" class="thickbox">' . esc_html( $plugin_group_single_name ) . '</a>';
 						}
 						else {
 							$linked_plugin_groups[] = $plugin_group_single_name; // No hyperlink.
@@ -793,7 +793,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					array(
 						'install'  => ( current_user_can( 'install_plugins' ) )  ? $show_install_link  : '',
 						'activate' => ( current_user_can( 'activate_plugins' ) ) ? $show_activate_link : '',
-						'dismiss'  => $this->dismissable ? '<a class="dismiss-notice" href="' . esc_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) ) . '" target="_parent">' . $this->strings['dismiss'] . '</a>' : '',
+						'dismiss'  => $this->dismissable ? '<a class="dismiss-notice" href="' . esc_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) ) . '" target="_parent">' . esc_html( $this->strings['dismiss'] ) . '</a>' : '',
 					)
 				);
 
@@ -1251,7 +1251,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$source       = $this->_get_plugin_data_from_name( $plugin['name'], 'source' );
 
 				if ( $external_url && preg_match( '|^http(s)?://|', $external_url ) ) {
-					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" target="_blank">' . $plugin['name'] . '</a></strong>';
+					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $external_url ) . '" target="_blank">' . esc_html( $plugin['name'] ) . '</a></strong>';
 				}
 				elseif ( ! $source || preg_match( '|^http://wordpress.org/extend/plugins/|', $source ) ) {
 					$url = add_query_arg(
@@ -1265,7 +1265,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						self_admin_url( 'plugin-install.php' )
 					);
 
-					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox">' . $plugin['name'] . '</a></strong>';
+					$table_data[ $i ]['plugin'] = '<strong><a href="' . esc_url( $url ) . '" class="thickbox">' . esc_html( $plugin['name'] ) . '</a></strong>';
 				}
 				else {
 					$table_data[ $i ]['plugin'] = '<strong>' . $plugin['name'] . '</strong>'; // No hyperlink.
@@ -1413,9 +1413,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$actions = array(
 					'install' => sprintf(
-						'<a href="%1$s">' . esc_attr_x( 'Install %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
+						'<a href="%1$s">' . esc_html_x( 'Install %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
 						esc_url( $install_nonce_url ),
-						'<span class="screen-reader-text">' . $item['sanitized_plugin'] . '</span>'
+						'<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 					),
 				);
 			}
@@ -1435,9 +1435,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$actions = array(
 					'activate' => sprintf(
-						'<a href="%1$s">' . esc_attr_x( 'Activate %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
+						'<a href="%1$s">' . esc_html_x( 'Activate %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
 						esc_url( $activate_url ),
-						'<span class="screen-reader-text">' . $item['sanitized_plugin'] . '</span>'
+						'<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 					),
 				);
 			}
@@ -1462,7 +1462,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		public function column_cb( $item ) {
 
 			$plugin_url = ( 'repo' === $item['url'] ) ? $item['url'] : esc_url( $item['url'] );
-			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
+			$value      = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
 			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', $this->_args['singular'], $value, $item['sanitized_plugin'] );
 
 		}
