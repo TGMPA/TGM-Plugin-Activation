@@ -426,7 +426,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$plugin_table = new TGMPA_List_Table;
 
 			// Return early if processing a plugin installation action.
-			if ( isset( $_POST['action'] ) && 'tgmpa-bulk-install' === $_POST['action'] && $plugin_table->process_bulk_actions() || $this->do_plugin_install() ) {
+			if ( ( 'tgmpa-bulk-install' === $plugin_table->current_action() && $plugin_table->process_bulk_actions() ) || $this->do_plugin_install() ) {
 				return;
 			}
 
