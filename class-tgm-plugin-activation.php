@@ -1461,7 +1461,14 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 */
 		public function column_cb( $item ) {
 
-			$plugin_url = ( 'repo' === $item['url'] ) ? $item['url'] : esc_url( $item['url'] );
+			$plugin_url = $item['url'];
+			if ( __( 'Private Repository', 'tgmpa' ) === $item['source'] ) {
+				$plugin_url = esc_url( $plugin_url );
+			}
+			elseif ( __( 'Pre-Packaged', 'tgmpa' ) === $item['source'] ) {
+				$plugin_url = urlencode( $plugin_url );
+			}
+
 			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
 			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', $this->_args['singular'], $value, $item['sanitized_plugin'] );
 
