@@ -1461,11 +1461,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 */
 		public function column_cb( $item ) {
 
-			$plugin_url = $item['url'];
+			$plugin_url = $item['url']; // 'repo' (no escaping needed), URL or file path
 			if ( __( 'Private Repository', 'tgmpa' ) === $item['source'] ) {
+				// Escape external URLs
 				$plugin_url = esc_url( $plugin_url );
 			}
 			elseif ( __( 'Pre-Packaged', 'tgmpa' ) === $item['source'] ) {
+				// Encode file path for use in attribute
 				$plugin_url = urlencode( $plugin_url );
 			}
 
