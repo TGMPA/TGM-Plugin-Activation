@@ -11,11 +11,12 @@ TGM Plugin Activation is a PHP library that allows you to easily require or reco
 
 ## Installation
 
-1. Drop the class file somewhere in your theme hierarchy.
-2. Add a `require_once` call within `functions.php` (or other theme file) referencing the class file.
-3. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.
+1. Head to the [Releases](https://github.com/thomasgriffin/TGM-Plugin-Activation/releases) page and download the latest release zip.
+2. Extract the class file and place it somewhere in your theme hierarchy.
+3. Add a `require_once` call within `functions.php` (or other theme file) referencing the class file.
+4. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.
 
-For steps 2 and 3, it is recommended you view, copy and paste the contents of `example.php`
+For steps 3 and 4, it is recommended you view, copy and paste the contents of `example.php`
 and amend to suit. The `example.php` file is a model for how you should include the class in your theme.
 
 *Some important things to note:*
