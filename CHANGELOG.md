@@ -20,11 +20,14 @@
 	- Leverage the css styling of the Core plugins page [#227](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/227). Props [Shiva Poudel](https://github.com/shivapoudel).
 	- Allow for moving the Admin Page to a different place in the menu. This is mainly to accommodate plugins using TGMPA as it is terribly illogical for the TGMPA page to be under the 'Appearance' menu in that case. This has been now been done in a way that Theme Check will not choke on it. [](), [#310](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/310/), [](), []() Props [Juliette Reinders Folmer](https://github.com/jrfnl).
 
-
 * Admin notices improvements:
 	- For installs including both plugins as well as themes, notices will now be dismissable for each separately. This prevents a situation where a theme would have TGMPA included, the user has dismissed the notice about it, a plugin with TGMPA gets installed and the notice about it requiring certain other plugins is never shown. [#174](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/174) Thanks [Chris Howard](https://github.com/qwertydude) for reporting.
 	- Fixed: The reset of dismissed notices on `switch_theme` was only applied for the current user, not for all users. [#246](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/246) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
 	- Fixed: Admin notices would show twice under certain circumstances. [#249](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/249), [#237](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/237) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [manake](https://github.com/manake) for reporting.
+
+* Bulk Installer:
+	- Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/321), [#316](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/316) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [tanshcreative](https://github.com/tanshcreative) for reporting.
+	- Fixed: If a bulk install was initiated using the bottom _Bulk Actions_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/319) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
 
 * Theme Check compatibility:
 	- Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/244), [#224](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/224), [#234](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/234). Props [Nate Wright](https://github.com/NateWr). Thanks [hamdan-mahran](https://github.com/hamdan-mahran) and [Sandeep](https://github.com/InsertCart) for reporting.
