@@ -1331,8 +1331,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 $actions = array(
                     'install' => sprintf(
                         '<a href="%1$s" title="' . __( 'Install', 'tgmpa' ) . ' %2$s">' . __( 'Install', 'tgmpa' ) . '</a>',
-                        wp_nonce_url(
-                            esc_url(add_query_arg(
+                        esc_url(wp_nonce_url(
+                            add_query_arg(
                                 array(
                                     'page'          => TGM_Plugin_Activation::$instance->menu,
                                     'plugin'        => $item['slug'],
@@ -1564,8 +1564,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 $plugin_names    = array_map( 'urldecode', $plugin_names );
 
                 // Pass all necessary information via URL if WP_Filesystem is needed.
-                $url = wp_nonce_url(
-                    esc_url(add_query_arg(
+                $url = esc_url(wp_nonce_url(
+                    add_query_arg(
                         array(
                             'page'          => TGM_Plugin_Activation::$instance->menu,
                             'tgmpa-action'  => 'install-selected',
@@ -1804,8 +1804,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
               $plugin_names    = array_map( 'urldecode', $plugin_names );
 
               // Pass all necessary information via URL if WP_Filesystem is needed.
-              $url = wp_nonce_url(
-                esc_url(add_query_arg(
+              $url = esc_url(wp_nonce_url(
+                add_query_arg(
                   array(
                     'page'          => TGM_Plugin_Activation::$instance->menu,
                     'tgmpa-action'  => 'update-selected',
