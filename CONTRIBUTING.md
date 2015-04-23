@@ -6,9 +6,12 @@ The following guidelines for contribution should be followed if you want to subm
 
 ## How To Prepare
 
-* You need a [GitHub account](https://github.com/signup/free)
-* Submit an [issue ticket](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues) for your issue if there is not one yet.
+* You need a [GitHub account](https://github.com/signup/free).
+* Before reporting a bug or suggesting an improvement, please check the `develop` branch to see if it has already been addressed.
+* Duplicate tickets will be closed without hesitation, so please check through existing tickets first to see if someone else has already discussed it.
+* Submit an [issue ticket] for your issue if there is not one yet.
     * Describe the issue and include steps to reproduce if it's a bug.
+    * If the issue is a bug, add any relevant JavaScript or PHP error messages. For PHP error messages, a backtrace is preferred. If you don't know how to get one, please [follow these instructions](https://gist.github.com/jrfnl/5925642).
     * Include relevant version numbers.
     * Additional screenshots or videos are often helpful.
 * If you are able and want to fix this, fork the repository on GitHub.
@@ -28,7 +31,7 @@ We use the [git-flow](http://nvie.com/posts/a-successful-git-branching-model/) b
 * Check for unnecessary whitespace with `git diff --check` before committing.
 
 ## Commit Messages
-Follow best practices for commit messages:
+We suggest you follow best practices for commit messages:
 
 * Separate subject (first line) from body with a blank line.
 * Limit the subject line to 50 characters.
