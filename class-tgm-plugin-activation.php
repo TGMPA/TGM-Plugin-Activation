@@ -1463,7 +1463,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 			$plugin_url = ( 'repo' === $item['url'] ) ? $item['url'] : esc_url( $item['url'] );
 			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
-			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', $this->_args['singular'], $value, $item['sanitized_plugin'] );
+			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $value ), esc_attr( $item['sanitized_plugin'] ) );
 
 		}
 
@@ -1645,7 +1645,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$url = wp_nonce_url(
 					add_query_arg(
 						array(
-							'page'          => $this->tgmpa->menu,
+							'page'          => urlencode( $this->tgmpa->menu ),
 							'tgmpa-action'  => 'install-selected',
 							'plugins'       => urlencode( implode( ',', $plugins ) ),
 							'plugin_paths'  => urlencode( implode( ',', $plugin_paths ) ),
@@ -1705,7 +1705,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				// Finally, all the data is prepared to be sent to the installer.
-				$url   = esc_url_raw( add_query_arg( array( 'page' => $this->tgmpa->menu ), self_admin_url( $this->admin_page_base ) ) );
+				$url   = esc_url_raw( add_query_arg( array( 'page' => urlencode( $this->tgmpa->menu ) ), self_admin_url( $this->admin_page_base ) ) );
 				$nonce = 'bulk-plugins';
 				$names = $plugin_names;
 
@@ -2319,7 +2319,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$complete = array();
 						foreach ( $this->tgmpa->plugins as $plugin ) {
 							if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-								echo '<p><a href="', esc_url( add_query_arg( 'page', $this->tgmpa->menu, self_admin_url( $this->tgmpa->parent_slug ) ) ), '" target="_parent">', esc_html( $this->tgmpa->strings['return'] ), '</a></p>';
+								echo '<p><a href="', esc_url( add_query_arg( 'page', urlencode( $this->tgmpa->menu ), self_admin_url( $this->tgmpa->parent_slug ) ) ), '" target="_parent">', esc_html( $this->tgmpa->strings['return'] ), '</a></p>';
 								$complete[] = $plugin;
 								break;
 							}
