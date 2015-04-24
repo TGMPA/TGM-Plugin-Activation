@@ -1,9 +1,9 @@
 # TGM Plugin Activation
 
-**Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
-**Version:** 2.4.1  
-**Requires at least:** 3.7.0  
-**Tested up to:** 4.2  
+**Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)
+**Version:** 2.4.1
+**Requires at least:** 3.7.0
+**Tested up to:** 4.2
 
 ## Description
 
@@ -37,3 +37,7 @@ Note that the authors of TGM Plugin Activation library are not responsible for t
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## Contributing to TGM Plugin Activation
+
+If you have a patch, or stumbled upon an issue with TGM Plugin Activation core, you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/develop/CONTRIBUTING.md) for more information how you can do this.
