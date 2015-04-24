@@ -41,4 +41,4 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## Contributing to TGM Plugin Activation
 
-If you have a patch, or stumbled upon an issue with TGM Plugin Activation core, you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/develop/CONTRIBUTING.md) for more information how you can do this.
+If you have a patch, or stumbled upon an issue with TGM Plugin Activation core, you can contribute this back to the code. Please read our [contributor guidelines](CONTRIBUTING.md) for more information how you can do this.
