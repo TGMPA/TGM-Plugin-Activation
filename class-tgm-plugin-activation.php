@@ -1064,7 +1064,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @param string $data    Optional. Array key of plugin data to return. Default is slug.
 		 * @return string|boolean Plugin slug if found, false otherwise.
 		 */
-		protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
+		public function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
 			foreach ( $this->plugins as $values ) {
 				if ( $name === $values['name'] && isset( $values[ $data ] ) ) {
