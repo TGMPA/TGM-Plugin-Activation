@@ -3,7 +3,7 @@
 **Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
 **Version:** 2.4.1  
 **Requires at least:** 3.7.0  
-**Tested up to:** 4.2
+**Tested up to:** 4.2  
 
 ## Description
 
