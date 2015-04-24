@@ -32,7 +32,7 @@ and amend to suit. The `example.php` file is a model for how you should include 
 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
-Note that the authors of TGM Plugin Activation library are not responsible for the end-user support for any plugin or theme which uses the library.
+__Note:__ TGM Plugin Activation library authors are not responsible for the *end-user support* for any plugin or theme which uses the library.
 
 ## Changelog
 
