@@ -1,9 +1,9 @@
 # TGM Plugin Activation
 
-**Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
-**Version:** 2.4.1  
+**Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ), Juliette Reinders Fomler (Github: @jrfnl / Twitter: jrf_nl)  
+**Version:** 2.5.0-alpha  
 **Requires at least:** 3.7.0  
-**Tested up to:** 4.2  
+**Tested up to:** 4.2.0  
 
 ## Description
 
