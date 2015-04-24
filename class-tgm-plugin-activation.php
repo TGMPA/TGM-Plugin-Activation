@@ -1528,7 +1528,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			}
 			elseif ( __( 'Pre-Packaged', 'tgmpa' ) === $item['source'] ) {
 				// Encode file path for use in attribute
-				$plugin_url = urlencode( $plugin_url );
+				$plugin_url = urlencode( $this->tgmpa->default_path . $plugin_url );
 			}
 
 			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
