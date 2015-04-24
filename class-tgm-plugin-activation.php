@@ -296,7 +296,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * than the typical plugin-install.php file, so we can prepare everything
 		 * beforehand.
 		 *
-		 * WP doesn't make it easy to show the plugin information in the thickbox -
+		 * WP does not make it easy to show the plugin information in the thickbox -
 		 * here we have to require a file that includes a function that does the
 		 * main work of displaying it, enqueue some styles, set up some globals and
 		 * finally call that function before exiting.
@@ -331,7 +331,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Enqueues thickbox scripts/styles for plugin info.
+		 * Enqueue thickbox scripts/styles for plugin info.
 		 *
 		 * Thickbox is not automatically included on all admin pages, so we must
 		 * manually enqueue it for those pages.
@@ -1653,7 +1653,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $_GET['plugin_paths'] ) ) {
 					$plugin_paths = explode( ',', stripslashes( $_GET['plugin_paths'] ) );
 				}
-				// Looks like the user doesn't need to enter his FTP creds.
+				// Looks like the user doesn't need to enter his FTP credentials.
 				elseif ( isset( $_POST['plugin'] ) ) {
 					$plugin_paths = (array) $plugin_path;
 				}
@@ -1666,7 +1666,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $_GET['plugin_names'] ) ) {
 					$plugin_names = explode( ',', stripslashes( $_GET['plugin_names'] ) );
 				}
-				// Looks like the user doesn't need to enter his FTP creds.
+				// Looks like the user doesn't need to enter his FTP credentials.
 				elseif ( isset( $_POST['plugin'] ) ) {
 					$plugin_names = (array) $plugin_name;
 				}
@@ -1742,7 +1742,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				// Store all information in arrays since we are processing a bulk installation.
 				$api          = array();
 				$sources      = array();
-				$install_path = array();
 
 				// Loop through each plugin to install and try to grab information from WordPress API, if not create 'tgmpa-empty' scalar.
 				$i = 0;
@@ -1890,7 +1889,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  * we load it here.
  *
  * We check to make sure no action or activation keys are set so that WordPress
- * doesn't try to re-include the class when processing upgrades or installs outside
+ * does not try to re-include the class when processing upgrades or installs outside
  * of the class.
  *
  * @since 2.2.0
