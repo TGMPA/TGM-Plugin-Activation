@@ -26,6 +26,7 @@
 * Bulk Installer:
 	- Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/321), [#316](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/316) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [tanshcreative](https://github.com/tanshcreative) for reporting.
 	- Fixed: If a bulk install was initiated using the bottom _Bulk Actions_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/319) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
+	- Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/203), [#332](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/332) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [pavot](https://github.com/pavot) and [djcowan](https://github.com/djcowan) for reporting.
 	- Fixed: The `Show Details` links no longer worked. This was a regression briefly introduced in the `develop` branch. [#326](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/326)
 
 * Theme Check compatibility:
@@ -44,11 +45,13 @@
 	- Language strings which are being overridden should use the including plugin/theme language domain. [217](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/217/) Props [Christian Foellmann](https://github.com/cfoellmann).
 
 * Housekeeping:
-	- Applied a number of best practices. [#284](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/284), [#281](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/281) - props [Ninos Ego](https://github.com/Ninos), [#286](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/286) - props [krishna19](https://github.com/krishna19), [#325](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/325) - props [Juliette Reinders Folmer](https://github.com/jrfnl), [#324](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/324) - props [Juliette Reinders Folmer](https://github.com/jrfnl), []() - props [](), []() - props []().
+	- Applied a number of best practices. [#284](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/284), [#281](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/281) - props [Ninos Ego](https://github.com/Ninos), [#286](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/286) - props [krishna19](https://github.com/krishna19), [#325](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/325), [#324](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/324), [#331](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/331) - props [Juliette Reinders Folmer](https://github.com/jrfnl), []() - props [](), []() - props []().
 	- Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/303) which were originally caused by this. Props [Juliette Reinders Folmer](https://github.com/jrfnl).
+	- Lower the file permissions on our files. [#322](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/322)
 	- Cleaned up some of the documentation. [#179](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/179) Props [Gregory Karpinsky](https://github.com/tivnet).
 	- Comply with the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
 	- Added travis integration for coding standards and php-linting. [#304](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/304) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
+	- Added scrutinizer integration for code quality. [#330](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/330)
 	- Added [Contributing guidelines](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/master/CONTRIBUTING.md).
 
 
