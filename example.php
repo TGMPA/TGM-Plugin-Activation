@@ -63,6 +63,16 @@ function my_theme_register_required_plugins() {
 			'external_url' => 'https://github.com/thomasgriffin/New-Media-Image-Uploader', // If set, overrides default API URL and points to an external URL.
 		),
 
+		// This is an example of how to include a plugin from a GitHub repository in your theme.
+		// This presumes that the plugin code is based in the root of the GitHub repository
+		// and not in a subdirectory ('/src') of the repository.
+		array(
+			'name'      => 'Adminbar Link Comments to Pending',
+			'slug'      => 'adminbar-link-comments-to-pending',
+			'source'    => 'https://github.com/jrfnl/WP-adminbar-comments-to-pending/archive/master.zip',
+			'required'  => false,
+		),
+
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
 		array(
 			'name'      => 'BuddyPress',
@@ -76,7 +86,7 @@ function my_theme_register_required_plugins() {
 	 * Array of configuration settings. Amend each line as needed.
 	 * If you want the default strings to be available under your own theme domain,
 	 * leave the strings uncommented.
-	 * Some of the strings are added into a sprintf, so see the comments at the
+	 * Some of the strings are wrapped in a sprintf(), so see the comments at the
 	 * end of each line for what each argument will be.
 	 */
 	$config = array(

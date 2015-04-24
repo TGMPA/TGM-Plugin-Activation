@@ -19,8 +19,8 @@
 * TGMPA is now a singleton to prevent extra settings overrides.
 * Fixed bug with duplicating plugins if multiple themes/plugins that used TGMPA were active at the same time.
 * Added contextual message updates depending on WordPress version.
-* Better nag message handling. If the nag has been dimissed, don't even attempt to build message (performance enhancement).
-* Ensure class can only be instantiated once (instantion moved inside the `class_exists` check for TGMPA).
+* Better nag message handling. If the nag has been dismissed, don't even attempt to build message (performance enhancement).
+* Ensure class can only be instantiated once (instantiation moved inside the `class_exists` check for TGMPA).
 * Change instances of `admin_url` to `network_admin_url` to add better support for MultiSite (falls back gracefully for non-MultiSite installs).
 * Updated much of the code to match WP Coding Standards (braces, yoda conditionals, etc.).
 * Myriads of other bug fixes and enhancements

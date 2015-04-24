@@ -2,7 +2,7 @@
 
 **Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
 **Version:** 2.4.1  
-**Requires at least:** 3.0.0  
+**Requires at least:** 3.7.0  
 **Tested up to:** 4.2  
 
 ## Description
@@ -32,7 +32,7 @@ and amend to suit. The `example.php` file is a model for how you should include 
 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
-Note that the authors of TGM Plugin Activation library are not resposible for the end-user support for any plugin or theme which uses the library.
+Note that the authors of TGM Plugin Activation library are not responsible for the end-user support for any plugin or theme which uses the library.
 
 ## Changelog
 
