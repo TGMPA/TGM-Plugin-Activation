@@ -654,7 +654,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			// Check for single file plugins
 			$source_files = array_keys( $GLOBALS['wp_filesystem']->dirlist( $remote_source ) );
-			if ( 1 === count( $source_files ) && false === $wp_filesystem->is_dir( $source ) ) {
+			if ( 1 === count( $source_files ) && false === $GLOBALS['wp_filesystem']->is_dir( $source ) ) {
 
 				return $source;
 			}
@@ -677,21 +677,21 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			if ( '' !== $desired_slug ) {
-				$subdir_name = substr( str_replace( $remote_source . '/', '', $source ), 0, -1 );
+				$subdir_name = untrailingslashit( str_replace( trailingslashit( $remote_source ), '', $source ) );
 
 				if ( ! empty( $subdir_name ) && $subdir_name !== $desired_slug ) {
-					$from = substr( $source, 0, -1 ); // remove end slash
+					$from = untrailingslashit( $source );
 					$to   = trailingslashit( $remote_source ) . $desired_slug;
 
 					if ( true === $GLOBALS['wp_filesystem']->move( $from, $to ) ) {
 						return trailingslashit( $to );
 					}
 					else {
-						return new WP_Error( 'rename_failed', __( 'The remote plugin package is does not contain a folder with the desired slug and renaming did not work. Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
+						return new WP_Error( 'rename_failed', esc_html__( 'The remote plugin package is does not contain a folder with the desired slug and renaming did not work.', 'tgmpa' ) . ' ' . esc_html__( 'Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
 					}
 				}
 				elseif ( empty( $subdir_name ) ) {
-						return new WP_Error( 'packaged_wrong', __( 'The remote plugin package consists of more than one file, but the files are not packaged in a folder. Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
+					return new WP_Error( 'packaged_wrong', esc_html__( 'The remote plugin package consists of more than one file, but the files are not packaged in a folder.', 'tgmpa' ) . ' ' . esc_html__( 'Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
 				}
 			}
 
@@ -1540,7 +1540,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$plugin_url = urlencode( $plugin_url );
 			}
 
-			$value      = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
+			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
 			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $value ), esc_attr( $item['sanitized_plugin'] ) );
 
 		}
