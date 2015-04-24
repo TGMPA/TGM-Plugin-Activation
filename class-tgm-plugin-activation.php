@@ -1453,14 +1453,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		public function column_plugin( $item ) {
 
 			$installed_plugins = get_plugins();
-
-			// No need to display any hover links.
-			if ( is_plugin_active( $item['file_path'] ) ) {
-				$actions = array();
-			}
+			$actions           = array();
 
 			// We need to display the 'Install' hover link.
-			if ( ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
+			if ( ! is_plugin_active( $item['file_path'] ) || ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
 				$install_nonce_url = wp_nonce_url(
 					add_query_arg(
 						array(
