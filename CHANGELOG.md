@@ -4,16 +4,15 @@
 
 * .... [#](). Props [](). Thanks []() for reporting.
 
+* Enhancement: Better support for GitHub hosted plugins:
+	Previously using standard GitHub packaged zips as download source would not work as, even though the plugin would be installed, it would not be recognized as such by TGMPA because of the non-standard directory name which would be created for the plugin, i.e. `my-plugin-master` instead of `my-plugin`. A work-around for this has been implemented and you can now use GitHub-packaged `master` branch or release zips to install plugins. Have a look at the `example.php` file for a working example.
+	One caveat: this presumes that the plugin is based in the root of the GitHub repo and not in a `/src` subdirectory.
+	[#327](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/327), [#280](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/280), [#283](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/283) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [Dan Fisher](https://github.com/danfisher85) and [Luis Martins](https://github.com/lmartins) for reporting/requesting this enhancement.
 
-* Fixed: _"Undefined index: skin_update_failed_error"_ [#260](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/260), [#240](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/240) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [Parhum Khoshbakht](https://github.com/parhumm) and [Sandeep](https://github.com/InsertCart) for reporting.
+*
+*
+*
 
-* Made admin urls environment aware. [#255](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/255), [#171](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/171) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
-
-* Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/208) Props [John Blackbourn](https://github.com/johnbillion).
-*
-*
-*
-*
 * Admin Page improvements:
 	- Allow for filtering of the plugin action links on the admin page similar to WP Core. The available filters are `tgmpa_plugin_action_links` and `tgmpa_network_plugin_action_links`. [#300](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/300), [#226](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/226) Thanks [Juliette Reinders Folmer](https://github.com/jrfnl) for the inspiration.
 	- Leverage the css styling of the Core plugins page [#227](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/227). Props [Shiva Poudel](https://github.com/shivapoudel).
@@ -27,22 +26,30 @@
 * Bulk Installer:
 	- Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/321), [#316](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/316) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [tanshcreative](https://github.com/tanshcreative) for reporting.
 	- Fixed: If a bulk install was initiated using the bottom _Bulk Actions_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/319) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
+	- Fixed: The `Show Details` links no longer worked. This was a regression briefly introduced in the `develop` branch. [#326](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/326)
 
 * Theme Check compatibility:
 	- Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/244), [#224](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/224), [#234](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/234). Props [Nate Wright](https://github.com/NateWr). Thanks [hamdan-mahran](https://github.com/hamdan-mahran) and [Sandeep](https://github.com/InsertCart) for reporting.
 	- Prevent _"The theme appears to use include or require"_ warning. [#262](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/262), [#258](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/258) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [Tim Nicholson](https://github.com/timnicholson) for reporting.
 	- Preempt the disallowing of the use of the `add_theme_page()` function. See [the theme review meeting notes](https://make.wordpress.org/themes/2015/04/21/this-weeks-meeting-important-information-regarding-theme-options/) for further information on this decision. [#315](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/315) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
 
+* Miscellaneous fixes:
+	- Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/185) Thanks [Chris Talkington](https://github.com/ctalkington) for reporting.
+	- Fixed: _"Undefined index: skin_update_failed_error"_ [#260](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/260), [#240](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/240) Props [Juliette Reinders Folmer](https://github.com/jrfnl). Thanks [Parhum Khoshbakht](https://github.com/parhumm) and [Sandeep](https://github.com/InsertCart) for reporting.
+	- Made admin urls environment aware. [#255](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/255), [#171](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/171) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
+	- Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/208) Props [John Blackbourn](https://github.com/johnbillion).
+
 * I18N improvements:
 	- Make configurable message texts singular/plural context aware. [#173](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/173) Props [Yakir Sitbon](https://github.com/KingYes).
 	- Language strings which are being overridden should use the including plugin/theme language domain. [217](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/217/) Props [Christian Foellmann](https://github.com/cfoellmann).
 
 * Housekeeping:
-	- Applied a number of best practices. [#284](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/284), [#281](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/281) - props [Ninos Ego](https://github.com/Ninos), [#286](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/286) - props [krishna19](https://github.com/krishna19), []() - props [](), []() - props [](), []() - props [](), []() - props []().
-	- Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/303) which were originally caused by this.
+	- Applied a number of best practices. [#284](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/284), [#281](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/281) - props [Ninos Ego](https://github.com/Ninos), [#286](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/286) - props [krishna19](https://github.com/krishna19), [#325](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/325) - props [Juliette Reinders Folmer](https://github.com/jrfnl), [#324](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/324) - props [Juliette Reinders Folmer](https://github.com/jrfnl), []() - props [](), []() - props []().
+	- Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303](https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/303) which were originally caused by this. Props [Juliette Reinders Folmer](https://github.com/jrfnl).
 	- Cleaned up some of the documentation. [#179](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/179) Props [Gregory Karpinsky](https://github.com/tivnet).
 	- Comply with the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
 	- Added travis integration for coding standards and php-linting. [#304](https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/304) Props [Juliette Reinders Folmer](https://github.com/jrfnl).
+	- Added [Contributing guidelines](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/master/CONTRIBUTING.md).
 
 
 ## 2.4.2 (2015-04-27)
