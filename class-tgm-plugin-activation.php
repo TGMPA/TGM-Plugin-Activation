@@ -552,7 +552,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$upgrader = new Plugin_Upgrader( $skin = new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
 
 				// Perform the action and install the plugin from the $source urldecode().
+				add_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
 				$upgrader->install( $source );
+				remove_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
 
 				// Flush plugins cache so we can make sure that the installed plugins list is always up to date.
 				$this->flush_plugins_cache();
@@ -627,6 +629,73 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			return false;
 
+		}
+
+		/**
+		 * Adjust the plugin directory name if necessary.
+		 *
+		 * The final destination directory of a plugin is based on the subdirectory name found in the
+		 * (un)zipped source. In some cases - most notably GitHub repository plugin downloads -, this
+		 * subdirectory name is not the same as the expected slug and the plugin will not be recognized
+		 * as installed. This is fixed by adjusting the temporary unzipped source subdirectory name to
+		 * the expected plugin slug.
+		 *
+		 * @param string       $source        Path to upgrade/zipfilename.tmp/subdirectory/
+		 * @param string       $remote_source Path to upgrade/zipfilename.tmp
+		 * @param \WP_Upgrader $upgrader      Instance of the upgrader which installs the plugin
+		 *
+		 * @return string $source
+		 */
+		public function maybe_adjust_source_dir( $source, $remote_source, $upgrader ) {
+
+			if ( ! $this->is_tgmpa_page() ) {
+				return $source;
+			}
+
+			// Check for single file plugins
+			$source_files = array_keys( $GLOBALS['wp_filesystem']->dirlist( $remote_source ) );
+			if ( 1 === count( $source_files ) && false === $GLOBALS['wp_filesystem']->is_dir( $source ) ) {
+
+				return $source;
+			}
+
+			// Multi-file plugin, let's see if the directory is correctly named
+			$desired_slug = '';
+
+			// Figure out what the slug is supposed to be
+			if ( false === $upgrader->bulk ) {
+				$desired_slug = $upgrader->skin->options['plugin']['slug'];
+			}
+			else {
+				// Bulk installer contains less info, so fall back on the info registered here.
+				foreach ( $this->plugins as $plugin ) {
+					if ( $plugin['name'] === $upgrader->skin->plugin_names[ $upgrader->skin->i ] ) {
+						$desired_slug = $plugin['slug'];
+						break;
+					}
+				}
+			}
+
+			if ( '' !== $desired_slug ) {
+				$subdir_name = untrailingslashit( str_replace( trailingslashit( $remote_source ), '', $source ) );
+
+				if ( ! empty( $subdir_name ) && $subdir_name !== $desired_slug ) {
+					$from = untrailingslashit( $source );
+					$to   = trailingslashit( $remote_source ) . $desired_slug;
+
+					if ( true === $GLOBALS['wp_filesystem']->move( $from, $to ) ) {
+						return trailingslashit( $to );
+					}
+					else {
+						return new WP_Error( 'rename_failed', esc_html__( 'The remote plugin package is does not contain a folder with the desired slug and renaming did not work.', 'tgmpa' ) . ' ' . esc_html__( 'Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
+					}
+				}
+				elseif ( empty( $subdir_name ) ) {
+					return new WP_Error( 'packaged_wrong', esc_html__( 'The remote plugin package consists of more than one file, but the files are not packaged in a folder.', 'tgmpa' ) . ' ' . esc_html__( 'Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
+				}
+			}
+
+			return $source;
 		}
 
 		/**
@@ -1184,7 +1253,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 	 * @author  Gary Jones
 	 */
 	class TGMPA_List_Table extends WP_List_Table {
-		
+
 		/**
 		 * TGMPA instance
 		 *
@@ -1471,7 +1540,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$plugin_url = urlencode( $plugin_url );
 			}
 
-			$value      = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
+			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
 			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $value ), esc_attr( $item['sanitized_plugin'] ) );
 
 		}
@@ -1724,8 +1793,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				// Wrap the install process with the appropriate HTML.
 				echo '<div class="tgmpa wrap">',
 					'<h2>', esc_html( get_admin_page_title() ), '</h2>';
+
 				// Process the bulk installation submissions.
+				// Perform the action and install the plugin from the $source urldecode().
+				add_filter( 'upgrader_source_selection', array( $this->tgmpa, 'maybe_adjust_source_dir' ), 1, 3 );
 				$installer->bulk_install( $sources );
+				remove_filter( 'upgrader_source_selection', array( $this->tgmpa, 'maybe_adjust_source_dir' ), 1, 3 );
+
 				echo '</div>';
 
 				return true;
@@ -1834,7 +1908,6 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 		// Get TGMPA class instance
 		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
-
 		if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
@@ -1879,7 +1952,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 * @var object
 					 */
 					protected $tgmpa;
-			
+
 					/**
 					 * References parent constructor and sets defaults for class.
 					 *
@@ -1888,7 +1961,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					public function __construct( $skin = null ) {
 						// Get TGMPA class instance
 						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
-			
+
 						parent::__construct( $skin );
 					}
 
