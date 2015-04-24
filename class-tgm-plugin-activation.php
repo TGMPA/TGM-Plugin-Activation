@@ -652,6 +652,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return $source;
 			}
 
+			// Check for single file plugins
+			$source_files = array_keys( $GLOBALS['wp_filesystem']->dirlist( $remote_source ) );
+			if ( 1 === count( $source_files ) && false === $wp_filesystem->is_dir( $source ) ) {
+
+				return $source;
+			}
+
+			// Multi-file plugin, let's see if the directory is correctly named
 			$desired_slug = '';
 
 			// Figure out what the slug is supposed to be
@@ -669,19 +677,21 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			if ( '' !== $desired_slug ) {
-
 				$subdir_name = substr( str_replace( $remote_source . '/', '', $source ), 0, -1 );
 
-				if ( $subdir_name !== $desired_slug ) {
+				if ( ! empty( $subdir_name ) && $subdir_name !== $desired_slug ) {
 					$from = substr( $source, 0, -1 ); // remove end slash
-					$to   = $remote_source . '/' . $desired_slug;
+					$to   = trailingslashit( $remote_source ) . $desired_slug;
 
 					if ( true === $GLOBALS['wp_filesystem']->move( $from, $to ) ) {
-						return $to . '/';
+						return trailingslashit( $to );
 					}
 					else {
 						return new WP_Error( 'rename_failed', __( 'The remote plugin package is does not contain a folder with the desired slug and renaming did not work. Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
 					}
+				}
+				elseif ( empty( $subdir_name ) ) {
+						return new WP_Error( 'packaged_wrong', __( 'The remote plugin package consists of more than one file, but the files are not packaged in a folder. Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
 				}
 			}
 
