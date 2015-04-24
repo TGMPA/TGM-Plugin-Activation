@@ -32,8 +32,12 @@ and amend to suit. The `example.php` file is a model for how you should include 
 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
-Note that the authors of TGM Plugin Activation library are not responsible for the end-user support for any plugin or theme which uses the library.
+__Note:__ TGM Plugin Activation library authors are not responsible for the *end-user support* for any plugin or theme which uses the library.
 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## Contributing to TGM Plugin Activation
+
+If you have a patch, or stumbled upon an issue with TGM Plugin Activation core, you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/develop/CONTRIBUTING.md) for more information how you can do this.
