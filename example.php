@@ -86,7 +86,7 @@ function my_theme_register_required_plugins() {
 	 * Array of configuration settings. Amend each line as needed.
 	 * If you want the default strings to be available under your own theme domain,
 	 * leave the strings uncommented.
-	 * Some of the strings are added into a sprintf, so see the comments at the
+	 * Some of the strings are wrapped in a sprintf(), so see the comments at the
 	 * end of each line for what each argument will be.
 	 */
 	$config = array(

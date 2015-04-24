@@ -77,7 +77,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public $id = 'tgmpa';
 
 		/**
-		 * Name of the querystring argument for the admin page.
+		 * Name of the query-string argument for the admin page.
 		 *
 		 * @since 1.0.0
 		 *
@@ -296,7 +296,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * than the typical plugin-install.php file, so we can prepare everything
 		 * beforehand.
 		 *
-		 * WP doesn't make it easy to show the plugin information in the thickbox -
+		 * WP does not make it easy to show the plugin information in the thickbox -
 		 * here we have to require a file that includes a function that does the
 		 * main work of displaying it, enqueue some styles, set up some globals and
 		 * finally call that function before exiting.
@@ -331,7 +331,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Enqueues thickbox scripts/styles for plugin info.
+		 * Enqueue thickbox scripts/styles for plugin info.
 		 *
 		 * Thickbox is not automatically included on all admin pages, so we must
 		 * manually enqueue it for those pages.
@@ -640,8 +640,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * as installed. This is fixed by adjusting the temporary unzipped source subdirectory name to
 		 * the expected plugin slug.
 		 *
-		 * @param string       $source        Path to upgrade/zipfilename.tmp/subdirectory/
-		 * @param string       $remote_source Path to upgrade/zipfilename.tmp
+		 * @param string       $source        Path to upgrade/zip-file-name.tmp/subdirectory/
+		 * @param string       $remote_source Path to upgrade/zip-file-name.tmp
 		 * @param \WP_Upgrader $upgrader      Instance of the upgrader which installs the plugin
 		 *
 		 * @return string $source
@@ -972,8 +972,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			foreach ( $keys as $key ) {
 				if ( isset( $config[ $key ] ) ) {
 					if ( is_array( $config[ $key ] ) ) {
-						foreach ( $config[ $key ] as $subkey => $value ) {
-							$this->{$key}[ $subkey ] = $value;
+						foreach ( $config[ $key ] as $sub_key => $value ) {
+							$this->{$key}[ $sub_key ] = $value;
 						}
 					}
 					else {
@@ -1066,7 +1066,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
-			foreach ( $this->plugins as $plugin => $values ) {
+			foreach ( $this->plugins as $values ) {
 				if ( $name === $values['name'] && isset( $values[ $data ] ) ) {
 					return $values[ $data ];
 				}
@@ -1187,7 +1187,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	}
 
 	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
-		// Ensure only one instance of the class is ever invoked.
+		/**
+		 * Ensure only one instance of the class is ever invoked.
+		 */
 		function load_tgm_plugin_activation() {
 			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
 		}
@@ -1421,14 +1423,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 */
 		protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
-			foreach ( $this->tgmpa->plugins as $plugin => $values ) {
-				if ( $name === $values['name'] && isset( $values[ $data ] ) ) {
-					return $values[ $data ];
-				}
-			}
-
-			return false;
-
+			return $this->tgmpa->_get_plugin_data_from_name( $name, $data );
 		}
 
 		/**
@@ -1458,14 +1453,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		public function column_plugin( $item ) {
 
 			$installed_plugins = get_plugins();
-
-			// No need to display any hover links.
-			if ( is_plugin_active( $item['file_path'] ) ) {
-				$actions = array();
-			}
+			$actions           = array();
 
 			// We need to display the 'Install' hover link.
-			if ( ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
+			if ( ! is_plugin_active( $item['file_path'] ) || ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
 				$install_nonce_url = wp_nonce_url(
 					add_query_arg(
 						array(
@@ -1662,7 +1653,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $_GET['plugin_paths'] ) ) {
 					$plugin_paths = explode( ',', stripslashes( $_GET['plugin_paths'] ) );
 				}
-				// Looks like the user doesn't need to enter his FTP creds.
+				// Looks like the user doesn't need to enter his FTP credentials.
 				elseif ( isset( $_POST['plugin'] ) ) {
 					$plugin_paths = (array) $plugin_path;
 				}
@@ -1675,7 +1666,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( isset( $_GET['plugin_names'] ) ) {
 					$plugin_names = explode( ',', stripslashes( $_GET['plugin_names'] ) );
 				}
-				// Looks like the user doesn't need to enter his FTP creds.
+				// Looks like the user doesn't need to enter his FTP credentials.
 				elseif ( isset( $_POST['plugin'] ) ) {
 					$plugin_names = (array) $plugin_name;
 				}
@@ -1751,7 +1742,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				// Store all information in arrays since we are processing a bulk installation.
 				$api          = array();
 				$sources      = array();
-				$install_path = array();
 
 				// Loop through each plugin to install and try to grab information from WordPress API, if not create 'tgmpa-empty' scalar.
 				$i = 0;
@@ -1814,7 +1804,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$plugins_to_activate = array();
 
 				// Split plugin value into array with plugin file path, plugin source and plugin name.
-				foreach ( $plugins as $i => $plugin ) {
+				foreach ( $plugins as $plugin ) {
 					$plugins_to_activate[] = explode( ',', $plugin );
 				}
 
@@ -1867,6 +1857,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				return true;
 			}
+
+			return false;
 		}
 
 		/**
@@ -1897,13 +1889,16 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  * we load it here.
  *
  * We check to make sure no action or activation keys are set so that WordPress
- * doesn't try to re-include the class when processing upgrades or installs outside
+ * does not try to re-include the class when processing upgrades or installs outside
  * of the class.
  *
  * @since 2.2.0
  */
 add_action( 'admin_init', 'tgmpa_load_bulk_installer' );
 if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
+	/**
+	 * Load bulk installer
+	 */
 	function tgmpa_load_bulk_installer() {
 		// Get TGMPA class instance
 		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
@@ -2215,9 +2210,9 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						}
 
 						// Assume the requested plugin is the first in the list.
-						$pluginfiles = array_keys( $plugin );
+						$plugin_files = array_keys( $plugin );
 
-						return $this->result['destination_name'] . '/' . $pluginfiles[0];
+						return $this->result['destination_name'] . '/' . $plugin_files[0];
 
 					}
 
