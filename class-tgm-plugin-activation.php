@@ -77,7 +77,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         public $id = 'tgmpa';
 
         /**
-         * Name of the querystring argument for the admin page.
+         * Name of the query-string argument for the admin page.
          *
          * @since 1.0.0
          *
@@ -297,7 +297,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          * than the typical plugin-install.php file, so we can prepare everything
          * beforehand.
          *
-         * WP doesn't make it easy to show the plugin information in the thickbox -
+         * WP does not make it easy to show the plugin information in the thickbox -
          * here we have to require a file that includes a function that does the
          * main work of displaying it, enqueue some styles, set up some globals and
          * finally call that function before exiting.
@@ -334,7 +334,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
         }
 
         /**
-         * Enqueues thickbox scripts/styles for plugin info.
+         * Enqueue thickbox scripts/styles for plugin info.
          *
          * Thickbox is not automatically included on all admin pages, so we must
          * manually enqueue it for those pages.
@@ -562,8 +562,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 // Create a new instance of Plugin_Upgrader.
                 $upgrader = new Plugin_Upgrader( $skin = new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
 
-                // Perform the action and install the plugin from the $source urldecode().
-                $upgrader->install( $source );
+	            // Perform the action and install the plugin from the $source urldecode().
+	            add_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
+	            $upgrader->install( $source );
+	            remove_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
 
                 // Flush plugins cache so we can make sure that the installed plugins list is always up to date.
 	            $this->flush_plugins_cache();
@@ -640,7 +642,74 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
         }
 
-        /**
+	    /**
+	     * Adjust the plugin directory name if necessary.
+	     *
+	     * The final destination directory of a plugin is based on the subdirectory name found in the
+	     * (un)zipped source. In some cases - most notably GitHub repository plugin downloads -, this
+	     * subdirectory name is not the same as the expected slug and the plugin will not be recognized
+	     * as installed. This is fixed by adjusting the temporary unzipped source subdirectory name to
+	     * the expected plugin slug.
+	     *
+	     * @param string       $source        Path to upgrade/zip-file-name.tmp/subdirectory/
+	     * @param string       $remote_source Path to upgrade/zip-file-name.tmp
+	     * @param \WP_Upgrader $upgrader      Instance of the upgrader which installs the plugin
+	     *
+	     * @return string $source
+	     */
+	    public function maybe_adjust_source_dir( $source, $remote_source, $upgrader ) {
+
+		    if ( ! $this->is_tgmpa_page() ) {
+			    return $source;
+		    }
+
+		    // Check for single file plugins
+		    $source_files = array_keys( $GLOBALS['wp_filesystem']->dirlist( $remote_source ) );
+		    if ( 1 === count( $source_files ) && false === $GLOBALS['wp_filesystem']->is_dir( $source ) ) {
+
+			    return $source;
+		    }
+
+		    // Multi-file plugin, let's see if the directory is correctly named
+		    $desired_slug = '';
+
+		    // Figure out what the slug is supposed to be
+		    if ( false === $upgrader->bulk ) {
+			    $desired_slug = $upgrader->skin->options['plugin']['slug'];
+		    }
+		    else {
+			    // Bulk installer contains less info, so fall back on the info registered here.
+			    foreach ( $this->plugins as $plugin ) {
+				    if ( $plugin['name'] === $upgrader->skin->plugin_names[ $upgrader->skin->i ] ) {
+					    $desired_slug = $plugin['slug'];
+					    break;
+				    }
+			    }
+		    }
+
+		    if ( '' !== $desired_slug ) {
+			    $subdir_name = untrailingslashit( str_replace( trailingslashit( $remote_source ), '', $source ) );
+
+			    if ( ! empty( $subdir_name ) && $subdir_name !== $desired_slug ) {
+				    $from = untrailingslashit( $source );
+				    $to   = trailingslashit( $remote_source ) . $desired_slug;
+
+				    if ( true === $GLOBALS['wp_filesystem']->move( $from, $to ) ) {
+					    return trailingslashit( $to );
+				    }
+				    else {
+					    return new WP_Error( 'rename_failed', esc_html__( 'The remote plugin package is does not contain a folder with the desired slug and renaming did not work.', 'tgmpa' ) . ' ' . esc_html__( 'Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
+				    }
+			    }
+			    elseif ( empty( $subdir_name ) ) {
+				    return new WP_Error( 'packaged_wrong', esc_html__( 'The remote plugin package consists of more than one file, but the files are not packaged in a folder.', 'tgmpa' ) . ' ' . esc_html__( 'Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines.', 'tgmpa' ), array( 'found' => $subdir_name, 'expected' => $desired_slug ) );
+			    }
+		    }
+
+		    return $source;
+	    }
+
+	    /**
          * Echoes required plugin notice.
          *
          * Outputs a message telling users that a specific plugin is required for
@@ -922,8 +991,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		    foreach ( $keys as $key ) {
 			    if ( isset( $config[ $key ] ) ) {
 				    if ( is_array( $config[ $key ] ) ) {
-					    foreach ( $config[ $key ] as $subkey => $value ) {
-						    $this->{$key}[ $subkey ] = $value;
+					    foreach ( $config[ $key ] as $sub_key => $value ) {
+						    $this->{$key}[ $sub_key ] = $value;
 					    }
 				    }
 				    else {
@@ -1016,7 +1085,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          */
         protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
-            foreach ( $this->plugins as $plugin => $values ) {
+            foreach ( $this->plugins as $values ) {
 	            if ( $name === $values['name'] && isset( $values[ $data ] ) ) {
 		            return $values[ $data ];
 	            }
@@ -1140,7 +1209,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
     }
 
 	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
-		// Ensure only one instance of the class is ever invoked.
+		/**
+		 * Ensure only one instance of the class is ever invoked.
+		 */
 		function load_tgm_plugin_activation() {
 			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
 		}
@@ -1384,14 +1455,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          */
 	    protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
-		    foreach ( $this->tgmpa->plugins as $plugin => $values ) {
-			    if ( $name === $values['name'] && isset( $values[ $data ] ) ) {
-				    return $values[ $data ];
-			    }
-		    }
-
-		    return false;
-
+		    return $this->tgmpa->_get_plugin_data_from_name( $name, $data );
 	    }
 
         /**
@@ -1421,14 +1485,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 	    public function column_plugin( $item ) {
 
 		    $installed_plugins = get_plugins();
-
-		    // No need to display any hover links.
-		    if ( is_plugin_active( $item['file_path'] ) ) {
-			    $actions = array();
-		    }
+		    $actions = array();
 
 		    // We need to display the 'Install' hover link.
-		    if ( ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
+		    if ( ! is_plugin_active( $item['file_path'] ) || ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
 			    $install_nonce_url = wp_nonce_url(
 				    add_query_arg(
 					    array(
@@ -1626,7 +1686,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 if ( isset( $_GET['plugin_paths'] ) ) {
                     $plugin_paths = explode( ',', stripslashes( $_GET['plugin_paths'] ) );
                 }
-                // Looks like the user doesn't need to enter his FTP creds.
+                // Looks like the user doesn't need to enter his FTP credentials.
                 elseif ( isset( $_POST['plugin'] ) ) {
                     $plugin_paths = (array) $plugin_path;
                 }
@@ -1639,7 +1699,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 if ( isset( $_GET['plugin_names'] ) ) {
                     $plugin_names = explode( ',', stripslashes( $_GET['plugin_names'] ) );
                 }
-                // Looks like the user doesn't need to enter his FTP creds.
+                // Looks like the user doesn't need to enter his FTP credentials.
                 elseif ( isset( $_POST['plugin'] ) ) {
                     $plugin_names = (array) $plugin_name;
                 }
@@ -1715,7 +1775,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 // Store all information in arrays since we are processing a bulk installation.
                 $api          = array();
                 $sources      = array();
-                $install_path = array();
 
                 // Loop through each plugin to install and try to grab information from WordPress API, if not create 'tgmpa-empty' scalar.
                 $i = 0;
@@ -1757,8 +1816,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 // Wrap the install process with the appropriate HTML.
 	            echo '<div class="tgmpa wrap">',
 	                '<h2>', esc_html( get_admin_page_title() ), '</h2>';
-                    // Process the bulk installation submissions.
-                    $installer->bulk_install( $sources );
+
+                // Process the bulk installation submissions.
+	            // Perform the action and install the plugin from the $source urldecode().
+	            add_filter( 'upgrader_source_selection', array( $this->tgmpa, 'maybe_adjust_source_dir' ), 1, 3 );
+	            $installer->bulk_install( $sources );
+	            remove_filter( 'upgrader_source_selection', array( $this->tgmpa, 'maybe_adjust_source_dir' ), 1, 3 );
+
                 echo '</div>';
 
                 return true;
@@ -1773,7 +1837,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 $plugins_to_activate = array();
 
                 // Split plugin value into array with plugin file path, plugin source and plugin name.
-                foreach ( $plugins as $i => $plugin ) {
+                foreach ( $plugins as $plugin ) {
                     $plugins_to_activate[] = explode( ',', $plugin );
                 }
 
@@ -2034,17 +2098,19 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
  * we load it here.
  *
  * We check to make sure no action or activation keys are set so that WordPress
- * doesn't try to re-include the class when processing upgrades or installs outside
+ * does not try to re-include the class when processing upgrades or installs outside
  * of the class.
  *
  * @since 2.2.0
  */
 add_action( 'admin_init', 'tgmpa_load_bulk_installer' );
 if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
+	/**
+	 * Load bulk installer
+	 */
 	function tgmpa_load_bulk_installer() {
 		// Get TGMPA class instance
 		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
-
 
 		if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) ) {
           require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -2317,7 +2383,6 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
 	                }
 
-
 	                /**
 	                 * Sets the correct activation strings for the installer skin to use.
 	                 *
@@ -2355,9 +2420,9 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 	                    }
 
 	                    // Assume the requested plugin is the first in the list.
-	                    $pluginfiles = array_keys( $plugin );
+	                    $plugin_files = array_keys( $plugin );
 
-	                    return $this->result['destination_name'] . '/' . $pluginfiles[0];
+	                    return $this->result['destination_name'] . '/' . $plugin_files[0];
 
 	                }
 
