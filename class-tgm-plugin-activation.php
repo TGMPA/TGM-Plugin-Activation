@@ -2248,7 +2248,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						// Default installation strings.
 						else {
 							$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
-							$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', 'tgmpa' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . __( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
+							$this->upgrader->strings['skin_update_successful']    = esc_html__( '%1$s installed successfully.', 'tgmpa' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
 							$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', 'tgmpa' );
 							$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
 						}
@@ -2301,7 +2301,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
 						// If the result is set and there are no errors, success!
 						if ( ! empty( $this->result ) && ! is_wp_error( $this->result ) ) {
-							echo '<div class="updated"><p>', sprintf( wp_kses_post( $this->upgrader->strings['skin_update_successful'] ), esc_html( $this->plugin_names[ $this->i ] ), 'jQuery(\'#progress-' . esc_js( $this->upgrader->update_current ) . '\').toggle();jQuery(\'span\', this).toggle(); return false;' ), '</p></div>';
+							echo '<div class="updated"><p>', sprintf( $this->upgrader->strings['skin_update_successful'] /* pre-escaped */, esc_html( $this->plugin_names[ $this->i ] ), 'jQuery(\'#progress-' . esc_js( $this->upgrader->update_current ) . '\').toggle();jQuery(\'span\', this).toggle(); return false;' ), '</p></div>';
 							echo '<script type="text/javascript">jQuery(\'.waiting-', esc_js( $this->upgrader->update_current ), '\').hide();</script>';
 						}
 
