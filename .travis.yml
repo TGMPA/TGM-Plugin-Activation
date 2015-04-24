@@ -1,12 +1,12 @@
 # Travis CI (MIT License) configuration file
 # @link https://travis-ci.org/
 
+# Use new container based environment
+sudo: false
+
 # Declare project language.
 # @link http://about.travis-ci.org/docs/user/languages/php/
 language: php
-
-# Use new container based environment
-sudo: false
 
 # Declare versions of PHP to use. Use one decimal max.
 php:
