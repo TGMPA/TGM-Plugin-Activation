@@ -487,12 +487,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
             $plugin = array();
 
             // Checks for actions from hover links to process the installation.
-            if ( isset( $_GET['plugin'] ) && ( isset( $_GET['tgmpa-install'] ) && 'install-plugin' === $_GET['tgmpa-install'] ) ) {
+            if ( isset( $_GET['plugin'] ) && ( isset( $_GET['tgmpa-install'] ) && ( 'install-plugin' === $_GET['tgmpa-install'] || 'update-plugin' === $_GET['tgmpa-install'] ) ) ) {
                 check_admin_referer( 'tgmpa-install' );
 
 	            $plugin['name']   = $_GET['plugin_name']; // Plugin name. // @todo needs sanitizing, figure out how
 	            $plugin['slug']   = sanitize_title( $_GET['plugin'] ); // Plugin slug.
 	            $plugin['source'] = $_GET['plugin_source']; // Plugin source. // @todo needs sanitizing, figure out how
+	            $plugin['version'] = isset ( $_GET['version'] ) ? $_GET['version'] : ''; // Plugin version
+	            $install_type      = $_GET['tgmpa-install']; // Install type
 
 	            // Pass all necessary information via URL if WP_Filesystem is needed.
                 $url = wp_nonce_url(
@@ -563,7 +565,23 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 	            // Perform the action and install the plugin from the $source urldecode().
 	            add_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
-	            $upgrader->install( $source );
+	            if ( $install_type === 'update-plugin' ) {
+		            delete_site_transient('update_plugins');
+		            $data = get_site_transient( 'update_plugins' );
+
+		            if (! is_object( $data ) ) {
+			            $data = new stdClass;
+		            }
+		            $data->response[$plugin['slug']] = new stdClass;
+		            $data->response[$plugin['slug']]->package = $source;
+		            $data->response[$plugin['slug']]->version  = $plugin['version'];
+
+		            set_site_transient( 'update_plugins', $data );
+		            $upgrader->upgrade( $plugin['slug'] );
+	            }
+	            else {
+		            $upgrader->install( $source );
+	            }
 	            remove_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
 
                 // Flush plugins cache so we can make sure that the installed plugins list is always up to date.
@@ -869,17 +887,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 // Setup variables to determine if action links are needed.
                 $show_install_link  = $install_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ) . '</a>' : '';
                 $show_activate_link = $activate_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ) . '</a>'  : '';
-
-	            //If there is no install link and we need to update plugin, we will hijack $show_install_link
-                if (empty($show_install_link) && $update_link) {
-                  $show_install_link  = '<a href="' . esc_url( add_query_arg( 'page',  urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ) . '</a>';
-                }
+	            $show_update_link  = $update_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ) . '</a>' : '';
 
                 // Define all of the action links.
                 $action_links = apply_filters(
                     'tgmpa_notice_action_links',
                     array(
                         'install'  => ( current_user_can( 'install_plugins' ) )  ? $show_install_link  : '',
+                        'update'   => ( current_user_can( 'install_plugins' ) ) ? $show_update_link : '',
                         'activate' => ( current_user_can( 'activate_plugins' ) ) ? $show_activate_link : '',
                         'dismiss'  => $this->dismissable ? '<a class="dismiss-notice" href="' . esc_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) ) . '" target="_parent">' . esc_html( $this->strings['dismiss'] ) . '</a>' : '',
                     )
@@ -1404,6 +1419,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 }
 
                 $table_data[ $i ]['file_path'] = $plugin['file_path'];
+		        $table_data[ $i ]['version'] = ( isset( $plugin['version'] ) ) ? $plugin['version'] : '1.0';
                 $table_data[ $i ]['url']       = isset( $plugin['source'] ) ? $plugin['source'] : 'repo';
 
                 $table_data[ $i ] = apply_filters( 'tgmpa_table_data_item', $table_data[ $i ], $plugin );
@@ -1530,6 +1546,32 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				    'activate' => sprintf(
 					    '<a href="%1$s">' . esc_html_x( 'Activate %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
 					    esc_url( $activate_url ),
+					    '<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
+				    ),
+			    );
+		    }
+
+		    /** We need to display the 'Update' hover link */
+		    elseif ( version_compare( $installed_plugins[$item['file_path']]['Version'], $item['version'], '<' ) ) {
+			    $update_url = wp_nonce_url(
+				    add_query_arg(
+					    array(
+						    'page'                 => urlencode( $this->tgmpa->menu ),
+						    'plugin'               => urlencode( $item['slug'] ),
+						    'plugin_name'          => urlencode( $item['sanitized_plugin'] ),
+						    'plugin_source'        => urlencode( $item['url'] ),
+						    'tgmpa-install' 	   => 'update-plugin',
+						    'version' 		       => urlencode( $item['version'] ),
+					    ),
+					    self_admin_url( $this->admin_page_base )
+			        ),
+				    'tgmpa-install'
+			    );
+
+			    $actions = array(
+				    'update' => sprintf(
+					    '<a href="%1$s">' . esc_html_x( 'Update %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' ) . '</a>',
+					    esc_url( $update_url ),
 					    '<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 				    ),
 			    );
