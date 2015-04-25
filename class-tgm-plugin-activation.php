@@ -1758,7 +1758,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				unset( $plugin, $temp );
 
 				if ( is_wp_error( $api ) ) {
-					if ( WP_DEBUG === true ) {
+					if ( true === WP_DEBUG ) {
 						wp_die( esc_html( $this->tgmpa->strings['oops'] ) . var_dump( $api ) ); // wpcs: xss ok
 					}
 					else {
