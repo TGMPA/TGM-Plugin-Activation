@@ -8,7 +8,7 @@
  * or theme author for support.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.4.1
+ * @version   2.5.0-alpha
  * @link      http://tgmpluginactivation.com/
  * @author    Thomas Griffin
  * @author    Gary Jones
@@ -382,8 +382,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                   $update = version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' );
                 }
 
-                if ( ! is_plugin_active( $plugin['file_path'] )
-                    || $update) {
+                if ( ! is_plugin_active( $plugin['file_path'] ) || $update) {
 
                     $args = apply_filters(
                     	'tgmpa_admin_menu_args',
@@ -872,9 +871,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 $show_install_link  = $install_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ) . '</a>' : '';
                 $show_activate_link = $activate_link ? '<a href="' . esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ) . '</a>'  : '';
 
+	            //If there is no install link and we need to update plugin, we will hijack $show_install_link
                 if (empty($show_install_link) && $update_link) {
-                  $show_install_link  = '<a href="' . esc_url( add_query_arg( 'page', $this->menu, admin_url( 'themes.php' ) ) ) . '">' . translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ) . '</a>';
+                  $show_install_link  = '<a href="' . esc_url( add_query_arg( 'page',  urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ) . '">' . translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ) . '</a>';
                 }
+
                 // Define all of the action links.
                 $action_links = apply_filters(
                     'tgmpa_notice_action_links',
@@ -1083,7 +1084,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
          * @param string $data    Optional. Array key of plugin data to return. Default is slug.
          * @return string|boolean Plugin slug if found, false otherwise.
          */
-        protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
+        public function _get_plugin_data_from_name( $name, $data = 'slug' ) {
 
             foreach ( $this->plugins as $values ) {
 	            if ( $name === $values['name'] && isset( $values[ $data ] ) ) {
@@ -1154,8 +1155,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                 }
                 // There we go, activate the plugin.
                 elseif ( isset( $plugin['force_activation'] ) && $plugin['force_activation'] && is_plugin_inactive( $plugin['file_path'] ) ) {
-                    $data = get_plugin_data(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $plugin['file_path']);
-                    if (!isset($plugin['version']) || version_compare($data['Version'], $plugin['version']) >= 0) {
+                    $data = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $plugin['file_path']);
+	                //Check if plugin is in required version or above
+                    if ( !isset($plugin['version']) || version_compare($data['Version'], $plugin['version']) >= 0 ) {
                       activate_plugin( $plugin['file_path'] );
                     }
                 }
@@ -1335,13 +1337,13 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 	        foreach ( $this->tgmpa->plugins as $plugin ) {
 
                 $do_update = false;
-                if (isset($installed_plugins[$plugin['file_path']]) && isset($plugin['version'])) {
+		        //Check if plugin is up to date
+                if ( isset( $installed_plugins[ $plugin['file_path'] ] ) && isset( $plugin['version'] ) ) {
                   $do_update = version_compare( $installed_plugins[$plugin['file_path']]['Version'], $plugin['version'], '<' );
                 }
 
                 if ( ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) && !$do_update) {
-
-                    continue; // No need to display plugins if they are installed and activated.
+                    continue; // No need to display plugins if they are installed, activated and up to date.
                 }
 
                 $table_data[ $i ]['sanitized_plugin'] = $plugin['name'];
@@ -1398,7 +1400,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
                     $table_data[ $i ]['status'] = sprintf( '%1$s', __( 'Installed But Not Activated', 'tgmpa' ) );
                 }
-                elseif ($do_update) {
+                elseif ( $do_update ) {
                     $table_data[ $i ]['status'] = sprintf( '%1$s', __( 'Need Updating', 'tgmpa' ) );
                 }
 
@@ -1488,7 +1490,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		    $actions = array();
 
 		    // We need to display the 'Install' hover link.
-		    if ( ! is_plugin_active( $item['file_path'] ) || ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
+		    if ( ! is_plugin_active( $item['file_path'] ) && ! isset( $installed_plugins[ $item['file_path'] ] ) ) {
 			    $install_nonce_url = wp_nonce_url(
 				    add_query_arg(
 					    array(
@@ -1560,7 +1562,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		    }
 		    elseif ( __( 'Pre-Packaged', 'tgmpa' ) === $item['source'] ) {
 			    // Encode file path for use in attribute
-			    $plugin_url = urlencode( $plugin_url );
+			    $plugin_url = urlencode( $this->tgmpa->default_path . $plugin_url );
 		    }
 
 		    $value      = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
@@ -1618,7 +1620,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
             $actions = array(
                 'tgmpa-bulk-install'  => __( 'Install', 'tgmpa' ),
                 'tgmpa-bulk-activate' => __( 'Activate', 'tgmpa' ),
-                'tgmpa-bulk-update' => __( 'Update', 'tgmpa' ),
+                'tgmpa-bulk-update'   => __( 'Update', 'tgmpa' ),
             );
 
             return $actions;
@@ -2175,6 +2177,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 	                 * @since 2.2.0
 	                 *
 	                 * @param array $packages The plugin sources needed for installation.
+	                 * @param bool $update if we are updating plugins
 	                 * @return string|boolean Install confirmation messages on success, false on failure.
 	                 */
 
