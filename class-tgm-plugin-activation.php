@@ -249,41 +249,43 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// After this point, the plugins should be registered and the configuration set.
 
 			// Proceed only if we have plugins to handle.
-			if ( ! empty( $this->plugins ) ) {
-				$sorted = array();
+			if ( ! is_array( $this->plugins ) || empty( $this->plugins ) ) {
+				return;
+			}
 
-				foreach ( $this->plugins as $plugin ) {
-					$sorted[] = $plugin['name'];
+			$sorted = array();
+
+			foreach ( $this->plugins as $plugin ) {
+				$sorted[] = $plugin['name'];
+			}
+
+			array_multisort( $sorted, SORT_ASC, $this->plugins );
+
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_head', array( $this, 'dismiss' ) );
+			add_filter( 'install_plugin_complete_actions', array( $this, 'actions' ) );
+			add_action( 'switch_theme', array( $this, 'flush_plugins_cache' ) );
+
+			if ( $this->has_notices ) {
+				add_action( 'admin_notices', array( $this, 'notices' ) );
+				add_action( 'admin_init', array( $this, 'admin_init' ), 1 );
+				add_action( 'admin_enqueue_scripts', array( $this, 'thickbox' ) );
+				add_action( 'switch_theme', array( $this, 'update_dismiss' ) );
+			}
+
+			// Setup the force activation hook.
+			foreach ( $this->plugins as $plugin ) {
+				if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] ) {
+					add_action( 'admin_init', array( $this, 'force_activation' ) );
+					break;
 				}
+			}
 
-				array_multisort( $sorted, SORT_ASC, $this->plugins );
-
-				add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-				add_action( 'admin_head', array( $this, 'dismiss' ) );
-				add_filter( 'install_plugin_complete_actions', array( $this, 'actions' ) );
-				add_action( 'switch_theme', array( $this, 'flush_plugins_cache' ) );
-
-				if ( $this->has_notices ) {
-					add_action( 'admin_notices', array( $this, 'notices' ) );
-					add_action( 'admin_init', array( $this, 'admin_init' ), 1 );
-					add_action( 'admin_enqueue_scripts', array( $this, 'thickbox' ) );
-					add_action( 'switch_theme', array( $this, 'update_dismiss' ) );
-				}
-
-				// Setup the force activation hook.
-				foreach ( $this->plugins as $plugin ) {
-					if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] ) {
-						add_action( 'admin_init', array( $this, 'force_activation' ) );
-						break;
-					}
-				}
-
-				// Setup the force deactivation hook.
-				foreach ( $this->plugins as $plugin ) {
-					if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] ) {
-						add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
-						break;
-					}
+			// Setup the force deactivation hook.
+			foreach ( $this->plugins as $plugin ) {
+				if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] ) {
+					add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
+					break;
 				}
 			}
 
@@ -869,7 +871,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				);
 
 				$action_links = array_filter( $action_links ); // Remove any empty array items.
-				if ( ! empty( $action_links ) ) {
+				if ( is_array( $action_links ) && ! empty( $action_links ) ) {
 					$rendered .= apply_filters( 'tgmpa_notice_rendered_action_links', '<p>' . implode( ' | ', $action_links ) . '</p>' );
 				}
 
