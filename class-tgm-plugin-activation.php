@@ -870,8 +870,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					)
 				);
 
-				$action_links = array_filter( $action_links ); // Remove any empty array items.
-				if ( is_array( $action_links ) && ! empty( $action_links ) ) {
+				$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
+				if ( ! empty( $action_links ) ) {
 					$rendered .= apply_filters( 'tgmpa_notice_rendered_action_links', '<p>' . implode( ' | ', $action_links ) . '</p>' );
 				}
 
@@ -1220,7 +1220,7 @@ if ( ! function_exists( 'tgmpa' ) ) {
 			call_user_func( array( $instance, 'register' ), $plugin );
 		}
 
-		if ( ! empty( $config ) ) {
+		if ( ! empty( $config ) && is_array( $config ) ) {
 			call_user_func( array( $instance, 'config' ), $config );
 		}
 	}
