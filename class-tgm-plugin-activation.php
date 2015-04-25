@@ -747,33 +747,32 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             foreach ( $this->plugins as $plugin ) {
                 // If the plugin is installed and active, check for minimum version argument before moving forward.
-                if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
-
-                  // Nothing to do move forward
-                  if (!isset($plugin['version'])
-                      || !isset($installed_plugins[$plugin['file_path'] ]['Version'])) {
-
-                    continue;
-                  }
-
-
-                  // A minimum version has been specified and the current version is
-                  // less than the minimum required version, we display a message.
-                  if ( version_compare( $installed_plugins[$plugin['file_path'] ]['Version'], $plugin['version'], '<' ) ) {
-                      if ( current_user_can( 'install_plugins' ) ) {
-
-                          $update_link = true; // We need to display the 'install' action link.
-                          $update_link_count++; // Increment the install link count.
-
-                          $message['notice_ask_to_update'][] = $plugin['name'];
-                      }
-                      else {
-                          $message['notice_cannot_update'][] = $plugin['name'];
-                      }
-                  }
-
-
-                }
+	            if ( is_plugin_active( $plugin['file_path'] ) || ( isset( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
+		            // A minimum version has been specified.
+		            if ( isset( $plugin['version'] ) ) {
+			            if ( isset( $installed_plugins[ $plugin['file_path'] ]['Version'] ) ) {
+				            // If the current version is less than the minimum required version, we display a message.
+				            if ( version_compare( $installed_plugins[ $plugin['file_path'] ]['Version'], $plugin['version'], '<' ) ) {
+					            $update_link = true; // We need to display the 'install' action link.
+					            $update_link_count++; // Increment the install link count.
+					            if ( current_user_can( 'install_plugins' ) ) {
+						            $message['notice_ask_to_update'][] = $plugin['name'];
+					            }
+					            else {
+						            $message['notice_cannot_update'][] = $plugin['name'];
+					            }
+				            }
+			            }
+			            // Can't find the plugin, so iterate to the next condition.
+			            else {
+				            continue;
+			            }
+		            }
+		            // No minimum version specified, so iterate over the plugin.
+		            else {
+			            continue;
+		            }
+	            }
 
                 // Not installed.
                 if ( ! isset( $installed_plugins[ $plugin['file_path'] ] ) ) {
