@@ -1781,7 +1781,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$names = $plugin_names;
 
 				// Create a new instance of TGM_Bulk_Installer.
-				$installer = new TGM_Bulk_Installer( TGM_Bulk_Installer_Skin( compact( 'url', 'nonce', 'names' ) ) );
+				$installer = new TGM_Bulk_Installer( new TGM_Bulk_Installer_Skin( compact( 'url', 'nonce', 'names' ) ) );
 
 				// Wrap the install process with the appropriate HTML.
 				echo '<div class="tgmpa wrap">',
