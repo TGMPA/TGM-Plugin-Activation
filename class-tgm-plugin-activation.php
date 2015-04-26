@@ -490,7 +490,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$plugin = array();
 
 			// Checks for actions from hover links to process the installation.
-            if ( isset( $_GET['plugin'] ) && ( isset( $_GET['tgmpa-install'] ) && ( 'install-plugin' === $_GET['tgmpa-install'] || 'update-plugin' === $_GET['tgmpa-install'] ) ) ) {
+			if ( isset( $_GET['plugin'] ) && ( isset( $_GET['tgmpa-install'] ) && ( 'install-plugin' === $_GET['tgmpa-install'] || 'update-plugin' === $_GET['tgmpa-install'] ) ) ) {
 				check_admin_referer( 'tgmpa-install' );
 
 				$plugin['name']   = $_GET['plugin_name'];
