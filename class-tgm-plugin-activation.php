@@ -442,7 +442,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				<?php $plugin_table->prepare_items(); ?>
 
 				<?php
-				if ( isset( $this->message ) ) {
+				if ( isset( $this->message ) && is_string( $this->message ) && ! empty( $this->message ) ) {
 					echo wp_kses_post( $this->message );
 				}
 				?>
@@ -2109,7 +2109,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							wp_clean_plugins_cache();
 
 							// Get the installed plugin file and activate it.
-							$plugin_info = $this->plugin_info( $options['package'] );
+							$plugin_info = $this->plugin_info();
 							$activate    = activate_plugin( $plugin_info );
 
 							// Re-populate the file path now that the plugin has been installed and activated.
