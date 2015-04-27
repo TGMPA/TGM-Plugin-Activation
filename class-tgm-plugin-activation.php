@@ -197,8 +197,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		protected function __construct() {
 
 			// Set the current WordPress version.
-			global $wp_version;
-			$this->wp_version = $wp_version;
+			$this->wp_version = $GLOBALS['wp_version'];
 
 			// Announce that the class is ready, and pass the object (for advanced use).
 			do_action_ref_array( 'tgmpa_init', array( $this ) );
@@ -713,8 +712,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function notices() {
 
-			global $current_screen;
-
 			// Remove nag on the install page.
 			if ( $this->is_tgmpa_page() ) {
 				return;
@@ -883,7 +880,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			// Admin options pages already output settings_errors, so this is to avoid duplication.
-			if ( 'options-general' !== $current_screen->parent_base ) {
+			if ( 'options-general' !== $GLOBALS['current_screen']->parent_base ) {
 				$this->display_settings_errors();
 			}
 
