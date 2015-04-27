@@ -580,24 +580,17 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				// Display message based on if all plugins are now active or not.
-				$complete = array();
+				$complete = true;
 				foreach ( $this->plugins as $plugin ) {
 					if ( ! is_plugin_active( $plugin['file_path'] ) ) {
 						echo '<p><a href="', esc_url( add_query_arg( 'page', urlencode( $this->menu ), self_admin_url( $this->parent_slug ) ) ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
-						$complete[] = $plugin;
+						$complete = false;
 						break;
-					}
-					// Nothing to store.
-					else {
-						$complete[] = '';
 					}
 				}
 
-				// Filter out any empty entries.
-				$complete = array_filter( $complete );
-
 				// All plugins are active, so we display the complete string and hide the plugin menu.
-				if ( empty( $complete ) ) {
+				if ( true === $complete ) {
 					echo '<p>', sprintf( esc_html( $this->strings['complete'] ), '<a href="' . esc_url( self_admin_url() ) . '">' . esc_html__( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ), '</p>';
 					echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 				}
@@ -2397,24 +2390,17 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						wp_clean_plugins_cache();
 
 						// Display message based on if all plugins are now active or not.
-						$complete = array();
+						$complete = true;
 						foreach ( $this->tgmpa->plugins as $plugin ) {
 							if ( ! is_plugin_active( $plugin['file_path'] ) ) {
 								echo '<p><a href="', esc_url( add_query_arg( 'page', urlencode( $this->tgmpa->menu ), self_admin_url( $this->tgmpa->parent_slug ) ) ), '" target="_parent">', esc_html( $this->tgmpa->strings['return'] ), '</a></p>';
-								$complete[] = $plugin;
+								$complete = false;
 								break;
-							}
-							// Nothing to store.
-							else {
-								$complete[] = '';
 							}
 						}
 
-						// Filter out any empty entries.
-						$complete = array_filter( $complete );
-
 						// All plugins are active, so we display the complete string and hide the menu to protect users.
-						if ( empty( $complete ) ) {
+						if ( true === $complete ) {
 							echo '<p>', sprintf( esc_html( $this->tgmpa->strings['complete'] ), '<a href="' . esc_url( self_admin_url() ) . '">' . esc_html__( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ), '</p>';
 							echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
 						}
