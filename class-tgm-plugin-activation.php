@@ -220,6 +220,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @see TGM_Plugin_Activation::styles()
 		 */
 		public function init() {
+			
+			if ( apply_filters( 'tgmpa_load', ! is_admin() ) ) {
+				return;
+			}
 
 			// Load class strings.
 			$this->strings = array(
