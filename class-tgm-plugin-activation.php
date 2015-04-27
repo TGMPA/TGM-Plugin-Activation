@@ -973,9 +973,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			foreach ( $keys as $key ) {
 				if ( isset( $config[ $key ] ) ) {
 					if ( is_array( $config[ $key ] ) ) {
-						foreach ( $config[ $key ] as $sub_key => $value ) {
-							$this->{$key}[ $sub_key ] = $value;
-						}
+						$this->$key = array_merge( $this->$key, $config[ $key ] );
 					}
 					else {
 						$this->$key = $config[ $key ];
