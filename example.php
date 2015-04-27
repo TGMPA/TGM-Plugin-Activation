@@ -8,7 +8,7 @@
  *
  * @package    TGM-Plugin-Activation
  * @subpackage Example
- * @version    2.4.1
+ * @version    2.4.2
  * @author     Thomas Griffin <thomasgriffinmedia.com>
  * @author     Gary Jones <gamajo.com>
  * @copyright  Copyright (c) 2014, Thomas Griffin
