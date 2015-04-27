@@ -1343,12 +1343,20 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
          * @return string     The input checkbox with all necessary info.
          */
         public function column_cb( $item ) {
+			$plugin_url = $item['url']; // 'repo' (no escaping needed), URL or file path
 
-        	$plugin_url = ( 'repo' === $item['url'] ) ? $item['url'] : esc_url( $item['url'] );
-            $value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
-            return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $value ), esc_attr( $item['sanitized_plugin'] ) );
+			if ( __( 'Private Repository', 'tgmpa' ) === $item['source'] ) {
+				// Escape external URLs
+				$plugin_url = esc_url( $plugin_url );
+			} elseif ( __( 'Pre-Packaged', 'tgmpa' ) === $item['source'] ) {
+				// Encode file path for use in attribute
+				$plugin_url = urlencode( TGM_Plugin_Activation::$instance->default_path . $plugin_url );
+			}
 
-        }
+			$value = $item['file_path'] . ',' . $plugin_url . ',' . $item['sanitized_plugin'];
+
+			return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" id="%3$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $value ), esc_attr( $item['sanitized_plugin'] ) );
+		}
 
         /**
          * Sets default message within the plugins table if no plugins
