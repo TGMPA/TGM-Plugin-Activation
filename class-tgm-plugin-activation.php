@@ -1283,6 +1283,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$this->tgmpa           = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 			$this->admin_page_base = $this->tgmpa->parent_slug;
 
+			add_filter( 'tgmpa_plugin_table_items', array( $this, 'sort_table_items' ) );
+
 			parent::__construct(
 				array(
 					'singular' => 'plugin',
@@ -1378,17 +1380,32 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$i++;
 			}
 
-			// Sort plugins by Required/Recommended type and by alphabetical listing within each type.
+			return $table_data;
+
+		}
+
+		/**
+		 * Sort plugins by Required/Recommended type and by alphabetical plugin name within each type.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $items
+		 *
+		 * @return array
+		 */
+		public function sort_table_items( $items ) {
+
 			$type = array();
 			$name = array();
 
-			foreach ( $table_data as $i => $plugin ) {
+			foreach ( $items as $i => $plugin ) {
 				$type[ $i ] = $plugin['type'];
 				$name[ $i ] = $plugin['sanitized_plugin'];
 			}
-			array_multisort( $type, SORT_DESC, $name, SORT_ASC, $table_data );
 
-			return $table_data;
+			array_multisort( $type, SORT_DESC, $name, SORT_ASC, $items );
+
+			return $items;
 
 		}
 
@@ -1864,7 +1881,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$this->process_bulk_actions();
 
 			// Store all of our plugin data into $items array so WP_List_Table can use it.
-			$this->items = $this->_gather_plugin_data();
+			$this->items = apply_filters( 'tgmpa_plugin_table_items', $this->_gather_plugin_data() );
 
 		}
 
