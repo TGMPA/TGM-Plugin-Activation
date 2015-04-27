@@ -544,11 +544,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				// Prep variables for Plugin_Installer_Skin class.
 				$title = sprintf( $this->strings['installing'], $plugin['name'] );
 				$url   = add_query_arg( array( 'action' => 'install-plugin', 'plugin' => urlencode( $plugin['slug'] ) ), 'update.php' );
-				if ( isset( $_GET['from'] ) ) {
-					$url .= add_query_arg( 'from', urlencode( stripslashes( $_GET['from'] ) ), $url );
-				}
-
-				$url = esc_url_raw( $url );
+				$url   = esc_url_raw( $url );
 
 				$nonce = 'install-plugin_' . $plugin['slug'];
 
