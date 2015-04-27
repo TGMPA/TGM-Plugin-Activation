@@ -2,7 +2,7 @@ TGM Plugin Activation
 =====================
 
 **Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
-**Version:** 2.4.2-dev  
+**Version:** 2.4.2-dev
 **Requires at least:** 3.0.0  
 **Tested up to:** 4.2  
 
@@ -33,6 +33,13 @@ and amend to suit. The `example.php` file is a model for how you should include 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
 
 ## Changelog ##
+
+### 2.4.2-dev ###
+* Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321], [#316] Props [Juliette Reinders Folmer]. Thanks [tanshcreative] for reporting.
+* Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203], [#332] Props [Juliette Reinders Folmer]. Thanks [pavot] and [djcowan] for reporting.
+* Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244], [#224], [#234]. Props [Nate Wright]. Thanks [hamdan-mahran] and [Sandeep] for reporting.
+* Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
+
 
 ### 2.4.1 ###
 * Improve escaping for URLs and attributes.
@@ -165,3 +172,21 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 ### 1.0.0 ###
 
 * Initial release into the wild
+
+
+[Chris Talkington]: https://github.com/ctalkington
+[Juliette Reinders Folmer]: https://github.com/jrfnl
+[djcowan]: https://github.com/djcowan
+[hamdan-mahran]: https://github.com/hamdan-mahran
+[Nate Wright]: https://github.com/NateWr
+[pavot]: https://github.com/pavot
+[Sandeep]: https://github.com/InsertCart
+[tanshcreative]: https://github.com/tanshcreative
+
+[#332]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/332
+[#321]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/321
+[#316]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/316
+[#244]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/244
+[#234]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/234
+[#224]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/224
+[#203]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/203
