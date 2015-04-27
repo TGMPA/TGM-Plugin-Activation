@@ -1266,22 +1266,12 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		protected $tgmpa;
 
 		/**
-		 * Parent menu file slug.
-		 *
-		 * @since 2.5.0
-		 *
-		 * @var string
-		 */
-		protected $admin_page_base;
-
-		/**
 		 * References parent constructor and sets defaults for class.
 		 *
 		 * @since 2.2.0
 		 */
 		public function __construct() {
-			$this->tgmpa           = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
-			$this->admin_page_base = $this->tgmpa->parent_slug;
+			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
 			parent::__construct(
 				array(
@@ -1468,7 +1458,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 							'plugin_source' => urlencode( $item['url'] ),
 							'tgmpa-install' => 'install-plugin',
 						),
-						self_admin_url( $this->admin_page_base )
+						self_admin_url( $this->tgmpa->parent_slug )
 					),
 					'tgmpa-install'
 				);
@@ -1492,7 +1482,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						'tgmpa-activate'       => 'activate-plugin',
 						'tgmpa-activate-nonce' => urlencode( wp_create_nonce( 'tgmpa-activate' ) ),
 					),
-					self_admin_url( $this->admin_page_base )
+					self_admin_url( $this->tgmpa->parent_slug )
 				);
 
 				$actions = array(
@@ -1722,7 +1712,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 							'plugin_paths'  => urlencode( implode( ',', $plugin_paths ) ),
 							'plugin_names'  => urlencode( implode( ',', $plugin_names ) ),
 						),
-						self_admin_url( $this->admin_page_base )
+						self_admin_url( $this->tgmpa->parent_slug )
 					),
 					'bulk-plugins'
 				);
@@ -1776,7 +1766,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				// Finally, all the data is prepared to be sent to the installer.
-				$url   = esc_url_raw( add_query_arg( array( 'page' => urlencode( $this->tgmpa->menu ) ), self_admin_url( $this->admin_page_base ) ) );
+				$url   = esc_url_raw( add_query_arg( array( 'page' => urlencode( $this->tgmpa->menu ) ), self_admin_url( $this->tgmpa->parent_slug ) ) );
 				$nonce = 'bulk-plugins';
 				$names = $plugin_names;
 
