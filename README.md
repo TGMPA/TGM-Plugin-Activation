@@ -2,7 +2,7 @@ TGM Plugin Activation
 =====================
 
 **Contributors:** Thomas Griffin (@jthomasgriffin / thomasgriffinmedia.com), Gary Jones (Github: @GaryJones / Twitter: GaryJ)  
-**Version:** 2.4.2-dev
+**Version:** 2.4.2  
 **Requires at least:** 3.0.0  
 **Tested up to:** 4.2  
 
@@ -34,14 +34,15 @@ See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current is
 
 ## Changelog ##
 
-### 2.4.2-dev ###
+### 2.4.2 ###
+
 * Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321], [#316] Props [Juliette Reinders Folmer]. Thanks [tanshcreative] for reporting.
 * Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203], [#332] Props [Juliette Reinders Folmer]. Thanks [pavot] and [djcowan] for reporting.
 * Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244], [#224], [#234]. Props [Nate Wright]. Thanks [hamdan-mahran] and [Sandeep] for reporting.
 * Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
 
-
 ### 2.4.1 ###
+
 * Improve escaping for URLs and attributes.
 
 ### 2.4.0 ###
