@@ -1261,6 +1261,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		public function __construct() {
 			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
+			add_filter( 'tgmpa_plugin_table_items', array( $this, 'sort_table_items' ) );
+
 			parent::__construct(
 				array(
 					'singular' => 'plugin',
@@ -1356,33 +1358,32 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$i++;
 			}
 
-			// Sort plugins by Required/Recommended type and by alphabetical listing within each type.
-			$resort = array();
-			$req    = array();
-			$rec    = array();
-
-			// Grab all the plugin types.
-			foreach ( $table_data as $plugin ) {
-				$resort[] = $plugin['type'];
-			}
-
-			// Sort each plugin by type.
-			foreach ( $resort as $type ) {
-				if ( 'Required' === $type ) {
-					$req[] = $type;
-				}
-				else {
-					$rec[] = $type;
-				}
-			}
-
-			// Sort alphabetically each plugin type array, merge them and then sort in reverse (lists Required plugins first).
-			sort( $req );
-			sort( $rec );
-			array_merge( $resort, $req, $rec );
-			array_multisort( $resort, SORT_DESC, $table_data );
-
 			return $table_data;
+
+		}
+
+		/**
+		 * Sort plugins by Required/Recommended type and by alphabetical plugin name within each type.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $items
+		 *
+		 * @return array
+		 */
+		public function sort_table_items( $items ) {
+
+			$type = array();
+			$name = array();
+
+			foreach ( $items as $i => $plugin ) {
+				$type[ $i ] = $plugin['type'];
+				$name[ $i ] = $plugin['sanitized_plugin'];
+			}
+
+			array_multisort( $type, SORT_DESC, $name, SORT_ASC, $items );
+
+			return $items;
 
 		}
 
@@ -1858,7 +1859,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$this->process_bulk_actions();
 
 			// Store all of our plugin data into $items array so WP_List_Table can use it.
-			$this->items = $this->_gather_plugin_data();
+			$this->items = apply_filters( 'tgmpa_plugin_table_items', $this->_gather_plugin_data() );
 
 		}
 
