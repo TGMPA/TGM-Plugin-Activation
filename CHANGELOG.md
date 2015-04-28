@@ -2,39 +2,43 @@
 
 ## Unreleased
 
+This is a major update which brings some interesting new features and fixes tons of bugs. This version of TGMPA is brought by [Thomas Griffin] to you with graceful thanks to [Gary Jones] and our new core-team member [Juliette Reinders Folmer] for the majority of the changes.
+
 <!-- * .... [#](). Props [](). Thanks []() for reporting. -->
+
+* Enhancement: full support for update work-flow
+[#192], [#197] Props [Zauan/Hogash Studio], [Christian], [Franklin Gitonga], [Jason Xie], [swiderski]
+
 
 * Enhancement: Better support for GitHub hosted plugins:
   
   Previously using standard GitHub packaged zips as download source would not work as, even though the plugin would be installed, it would not be recognized as such by TGMPA because of the non-standard directory name which would be created for the plugin, i.e. `my-plugin-master` instead of `my-plugin`. A work-around for this has been implemented and you can now use GitHub-packaged `master` branch or release zips to install plugins. Have a look at the `example.php` file for a working example.
   One caveat: this presumes that the plugin is based in the root of the GitHub repo and not in a `/src` subdirectory.
-  [#327], [#280], [#283] Props [Juliette Reinders Folmer]. Thanks [Dan Fisher] and [Luis Martins] for reporting/requesting this enhancement.
+  [#327], [#280], [#283] Thanks [Dan Fisher] and [Luis Martins] for reporting/requesting this enhancement.
 
 * Admin Page improvements:
-  - Allow for filtering of the plugin action links on the admin page similar to WP Core. The available filters are `tgmpa_plugin_action_links` and `tgmpa_network_plugin_action_links`. [#300], [#226] Thanks [Juliette Reinders Folmer] for the inspiration.
+  - Plugins downloaded from an arbitrary external source are now labelled "External Source". Previously they were labelled "Private Repository" which could be confusing as the download URL did not have to point to a repository, let alone be private. [#372]
+  - Allow for filtering of the plugin action links on the admin page similar to WP Core. The available filters are `tgmpa_plugin_action_links` and `tgmpa_network_plugin_action_links`. [#300], [#226]
   - Leverage the css styling of the Core plugins page [#227]. Props [Shiva Poudel].
-  - Allow for moving the Admin Page to a different place in the menu. This is mainly to accommodate plugins using TGMPA as it is terribly illogical for the TGMPA page to be under the _"Appearance"_ menu in that case. This has been now been done in a way that Theme Check will not choke on it. [#310] Props [Juliette Reinders Folmer].
+  - Allow for moving the Admin Page to a different place in the menu. This is mainly to accommodate plugins using TGMPA as it is terribly illogical for the TGMPA page to be under the _"Appearance"_ menu in that case. This has been now been done in a way that Theme Check will not choke on it. [#310]
 
 * Admin notices improvements:
   - For installs including both plugins as well as themes, notices will now be dismissable for each separately. This prevents a situation where a theme would have TGMPA included, the user has dismissed the notice about it, a plugin with TGMPA gets installed and the notice about it requiring certain other plugins is never shown. [#174] Thanks [Chris Howard] for reporting.
-  - Fixed: The reset of dismissed notices on `switch_theme` was only applied for the current user, not for all users. [#246] Props [Juliette Reinders Folmer].
-  - Fixed: Admin notices would show twice under certain circumstances. [#249], [#237] Props [Juliette Reinders Folmer]. Thanks [manake] for reporting.
+  - Fixed: The reset of dismissed notices on `switch_theme` was only applied for the current user, not for all users. [#246]
+  - Fixed: Admin notices would show twice under certain circumstances. [#249], [#237] Thanks [manake] for reporting.
 
 * Bulk Installer:
-  - Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321], [#316] Props [Juliette Reinders Folmer]. Thanks [tanshcreative] for reporting.
-  - Fixed: If a bulk install was initiated using the bottom _Bulk Actions_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319] Props [Juliette Reinders Folmer].
-  - Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203], [#332] Props [Juliette Reinders Folmer]. Thanks [pavot] and [djcowan] for reporting.
+  - Fixed: If a bulk install was initiated using the bottom _Bulk Actions_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319]
   - Fixed: The _"Show Details"_ links no longer worked. This was a regression briefly introduced in the `develop` branch. [#326]
 
 * Theme Check compatibility:
-  - Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244], [#224], [#234]. Props [Nate Wright]. Thanks [hamdan-mahran] and [Sandeep] for reporting.
-  - Prevent _"The theme appears to use include or require"_ warning. [#262], [#258] Props [Juliette Reinders Folmer]. Thanks [Tim Nicholson] for reporting.
-  - Preempt the disallowing of the use of the `add_theme_page()` function. See [the theme review meeting notes](https://make.wordpress.org/themes/2015/04/21/this-weeks-meeting-important-information-regarding-theme-options/) for further information on this decision. [#315] Props [Juliette Reinders Folmer].
+  - Prevent _"The theme appears to use include or require"_ warning. [#262], [#258] Thanks [Tim Nicholson] for reporting.
+  - Preempt the disallowing of the use of the `add_theme_page()` function. See [the theme review meeting notes](https://make.wordpress.org/themes/2015/04/21/this-weeks-meeting-important-information-regarding-theme-options/) for further information on this decision. [#315]
 
 * Miscellaneous fixes:
-  - Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
-  - Fixed: _"Undefined index: skin_update_failed_error"_ [#260], [#240] Props [Juliette Reinders Folmer]. Thanks [Parhum Khoshbakht] and [Sandeep] for reporting.
-  - Made admin urls environment aware by using `self_admin_url()`. [#255], [#171] Props [Juliette Reinders Folmer].
+  - Leaner loading: TGMPA actions will now only be hooked in and run (register) on the back-end (`is_admin() === true`).  [#357]
+  - Fixed: _"Undefined index: skin_update_failed_error"_ [#260], [#240] Thanks [Parhum Khoshbakht] and [Sandeep] for reporting.
+  - Made admin urls environment aware by using `self_admin_url()`. [#255], [#171]
   - Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208] Props [John Blackbourn].
 
 * I18N improvements:
@@ -42,17 +46,26 @@
   - Language strings which are being overridden should use the including plugin/theme language domain. [#217] Props [Christian Foellmann].
 
 * Housekeeping:
-  - Applied a number of best practices. [#284],
-    [#281] - props [Ninos Ego],
+  - Applied a number of best practices and code simplifications.
+    [#284], [#281] - props [Ninos Ego],
     [#286] - props [krishna19],
-    [#325], [#324], [#331] - props [Juliette Reinders Folmer]
-  - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this. Props [Juliette Reinders Folmer].
+    [#325], [#324], [#331], [#363], [#362], [#361], [#360], [#359], [#358], [#357], [#356], [#346], [#368], [#371], [#373], [#374], [#375], [#376]
+  - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this.
   - Tighten the file permissions on our files. [#322]
   - Cleaned up some of the documentation. [#179] Props [Gregory Karpinsky].
   - Comply with the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
-  - Added Travis CI integration for coding standards and php-linting. [#304], [#329] Props [Juliette Reinders Folmer].
+  - Added Travis CI integration for coding standards and php-linting. [#304], [#329]
   - Added Scrutinizer CI integration for code quality. [#330]
-  - Added [Contributing guidelines](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/master/CONTRIBUTING.md).
+  - Added editor config. [#339] Props [Shiva Poudel].
+  - Added [Contributing guidelines](CONTRIBUTING.md).
+  - While the library has always been licensed under GPL 2.0+, we now include the [License](LICENSE.md).
+
+
+## 2.4.2 (2015-04-27)
+* Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321], [#316] Props [Juliette Reinders Folmer]. Thanks [tanshcreative] for reporting.
+* Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203], [#332] Props [Juliette Reinders Folmer]. Thanks [pavot] and [djcowan] for reporting.
+* Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244], [#224], [#234]. Props [Nate Wright]. Thanks [hamdan-mahran] and [Sandeep] for reporting.
+* Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
 
 
 ## 2.4.2 (2015-04-27)
@@ -198,6 +211,9 @@
 [Chris Talkington]: https://github.com/ctalkington
 [Dan Fisher]: https://github.com/danfisher85
 [djcowan]: https://github.com/djcowan
+[Jason Xie]: https://github.com/duckzland
+[Franklin Gitonga]: https://github.com/FrankM1
+[Gary Jones]: https://github.com/GaryJones
 [hamdan-mahran]: https://github.com/hamdan-mahran
 [Sandeep]: https://github.com/InsertCart
 [Jeff Sebring]: https://github.com/jeffsebring
@@ -213,11 +229,33 @@
 [pavot]: https://github.com/pavot
 [Chris Howard]: https://github.com/qwertydude
 [Shiva Poudel]: https://github.com/shivapoudel
+[swiderski]: https://github.com/swiderski
 [tanshcreative]: https://github.com/tanshcreative
 [Tim Nicholson]: https://github.com/timnicholson
+[Thomas Griffin]: https://github.com/thomasgriffin
 [Gregory Karpinsky]: https://github.com/tivnet
 [Travis Smith]: https://github.com/wpsmith
 
+[Zauan/Hogash Studio]: http://pastebin.com/u/Zauan
+[Christian]: http://themeforest.net/user/artless
+
+[#376]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/376
+[#375]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/375
+[#374]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/374
+[#373]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/373
+[#372]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/372
+[#371]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/371
+[#368]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/368
+[#363]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/363
+[#362]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/362
+[#361]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/361
+[#360]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/360
+[#359]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/359
+[#358]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/358
+[#357]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/357
+[#356]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/356
+[#346]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/346
+[#339]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/339
 [#332]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/332
 [#331]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/331
 [#330]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/330
@@ -256,6 +294,8 @@
 [#217]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/217
 [#208]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/208
 [#203]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/203
+[#197]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/197
+[#192]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/192
 [#185]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/185
 [#179]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/179
 [#174]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/174
