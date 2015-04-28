@@ -39,7 +39,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 *
 	 * Creates a way to automatically install and activate plugins from within themes.
 	 * The plugins can be either pre-packaged, downloaded from the WordPress
-	 * Plugin Repository or downloaded from a private repository.
+	 * Plugin Repository or downloaded from another external source.
 	 *
 	 * @since 1.0.0
 	 *
@@ -1408,8 +1408,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				if ( 'repo' !== $plugin['source'] && preg_match( TGM_Plugin_Activation::WP_REPO_REGEX, $plugin['source'] ) !== 1 ) {
 					if ( preg_match( TGM_Plugin_Activation::EXT_REPO_REGEX, $plugin['source'] ) ) {
-						// The plugin must be from a private repository.
-						$table_data[ $i ]['source'] = __( 'Private Repository', 'tgmpa' );
+						// The plugin must be from an external source.
+						$table_data[ $i ]['source'] = __( 'External Source', 'tgmpa' );
 
 					} else {
 						// The plugin is pre-packaged with the theme.

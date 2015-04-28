@@ -54,7 +54,7 @@ function my_theme_register_required_plugins() {
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 		),
 
-		// This is an example of how to include a plugin from a private repo in your theme.
+		// This is an example of how to include a plugin from an arbitrary external source in your theme.
 		array(
 			'name'         => 'TGM New Media Plugin', // The plugin name.
 			'slug'         => 'tgm-new-media-plugin', // The plugin slug (typically the folder name).
