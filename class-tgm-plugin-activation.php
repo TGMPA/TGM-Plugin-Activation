@@ -1114,32 +1114,33 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @param string $slug
 		 *
-		 * @return string Plugin download URL or path to local file
+		 * @return string Plugin download URL or path to local file or empty string if undetermined.
 		 */
 		public function get_download_url( $slug ) {
-			$dl = '';
 
-			if ( ! empty( $this->plugins[ $slug ]['source'] ) ) {
+			if ( empty( $this->plugins[ $slug ]['source'] ) ) {
+				return '';
+			}
+			
+			$dl_source = '';
+			$source    = $this->plugins[ $slug ]['source'];
 
-				$source = $this->plugins[ $slug ]['source'];
+			// Is this a WP repo plugin ?
+			if ( 'repo' === $source || preg_match( self::WP_REPO_REGEX, $source ) ) {
 
-				// Is this a WP repo plugin ?
-				if ( 'repo' === $source || preg_match( self::WP_REPO_REGEX, $source ) ) {
+				$dl_source = $this->get_wp_repo_download_url( $slug );
+			}
+			// Is this an external package url ?
+			elseif ( preg_match( self::EXT_REPO_REGEX, $source ) ) {
 
-					$dl = $this->get_wp_repo_download_url( $slug );
-				}
-				// Is this an external package url ?
-				elseif ( preg_match( self::EXT_REPO_REGEX, $source ) ) {
-
-					$dl = $source;
-				}
-				// This must be a bundled/pre-packaged plugin. Prefix it with the default path.
-				else {
-					$dl = $this->default_path . $source;
-				}
+				$dl_source = $source;
+			}
+			// This must be a bundled/pre-packaged plugin. Prefix it with the default path.
+			else {
+				$dl_source = $this->default_path . $source;
 			}
 
-			return $dl;
+			return $dl_source;
 		}
 
 		/**
@@ -1167,8 +1168,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				} else {
 					wp_die( esc_html( $this->strings['oops'] ) );
 				}
-			}
-			elseif ( isset( $api->download_link ) ) {
+
+			} elseif ( isset( $api->download_link ) ) {
 				$source = $api->download_link;
 			}
 
