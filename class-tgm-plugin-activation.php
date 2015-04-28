@@ -537,32 +537,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				// If we arrive here, we have the filesystem
-				require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api.
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes.
 
-				$plugin['slug']   = $slug; // needed for potentially renaming of directory name
-				$plugin['name']   = $this->plugins[ $slug ]['name'];
-				$plugin['source'] = $this->plugins[ $slug ]['source'];
+				$plugin['slug'] = $slug; // needed for potentially renaming of directory name
+				$plugin['name'] = $this->plugins[ $slug ]['name'];
 
-				// Set plugin source to WordPress API link if available.
-				if ( 'repo' === $plugin['source'] ) {
-					$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
-
-					if ( is_wp_error( $api ) ) {
-						if ( true === WP_DEBUG ) {
-							wp_die( esc_html( $this->strings['oops'] ) . var_dump( $api ) ); // wpcs: xss ok
-						} else {
-							wp_die( esc_html( $this->strings['oops'] ) );
-						}
-					}
-
-					if ( isset( $api->download_link ) ) {
-						$plugin['source'] = $api->download_link;
-					}
-				}
+				$source         = $this->get_download_url( $slug );
 
 				// Set type, based on whether the source starts with http:// or https://.
-				$type = preg_match( self::EXT_REPO_REGEX, $plugin['source'] ) ? 'web' : 'upload';
+				$type = preg_match( self::EXT_REPO_REGEX, $source ) ? 'web' : 'upload';
 
 				// Prep variables for Plugin_Installer_Skin class.
 				$title = sprintf( $this->strings['installing'], $plugin['name'] );
@@ -571,11 +554,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				$nonce = 'install-plugin_' . $slug;
 
-				// Prefix a default path to pre-packaged plugins.
-				$source = ( 'upload' === $type ) ? $this->default_path . $plugin['source'] : $plugin['source'];
-
 				// Create a new instance of Plugin_Upgrader.
-				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin' ) ) );
 
 				// Perform the action and install the plugin from the $source urldecode().
 				add_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
@@ -1124,6 +1104,75 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			return false;
+
+		}
+
+		/**
+		 * Retrieve the download url for a package.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug
+		 *
+		 * @return string Plugin download URL or path to local file
+		 */
+		public function get_download_url( $slug ) {
+			$dl = '';
+
+			if ( ! empty( $this->plugins[ $slug ]['source'] ) ) {
+
+				$source = $this->plugins[ $slug ]['source'];
+
+				// Is this a WP repo plugin ?
+				if ( 'repo' === $source || preg_match( self::WP_REPO_REGEX, $source ) ) {
+
+					$dl = $this->get_wp_repo_download_url( $slug );
+				}
+				// Is this an external package url ?
+				elseif ( preg_match( self::EXT_REPO_REGEX, $source ) ) {
+
+					$dl = $source;
+				}
+				// This must be a bundled/pre-packaged plugin. Prefix it with the default path.
+				else {
+					$dl = $this->default_path . $source;
+				}
+			}
+
+			return $dl;
+		}
+
+		/**
+		 * Retrieve the download url for a WP repo package.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug
+		 *
+		 * @return string Plugin download URL
+		 */
+		protected function get_wp_repo_download_url( $slug ) {
+			
+			if ( ! function_exists( 'plugins_api' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api.
+			}
+
+			$source = '';
+
+			// Try to grab information from WordPress API
+			$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
+			if ( is_wp_error( $api ) ) {
+				if ( true === WP_DEBUG ) {
+					wp_die( esc_html( $this->strings['oops'] ) . var_dump( $api ) ); // wpcs: xss ok
+				} else {
+					wp_die( esc_html( $this->strings['oops'] ) );
+				}
+			}
+			elseif ( isset( $api->download_link ) ) {
+				$source = $api->download_link;
+			}
+
+			return $source;
 
 		}
 
@@ -1678,7 +1727,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				// If we arrive here, we have the filesystem
-				require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // Need for plugins_api
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // Need for upgrade classes
 
 				// Store all information in arrays since we are processing a bulk installation.
@@ -1688,28 +1736,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				// Prepare the data for validated plugins for the install
 				foreach ( $plugins_to_install as $slug ) {
 					$name   = $this->tgmpa->plugins[ $slug ]['name'];
-					$source = $this->tgmpa->plugins[ $slug ]['source'];
-
-					if ( 'repo' === $source || preg_match( TGM_Plugin_Activation::WP_REPO_REGEX, $source ) ) {
-						// Try to grab information from WordPress API
-						$api = plugins_api( 'plugin_information', array( 'slug' => $slug, 'fields' => array( 'sections' => false ) ) );
-						if ( is_wp_error( $api ) ) {
-							if ( true === WP_DEBUG ) {
-								wp_die( esc_html( $this->strings['oops'] ) . var_dump( $api ) ); // wpcs: xss ok
-							} else {
-								wp_die( esc_html( $this->strings['oops'] ) );
-							}
-						}
-
-						if ( ! is_wp_error( $api ) && isset( $api->download_link ) ) {
-							$source = $api->download_link;
-						}
-						unset( $api );
-
-					} elseif ( preg_match( TGM_Plugin_Activation::EXT_REPO_REGEX, $source ) !== 1 ) {
-						// The plugin is pre-packaged with the theme.
-						$source = $this->tgmpa->default_path . $source;
-					}
+					$source = $this->tgmpa->get_download_url( $slug );
 
 					if ( ! empty( $name ) && ! empty( $source ) ) {
 						$names[]   = $name;
