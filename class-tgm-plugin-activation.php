@@ -49,7 +49,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 */
 	class TGM_Plugin_Activation {
 
-		const WP_REPO_REGEX = '|^http[s]?://wordpress\.org/extend/plugins/|';
+		const WP_REPO_REGEX = '|^http[s]?://wordpress\.org/(?:extend/)?plugins/|';
 
 		const EXT_REPO_REGEX = '|^http[s]?://|';
 
@@ -506,7 +506,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			// All plugin information will be stored in an array for processing.
 			$plugin = array();
-			$slug   = sanitize_title( $_GET['plugin'] );
+			$slug   = sanitize_key( $_GET['plugin'] );
 
 			// Checks for actions from hover links to process the installation.
 			if ( isset( $this->plugins[ $slug ], $_GET['tgmpa-install'] ) && 'install-plugin' === $_GET['tgmpa-install'] ) {
@@ -745,7 +745,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			$installed_plugins   = get_plugins(); // Retrieve a list of all the plugins
-
 			$message             = array(); // Store the messages in an array to be outputted after plugins have looped through.
 			$install_link        = false;   // Set to false, change to true in loop if conditions exist, used for action link 'install'.
 			$install_link_count  = 0;       // Used to determine plurality of install action link text.
@@ -953,20 +952,28 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			$defaults = array(
-				'name'               => '',
-				'slug'               => '',
-				'source'             => 'repo',
-				'required'           => false,
-				'version'            => '',
-				'force_activation'   => false,
-				'force_deactivation' => false,
-				'external_url'       => '',
-				'is_callable'        => '',
+				'name'               => '',      // string
+				'slug'               => '',      // string
+				'source'             => 'repo',  // string
+				'required'           => false,   // boolean
+				'version'            => '',      // string
+				'force_activation'   => false,   // boolean
+				'force_deactivation' => false,   // boolean
+				'external_url'       => '',      // string
+				'is_callable'        => '',      // string or array
 			);
 
+			// Prepare the received data
 			$plugin                              = wp_parse_args( $plugin, $defaults );
 			$plugin['file_path']                 = $this->_get_plugin_basename_from_slug( $plugin['slug'] );
 
+			// Forgive users for using string versions of booleans or floats for version nr
+			$plugin['version']                   = (string) $plugin['version'];
+			$plugin['required']                  = TGM_Utils::validate_bool( $plugin['required'] );
+			$plugin['force_activation']          = TGM_Utils::validate_bool( $plugin['force_activation'] );
+			$plugin['force_deactivation']        = TGM_Utils::validate_bool( $plugin['force_deactivation'] );
+
+			// Set the class properties
 			$this->plugins[ $plugin['slug'] ]    = $plugin;
 			$this->sort_order[ $plugin['slug'] ] = $plugin['name'];
 
@@ -1609,7 +1616,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$plugins_to_install = array();
 
-				if ( isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ) {
+				if ( ! empty( $_POST['plugin'] ) ) {
 
 					if ( is_array( $_POST['plugin'] ) ) {
 						$plugins_to_install = (array) $_POST['plugin'];
@@ -1618,9 +1625,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						// Received via Filesystem page - unflatten array (WP bug #19643)
 						$plugins_to_install = explode( ',', $_POST['plugin'] );
 					}
-					
+
 					// Sanitize the received input
-					$plugins_to_install = array_map( 'sanitize_title', $plugins_to_install );
+					$plugins_to_install = array_map( 'sanitize_key', $plugins_to_install );
 
 					// Validate the received input
 					foreach ( $plugins_to_install as $key => $slug ) {
@@ -1737,7 +1744,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				check_admin_referer( 'bulk-' . $this->_args['plural'] );
 
 				// Grab plugin data from $_POST.
-				$plugins             = isset( $_POST['plugin'] ) ? (array) $_POST['plugin'] : array();
+				$plugins = array();
+				if ( isset( $_POST['plugin'] ) ) {
+					$plugins = array_map( 'sanitize_key', (array) $_POST['plugin'] );
+				}
+
 				$plugins_to_activate = array();
 				$plugin_names        = array();
 
@@ -1820,7 +1831,6 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 *
 		 * @since      2.2.0
 		 * @deprecated 2.5.0
-		 * @deprecated use TGM_Plugin_Activation::_get_plugin_data_from_name()
 		 * @see        TGM_Plugin_Activation::_get_plugin_data_from_name()
 		 *
 		 * @param string $name Name of the plugin, as it was registered.
@@ -2407,3 +2417,104 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
 	}
 }
+
+
+if ( ! class_exists( 'TGM_Utils' ) ) {
+	/**
+	 * Generic utilities for TGMPA.
+	 *
+	 * All methods are static, poor-dev namespacing class wrapper.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @package TGM-Plugin-Activation
+	 * @author  Juliette Reinders Folmer
+	 */
+	class TGM_Utils {
+
+		/**
+		 * @var bool $has_filters Whether the PHP filter extension is enabled
+		 * @static
+		 */
+		public static $has_filters;
+
+		/**
+		 * Helper function: Validate a value as boolean
+		 *
+		 * @since 2.5.0
+		 *
+		 * @static
+		 *
+		 * @param mixed $value
+		 *
+		 * @return bool
+		 */
+		public static function validate_bool( $value ) {
+			if ( ! isset( self::$has_filters ) ) {
+				self::$has_filters = extension_loaded( 'filter' );
+			}
+
+			if ( self::$has_filters ) {
+				return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+
+			} else {
+				return self::emulate_filter_bool( $value );
+			}
+		}
+
+		/**
+		 * Helper function: Cast a value to bool
+		 *
+		 * @since 2.5.0
+		 *
+		 * @static
+		 *
+		 * @param mixed $value Value to cast
+		 *
+		 * @return bool
+		 */
+		protected static function emulate_filter_bool( $value ) {
+
+			static $true  = array(
+				'1',
+				'true', 'True', 'TRUE',
+				'y', 'Y',
+				'yes', 'Yes', 'YES',
+				'on', 'On', 'ON',
+			);
+			static $false = array(
+				'0',
+				'false', 'False', 'FALSE',
+				'n', 'N',
+				'no', 'No', 'NO',
+				'off', 'Off', 'OFF',
+			);
+
+			if ( is_bool( $value ) ) {
+				return $value;
+
+			} else if ( is_int( $value ) && ( 0 === $value || 1 === $value ) ) {
+				return (bool) $value;
+
+			} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( (float) 0 === $value || (float) 1 === $value ) ) {
+				return (bool) $value;
+
+			} else if ( is_string( $value ) ) {
+
+				$value = trim( $value );
+				if ( in_array( $value, $true, true ) ) {
+					return true;
+
+				} else if ( in_array( $value, $false, true ) ) {
+					return false;
+
+				} else {
+					return false;
+				}
+			}
+			return false;
+		}
+
+	} // End of class TGM_Utils
+
+} // End of class_exists wrapper
