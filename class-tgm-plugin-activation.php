@@ -573,7 +573,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				// Only activate plugins if the config option is set to true.
 				if ( $this->is_automatic ) {
 					$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method.
-					if( $this->activate_single_plugin( $plugin_activate, $slug, true ) === true ) {
+					if( false === $this->activate_single_plugin( $plugin_activate, $slug, true ) ) {
 						return true; // Finish execution of the function early as we encountered an error
 					}
 
@@ -603,7 +603,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
 				check_admin_referer( 'tgmpa-activate', 'tgmpa-activate-nonce' );
 
-				if( $this->activate_single_plugin( $this->plugins[ $slug ]['file_path'], $slug ) === true ) {
+				if( false === $this->activate_single_plugin( $this->plugins[ $slug ]['file_path'], $slug ) ) {
 					return true; // Finish execution of the function early as we encountered an error
 				}
 			}
@@ -689,7 +689,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @param bool   $automatic Whether this is an automatic activation after an install. Defaults to false.
 		 *                          This determines the styling of the output messages.
 		 *
-		 * @return bool True if an error was encountered, false otherwise.
+		 * @return bool False if an error was encountered, true otherwise.
 		 */
 		protected function activate_single_plugin( $file_path, $slug, $automatic = false ) {
 
@@ -699,7 +699,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( is_wp_error( $activate ) ) {
 					echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>',
 						'<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
-					return true; // End it here if there is an error with activation.
+					return false; // End it here if there is an error with activation.
 
 				} else {
 					if ( ! $automatic ) {
@@ -724,7 +724,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'</p></div>';
 			}
 			
-			return false;
+			return true;
 		}
 
 		/**
@@ -751,7 +751,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return;
 			}
 
-			$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
+			$installed_plugins   = get_plugins(); // Retrieve a list of all the plugins
 			$message             = array(); // Store the messages in an array to be outputted after plugins have looped through.
 			$install_link        = false;   // Set to false, change to true in loop if conditions exist, used for action link 'install'.
 			$install_link_count  = 0;       // Used to determine plurality of install action link text.
