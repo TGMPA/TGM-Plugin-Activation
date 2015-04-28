@@ -573,17 +573,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				// Only activate plugins if the config option is set to true.
 				if ( $this->is_automatic ) {
 					$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method.
-					$activate        = activate_plugin( $plugin_activate ); // Activate the plugin.
-					$this->populate_file_path( $slug ); // Re-populate the file path now that the plugin has been installed and activated.
-
-					if ( is_wp_error( $activate ) ) {
-						echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>',
-							'<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
-						return true; // End it here if there is an error with automatic activation
-
-					} else {
-						echo '<p>', esc_html( $this->strings['plugin_activated'] ), '</p>';
+					if( false === $this->activate_single_plugin( $plugin_activate, $slug, true ) ) {
+						return true; // Finish execution of the function early as we encountered an error
 					}
+
+					// Re-populate the file path now that the plugin has been installed and activated.
+					$this->populate_file_path( $slug );
 				}
 
 				// Display message based on if all plugins are now active or not.
@@ -608,29 +603,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
 				check_admin_referer( 'tgmpa-activate', 'tgmpa-activate-nonce' );
 
-				$plugin_to_activate = $this->plugins[ $slug ]['file_path'];
-
-				if ( ! is_plugin_active( $plugin_to_activate ) ) {
-					$activate = activate_plugin( $plugin_to_activate ); // Activate the plugin.
-
-					if ( is_wp_error( $activate ) ) {
-						echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>';
-						echo '<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
-						return true; // End it here if there is an error with activation.
-
-					} else {
-						// Make sure message doesn't display again if bulk activation is performed immediately after a single activation.
-						if ( ! isset( $_POST['action'] ) ) {
-							echo '<div id="message" class="updated"><p>', esc_html( $this->strings['activated_successfully'] ), ' <strong>', esc_html( $this->plugins[ $slug ]['name'] ), '.</strong></p></div>';
-						}
-					}
-				} else {
-					echo '<div id="message" class="error"><p>',
-						sprintf(
-							esc_html__( 'No action taken. Plugin %1$s was already active.', 'tgmpa' ),
-							'<strong>' . esc_html( $this->plugins[ $slug ]['name'] ) . '</strong>'
-						),
-						'</p></div>';
+				if( false === $this->activate_single_plugin( $this->plugins[ $slug ]['file_path'], $slug ) ) {
+					return true; // Finish execution of the function early as we encountered an error
 				}
 			}
 
@@ -703,6 +677,54 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			return $source;
+		}
+
+		/**
+		 * Activate a single plugin and send feedback about the result to the screen.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $file_path Path within wp-plugins/ to main plugin file
+		 * @param string $slug      Plugin slug
+		 * @param bool   $automatic Whether this is an automatic activation after an install. Defaults to false.
+		 *                          This determines the styling of the output messages.
+		 *
+		 * @return bool False if an error was encountered, true otherwise.
+		 */
+		protected function activate_single_plugin( $file_path, $slug, $automatic = false ) {
+
+			if ( ! is_plugin_active( $file_path ) ) {
+				$activate = activate_plugin( $file_path ); // Activate the plugin.
+
+				if ( is_wp_error( $activate ) ) {
+					echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>',
+						'<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
+					return false; // End it here if there is an error with activation.
+
+				} else {
+					if ( ! $automatic ) {
+						// Make sure message doesn't display again if bulk activation is performed immediately after a single activation.
+						if ( ! isset( $_POST['action'] ) ) {
+							echo '<div id="message" class="updated"><p>', esc_html( $this->strings['activated_successfully'] ), ' <strong>', esc_html( $this->plugins[ $slug ]['name'] ), '.</strong></p></div>';
+						}
+					}
+					else {
+						// Simpler message layout for use on the plugin install page
+						echo '<p>', esc_html( $this->strings['plugin_activated'] ), '</p>';
+					}
+				}
+			} else {
+				// No simpler message format provided as this message should never be encountered
+				// on the plugin install page
+				echo '<div id="message" class="error"><p>',
+					sprintf(
+						esc_html__( 'No action taken. Plugin %1$s was already active.', 'tgmpa' ),
+						'<strong>' . esc_html( $this->plugins[ $slug ]['name'] ) . '</strong>'
+					),
+					'</p></div>';
+			}
+			
+			return true;
 		}
 
 		/**
