@@ -810,36 +810,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					// Loop through the plugin names to make the ones pulled from the .org repo linked.
 					foreach ( $plugin_group as $plugin_slug ) {
 
-						if ( ! empty( $this->plugins[ $plugin_slug ]['external_url'] ) && preg_match( self::EXT_REPO_REGEX, $this->plugins[ $plugin_slug ]['external_url'] ) ) {
-							$linked_plugins[] = sprintf(
-								'<a href="%1$s" target="_blank">%2$s</a>',
-								esc_url( $this->plugins[ $plugin_slug ]['external_url'] ),
-								esc_html( $this->plugins[ $plugin_slug ]['name'] )
-							);
-
-						} elseif ( 'repo' === $this->plugins[ $plugin_slug ]['source'] || preg_match( self::WP_REPO_REGEX, $this->plugins[ $plugin_slug ]['source'] ) ) {
-							$url = add_query_arg(
-								array(
-									'tab'       => 'plugin-information',
-									'plugin'    => urlencode( $plugin_slug ),
-									'TB_iframe' => 'true',
-									'width'     => '640',
-									'height'    => '500',
-								),
-								self_admin_url( 'plugin-install.php' )
-							);
-
-							$linked_plugins[] = sprintf(
-								'<a href="%1$s" class="thickbox">%2$s</a>',
-								esc_url( $url ),
-								esc_html( $this->plugins[ $plugin_slug ]['name'] )
-							);
-
-						} else {
-							$linked_plugins[] = esc_html( $this->plugins[ $plugin_slug ]['name'] ); // No hyperlink.
-						}
+						$linked_plugins[] = $this->get_info_link( $plugin_slug );
 					}
-					unset( $plugin_slug, $url );
+					unset( $plugin_slug );
 
 					$count       = count( $plugin_group );
 					$last_plugin = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
@@ -1183,6 +1156,50 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
+		 * Retrieve a link to a plugin information page.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug
+		 *
+		 * @return string Fully formed html link to a plugin information page if available or the plugin name if not.
+		 */
+		public function get_info_link( $slug ) {
+			$link = '';
+
+			if ( ! empty( $this->plugins[ $slug ]['external_url'] ) && preg_match( self::EXT_REPO_REGEX, $this->plugins[ $slug ]['external_url'] ) ) {
+				$link = sprintf(
+					'<a href="%1$s" target="_blank">%2$s</a>',
+					esc_url( $this->plugins[ $slug ]['external_url'] ),
+					esc_html( $this->plugins[ $slug ]['name'] )
+				);
+
+			} elseif ( 'repo' === $this->plugins[ $slug ]['source'] || preg_match( self::WP_REPO_REGEX, $this->plugins[ $slug ]['source'] ) ) {
+				$url = add_query_arg(
+					array(
+						'tab'       => 'plugin-information',
+						'plugin'    => urlencode( $slug ),
+						'TB_iframe' => 'true',
+						'width'     => '640',
+						'height'    => '500',
+					),
+					self_admin_url( 'plugin-install.php' )
+				);
+
+				$link = sprintf(
+					'<a href="%1$s" class="thickbox">%2$s</a>',
+					esc_url( $url ),
+					esc_html( $this->plugins[ $slug ]['name'] )
+				);
+
+			} else {
+				$link = esc_html( $this->plugins[ $slug ]['name'] ); // No hyperlink.
+			}
+
+			return $link;
+		}
+
+		/**
 		 * Determine if we're on the TGMPA Install page.
 		 *
 		 * @since 2.1.0
@@ -1428,33 +1445,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$table_data[ $i ]['sanitized_plugin'] = $plugin['name'];
 				$table_data[ $i ]['slug']             = $slug;
-
-				if ( ! empty( $plugin['external_url'] ) && preg_match( TGM_Plugin_Activation::EXT_REPO_REGEX, $plugin['external_url'] ) ) {
-					$table_data[ $i ]['plugin'] = sprintf(
-						'<strong><a href="%1$s" target="_blank">%2$s</a></strong>',
-						esc_url( $plugin['external_url'] ),
-						esc_html( $plugin['name'] )
-					);
-				} elseif ( 'repo' === $plugin['source'] || preg_match( TGM_Plugin_Activation::WP_REPO_REGEX, $plugin['source'] ) ) {
-					$url = add_query_arg(
-						array(
-							'tab'       => 'plugin-information',
-							'plugin'    => urlencode( $slug ),
-							'TB_iframe' => 'true',
-							'width'     => '640',
-							'height'    => '500',
-						),
-						self_admin_url( 'plugin-install.php' )
-					);
-
-					$table_data[ $i ]['plugin'] = sprintf(
-						'<strong><a href="%1$s" class="thickbox">%2$s</a></strong>',
-						esc_url( $url ),
-						esc_html( $plugin['name'] )
-					);
-				} else {
-					$table_data[ $i ]['plugin'] = '<strong>' . esc_html( $plugin['name'] ) . '</strong>'; // No hyperlink.
-				}
+				$table_data[ $i ]['plugin']           = '<strong>' . $this->tgmpa->get_info_link( $slug ) . '</strong>';
 
 				if ( 'repo' !== $plugin['source'] && preg_match( TGM_Plugin_Activation::WP_REPO_REGEX, $plugin['source'] ) !== 1 ) {
 					if ( preg_match( TGM_Plugin_Activation::EXT_REPO_REGEX, $plugin['source'] ) ) {
