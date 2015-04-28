@@ -810,7 +810,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					// Loop through the plugin names to make the ones pulled from the .org repo linked.
 					foreach ( $plugin_group as $plugin_slug ) {
 
-						$linked_plugins[] = $this->get_plugin_info_link( $plugin_slug );
+						$linked_plugins[] = $this->get_info_link( $plugin_slug );
 					}
 					unset( $plugin_slug );
 
@@ -1156,15 +1156,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Retrieve a link to a plugin information page
+		 * Retrieve a link to a plugin information page.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $slug
+		 * @param string $slug Plugin slug
 		 *
-		 * @return string
+		 * @return string Fully formed html link to a plugin information page if available or the plugin name if not.
 		 */
-		public function get_plugin_info_link( $slug ) {
+		public function get_info_link( $slug ) {
 			$link = '';
 
 			if ( ! empty( $this->plugins[ $slug ]['external_url'] ) && preg_match( self::EXT_REPO_REGEX, $this->plugins[ $slug ]['external_url'] ) ) {
@@ -1445,7 +1445,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$table_data[ $i ]['sanitized_plugin'] = $plugin['name'];
 				$table_data[ $i ]['slug']             = $slug;
-				$table_data[ $i ]['plugin']           = '<strong>' . $this->tgmpa->get_plugin_info_link( $slug ) . '</strong>';
+				$table_data[ $i ]['plugin']           = '<strong>' . $this->tgmpa->get_info_link( $slug ) . '</strong>';
 
 				if ( 'repo' !== $plugin['source'] && preg_match( TGM_Plugin_Activation::WP_REPO_REGEX, $plugin['source'] ) !== 1 ) {
 					if ( preg_match( TGM_Plugin_Activation::EXT_REPO_REGEX, $plugin['source'] ) ) {
