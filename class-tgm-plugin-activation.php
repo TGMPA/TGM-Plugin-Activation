@@ -63,9 +63,38 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
+		 * @since 2.5.0 the array has the plugin slug as an associative key
+		 *
 		 * @var array
 		 */
 		public $plugins = array();
+
+		/**
+		 * Holds arrays of plugin names to use to sort the plugins array.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @var array
+		 */
+		protected $sort_order = array();
+
+		/**
+		 * Whether any plugins have the 'force_activation' setting set to true
+		 *
+		 * @since 2.5.0
+		 *
+		 * @var bool
+		 */
+		protected $has_forced_activation = false;
+
+		/**
+		 * Whether any plugins have the 'force_deactivation' setting set to true
+		 *
+		 * @since 2.5.0
+		 *
+		 * @var bool
+		 */
+		protected $has_forced_deactivation = false;
 
 		/**
 		 * Name of the unique ID to hash notices.
@@ -256,13 +285,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return;
 			}
 
-			$sorted = array();
-
-			foreach ( $this->plugins as $plugin ) {
-				$sorted[] = $plugin['name'];
-			}
-
-			array_multisort( $sorted, SORT_ASC, $this->plugins );
+			// Sort the plugins
+			array_multisort( $this->sort_order, SORT_ASC, $this->plugins );
 
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_head', array( $this, 'dismiss' ) );
@@ -277,19 +301,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			// Setup the force activation hook.
-			foreach ( $this->plugins as $plugin ) {
-				if ( isset( $plugin['force_activation'] ) && true === $plugin['force_activation'] ) {
-					add_action( 'admin_init', array( $this, 'force_activation' ) );
-					break;
-				}
+			if ( true === $this->has_forced_activation ) {
+				add_action( 'admin_init', array( $this, 'force_activation' ) );
 			}
 
 			// Setup the force deactivation hook.
-			foreach ( $this->plugins as $plugin ) {
-				if ( isset( $plugin['force_deactivation'] ) && true === $plugin['force_deactivation'] ) {
-					add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
-					break;
-				}
+			if ( true === $this->has_forced_deactivation ) {
+				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
 			}
 
 		}
@@ -374,8 +392,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( ! current_user_can( 'install_plugins' ) ) {
 				return;
 			}
-
-			$this->populate_file_path();
 
 			foreach ( $this->plugins as $plugin ) {
 				if ( ! is_plugin_active( $plugin['file_path'] ) ) {
@@ -718,8 +734,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return;
 			}
 
-			$installed_plugins = get_plugins(); // Retrieve a list of all the plugins
-			$this->populate_file_path();
+			$installed_plugins   = get_plugins(); // Retrieve a list of all the plugins
 
 			$message             = array(); // Store the messages in an array to be outputted after plugins have looped through.
 			$install_link        = false;   // Set to false, change to true in loop if conditions exist, used for action link 'install'.
@@ -930,14 +945,37 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return;
 			}
 
-			foreach ( $this->plugins as $registered_plugin ) {
-				if ( $plugin['slug'] === $registered_plugin['slug'] ) {
-					return;
-				}
+			if ( ! is_string( $plugin['slug'] ) || empty( $plugin['slug'] ) || isset( $this->plugins[ $plugin['slug'] ] ) ) {
+				return;
 			}
 
-			$this->plugins[] = $plugin;
+			$defaults = array(
+				'name'               => '',
+				'slug'               => '',
+				'source'             => 'repo',
+				'required'           => false,
+				'version'            => '',
+				'force_activation'   => false,
+				'force_deactivation' => false,
+				'external_url'       => '',
+				'is_callable'        => '',
+			);
 
+			$plugin                              = wp_parse_args( $plugin, $defaults );
+			$plugin['file_path']                 = $this->_get_plugin_basename_from_slug( $plugin['slug'] );
+
+			$this->plugins[ $plugin['slug'] ]    = $plugin;
+			$this->sort_order[ $plugin['slug'] ] = $plugin['name'];
+
+			// Should we add the force activation hook ?
+			if ( true === $plugin['force_activation'] ) {
+				$this->has_forced_activation = true;
+			}
+
+			// Should we add the force deactivation hook ?
+			if ( true === $plugin['force_deactivation'] ) {
+				$this->has_forced_deactivation = true;
+			}
 		}
 
 		/**
@@ -1011,12 +1049,20 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Set file_path key for each installed plugin.
 		 *
 		 * @since 2.1.0
+		 *
+		 * @param string $plugin_slug Optional. If set, only (re-)populates the file path for that specific plugin.
+		 *                            Parameter added in v2.5.0.
 		 */
-		public function populate_file_path() {
+		public function populate_file_path( $plugin_slug = null ) {
 
-			// Add file_path key for all plugins.
-			foreach ( $this->plugins as $plugin => $values ) {
-				$this->plugins[ $plugin ]['file_path'] = $this->_get_plugin_basename_from_slug( $values['slug'] );
+			if ( is_string( $plugin_slug ) && ! empty( $plugin_slug ) ) {
+				$this->plugins[ $plugin_slug ]['file_path'] = $this->_get_plugin_basename_from_slug( $plugin_slug );
+
+			} else {
+				// Add file_path key for all plugins.
+				foreach ( $this->plugins as $slug => $values ) {
+					$this->plugins[ $slug ]['file_path'] = $this->_get_plugin_basename_from_slug( $slug );
+				}
 			}
 
 		}
@@ -1031,6 +1077,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @return string      Either file path for plugin if installed, or just the plugin slug.
 		 */
 		protected function _get_plugin_basename_from_slug( $slug ) {
+
+			if ( ! function_exists( 'get_plugins' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
 
 			$keys = array_keys( get_plugins() );
 
@@ -1111,9 +1161,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function force_activation() {
 
-			// Set file_path parameter for any installed plugins.
-			$this->populate_file_path();
-
 			$installed_plugins = get_plugins();
 
 			foreach ( $this->plugins as $plugin ) {
@@ -1142,9 +1189,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @since 2.2.0
 		 */
 		public function force_deactivation() {
-
-			// Set file_path parameter for any installed plugins.
-			$this->populate_file_path();
 
 			foreach ( $this->plugins as $plugin ) {
 				// Only proceed forward if the parameter is set to true and plugin is active.
