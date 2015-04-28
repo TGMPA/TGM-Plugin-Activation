@@ -796,11 +796,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// If we have notices to display, we move forward.
 			if ( ! empty( $message ) ) {
 				krsort( $message ); // Sort messages.
-				$rendered = ''; // Display all nag messages as strings.
+				$rendered = '';
+
+				// As add_settings_error() wraps the final message in a <p> and as the final message can't be
+				// filtered, using <p>'s in our html would render invalid html output.
+				$line_template = '<span style="display: block; margin: 0.5em 0.5em 0 0; clear: both;">%s</span>' . "\n";
 
 				// If dismissable is false and a message is set, output it now.
 				if ( ! $this->dismissable && ! empty( $this->dismiss_msg ) ) {
-					$rendered .= '<p><strong>' . wp_kses_post( $this->dismiss_msg ) . '</strong></p>';
+					$rendered .= sprintf( $line_template, wp_kses_post( $this->dismiss_msg ) );
 				}
 
 				// Grab all plugin names.
@@ -814,11 +818,19 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					}
 					unset( $plugin_slug );
 
-					$count       = count( $plugin_group );
-					$last_plugin = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
-					$imploded    = empty( $linked_plugins ) ? '<em>' . $last_plugin . '</em>' : '<em>' . ( implode( ', ', $linked_plugins ) . '</em> ' . esc_html__( 'and', 'tgmpa' ) . ' <em>' . $last_plugin . '</em>' );
+					$count          = count( $plugin_group );
+					$linked_plugins = array_map( array( 'TGM_Utils', 'wrap_in_em' ), $linked_plugins );
+					$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
+					$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
-					$rendered .= '<p>' . sprintf( translate_nooped_plural( $this->strings[ $type ], $count, 'tgmpa' ), $imploded, $count ) . '</p>';
+					$rendered .= sprintf(
+						$line_template,
+						sprintf(
+							translate_nooped_plural( $this->strings[ $type ], $count, 'tgmpa' ),
+							$imploded,
+							$count
+						)
+					);
 				}
 				unset( $type, $plugin_group, $linked_plugins, $count, $last_plugin, $imploded );
 
@@ -838,7 +850,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
 				if ( is_array( $action_links ) && ! empty( $action_links ) ) {
-					$rendered .= apply_filters( 'tgmpa_notice_rendered_action_links', '<p>' . implode( ' | ', $action_links ) . '</p>' );
+					$action_links = sprintf( $line_template, implode( ' | ', $action_links ) );
+					$rendered    .= apply_filters( 'tgmpa_notice_rendered_action_links', $action_links );
 				}
 
 				// Register the nag messages and prepare them to be processed.
@@ -1813,14 +1826,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>';
 
 				} else {
-					$count       = count( $plugin_names ); // Count so we can use _n function.
-					$last_plugin = array_pop( $plugin_names ); // Pop off last name to prep for readability.
-					$imploded    = empty( $plugin_names ) ? '<strong>' . $last_plugin . '</strong>' : '<strong>' . ( implode( ', ', $plugin_names ) . '</strong> ' . esc_html__( 'and', 'tgmpa' ) . ' <strong>' . $last_plugin . '</strong>.' );
+					$count        = count( $plugin_names ); // Count so we can use _n function.
+					$plugin_names = array_map( array( 'TGM_Utils', 'wrap_in_strong' ), $plugin_names );
+					$last_plugin  = array_pop( $plugin_names ); // Pop off last name to prep for readability.
+					$imploded     = empty( $plugin_names ) ? $last_plugin : ( implode( ', ', $plugin_names ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
 					printf(
 						'<div id="message" class="updated"><p>%1$s %2$s.</p></div>',
 						esc_html( _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, 'tgmpa' ) ),
-						wp_kses_post( $imploded )
+						$imploded // xss: ok
 					);
 
 					// Update recently activated plugins option.
@@ -2476,6 +2490,37 @@ if ( ! class_exists( 'TGM_Utils' ) ) {
 		 * @static
 		 */
 		public static $has_filters;
+
+
+		/**
+		 * Wrap an arbitrary string in <em> tags. Meant to be used in combination with array_map().
+		 *
+		 * @since 2.5.0
+		 *
+		 * @static
+		 *
+		 * @param string $string
+		 *
+		 * @return string
+		 */
+		public static function wrap_in_em( $string ) {
+			return '<em>' . wp_kses_post( $string ) . '</em>';
+		}
+
+		/**
+		 * Wrap an arbitrary string in <strong> tags. Meant to be used in combination with array_map().
+		 *
+		 * @since 2.5.0
+		 *
+		 * @static
+		 *
+		 * @param string $string
+		 *
+		 * @return string
+		 */
+		public static function wrap_in_strong( $string ) {
+			return '<strong>' . wp_kses_post( $string ) . '</strong>';
+		}
 
 		/**
 		 * Helper function: Validate a value as boolean
