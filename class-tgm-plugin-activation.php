@@ -1598,7 +1598,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * Processes bulk installation and activation actions.
 		 *
 		 * The bulk installation process looks for the $_POST information and passes that
-		 & through if a user has to use WP_Filesystem to enter their credentials.
+		 * through if a user has to use WP_Filesystem to enter their credentials.
 		 *
 		 * @since 2.2.0
 		 */
