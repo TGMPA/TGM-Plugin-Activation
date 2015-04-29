@@ -49,9 +49,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 */
 	class TGM_Plugin_Activation {
 
+		/**
+		 * @const string Regular expression to test if a url is a WP plugin repo url
+		 */	
 		const WP_REPO_REGEX = '|^http[s]?://wordpress\.org/(?:extend/)?plugins/|';
 
-		const EXT_REPO_REGEX = '|^http[s]?://|';
+		/**
+		 * @const string Arbitrary regular expression to test if a string starts with a url
+		 */
+		const IS_URL_REGEX = '|^http[s]?://|';
 
 		/**
 		 * Holds a copy of itself, so it can be referenced by the class name.
@@ -585,7 +591,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$source         = $this->get_download_url( $slug );
 
 				// Set type, based on whether the source starts with http:// or https://.
-				$type = preg_match( self::EXT_REPO_REGEX, $source ) ? 'web' : 'upload';
+				$type = preg_match( self::IS_URL_REGEX, $source ) ? 'web' : 'upload';
 
 				// Prep variables for Plugin_Installer_Skin class.
 				$title = sprintf( $this->strings['installing'], $plugin['name'] );
@@ -1189,7 +1195,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$dl_source = $this->get_wp_repo_download_url( $slug );
 			}
 			// Is this an external package url ?
-			elseif ( preg_match( self::EXT_REPO_REGEX, $source ) ) {
+			elseif ( preg_match( self::IS_URL_REGEX, $source ) ) {
 
 				$dl_source = $source;
 			}
@@ -1247,7 +1253,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public function get_info_link( $slug ) {
 			$link = '';
 
-			if ( ! empty( $this->plugins[ $slug ]['external_url'] ) && preg_match( self::EXT_REPO_REGEX, $this->plugins[ $slug ]['external_url'] ) ) {
+			if ( ! empty( $this->plugins[ $slug ]['external_url'] ) && preg_match( self::IS_URL_REGEX, $this->plugins[ $slug ]['external_url'] ) ) {
 				$link = sprintf(
 					'<a href="%1$s" target="_blank">%2$s</a>',
 					esc_url( $this->plugins[ $slug ]['external_url'] ),
@@ -1528,7 +1534,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$table_data[ $i ]['plugin']           = '<strong>' . $this->tgmpa->get_info_link( $slug ) . '</strong>';
 
 				if ( 'repo' !== $plugin['source'] && preg_match( TGM_Plugin_Activation::WP_REPO_REGEX, $plugin['source'] ) !== 1 ) {
-					if ( preg_match( TGM_Plugin_Activation::EXT_REPO_REGEX, $plugin['source'] ) ) {
+					if ( preg_match( TGM_Plugin_Activation::IS_URL_REGEX, $plugin['source'] ) ) {
 						// The plugin must be from an external source.
 						$table_data[ $i ]['source'] = __( 'External Source', 'tgmpa' );
 
