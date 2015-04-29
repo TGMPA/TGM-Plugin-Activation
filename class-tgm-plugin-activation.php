@@ -590,24 +590,27 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				$source         = $this->get_download_url( $slug );
 
-				// Set type, based on whether the source starts with http:// or https://.
-				$type = preg_match( self::IS_URL_REGEX, $source ) ? 'web' : 'upload';
-
 				// Prep variables for Plugin_Installer_Skin class.
-				$title = sprintf( $this->strings['installing'], $plugin['name'] );
-				$url   = add_query_arg(
+				$url = add_query_arg(
 					array(
 						'action' => 'install-plugin',
 						'plugin' => urlencode( $slug )
 					),
 					'update.php'
 				);
-				$url   = esc_url_raw( $url );
-
-				$nonce = 'install-plugin_' . $slug;
 
 				// Create a new instance of Plugin_Upgrader.
-				$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'type', 'title', 'url', 'nonce', 'plugin' ) ) );
+				$upgrader = new Plugin_Upgrader(
+					new Plugin_Installer_Skin(
+						array(
+							'type'   => preg_match( self::IS_URL_REGEX, $source ) ? 'web' : 'upload',
+							'title'  => sprintf( $this->strings['installing'], $plugin['name'] ),
+							'url'    => esc_url_raw( $url ),
+							'nonce'  => 'install-plugin_' . $slug,
+							'plugin' => $plugin,
+						)
+					)
+				);
 
 				// Perform the action and install the plugin from the $source urldecode().
 				add_filter( 'upgrader_source_selection', array( $this, 'maybe_adjust_source_dir' ), 1, 3 );
@@ -1844,11 +1847,17 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				unset( $slug, $name, $source );
 
 				// Finally, all the data is prepared to be sent to the installer.
-				$url   = esc_url_raw( $this->tgmpa->get_tgmpa_url() );
-				$nonce = 'bulk-plugins';
-
 				// Create a new instance of TGM_Bulk_Installer.
-				$installer = new TGM_Bulk_Installer( new TGM_Bulk_Installer_Skin( compact( 'url', 'nonce', 'names' ) ) );
+				$installer = new TGM_Bulk_Installer(
+					new TGM_Bulk_Installer_Skin(
+						array(
+							'url'          => esc_url_raw( $this->tgmpa->get_tgmpa_url() ),
+							'nonce'        => 'bulk-' . $this->_args['plural'],
+							'names'        => $names,
+							'install_type' => $install_type,
+						)
+					)
+				);
 
 				// Wrap the install process with the appropriate HTML.
 				echo '<div class="tgmpa wrap">',
@@ -2092,12 +2101,14 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							// Do the plugin install.
 							$result = $this->run(
 								array(
-									'package'           => $plugin, // The plugin source.
+									'package'           => $plugin,       // The plugin source.
 									'destination'       => WP_PLUGIN_DIR, // The destination dir.
 									'clear_destination' => false, // Do we want to clear the destination or not?
-									'clear_working'     => true, // Remove original install file.
-									'is_multi'          => true, // Are we processing multiple installs?
-									'hook_extra'        => array( 'plugin' => $plugin ), // Pass plugin source as extra data.
+									'clear_working'     => true,          // Remove original install file.
+									'is_multi'          => true,          // Are we processing multiple installs?
+									'hook_extra'        => array(
+										'plugin' => $plugin,              // Pass plugin source as extra data.
+									),
 								)
 							);
 
