@@ -1518,11 +1518,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$api[ $slug ] = false;
 
 				if ( is_wp_error( $response ) ) {
-					if ( true === WP_DEBUG ) {
-						wp_die( esc_html( $this->strings['oops'] ) . var_dump( $api ) ); // WPCS: xss ok.
-					} else {
-						wp_die( esc_html( $this->strings['oops'] ) );
-					}
+					wp_die( esc_html( $this->strings['oops'] ) );
 				} else {
 					$api[ $slug ] = $response;
 				}
@@ -3077,7 +3073,9 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						// - a plugin with an update available is currently active.
 						// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
 						$maintenance = ( is_multisite() && ! empty( $plugins ) );
-						/* [TGMPA - ]
+
+						/*
+						[TGMPA - ]
 						foreach ( $plugins as $plugin )
 							$maintenance = $maintenance || ( is_plugin_active( $plugin ) && isset( $current->response[ $plugin] ) );
 						*/
@@ -3092,7 +3090,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						foreach ( $plugins as $plugin ) {
 							$this->update_current++;
 
-							/* [TGMPA - ]
+							/*
+							[TGMPA - ]
 							$this->skin->plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, true);
 
 							if ( !isset( $current->response[ $plugin ] ) ) {
