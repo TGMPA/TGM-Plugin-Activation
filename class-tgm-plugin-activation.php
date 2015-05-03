@@ -2530,8 +2530,10 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 		// Get TGMPA class instance
 		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
-		if ( ! class_exists( 'WP_Upgrader' ) && ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		if ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) {
+			if ( ! class_exists( 'WP_Upgrader', false ) ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			}
 
 			if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
 				/**
@@ -2868,6 +2870,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 *
 				 * @since 2.2.0
 				 *
+				 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-admin/includes/class-wp-upgrader-skins.php
+				 *
 				 * @package TGM-Plugin-Activation
 				 * @author  Thomas Griffin
 				 * @author  Gary Jones
@@ -2922,7 +2926,12 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
 						// Parse default and new args.
-						$defaults = array( 'url' => '', 'nonce' => '', 'names' => array() );
+						$defaults = array(
+							'url'          => '',
+							'nonce'        => '',
+							'names'        => array(),
+							'install_type' => 'install',
+						);
 						$args     = wp_parse_args( $args, $defaults );
 
 						// Set plugin names to $this->plugin_names property.
@@ -2942,25 +2951,30 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 * @since 2.2.0
 					 */
 					public function add_strings() {
+						if ( 'update' === $this->options['install_type'] ) {
+							parent::add_strings();
+							$this->upgrader->strings['skin_before_update_header'] = __( 'Updating Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
 
-						$this->upgrader->strings['skin_update_failed_error'] = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'tgmpa' );
-						$this->upgrader->strings['skin_update_failed']       = __( 'The installation of %1$s failed.', 'tgmpa' );
+						} else {
 
-						// Automatic activation strings.
-						if ( $this->tgmpa->is_automatic ) {
-							$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
-							$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', 'tgmpa' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
-							$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', 'tgmpa' );
-							$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
+							$this->upgrader->strings['skin_update_failed_error'] = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'tgmpa' );
+							$this->upgrader->strings['skin_update_failed']       = __( 'The installation of %1$s failed.', 'tgmpa' );
+
+							// Automatic activation strings.
+							if ( $this->tgmpa->is_automatic ) {
+								$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
+								$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', 'tgmpa' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
+								$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', 'tgmpa' );
+								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
+							}
+							// Default installation strings.
+							else {
+								$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
+								$this->upgrader->strings['skin_update_successful']    = esc_html__( '%1$s installed successfully.', 'tgmpa' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
+								$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', 'tgmpa' );
+								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
+							}
 						}
-						// Default installation strings.
-						else {
-							$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
-							$this->upgrader->strings['skin_update_successful']    = esc_html__( '%1$s installed successfully.', 'tgmpa' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
-							$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', 'tgmpa' );
-							$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
-						}
-
 					}
 
 					/**
@@ -2971,24 +2985,10 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 * @param string $title Unused in this implementation.
 					 */
 					public function before( $title = '' ) {
-
-						// We are currently in the plugin installation loop, so set to true.
-						$this->in_loop = true;
-
-						printf(
-							'<h4>' . wp_kses_post( $this->upgrader->strings['skin_before_update_header'] ). ' <img alt="" src="%4$s" class="hidden waiting-%5$s" style="vertical-align:middle;" /></h4>',
-							esc_html( $this->plugin_names[ $this->i ] ),
-							absint( $this->upgrader->update_current ),
-							absint( $this->upgrader->update_count ),
-							esc_url( admin_url( 'images/wpspin_light.gif' ) ),
-							esc_attr( $this->upgrader->update_current )
-						);
-						echo '<script type="text/javascript">jQuery(\'.waiting-', esc_js( $this->upgrader->update_current ), '\').show();</script>',
-							'<div class="update-messages hide-if-js" id="progress-', esc_attr( $this->upgrader->update_current ), '"><p>';
-
-						// Flush header output buffer.
-						$this->before_flush_output();
-
+						if ( empty( $title ) ) {
+							$title = esc_html( $this->plugin_names[ $this->i ] );
+						}
+						parent::before( $title );
 					}
 
 					/**
@@ -3002,38 +3002,12 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 * @param string $title Unused in this implementation.
 					 */
 					public function after( $title = '' ) {
-
-						// Close install strings.
-						echo '</p></div>';
-
-						// Output error strings if an error has occurred.
-						if ( $this->error || ! $this->result ) {
-							if ( $this->error ) {
-								echo '<div class="error"><p>', sprintf( wp_kses_post( $this->upgrader->strings['skin_update_failed_error'] ), esc_html( $this->plugin_names[ $this->i ] ), wp_kses_post( $this->error ) ), '</p></div>';
-
-							} else {
-								echo '<div class="error"><p>', sprintf( wp_kses_post( $this->upgrader->strings['skin_update_failed'] ), esc_html( $this->plugin_names[ $this->i ] ) ), '</p></div>';
-							}
-
-							echo '<script type="text/javascript">jQuery(\'#progress-', esc_js( $this->upgrader->update_current ), '\').show();</script>';
+						if ( empty( $title ) ) {
+							$title = esc_html( $this->plugin_names[ $this->i ] );
 						}
+						parent::after( $title );
 
-						// If the result is set and there are no errors, success!
-						if ( ! empty( $this->result ) && ! is_wp_error( $this->result ) ) {
-							echo '<div class="updated"><p>',
-								sprintf(
-									$this->upgrader->strings['skin_update_successful'], // WPCS: xss ok
-									esc_html( $this->plugin_names[ $this->i ] ),
-									'jQuery(\'#progress-' . esc_js( $this->upgrader->update_current ) . '\').toggle();jQuery(\'span\', this).toggle(); return false;'
-								),
-								'</p></div>',
-								'<script type="text/javascript">jQuery(\'.waiting-', esc_js( $this->upgrader->update_current ), '\').hide();</script>';
-						}
-
-						// Set in_loop and error to false and flush footer output buffer.
-						$this->reset();
-						$this->after_flush_output();
-
+						$this->i++;
 					}
 
 					/**
@@ -3050,49 +3024,62 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						wp_clean_plugins_cache();
 
 						// Display message based on if all plugins are now active or not.
-						$complete = true;
-						foreach ( $this->tgmpa->plugins as $plugin ) {
-							if ( ! is_plugin_active( $plugin['file_path'] ) ) {
-								echo '<p><a href="', esc_url( add_query_arg( 'page', urlencode( $this->tgmpa->menu ), self_admin_url( $this->tgmpa->parent_slug ) ) ), '" target="_parent">', esc_html( $this->tgmpa->strings['return'] ), '</a></p>';
-								$complete = false;
-								break;
-							}
-						}
+						$update_actions = array();
 
-						// All plugins are active, so we display the complete string and hide the menu to protect users.
-						if ( true === $complete ) {
-							echo '<p>', sprintf( esc_html( $this->tgmpa->strings['complete'] ), '<a href="' . esc_url( self_admin_url() ) . '">' . esc_html__( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ), '</p>';
+						if ( $this->tgmpa->tgmpa_complete() ) {
+							// All plugins are active, so we display the complete string and hide the menu to protect users.
 							echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
+							$update_actions['dashboard'] = sprintf(
+								esc_html( $this->tgmpa->strings['complete'] ),
+								'<a href="' . esc_url( self_admin_url() ) . '">' . esc_html__( 'Return to the Dashboard', 'tgmpa' ) . '</a>'
+							);
+						} else {
+							$update_actions['tgmpa_page'] = '<a href="' . esc_url( $this->tgmpa->get_tgmpa_url() ) . '" target="_parent">' . esc_html( $this->tgmpa->strings['return'] ) . '</a>';
 						}
 
+						/**
+						 * Filter the list of action links available following bulk plugin updates.
+						 *
+						 * @since 2.5.0
+						 *
+						 * @param array $update_actions Array of plugin action links.
+						 * @param array $plugin_info    Array of information for the last-updated plugin.
+						 */
+						$update_actions = apply_filters( 'tgmpa_update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info );
+
+						if ( ! empty( $update_actions ) ) {
+							$this->feedback( implode( ' | ', (array) $update_actions ) );
+						}
 					}
+
+
+					// *********** DEPRECATED METHODS *********** //
 
 					/**
 					 * Flush header output buffer.
 					 *
-					 * @since 2.2.0
+					 * @since      2.2.0
+					 * @deprecated 2.5.0
+					 * @see        Bulk_Upgrader_Skin::flush_output()
 					 */
 					public function before_flush_output() {
-
-						wp_ob_end_flush_all();
-						flush();
-
+						_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'Bulk_Upgrader_Skin::flush_output()' );
+						parent::flush_output();
 					}
 
 					/**
 					 * Flush footer output buffer and iterate $this->i to make sure the
 					 * installation strings reference the correct plugin.
 					 *
-					 * @since 2.2.0
+					 * @since      2.2.0
+					 * @deprecated 2.5.0
+					 * @see        Bulk_Upgrader_Skin::flush_output()
 					 */
 					public function after_flush_output() {
-
-						wp_ob_end_flush_all();
-						flush();
+						_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'Bulk_Upgrader_Skin::flush_output()' );
+						parent::flush_output();
 						$this->i++;
-
 					}
-
 				}
 			}
 		}
