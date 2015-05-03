@@ -130,7 +130,7 @@ function my_theme_register_required_plugins() {
 				'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.',
 				'theme-slug'
 			), // %1$s = plugin name(s).
-			'notice_can_update'               => _n_noop(
+			'notice_ask_to_update_maybe'      => _n_noop(
 				'There is an update available for: %1$s.',
 				'There are updates available for the following plugins: %1$s.',
 				'theme-slug'

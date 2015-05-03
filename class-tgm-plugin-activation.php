@@ -295,7 +295,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.',
 					'tgmpa'
 				),
-				'notice_can_update'               => _n_noop(
+				'notice_ask_to_update_maybe'      => _n_noop(
 					'There is an update available for: %1$s.',
 					'There are updates available for the following plugins: %1$s.',
 					'tgmpa'
@@ -1030,7 +1030,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 								$message['notice_ask_to_update'][] = $slug;
 							}
 							elseif ( false !== $this->does_plugin_have_update( $slug ) ) {
-								$message['notice_can_update'][] = $slug;
+								$message['notice_ask_to_update_maybe'][] = $slug;
 							}
 						}
 						// Need higher privileges to update the plugin.
