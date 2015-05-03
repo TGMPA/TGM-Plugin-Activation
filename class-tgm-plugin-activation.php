@@ -1008,14 +1008,18 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			);
 
 			// Prepare the received data
-			$plugin                              = wp_parse_args( $plugin, $defaults );
-			$plugin['file_path']                 = $this->_get_plugin_basename_from_slug( $plugin['slug'] );
+			$plugin = wp_parse_args( $plugin, $defaults );
 
 			// Forgive users for using string versions of booleans or floats for version nr
-			$plugin['version']                   = (string) $plugin['version'];
-			$plugin['required']                  = TGM_Utils::validate_bool( $plugin['required'] );
-			$plugin['force_activation']          = TGM_Utils::validate_bool( $plugin['force_activation'] );
-			$plugin['force_deactivation']        = TGM_Utils::validate_bool( $plugin['force_deactivation'] );
+			$plugin['version']            = (string) $plugin['version'];
+			$plugin['source']             = empty( $plugin['source'] ) ? 'repo' : $plugin['source'];
+			$plugin['required']           = TGM_Utils::validate_bool( $plugin['required'] );
+			$plugin['force_activation']   = TGM_Utils::validate_bool( $plugin['force_activation'] );
+			$plugin['force_deactivation'] = TGM_Utils::validate_bool( $plugin['force_deactivation'] );
+
+			// Enrich the received data
+			$plugin['file_path'] = $this->_get_plugin_basename_from_slug( $plugin['slug'] );
+			$plugin['type']      = $this->get_plugin_type( $plugin['source'] );
 
 			// Set the class properties
 			$this->plugins[ $plugin['slug'] ]    = $plugin;
@@ -1029,6 +1033,29 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Should we add the force deactivation hook ?
 			if ( true === $plugin['force_deactivation'] ) {
 				$this->has_forced_deactivation = true;
+			}
+		}
+
+		/**
+		 * Determine what type of source the plugin comes from.
+		 *
+		 * @param string $source The source of the plugin as provided, either empty (= WP repo), a file path
+		 *                       (= bundled) or an external url.
+		 * @return string        'repo', 'external', or 'bundled'
+		 */
+		protected function get_plugin_type( $source ) {
+
+			// Is this a WP repo plugin ?
+			if ( 'repo' === $source || preg_match( self::WP_REPO_REGEX, $source ) ) {
+				return 'repo';
+			}
+			// Is this an external package url ?
+			elseif ( preg_match( self::IS_URL_REGEX, $source ) ) {
+				return 'external';
+			}
+			// This must be a bundled/pre-packaged plugin.
+			else {
+				return 'bundled';
 			}
 		}
 
