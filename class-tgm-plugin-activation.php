@@ -1348,6 +1348,208 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
+		 * Retrieve the url to the TGMPA Install page for a specific plugin status.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $status Plugin status - either 'install', 'update' or 'activate'.
+		 * @return string Properly encoded url (not escaped).
+		 */
+		public function get_tgmpa_status_url( $status ) {
+			return add_query_arg(
+				array(
+					'plugin_status' => urlencode( $status ),
+				),
+				$this->get_tgmpa_url()
+			);
+		}
+
+		/**
+		 * Determine whether we still have anything to do at all.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @return bool True if complete, i.e. no outstanding actions. False otherwise.
+		 */
+		public function tgmpa_complete() {
+			$complete = true;
+			foreach ( $this->plugins as $slug => $plugin ) {
+				if ( ! $this->is_plugin_active( $slug ) || false !== $this->does_plugin_have_update( $slug ) ) {
+					$complete = false;
+					break;
+				}
+			}
+
+			return $complete;
+		}
+
+		/**
+		 * Check if a plugin is installed. Does not take must-use plugins into account.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return bool True if installed, false otherwise.
+		 */
+		public function is_plugin_installed( $slug ) {
+			$installed_plugins = $this->get_plugins(); // Retrieve a list of all installed plugins (WP cached)
+			return ( ! empty( $installed_plugins[ $this->plugins[ $slug ]['file_path'] ] ) );
+		}
+
+		/**
+		 * Check if a plugin is active.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return bool True if active, false otherwise.
+		 */
+		public function is_plugin_active( $slug ) {
+			return ( is_plugin_active( $this->plugins[ $slug ]['file_path'] ) || ( ! empty( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) );
+		}
+
+		/**
+		 * Check if a plugin can be updated, i.e. if we have information on the minimum WP version required
+		 * available, check whether the current install meets them.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return bool True is ok to update, false otherwise.
+		 */
+		public function can_plugin_update( $slug ) {
+
+			// We currently can't get reliable info on non-WP-repo plugins - issue #380
+			if ( 'repo' !== $this->plugins[ $slug ]['type'] ) {
+				return true;
+			}
+
+			$api = $this->get_plugins_api( $slug );
+
+			if ( false !== $api && isset( $api->requires ) ) {
+				return version_compare( $GLOBALS['wp_version'], $api->requires, '>=' );
+			}
+			else {
+				// No usable info received from the plugins API, presume we can update.
+				return true;
+			}
+		}
+
+		/**
+		 * Check if a plugin can be activated, i.e. is not currently active and meets the minimum
+		 * plugin version requirements set in TGMPA (if any).
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return bool True is ok to activate, false otherwise.
+		 */
+		public function can_plugin_activate( $slug ) {
+			return ( ! $this->is_plugin_active( $slug ) && ! $this->does_plugin_require_update( $slug ) );
+		}
+
+		/**
+		 * Retrieve the version number of an installed plugin.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return string Version number as string or an empty string if the plugin is not installed
+		 *                or version unknown (plugins which don't comply with the plugin header standard).
+		 */
+		public function get_installed_version( $slug ) {
+
+			$installed_plugins = $this->get_plugins(); // Retrieve a list of all installed plugins (WP cached)
+
+			if ( empty( $installed_plugins[ $this->plugins[ $slug ]['file_path'] ]['Version'] ) ) {
+				return '';
+
+			} else {
+				return $installed_plugins[ $this->plugins[ $slug ]['file_path'] ]['Version'];
+			}
+		}
+
+		/**
+		 * Check whether a plugin complies with the minimum version requirements.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return bool True when a plugin needs to be updated, otherwise false.
+		 */
+		public function does_plugin_require_update( $slug ) {
+			$installed_version = $this->get_installed_version( $slug );
+			$minimum_version   = $this->plugins[ $slug ]['version'];
+
+			return version_compare( $minimum_version, $installed_version, '>' );
+		}
+
+		/**
+		 * Check whether there is an update available for a plugin.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return false|string Version nr string of the available update or false if no update available.
+		 */
+		public function does_plugin_have_update( $slug ) {
+
+			// Presume bundled and external plugins will provide at least the minimum required version
+			if ( 'repo' !== $this->plugins[ $slug ]['type'] ) {
+				if ( $this->does_plugin_require_update( $slug ) ) {
+					return $this->plugins[ $slug ]['version'];
+				}
+				return false;
+			}
+
+			$repo = get_site_transient( 'update_plugins' );
+
+			if ( isset( $repo->response[ $this->plugins[ $slug ]['file_path'] ]->new_version ) ) {
+				return $repo->response[ $this->plugins[ $slug ]['file_path'] ]->new_version;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Retrieve potential upgrade notice for a plugin.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return string The upgrade notice or an empty string if no message was available or provided.
+		 */
+		public function get_upgrade_notice( $slug ) {
+
+			// We currently can't get reliable info on non-WP-repo plugins - issue #380
+			if ( 'repo' !== $this->plugins[ $slug ]['type'] ) {
+				return '';
+			}
+
+			$repo_updates = get_site_transient( 'update_plugins' );
+
+			if ( ! empty( $repo_updates->response[ $this->plugins[ $slug ]['file_path'] ]->upgrade_notice ) ) {
+				return $repo_updates->response[ $this->plugins[ $slug ]['file_path'] ]->upgrade_notice;
+			}
+
+			return '';
+		}
+
+		/**
+		 * Wrapper around the core WP get_plugins function, making sure it's actually available.
+		 *
+		 * @param string $plugin_folder Optional. Relative path to single plugin folder.
+		 * @return array Array of installed plugins with plugin information.
+		 */
+		public function get_plugins( $plugin_folder = '' ) {
+			if ( ! function_exists( 'get_plugins' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+
+			return get_plugins( $plugin_folder );
+		}
+
+		/**
 		 * Delete dismissable nag option when theme is switched.
 		 *
 		 * This ensures that the user(s) is/are again reminded via nag of required
