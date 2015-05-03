@@ -850,50 +850,32 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function notices() {
 
-			// Remove nag on the install page.
-			if ( $this->is_tgmpa_page() ) {
+			// Remove nag on the install page / Return early if the nag message has been dismissed.
+			if ( $this->is_tgmpa_page() || get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
 				return;
 			}
 
-			// Return early if the nag message has been dismissed.
-			if ( get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
-				return;
-			}
+			// Store for the plugin slugs by message type.
+			$message = array();
 
-			$installed_plugins   = get_plugins(); // Retrieve a list of all the plugins
-			$message             = array(); // Store the messages in an array to be outputted after plugins have looped through.
-			$install_link        = false;   // Set to false, change to true in loop if conditions exist, used for action link 'install'.
-			$install_link_count  = 0;       // Used to determine plurality of install action link text.
-			$activate_link       = false;   // Set to false, change to true in loop if conditions exist, used for action link 'activate'.
-			$activate_link_count = 0;       // Used to determine plurality of activate action link text.
+			// Initialize counters used to determine plurality of action link texts
+			$install_link_count  = 0;
+			$update_link_count   = 0;
+			$activate_link_count = 0;
 
 			foreach ( $this->plugins as $slug => $plugin ) {
-				// If the plugin is installed and active, check for minimum version argument before moving forward.
-				if ( is_plugin_active( $plugin['file_path'] ) || ( ! empty( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) ) {
 
-					// If the current version is less than the minimum required version, we display a message.
-					if ( version_compare( $installed_plugins[ $plugin['file_path'] ]['Version'], $plugin['version'], '<' ) ) {
-						if ( current_user_can( 'install_plugins' ) ) {
-							$message['notice_ask_to_update'][] = $slug;
-						} else {
-							$message['notice_cannot_update'][] = $slug;
-						}
-					}
-					// No minimum version specified or can't find the plugin, so iterate over the plugin.
-					else {
-						continue;
-					}
+				if ( $this->is_plugin_active( $slug ) && false === $this->does_plugin_have_update( $slug ) ) {
+					continue;
 				}
 
-				// Not installed.
-				if ( ! isset( $installed_plugins[ $plugin['file_path'] ] ) ) {
-					$install_link = true; // We need to display the 'install' action link.
-					$install_link_count++; // Increment the install link count.
+				if ( ! $this->is_plugin_installed( $slug ) ) {
+					$install_link_count++;
+
 					if ( current_user_can( 'install_plugins' ) ) {
 						if ( true === $plugin['required'] ) {
 							$message['notice_can_install_required'][] = $slug;
 						}
-						// This plugin is only recommended.
 						else {
 							$message['notice_can_install_recommended'][] = $slug;
 						}
@@ -902,23 +884,42 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					else {
 						$message['notice_cannot_install'][] = $slug;
 					}
-				}
-				// Installed but not active.
-				elseif ( is_plugin_inactive( $plugin['file_path'] ) ) {
-					$activate_link = true; // We need to display the 'activate' action link.
-					$activate_link_count++; // Increment the activate link count.
-					if ( current_user_can( 'activate_plugins' ) ) {
-						if ( true === $plugin['required'] ) {
-							$message['notice_can_activate_required'][] = $slug;
+				} else {
+					if ( ! $this->is_plugin_active( $slug ) && $this->can_plugin_activate( $slug ) ) {
+						$activate_link_count++;
+
+						if ( current_user_can( 'activate_plugins' ) ) {
+							if ( true === $plugin['required'] ) {
+								$message['notice_can_activate_required'][] = $slug;
+							}
+							else {
+								$message['notice_can_activate_recommended'][] = $slug;
+							}
 						}
-						// This plugin is only recommended.
+						// Need higher privileges to activate the plugin.
 						else {
-							$message['notice_can_activate_recommended'][] = $slug;
+							$message['notice_cannot_activate'][] = $slug;
 						}
 					}
-					// Need higher privileges to activate the plugin.
-					else {
-						$message['notice_cannot_activate'][] = $slug;
+
+					if ( $this->does_plugin_require_update( $slug ) && false === $this->does_plugin_have_update( $slug ) ) {
+						continue;
+
+					} else {
+						$update_link_count++;
+
+						if ( current_user_can( 'install_plugins' ) ) {
+							if ( $this->does_plugin_require_update( $slug ) ) {
+								$message['notice_ask_to_update'][] = $slug;
+							}
+							elseif ( false !== $this->does_plugin_have_update( $slug ) ) {
+								$message['notice_can_update'][] = $slug;
+							}
+						}
+						// Need higher privileges to update the plugin.
+						else {
+							$message['notice_cannot_update'][] = $slug;
+						}
 					}
 				}
 			}
@@ -938,13 +939,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					$rendered .= sprintf( $line_template, wp_kses_post( $this->dismiss_msg ) );
 				}
 
-				// Grab all plugin names.
+				// Render the individual message lines for the notice.
 				foreach ( $message as $type => $plugin_group ) {
 					$linked_plugins = array();
 
-					// Loop through the plugin names to make the ones pulled from the .org repo linked.
+					// Get the external info link for a plugin if one is available.
 					foreach ( $plugin_group as $plugin_slug ) {
-
 						$linked_plugins[] = $this->get_info_link( $plugin_slug );
 					}
 					unset( $plugin_slug );
@@ -969,19 +969,42 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 				unset( $type, $plugin_group, $linked_plugins, $count, $last_plugin, $imploded );
 
-				// Setup variables to determine if action links are needed.
-				$show_install_link  = $install_link ? '<a href="' . esc_url( $this->get_tgmpa_url() ) . '">' . translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ) . '</a>' : '';
-				$show_activate_link = $activate_link ? '<a href="' . esc_url( $this->get_tgmpa_url() ) . '">' . translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ) . '</a>' : '';
-
-				// Define all of the action links.
-				$action_links = apply_filters(
-					'tgmpa_notice_action_links',
-					array(
-						'install'  => ( current_user_can( 'install_plugins' ) ) ? $show_install_link : '',
-						'activate' => ( current_user_can( 'activate_plugins' ) ) ? $show_activate_link : '',
-						'dismiss'  => $this->dismissable ? '<a href="' . esc_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) ) . '" class="dismiss-notice" target="_parent">' . esc_html( $this->strings['dismiss'] ) . '</a>' : '',
-					)
+				// Setup action links.
+				$action_links = array(
+					'install'  => '',
+					'update'   => '',
+					'activate' => '',
+					'dismiss'  => $this->dismissable ? '<a href="' . esc_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) ) . '" class="dismiss-notice" target="_parent">' . esc_html( $this->strings['dismiss'] ) . '</a>' : '',
 				);
+
+				$link_template = '<a href="%2$s">%1$s</a>';
+
+				if ( current_user_can( 'install_plugins' ) ) {
+					if ( $install_link_count > 0 ) {
+						$action_links['install'] = sprintf(
+							$link_template,
+							translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ),
+							esc_url( $this->get_tgmpa_status_url( 'install' ) )
+						);
+					}
+					if ( $update_link_count > 0 ) {
+						$action_links['update'] = sprintf(
+							$link_template,
+							translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ),
+							esc_url( $this->get_tgmpa_status_url( 'update' ) )
+						);
+					}
+				}
+
+				if ( current_user_can( 'activate_plugins' ) && $activate_link_count > 0 ) {
+					$action_links['activate'] = sprintf(
+						$link_template,
+						translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ),
+						esc_url( $this->get_tgmpa_status_url( 'activate' ) )
+					);
+				}
+
+				$action_links = apply_filters( 'tgmpa_notice_action_links', $action_links );
 
 				$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
 				if ( is_array( $action_links ) && ! empty( $action_links ) ) {
@@ -990,10 +1013,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				// Register the nag messages and prepare them to be processed.
-				$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
 				if ( ! empty( $this->strings['nag_type'] ) ) {
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
 				} else {
+					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, $nag_class );
 				}
 			}
