@@ -2916,6 +2916,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						if ( $this->tgmpa->is_automatic ) {
 							$this->activate_strings();
 						}
+
+						add_action( 'upgrader_process_complete', array( $this->tgmpa, 'populate_file_path' ) );
 					}
 
 					/**
@@ -3096,9 +3098,6 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						// Force refresh of plugin update information
 						wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
-						// [TGMPA + ] Make sure we have the correct file paths now the plugins are installed/updated.
-						$this->tgmpa->populate_file_path();
-
 						return $results;
 					}
 
@@ -3120,8 +3119,6 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$result = parent::bulk_upgrade( $plugins, $args );
 
 						remove_filter( 'upgrader_post_install', array( $this, 'auto_activate' ), 10, 3 );
-
-						$this->tgmpa->populate_file_path();
 
 						return $result;
 					}
