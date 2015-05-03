@@ -374,6 +374,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					add_action( 'admin_enqueue_scripts', array( $this, 'thickbox' ) );
 				}
 
+				$this->add_plugin_action_link_filters();
+
 			}
 
 			// Make sure things get reset on switch theme
@@ -393,6 +395,74 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
 			}
 
+		}
+
+		/**
+		 * Prevent activation of plugins which don't meet the minimum version requirement from the
+		 * WP native plugins page.
+		 *
+		 * @since 2.5.0
+		 */
+		public function add_plugin_action_link_filters() {
+			foreach ( $this->plugins as $slug => $plugin ) {
+				if ( false === $this->can_plugin_activate( $slug ) ) {
+					add_filter( 'plugin_action_links_' . $plugin['file_path'], array( $this, 'filter_plugin_action_links_activate' ), 20 );
+				}
+
+				if ( true === $plugin['force_activation'] ) {
+					add_filter( 'plugin_action_links_' . $plugin['file_path'], array( $this, 'filter_plugin_action_links_deactivate' ), 20 );
+				}
+
+				if ( false !== $this->does_plugin_require_update( $slug ) ) {
+					add_filter( 'plugin_action_links_' . $plugin['file_path'], array( $this, 'filter_plugin_action_links_update' ), 20 );
+				}
+			}
+		}
+
+		/**
+		 * Remove the 'Activate' link on the WP native plugins page if the plugin does not meet the
+		 * minimum version requirements.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $actions Action links.
+		 * @return array
+		 */
+		public function filter_plugin_action_links_activate( $actions ) {
+			unset( $actions['activate'] );
+			return $actions;
+		}
+
+		/**
+		 * Remove the 'Deactivate' link on the WP native plugins page if the plugin has been set to force activate.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $actions Action links.
+		 * @return array
+		 */
+		public function filter_plugin_action_links_deactivate( $actions ) {
+			unset( $actions['deactivate'] );
+			return $actions;
+		}
+
+		/**
+		 * Add a 'Requires update' link on the WP native plugins page if the plugin does not meet the
+		 * minimum version requirements.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $actions Action links.
+		 * @return array
+		 */
+		public function filter_plugin_action_links_update( $actions ) {
+			$actions['update'] = sprintf(
+				'<a href="%1$s" title="%2$s" class="edit">%3$s</a>',
+				esc_url( $this->get_tgmpa_status_url( 'update' ) ),
+				esc_attr__( 'This plugin needs to be updated to be compatible with your theme.', 'tgmpa' ),
+				esc_html__( 'Update Required', 'tgmpa' )
+			);
+			return $actions;
 		}
 
 		/**
