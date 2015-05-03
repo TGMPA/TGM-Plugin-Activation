@@ -7,7 +7,16 @@ This is a major update which brings some interesting new features and fixes tons
 <!-- * .... [#](). Props [](). Thanks []() for reporting. -->
 
 * Enhancement: full support for update work-flow
-[#192], [#197] Props [Zauan/Hogash Studio], [Christian], [Franklin Gitonga], [Jason Xie], [swiderski]
+	- Updating can now be done from the TGMPA screen, both on individual plugins as well as in bulk - this will take into account WP repo updates as well as updates for plugins which are bundled or come from external sources where a minimum version is set which is higher than the current version.
+	- Users will be notified of available updates via the admin notice.
+	- TGMPA screen now has four views: _all_, _to install_, _update available_ and _to activate_.
+	- TGMPA screen now has - on selected views - an extra column showing relevant plugin version information.
+	- TGMPA screen status column will show both install/activate as well as update status (cumulative).
+    - If a plugin requires a certain minimum version of a plugin and the currently installed version does not comply, activation will be blocked until the user has upgraded. If the plugin is already active, it will not be deactivated however.
+		* If the required plugin version itself requires a higher WP version than the currently installed WP, upgrade will be blocked.
+	- The plugin action links on the WP native plugins page will reflect this too - including disabling deactivation if _force_activation_ is `true` for a plugin.
+	
+	[#381], [#192], [#197] Props [Zauan/Hogash Studio], [Christian], [Franklin Gitonga], [Jason Xie], [swiderski] for their preliminary work on this which inspired this full-fledged implementation.
 
 
 * Enhancement: Better support for GitHub hosted plugins:
