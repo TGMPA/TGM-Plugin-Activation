@@ -1118,10 +1118,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * from remaining in the plugin table.
 		 *
 		 * @since 2.4.0
+		 *
+		 * @param bool $clear_update_cache Optional. Whether to clear the Plugin updates cache.
+		 *                                 Parameter added in v2.5.0.
 		 */
-		public function flush_plugins_cache() {
+		public function flush_plugins_cache( $clear_update_cache = true ) {
 
-			wp_clean_plugins_cache();
+			wp_clean_plugins_cache( $clear_update_cache );
 
 		}
 
