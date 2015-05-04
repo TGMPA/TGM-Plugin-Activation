@@ -74,17 +74,17 @@ TGMPA will start providing localized text strings soon. If you already have tran
   - `tgmpa_update_bulk_plugins_complete_actions` - _filter_ mirrors the WP core [update_bulk_plugins_complete_actions] filter but for TGMPA bulk actions.
   - `tgmpa_after_plugin_row_{$item['slug']}` - _action_ similar (but not the same) as the WP core [after_plugin_row_{$plugin_file}] action. Can be used to add information to a plugin row in the TGMPA table.
   
-  [#188], [#226], [#300], [#357], [#362], [#381] Props [Zack Katz] and the TGMPA team.
+  [#188], [#226], [#300], [#357], [#362], [#381], [#388], [#389] Props [Zack Katz] and the TGMPA team.
 
 * **Housekeeping**:
   - Applied a number of best practices and code simplifications.
      * [#284], [#281] - props [Ninos Ego],
      * [#286] - props [krishna19],
      * [#178], [#180], [#182], [#183] - thanks [Gregory Karpinsky] for reporting,
-     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381]
+     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381], [#385], [#387]
   - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this.
   - Tighten the file permissions on our files. [#322]
-  - Cleaned up some of the documentation. [#179] Props [Gregory Karpinsky].
+  - Cleaned up some of the documentation. [#179], [#384] Props [Gregory Karpinsky] and the TGMPA team.
   - Comply with the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
   - Added Travis CI integration for coding standards and php-linting. [#304], [#329]
   - Added Scrutinizer CI integration for code quality. [#330]
@@ -266,7 +266,13 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Christian]: http://themeforest.net/user/artless
 
 
-[#381]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/376
+[#389]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/389
+[#388]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/388
+[#387]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/387
+[#386]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/386
+[#385]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/385
+[#384]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/384
+[#381]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/381
 [#376]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/376
 [#375]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/375
 [#374]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/374
