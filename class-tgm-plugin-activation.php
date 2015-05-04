@@ -278,7 +278,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function init() {
 
-			if ( apply_filters( 'tgmpa_load', ! is_admin() ) ) {
+			/**
+			 * By default TGMPA only loads on the WP back-end. Using this filter you can overrule that behaviour.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param bool $load Whether or not TGMPA should load. Defaults to the return of `is_admin()`.
+			 */
+			if ( true !== apply_filters( 'tgmpa_load', is_admin() ) ) {
 				return;
 			}
 
