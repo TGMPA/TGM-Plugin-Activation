@@ -12,8 +12,8 @@ This is a major update which brings some interesting new features and fixes tons
 	- TGMPA screen now has four views: _all_, _to install_, _update available_ and _to activate_.
 	- TGMPA screen now has - on selected views - an extra column showing relevant plugin version information.
 	- TGMPA screen status column will show both install/activate as well as update status (cumulative).
-    - If a plugin requires a certain minimum version of a plugin and the currently installed version does not comply, activation will be blocked until the user has upgraded. If the plugin is already active, it will not be deactivated however.
-		* If the required plugin version itself requires a higher WP version than the currently installed WP, upgrade will be blocked.
+    - If a plugin requires a certain minimum version of a plugin and the currently installed version does not comply, activation will be blocked until the user has upgraded the plugin. If the plugin is already active, it will not be deactivated however.
+		* If the required plugin version itself requires a higher WP version than the currently installed WP, upgrade to that version of the plugin will be blocked - this is of course provided we have access to that information -.
 	- The plugin action links on the WP native plugins page will reflect this too - including disabling deactivation if _force_activation_ is `true` for a plugin.
 	
 	[#381], [#192], [#197] Props [Zauan/Hogash Studio], [Christian], [Franklin Gitonga], [Jason Xie], [swiderski] for their preliminary work on this which inspired this full-fledged implementation.
@@ -45,20 +45,21 @@ This is a major update which brings some interesting new features and fixes tons
   - Preempt the disallowing of the use of the `add_theme_page()` function. See [the theme review meeting notes](https://make.wordpress.org/themes/2015/04/21/this-weeks-meeting-important-information-regarding-theme-options/) for further information on this decision. [#315]
 
 * Miscellaneous fixes:
-  - Leaner loading: TGMPA actions will now only be hooked in and run (register) on the back-end (`is_admin() === true`).  [#357]
+  - Leaner loading: TGMPA actions will now only be hooked in and run on the back-end (`is_admin() === true`).  [#357] Also most TGMPA actions will now only be hooked in if there's actually something to do for TGMPA. [#381]
   - Fixed: _"Undefined index: skin_update_failed_error"_ [#260], [#240] Thanks [Parhum Khoshbakht] and [Sandeep] for reporting.
-  - Made admin urls environment aware by using `self_admin_url()`. [#255], [#171]
+  - Made admin urls environment aware by using `self_admin_url()` instead of `admin_url()` or `network_admin_url()`. [#255], [#171]
   - Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208] Props [John Blackbourn].
 
 * I18N improvements:
   - Make configurable message texts singular/plural context aware. [#173] Props [Yakir Sitbon].
   - Language strings which are being overridden should use the including plugin/theme language domain. [#217] Props [Christian Foellmann].
+  - Language strings are loaded a bit later now to ensure that the translations are loaded beforehand. [#176], [#177] Props [Yakir Sitbon].
 
 * Housekeeping:
   - Applied a number of best practices and code simplifications.
     [#284], [#281] - props [Ninos Ego],
     [#286] - props [krishna19],
-    [#325], [#324], [#331], [#363], [#362], [#361], [#360], [#359], [#358], [#357], [#356], [#346], [#368], [#371], [#373], [#374], [#375], [#376]
+    [#178], [#180], [#182], [#183] [#325], [#324], [#331], [#363], [#362], [#361], [#360], [#359], [#358], [#357], [#356], [#346], [#368], [#371], [#373], [#374], [#375], [#376], [#381]
   - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this.
   - Tighten the file permissions on our files. [#322]
   - Cleaned up some of the documentation. [#179] Props [Gregory Karpinsky].
@@ -248,6 +249,7 @@ This is a major update which brings some interesting new features and fixes tons
 [Zauan/Hogash Studio]: http://pastebin.com/u/Zauan
 [Christian]: http://themeforest.net/user/artless
 
+[#381]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/376
 [#376]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/376
 [#375]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/375
 [#374]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/374
@@ -306,7 +308,13 @@ This is a major update which brings some interesting new features and fixes tons
 [#197]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/197
 [#192]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/192
 [#185]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/185
+[#183]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/183
+[#182]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/182
+[#180]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/180
 [#179]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/179
+[#178]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/178
+[#177]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/177
+[#176]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/176
 [#174]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/174
 [#173]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/173
 [#171]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/171
