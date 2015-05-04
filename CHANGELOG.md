@@ -78,12 +78,6 @@ This is a major update which brings some interesting new features and fixes tons
 * Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
 
 
-## 2.4.2 (2015-04-27)
-* Fixed: Bundled/pre-packaged plugins would no longer install when using the Bulk installer. This was a regression introduced in v2.4.1. [#321], [#316] Props [Juliette Reinders Folmer]. Thanks [tanshcreative] for reporting.
-* Fixed: Bulk installer did not honour a potentially set `default_path` for local prep-packaged plugins. [#203], [#332] Props [Juliette Reinders Folmer]. Thanks [pavot] and [djcowan] for reporting.
-* Removed call to `screen_icon()` function which was deprecated in WP 3.8. [#244], [#224], [#234]. Props [Nate Wright]. Thanks [hamdan-mahran] and [Sandeep] for reporting.
-* Fixed: _"PHP Fatal error: Class 'TGM_Bulk_Installer' not found"_ [#185] Thanks [Chris Talkington] for reporting.
-
 ## 2.4.1 (2015-04-22)
 
 * Improve escaping for URLs and attributes.
