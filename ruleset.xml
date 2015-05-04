@@ -7,6 +7,5 @@
 	<arg value="sp"/>
 	<rule ref="WordPress">
 		<exclude name="WordPress.VIP" />
-		<exclude name="Squiz.Commenting.ClassComment.TagNotAllowed" />
 	</rule>
 </ruleset>

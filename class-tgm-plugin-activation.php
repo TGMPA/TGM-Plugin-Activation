@@ -502,7 +502,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @global string $tab Used as iframe div class names, helps with styling
 		 * @global string $body_id Used as the iframe body ID, helps with styling
 		 *
-		 * @return void
+		 * @return null Returns early if not the TGMPA page.
 		 */
 		public function admin_init() {
 
@@ -607,7 +607,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @return void
+		 * @return null Aborts early if we're processing a plugin installation action.
 		 */
 		public function install_plugins_page() {
 
@@ -646,8 +646,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Installs a plugin or activates a plugin depending on the hover
-		 * link clicked by the user.
+		 * Installs, updates or activates a plugin depending on the action link clicked by the user.
 		 *
 		 * Checks the $_GET variable to see which actions have been
 		 * passed and responds with the appropriate method.
@@ -680,7 +679,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return false;
 			}
 
-			// Checks for actions from hover links to process the installation.
+			// Checks for actions from action links to process the installation.
 			if ( ( isset( $_GET['tgmpa-install'] ) && 'install-plugin' === $_GET['tgmpa-install'] ) || ( isset( $_GET['tgmpa-update'] ) && 'update-plugin' === $_GET['tgmpa-update'] ) ) {
 
 				$install_type = 'install';
@@ -796,7 +795,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return true;
 			}
 
-			// Checks for actions from hover links to process the activation.
+			// Checks for actions from link-clicks to process the activation.
 			elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
 				check_admin_referer( 'tgmpa-activate', 'tgmpa-nonce' );
 
@@ -940,7 +939,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					if ( ! $automatic ) {
 						// Make sure message doesn't display again if bulk activation is performed
 						// immediately after a single activation.
-						if ( ! isset( $_POST['action'] ) ) {
+						if ( ! isset( $_POST['action'] ) ) { // WPCS: CSRF OK.
 							echo '<div id="message" class="updated"><p>', esc_html( $this->strings['activated_successfully'] ), ' <strong>', esc_html( $this->plugins[ $slug ]['name'] ), '.</strong></p></div>';
 						}
 					} else {
@@ -962,7 +961,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( ! $automatic ) {
 					// Make sure message doesn't display again if bulk activation is performed
 					// immediately after a single activation.
-					if ( ! isset( $_POST['action'] ) ) {
+					if ( ! isset( $_POST['action'] ) ) { // WPCS: CSRF OK.
 						echo '<div id="message" class="error"><p>',
 							sprintf(
 								esc_html( $this->strings['plugin_needs_higher_version'] ),
@@ -992,7 +991,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @global object $current_screen
 		 *
-		 * @return void
+		 * @return null Returns early if we're on the Install page.
 		 */
 		public function notices() {
 
@@ -1021,13 +1020,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					if ( current_user_can( 'install_plugins' ) ) {
 						if ( true === $plugin['required'] ) {
 							$message['notice_can_install_required'][] = $slug;
-						}
-						else {
+						} else {
 							$message['notice_can_install_recommended'][] = $slug;
 						}
-					}
-					// Need higher privileges to install the plugin.
-					else {
+					} else {
+						// Need higher privileges to install the plugin.
 						$message['notice_cannot_install'][] = $slug;
 					}
 				} else {
@@ -1037,13 +1034,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						if ( current_user_can( 'activate_plugins' ) ) {
 							if ( true === $plugin['required'] ) {
 								$message['notice_can_activate_required'][] = $slug;
-							}
-							else {
+							} else {
 								$message['notice_can_activate_recommended'][] = $slug;
 							}
-						}
-						// Need higher privileges to activate the plugin.
-						else {
+						} else {
+							// Need higher privileges to activate the plugin.
 							$message['notice_cannot_activate'][] = $slug;
 						}
 					}
@@ -1057,13 +1052,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						if ( current_user_can( 'install_plugins' ) ) {
 							if ( $this->does_plugin_require_update( $slug ) ) {
 								$message['notice_ask_to_update'][] = $slug;
-							}
-							elseif ( false !== $this->does_plugin_have_update( $slug ) ) {
+							} elseif ( false !== $this->does_plugin_have_update( $slug ) ) {
 								$message['notice_ask_to_update_maybe'][] = $slug;
 							}
-						}
-						// Need higher privileges to update the plugin.
-						else {
+						} else {
+							// Need higher privileges to update the plugin.
 							$message['notice_cannot_update'][] = $slug;
 						}
 					}
@@ -1241,7 +1234,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Prepare the received data.
 			$plugin = wp_parse_args( $plugin, $defaults );
 
-			// Forgive users for using string versions of booleans or floats for version nr.
+			// Forgive users for using string versions of booleans or floats for version number.
 			$plugin['version']            = (string) $plugin['version'];
 			$plugin['source']             = empty( $plugin['source'] ) ? 'repo' : $plugin['source'];
 			$plugin['required']           = TGM_Utils::validate_bool( $plugin['required'] );
@@ -2113,8 +2106,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( $this->tgmpa->is_plugin_active( $slug ) && false === $this->tgmpa->does_plugin_have_update( $slug ) ) {
 					// No need to display plugins if they are installed, up-to-date and active.
 					continue;
-				}
-				else {
+
+				} else {
 					$plugins['all'][ $slug ] = $plugin;
 
 					if ( ! $this->tgmpa->is_plugin_installed( $slug ) ) {
@@ -2477,19 +2470,19 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$actions      = array();
 			$action_links = array();
 
-			// Display the 'Install' link if the plugin is not yet available.
+			// Display the 'Install' action link if the plugin is not yet available.
 			if ( ! $this->tgmpa->is_plugin_installed( $item['slug'] ) ) {
 
 				$actions['install'] = _x( 'Install %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' );
 
 			} else {
-				// Display the 'Update' link if an update is available and WP complies with plugin minimum.
+				// Display the 'Update' action link if an update is available and WP complies with plugin minimum.
 				if ( false !== $this->tgmpa->does_plugin_have_update( $item['slug'] ) && $this->tgmpa->can_plugin_update( $item['slug'] ) ) {
 
 					$actions['update'] = _x( 'Update %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' );
 				}
 
-				// Display the 'Activate' hover link, but only if the plugin meets the minimum version.
+				// Display the 'Activate' action link, but only if the plugin meets the minimum version.
 				if ( $this->tgmpa->can_plugin_activate( $item['slug'] ) ) {
 
 					$actions['activate'] = _x( 'Activate %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' );
@@ -3205,8 +3198,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								if ( is_wp_error( $activate ) ) {
 									$this->skin->error( $activate );
 									$this->strings['process_success'] .= $this->strings['activation_failed'];
-								}
-								else {
+
+								} else {
 									$this->strings['process_success'] .= $this->strings['activation_success'];
 								}
 							}
@@ -3317,15 +3310,15 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							$this->upgrader->strings['skin_update_failed_error'] = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'tgmpa' );
 							$this->upgrader->strings['skin_update_failed']       = __( 'The installation of %1$s failed.', 'tgmpa' );
 
-							// Automatic activation strings.
 							if ( $this->tgmpa->is_automatic ) {
+								// Automatic activation strings.
 								$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
 								$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed and activated successfully.', 'tgmpa' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
 								$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations and activations have been completed.', 'tgmpa' );
 								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
-							}
-							// Default installation strings.
-							else {
+
+							} else {
+								// Default installation strings.
 								$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'tgmpa' );
 								$this->upgrader->strings['skin_update_successful']    = esc_html__( '%1$s installed successfully.', 'tgmpa' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
 								$this->upgrader->strings['skin_upgrade_end']          = __( 'All installations have been completed.', 'tgmpa' );
@@ -3461,11 +3454,13 @@ if ( ! class_exists( 'TGM_Utils' ) ) {
 		/**
 		 * Whether the PHP filter extension is enabled.
 		 *
-		 * @var bool $has_filters True is the extension is enabled.
-		 *
 		 * @see http://php.net/book.filter
 		 *
+		 * @since 2.5.0
+		 *
 		 * @static
+		 *
+		 * @var bool $has_filters True is the extension is enabled.
 		 */
 		public static $has_filters;
 
