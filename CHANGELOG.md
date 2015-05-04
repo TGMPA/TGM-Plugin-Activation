@@ -74,7 +74,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
   - `tgmpa_update_bulk_plugins_complete_actions` - _filter_ mirrors the WP core [update_bulk_plugins_complete_actions] filter but for TGMPA bulk actions.
   - `tgmpa_after_plugin_row_{$item['slug']}` - _action_ similar (but not the same) as the WP core [after_plugin_row_{$plugin_file}] action. Can be used to add information to a plugin row in the TGMPA table.
   
-  [#188], [#226], [#300], [#357], [#362], [#381], [#388], [#389] Props [Zack Katz] and the TGMPA team.
+  [#188], [#226], [#300], [#357], [#362], [#381], [#388], [#389], [#390] Props [Zack Katz] and the TGMPA team.
 
 * **Housekeeping**:
   - Applied a number of best practices and code simplifications.
@@ -266,6 +266,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Christian]: http://themeforest.net/user/artless
 
 
+[#390]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/390
 [#389]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/389
 [#388]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/388
 [#387]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/387
