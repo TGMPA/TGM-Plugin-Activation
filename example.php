@@ -9,8 +9,7 @@
  * @package    TGM-Plugin-Activation
  * @subpackage Example
  * @version    2.5.0-alpha
- * @author     Thomas Griffin
- * @author     Gary Jones
+ * @author     Thomas Griffin, Gary Jones
  * @copyright  Copyright (c) 2011, Thomas Griffin
  * @license    http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
  * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
@@ -22,6 +21,7 @@
 require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
 
 add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
+
 /**
  * Register the required plugins for this theme.
  *
@@ -35,7 +35,6 @@ add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
  * TGM_Plugin_Activation class constructor.
  */
 function my_theme_register_required_plugins() {
-
 	/*
 	 * Array of plugin arrays. Required keys are name and slug.
 	 * If the source is NOT from the .org repo, then source is also required.
