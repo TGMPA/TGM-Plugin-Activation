@@ -22,13 +22,13 @@ TGMPA will start providing localized text strings soon. If you already have tran
   
   Previously using standard GitHub packaged zips as download source would not work as, even though the plugin would be installed, it would not be recognized as such by TGMPA because of the non-standard directory name which would be created for the plugin, i.e. `my-plugin-master` instead of `my-plugin`. A work-around for this has been implemented and you can now use GitHub-packaged `master` branch or release zips to install plugins. Have a look at the `example.php` file for a working example.
 
-  One caveat: this presumes that the plugin is based in the root of the GitHub repo and not in a `/src` subdirectory.
+  One caveat: this presumes that the plugin is based in the root of the GitHub repo and not in a `/src` or other subdirectory.
 
   [#327], [#280], [#283] Thanks [Dan Fisher] and [Luis Martins] for reporting/requesting this enhancement.
 
 * Enhancement: **New optional plugin parameter `is_callable`**.
 
-  Some plugins may have a free and a Premium version using different slugs. Using the `is_callable` plugin parameter allows for the Premium version to be recognized, even though the slug is set to the free version slug. Have a look at the `example.php` file for a working example.
+  Some plugins may have a free and a premium version using different slugs. Using the `is_callable` plugin parameter allows for the premium version to be recognized, even though the slug is set to the free version slug. Have a look at the `example.php` file for a working example.
 
   For more information on what is considered a `callable`, please refer to the [Codex on callbacks].
   
@@ -36,7 +36,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
 
 * **Admin Page improvements**:
   - Plugins downloaded from an arbitrary external source are now labelled _"External Source"_. Previously they were labelled _"Private Repository"_ which could be confusing as the download URL did not have to point to a repository, let alone be private. [#372]
-  - Leverage the css styling of the Core standard `WP_List_Table` [#227]. Props [Shiva Poudel].
+  - Leverage the CSS styling of the Core standard `WP_List_Table` [#227]. Props [Shiva Poudel].
   - Allow for moving the Admin Page to a different place in the menu. This is mainly to accommodate plugins using TGMPA as it is terribly illogical for the TGMPA page to be under the _"Appearance"_ menu in that case. This has been now been implemented in a way that Theme Check will not choke on it. [#310]
 
 * **Admin notices improvements**:
@@ -46,14 +46,13 @@ TGMPA will start providing localized text strings soon. If you already have tran
 
 * **Bulk Installer**:
   - Fixed: If a bulk install was initiated using the bottom _"Bulk Actions"_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319]
-  - Fixed: The _"Show Details"_ links no longer worked. This was a regression briefly introduced in the `develop` branch. [#326]
 
 * **Theme Check compatibility**:
   - Prevent _"The theme appears to use include or require"_ warning. [#262], [#258] Thanks [Tim Nicholson] for reporting.
   - Preempt the disallowing of the use of the `add_theme_page()` function. See [the theme review meeting notes](https://make.wordpress.org/themes/2015/04/21/this-weeks-meeting-important-information-regarding-theme-options/) for further information on this decision. [#315]
 
 * **Miscellaneous fixes**:
-  - Leaner loading: TGMPA actions will now only be hooked in and run on the back-end (`is_admin() === true`).  [#357] Also most TGMPA actions will now only be hooked in if there's actually something to do for TGMPA. [#381]
+  - Leaner loading: TGMPA actions will now only be hooked in and run on the back-end (`is_admin() returns true`).  [#357] Also most TGMPA actions will now only be hooked in if there's actually something to do for TGMPA. [#381]
   - Fixed: _"Undefined index: skin_update_failed_error"_ [#260], [#240] Thanks [Parhum Khoshbakht] and [Sandeep] for reporting.
   - Made admin URLs environment aware by using `self_admin_url()` instead of `admin_url()` or `network_admin_url()`. [#255], [#171]
   - Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208] Props [John Blackbourn].
