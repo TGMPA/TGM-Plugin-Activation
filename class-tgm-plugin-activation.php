@@ -1992,7 +1992,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$this->view_context = sanitize_key( $_REQUEST['plugin_status'] );
 			}
 
-			add_filter( 'tgmpa_plugin_table_items', array( $this, 'sort_table_items' ) );
+			add_filter( 'tgmpa_table_data_items', array( $this, 'sort_table_items' ) );
 		}
 
 		/**
@@ -2792,7 +2792,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			}
 
 			// Store all of our plugin data into $items array so WP_List_Table can use it.
-			$this->items = apply_filters( 'tgmpa_plugin_table_items', $this->_gather_plugin_data() );
+			$this->items = apply_filters( 'tgmpa_table_data_items', $this->_gather_plugin_data() );
 
 		}
 
