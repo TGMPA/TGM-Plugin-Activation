@@ -6,63 +6,67 @@ This is a major update which brings some interesting new features and fixes tons
 
 TGMPA will start providing localized text strings soon. If you already have translations of our standard strings available, please help us make TGMPA even better by giving us access to these translations or by sending in a pull-request with .po file(s) with the translations. A [.pot file](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/develop/languages/) to get you started is now available in the GitHub repository.
 
-* Enhancement: Full support for update work-flow.
+* Enhancement: **Full support for update work-flow**.
 	- Updating of the registered plugins can now be done from the TGMPA screen, both on individual plugins as well as in bulk - this will take into account WP repo updates as well as updates for plugins which are bundled or come from external sources where a minimum version is set which is higher than the current version.
 	- Users will be notified of available updates via the admin notice.
-	- TGMPA screen now has four views: _all_, _to install_, _update available_ and _to activate_.
-	- TGMPA screen now has - on selected views - an extra column showing relevant plugin version information.
-	- TGMPA screen status column will show both install/activate as well as update status (cumulative).
+	- The TGMPA admin page now has four views: _all_, _to install_, _update available_ and _to activate_.
+	- The TGMPA admin page now has - on selected views - an extra column showing relevant plugin version information.
+	- The TGMPA admin page _status_ column will show both install/activate as well as update status (cumulative).
     - If a plugin requires a certain minimum version of a plugin and the currently installed version does not comply, activation will be blocked until the user has upgraded the plugin. If the plugin is already active, it will not be deactivated however.
 		* If the required plugin version itself requires a higher WP version than the currently installed WP, upgrade to that version of the plugin will be blocked - this is of course provided TGMPA has access to that information -.
 	- The plugin action links on the WP native plugins page will reflect this too - including disabling deactivation if _force_activation_ is `true` for a plugin.
 	
 	[#381], [#192], [#197] Props [Zauan/Hogash Studio], [Christian], [Franklin Gitonga], [Jason Xie], [swiderski] for their preliminary work on this which inspired this full-fledged implementation.
 
-* Enhancement: Better support for GitHub hosted plugins.
+* Enhancement: **Better support for GitHub hosted plugins**.
   
   Previously using standard GitHub packaged zips as download source would not work as, even though the plugin would be installed, it would not be recognized as such by TGMPA because of the non-standard directory name which would be created for the plugin, i.e. `my-plugin-master` instead of `my-plugin`. A work-around for this has been implemented and you can now use GitHub-packaged `master` branch or release zips to install plugins. Have a look at the `example.php` file for a working example.
+
   One caveat: this presumes that the plugin is based in the root of the GitHub repo and not in a `/src` subdirectory.
+
   [#327], [#280], [#283] Thanks [Dan Fisher] and [Luis Martins] for reporting/requesting this enhancement.
 
-* Enhancement: New optional plugin parameter `is_callable`.
+* Enhancement: **New optional plugin parameter `is_callable`**.
 
   Some plugins may have a free and a Premium version using different slugs. Using the `is_callable` plugin parameter allows for the Premium version to be recognized, even though the slug is set to the free version slug. Have a look at the `example.php` file for a working example.
+
   For more information on what is considered a `callable`, please refer to the [Codex on callbacks].
+  
   [#205] Props [Zack Katz].
 
-* Admin Page improvements:
-  - Plugins downloaded from an arbitrary external source are now labelled "External Source". Previously they were labelled "Private Repository" which could be confusing as the download URL did not have to point to a repository, let alone be private. [#372]
-  - Leverage the css styling of the Core standard WP_List_Table [#227]. Props [Shiva Poudel].
+* **Admin Page improvements**:
+  - Plugins downloaded from an arbitrary external source are now labelled _"External Source"_. Previously they were labelled _"Private Repository"_ which could be confusing as the download URL did not have to point to a repository, let alone be private. [#372]
+  - Leverage the css styling of the Core standard `WP_List_Table` [#227]. Props [Shiva Poudel].
   - Allow for moving the Admin Page to a different place in the menu. This is mainly to accommodate plugins using TGMPA as it is terribly illogical for the TGMPA page to be under the _"Appearance"_ menu in that case. This has been now been implemented in a way that Theme Check will not choke on it. [#310]
 
-* Admin notices improvements:
+* **Admin notices improvements**:
   - For installs with both plugin(s) as well as theme(s) using TGMPA, notices will now be dismissable for each separately. This prevents a situation where a theme would have TGMPA included, the user has dismissed the notice about it, a plugin with TGMPA gets installed and the notice about it requiring certain other plugins is never shown. [#174] Thanks [Chris Howard] for reporting.
   - Fixed: The reset of dismissed notices on `switch_theme` was only applied for the current user, not for all users. [#246]
   - Fixed: Admin notices would show twice under certain circumstances. [#249], [#237] Thanks [manake] for reporting.
 
-* Bulk Installer:
-  - Fixed: If a bulk install was initiated using the bottom _Bulk Actions_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319]
+* **Bulk Installer**:
+  - Fixed: If a bulk install was initiated using the bottom _"Bulk Actions"_ dropdown, the install page would display an outdated TGMPA plugin table at the bottom of the page after the bulk installation was finished. [#319]
   - Fixed: The _"Show Details"_ links no longer worked. This was a regression briefly introduced in the `develop` branch. [#326]
 
-* Theme Check compatibility:
+* **Theme Check compatibility**:
   - Prevent _"The theme appears to use include or require"_ warning. [#262], [#258] Thanks [Tim Nicholson] for reporting.
   - Preempt the disallowing of the use of the `add_theme_page()` function. See [the theme review meeting notes](https://make.wordpress.org/themes/2015/04/21/this-weeks-meeting-important-information-regarding-theme-options/) for further information on this decision. [#315]
 
-* Miscellaneous fixes:
+* **Miscellaneous fixes**:
   - Leaner loading: TGMPA actions will now only be hooked in and run on the back-end (`is_admin() === true`).  [#357] Also most TGMPA actions will now only be hooked in if there's actually something to do for TGMPA. [#381]
   - Fixed: _"Undefined index: skin_update_failed_error"_ [#260], [#240] Thanks [Parhum Khoshbakht] and [Sandeep] for reporting.
   - Made admin URLs environment aware by using `self_admin_url()` instead of `admin_url()` or `network_admin_url()`. [#255], [#171]
   - Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208] Props [John Blackbourn].
 
-* I18N improvements:
+* **I18N improvements**:
   - Make configurable message texts singular/plural context aware. [#173] Props [Yakir Sitbon].
   - Language strings which are being overridden should use the including plugin/theme language domain. [#217] Props [Christian Foellmann].
   - Language strings are loaded a bit later now to ensure that the translations are loaded beforehand. [#176], [#177] Props [Yakir Sitbon].
   
-* New action and filter hooks for TGMPA:
-  - `tgmpa_load` - _filter_ can be used to overrule whether TGMPA should load. Defaults to loading only when on the web back-end. Typical use: `add_filter( 'tgmpa_load', '__return_true' );`.
+* **New action and filter hooks for TGMPA**:
+  - `tgmpa_load` - _filter_ can be used to overrule whether TGMPA should load. Defaults to loading only when on the WP back-end. Typical use: `add_filter( 'tgmpa_load', '__return_true' );`.
   - `tgmpa_admin_menu_args` - _filter_ can be used to filter the arguments passed to the function call adding the TGMPA (sub) menu page.
-  - `tgmpa_notice_rendered_action_links` - _filter_ can be used to filter the complete html output for the notice action links. This is in addition to the `tgmpa_notice_action_links` filter which already existed and allows for filtering of the individual action links.
+  - `tgmpa_notice_rendered_action_links` - _filter_ can be used to filter the complete html output for the admin notice action links. This is in addition to the `tgmpa_notice_action_links` filter which already existed and allows for filtering of the individual action links.
   - `tgmpa_table_data_item` - _filter_ can be used to modify plugin data for a single plugin which is ready for the TGMPA table output.
   - `tgmpa_table_data_items` - _filter_ can be used to modify plugin data for all plugins which is ready for the TGMPA table output. Example use: changing the sort order of the plugins.
   - `tgmpa_table_columns` - _filter_ can be used to add/remove table columns from the TGMPA table view.
@@ -72,12 +76,12 @@ TGMPA will start providing localized text strings soon. If you already have tran
   
   [#188], [#226], [#300], [#357], [#362], [#381] Props [Zack Katz] and the TGMPA team.
 
-* Housekeeping:
+* **Housekeeping**:
   - Applied a number of best practices and code simplifications.
-    [#284], [#281] - props [Ninos Ego],
-    [#286] - props [krishna19],
-    [#178], [#180], [#182], [#183] - thanks [Gregory Karpinsky] for reporting,
-	[#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381]
+     * [#284], [#281] - props [Ninos Ego],
+     * [#286] - props [krishna19],
+     * [#178], [#180], [#182], [#183] - thanks [Gregory Karpinsky] for reporting,
+     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381]
   - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this.
   - Tighten the file permissions on our files. [#322]
   - Cleaned up some of the documentation. [#179] Props [Gregory Karpinsky].
