@@ -61,6 +61,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	class TGM_Plugin_Activation {
 
 		/**
+		 * TGMPA version number.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @const string Version number.
+		 */
+		const TGMPA_VERSION = '2.5.0';
+
+		/**
 		 * Regular expression to test if a URL is a WP plugin repo URL.
 		 *
 		 * @const string Regex.
