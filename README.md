@@ -33,6 +33,14 @@ and amend to suit. The `example.php` file is a model for how you should include 
    If you define an absolute default path for packaged plugins, you do not need to specify the directory path
    for your pre-packaged plugin within the `'source'` argument. You will only need to specify the zip file name.
 
+### Composer
+
+TGM Plugin Activation is also available as a [package](https://packagist.org/packages/tgmpa/tgm-plugin-activation) installable via Composer:
+
+~~~sh
+composer create-project tgmpa/tgm-plugin-activation --no-dev
+~~~
+
 ## Feedback
 
 See https://github.com/thomasgriffin/TGM-Plugin-Activation/issues for current issues and for reporting bugs and enhancements.
