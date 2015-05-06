@@ -534,7 +534,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				global $tab, $body_id;
 				$body_id = 'plugin-information';
+				// @codingStandardsIgnoreStart
 				$tab     = 'plugin-information';
+				// @codingStandardsIgnoreEnd
 
 				install_plugin_information();
 
@@ -699,7 +701,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return false;
 			}
 
-			// Checks for actions from action links to process the installation.
+			// Was an install or upgrade action link clicked?
 			if ( ( isset( $_GET['tgmpa-install'] ) && 'install-plugin' === $_GET['tgmpa-install'] ) || ( isset( $_GET['tgmpa-update'] ) && 'update-plugin' === $_GET['tgmpa-update'] ) ) {
 
 				$install_type = 'install';
@@ -813,10 +815,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				return true;
-			}
 
-			// Checks for actions from link-clicks to process the activation.
-			elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
+			} elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
+				// Activate action link was clicked.
 				check_admin_referer( 'tgmpa-activate', 'tgmpa-nonce' );
 
 				if ( false === $this->activate_single_plugin( $this->plugins[ $slug ]['file_path'], $slug ) ) {
@@ -2653,9 +2654,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						// Check if the plugin was registered with TGMPA and remove if not.
 						if ( ! isset( $this->tgmpa->plugins[ $slug ] ) ) {
 							unset( $plugins_to_install[ $key ] );
+							continue;
 						}
+
 						// For updates: make sure this is a plugin we *can* update (update available and WP version ok).
-						elseif ( 'update' === $install_type && ( $this->tgmpa->is_plugin_installed( $slug ) && ( false === $this->tgmpa->does_plugin_have_update( $slug ) || ! $this->tgmpa->can_plugin_update( $slug ) ) ) ) {
+						if ( 'update' === $install_type && ( $this->tgmpa->is_plugin_installed( $slug ) && ( false === $this->tgmpa->does_plugin_have_update( $slug ) || ! $this->tgmpa->can_plugin_update( $slug ) ) ) ) {
 							unset( $plugins_to_install[ $key ] );
 						}
 					}
@@ -2805,10 +2808,10 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					$last_plugin  = array_pop( $plugin_names ); // Pop off last name to prep for readability.
 					$imploded     = empty( $plugin_names ) ? $last_plugin : ( implode( ', ', $plugin_names ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
-					printf(
+					printf( // WPCS: xss ok.
 						'<div id="message" class="updated"><p>%1$s %2$s.</p></div>',
 						esc_html( _n( 'The following plugin was activated successfully:', 'The following plugins were activated successfully:', $count, 'tgmpa' ) ),
-						$imploded // WPCS: xss ok.
+						$imploded
 					);
 
 					// Update recently activated plugins option.
