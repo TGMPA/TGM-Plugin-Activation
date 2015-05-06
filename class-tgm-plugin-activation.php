@@ -1677,7 +1677,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @return bool True if active, false otherwise.
 		 */
 		public function is_plugin_active( $slug ) {
-			return ( is_plugin_active( $this->plugins[ $slug ]['file_path'] ) || ( ! empty( $plugin['is_callable'] ) && is_callable( $plugin['is_callable'] ) ) );
+			return ( is_plugin_active( $this->plugins[ $slug ]['file_path'] ) || ( ! empty( $this->plugins[ $slug ]['is_callable'] ) && is_callable( $this->plugins[ $slug ]['is_callable'] ) ) );
 		}
 
 		/**
