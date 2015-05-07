@@ -2095,7 +2095,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				if ( ! empty( $upgrade_notice ) ) {
 					$table_data[ $i ]['upgrade_notice'] = $upgrade_notice;
 
-					add_action( 'tgmpa_after_plugin_row_' . $slug, array( $this, 'wp_plugin_update_row' ), 10, 2 );
+					add_action( "tgmpa_after_plugin_row_$slug", array( $this, 'wp_plugin_update_row' ), 10, 2 );
 				}
 
 				$table_data[ $i ] = apply_filters( 'tgmpa_table_data_item', $table_data[ $i ], $plugin );
@@ -2538,7 +2538,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			}
 
 			$prefix = ( defined( 'WP_NETWORK_ADMIN' ) && WP_NETWORK_ADMIN ) ? 'network_admin_' : '';
-			return apply_filters( 'tgmpa_' . $prefix . 'plugin_action_links', array_filter( $action_links ), $item['slug'], $item, $this->view_context );
+			return apply_filters( "tgmpa_{$prefix}plugin_action_links", array_filter( $action_links ), $item['slug'], $item, $this->view_context );
 		}
 
 		/**
@@ -2560,7 +2560,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			 *
 			 * @since 2.5.0
 			 */
-			do_action( 'tgmpa_after_plugin_row_' . $item['slug'], $item['slug'], $item, $this->view_context );
+			do_action( "tgmpa_after_plugin_row_{$item['slug']}", $item['slug'], $item, $this->view_context );
 		}
 
 		/**
