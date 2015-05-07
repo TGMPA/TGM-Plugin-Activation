@@ -381,7 +381,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			/* After this point, the plugins should be registered and the configuration set. */
 
 			// Proceed only if we have plugins to handle.
-			if ( ! is_array( $this->plugins ) || empty( $this->plugins ) ) {
+			if ( empty( $this->plugins ) || ! is_array( $this->plugins ) ) {
 				return;
 			}
 
@@ -1167,7 +1167,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$action_links = apply_filters( 'tgmpa_notice_action_links', $action_links );
 
 				$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
-				if ( is_array( $action_links ) && ! empty( $action_links ) ) {
+				if ( ! empty( $action_links ) && is_array( $action_links ) ) {
 					$action_links = sprintf( $line_template, implode( ' | ', $action_links ) );
 					$rendered    .= apply_filters( 'tgmpa_notice_rendered_action_links', $action_links );
 				}
@@ -1236,7 +1236,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				return;
 			}
 
-			if ( ! is_string( $plugin['slug'] ) || empty( $plugin['slug'] ) || isset( $this->plugins[ $plugin['slug'] ] ) ) {
+			if ( empty( $plugin['slug'] ) || ! is_string( $plugin['slug'] ) || isset( $this->plugins[ $plugin['slug'] ] ) ) {
 				return;
 			}
 
@@ -1384,7 +1384,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function populate_file_path( $plugin_slug = '' ) {
 
-			if ( is_string( $plugin_slug ) && ! empty( $plugin_slug ) && isset( $this->plugins[ $plugin_slug ] ) ) {
+			if ( ! empty( $plugin_slug ) && is_string( $plugin_slug ) && isset( $this->plugins[ $plugin_slug ] ) ) {
 				$this->plugins[ $plugin_slug ]['file_path'] = $this->_get_plugin_basename_from_slug( $plugin_slug );
 
 			} else {
@@ -1677,7 +1677,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @return bool True if active, false otherwise.
 		 */
 		public function is_plugin_active( $slug ) {
-			return ( is_plugin_active( $this->plugins[ $slug ]['file_path'] ) || ( ! empty( $this->plugins[ $slug ]['is_callable'] ) && is_callable( $this->plugins[ $slug ]['is_callable'] ) ) );
+			return ( ( ! empty( $this->plugins[ $slug ]['is_callable'] ) && is_callable( $this->plugins[ $slug ]['is_callable'] ) ) || is_plugin_active( $this->plugins[ $slug ]['file_path'] ) );
 		}
 
 		/**
