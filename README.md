@@ -1,8 +1,7 @@
 # TGM Plugin Activation
 [![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://raw.githubusercontent.com/TGMPA/TGM-Plugin-Activation/develop/LICENSE.md)
-[![Travis](https://img.shields.io/travis/TGMPA/TGM-Plugin-Activation.svg)](https://travis-ci.org/TGMPA/TGM-Plugin-Activation)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/TGMPA/TGM-Plugin-Activation.svg)](https://scrutinizer-ci.com/g/TGMPA/TGM-Plugin-Activation)
-
+[![Travis](https://img.shields.io/travis/TGMPA/TGM-Plugin-Activation.svg?branch=develop)](https://travis-ci.org/TGMPA/TGM-Plugin-Activation)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/TGMPA/TGM-Plugin-Activation/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/TGMPA/TGM-Plugin-Activation/?branch=develop)
 
 **Lead Developers:**
 [Thomas Griffin](https://github.com/thomasgriffin) ([@jthomasgriffin](https://twitter.com/jrf_nl)), [Gary Jones](https://github.com/GaryJones) ([@GaryJ](https://twitter.com/GaryJ)), [Juliette Reinders Folmer](https://github.com/jrfnl) ([@jrf_nl](https://twitter.com/jrf_nl))  
