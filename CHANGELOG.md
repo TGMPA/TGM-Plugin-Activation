@@ -4,7 +4,9 @@
 
 This is a major update which brings some interesting new features and fixes tons of bugs. This version of TGMPA is brought to you by [Thomas Griffin] with graceful thanks to [Gary Jones] and our new core-team member [Juliette Reinders Folmer] for the majority of the changes.
 
-TGMPA will start providing localized text strings soon. If you already have translations of our standard strings available, please help us make TGMPA even better by giving us access to these translations or by sending in a pull-request with .po file(s) with the translations. A [.pot file](https://github.com/thomasgriffin/TGM-Plugin-Activation/blob/develop/languages/) to get you started is now available in the GitHub repository.
+With this release the TGMPA library has moved to its own organisation on GitHub. From now on you can find it at [TGMPA/TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation).
+
+TGMPA will start providing localized text strings soon. If you already have translations of our standard strings available, please help us make TGMPA even better by giving us access to these translations or by sending in a pull-request with .po file(s) with the translations. A [.pot file](https://github.com/TGMPA/TGM-Plugin-Activation/blob/develop/languages/) to get you started is now available in the GitHub repository.
 
 * Enhancement: **Full support for update work-flow**.
 	- Updating of the registered plugins can now be done from the TGMPA screen, both on individual plugins as well as in bulk - this will take into account WP repo updates as well as updates for plugins which are bundled or come from external sources where a minimum version is set which is higher than the current version.
@@ -80,7 +82,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
      * [#284], [#281] - props [Ninos Ego],
      * [#286] - props [krishna19],
      * [#178], [#180], [#182], [#183] - thanks [Gregory Karpinsky] for reporting,
-     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381], [#385], [#387]
+     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381], [#385], [#387], [#395]
   - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this.
   - Tighten the file permissions on our files. [#322]
   - Cleaned up some of the documentation. [#179], [#384] Props [Gregory Karpinsky] and the TGMPA team.
@@ -88,6 +90,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
   - Added Travis CI integration for coding standards and php-linting. [#304], [#329]
   - Added Scrutinizer CI integration for code quality. [#330]
   - Added editor config. [#339] Props [Shiva Poudel].
+  - Improved integration with Packagist.
   - Added [Contributing guidelines](CONTRIBUTING.md).
   - While the library has always been licensed under GPL 2.0+, we now include the [License](LICENSE.md).
 
@@ -265,84 +268,85 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Christian]: http://themeforest.net/user/artless
 
 
-[#390]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/390
-[#389]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/389
-[#388]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/388
-[#387]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/387
-[#386]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/386
-[#385]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/385
-[#384]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/384
-[#381]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/381
-[#376]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/376
-[#375]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/375
-[#374]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/374
-[#373]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/373
-[#372]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/372
-[#371]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/371
-[#368]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/368
-[#363]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/363
-[#362]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/362
-[#361]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/361
-[#360]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/360
-[#359]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/359
-[#358]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/358
-[#357]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/357
-[#356]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/356
-[#346]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/346
-[#339]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/339
-[#332]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/332
-[#331]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/331
-[#330]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/330
-[#329]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/329
-[#327]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/327
-[#326]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/326
-[#325]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/325
-[#324]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/324
-[#322]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/322
-[#321]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/321
-[#319]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/319
-[#316]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/316
-[#315]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/315
-[#310]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/310
-[#304]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/304
-[#303]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/303
-[#300]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/300
-[#286]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/286
-[#284]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/284
-[#283]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/283
-[#281]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/281
-[#280]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/280
-[#262]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/262
-[#260]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/260
-[#258]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/258
-[#255]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/255
-[#249]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/249
-[#246]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/246
-[#244]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/244
-[#240]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/240
-[#237]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/237
-[#234]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/234
-[#227]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/227
-[#226]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/226
-[#224]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/224
-[#217]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/217
-[#208]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/208
-[#205]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/205
-[#203]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/203
-[#197]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/197
-[#192]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/192
-[#188]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/188
-[#185]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/185
-[#183]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/183
-[#182]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/182
-[#180]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/180
-[#179]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/179
-[#178]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/178
-[#177]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/177
-[#176]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/176
-[#174]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/174
-[#173]: https://github.com/thomasgriffin/TGM-Plugin-Activation/pull/173
-[#171]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues/171
+[#395]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/395
+[#390]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/390
+[#389]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/389
+[#388]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/388
+[#387]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/387
+[#386]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/386
+[#385]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/385
+[#384]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/384
+[#381]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/381
+[#376]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/376
+[#375]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/375
+[#374]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/374
+[#373]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/373
+[#372]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/372
+[#371]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/371
+[#368]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/368
+[#363]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/363
+[#362]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/362
+[#361]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/361
+[#360]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/360
+[#359]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/359
+[#358]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/358
+[#357]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/357
+[#356]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/356
+[#346]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/346
+[#339]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/339
+[#332]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/332
+[#331]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/331
+[#330]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/330
+[#329]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/329
+[#327]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/327
+[#326]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/326
+[#325]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/325
+[#324]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/324
+[#322]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/322
+[#321]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/321
+[#319]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/319
+[#316]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/316
+[#315]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/315
+[#310]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/310
+[#304]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/304
+[#303]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/303
+[#300]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/300
+[#286]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/286
+[#284]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/284
+[#283]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/283
+[#281]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/281
+[#280]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/280
+[#262]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/262
+[#260]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/260
+[#258]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/258
+[#255]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/255
+[#249]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/249
+[#246]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/246
+[#244]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/244
+[#240]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/240
+[#237]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/237
+[#234]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/234
+[#227]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/227
+[#226]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/226
+[#224]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/224
+[#217]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/217
+[#208]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/208
+[#205]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/205
+[#203]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/203
+[#197]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/197
+[#192]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/192
+[#188]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/188
+[#185]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/185
+[#183]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/183
+[#182]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/182
+[#180]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/180
+[#179]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/179
+[#178]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/178
+[#177]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/177
+[#176]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/176
+[#174]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/174
+[#173]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/173
+[#171]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/171
 
 [Codex on callbacks]: https://codex.wordpress.org/How_to_Pass_Tag_Parameters#Callable
 
