@@ -48,3 +48,6 @@ script:
     # --extensions: Only sniff PHP files.
     # --report: Show a summary report.
     - $PHPCS_DIR/scripts/phpcs -p -s -v -n . --standard=./ruleset.xml --extensions=php --report=summary
+
+notifications:
+  email: false
