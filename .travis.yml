@@ -40,14 +40,8 @@ script:
     # WordPress Coding Standards
     # @link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
     # @link https://github.com/squizlabs/PHP_CodeSniffer
-    # -p flag: Show progress of the run.
-    # -s flag: Show sniff codes in all reports.
-    # -v flag: Print verbose output.
-    # -n flag: Do not print warnings (shortcut for --warning-severity=0)
-    # --standard: Use WordPress (not VIP) as the standard.
-    # --extensions: Only sniff PHP files.
-    # --report: Show a summary report.
-    - $PHPCS_DIR/scripts/phpcs -p -s -v -n . --standard=./ruleset.xml --extensions=php --report=summary
+    # All of the usual config flags are held in phpcs.xml
+    - $PHPCS_DIR/scripts/phpcs
 
 notifications:
   email: false
