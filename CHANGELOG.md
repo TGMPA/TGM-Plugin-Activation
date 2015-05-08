@@ -82,7 +82,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
      * [#284], [#281] - props [Ninos Ego],
      * [#286] - props [krishna19],
      * [#178], [#180], [#182], [#183] - thanks [Gregory Karpinsky] for reporting,
-     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381], [#385], [#387], [#395]
+     * [#324], [#325], [#331], [#346], [#356], [#357], [#358], [#359], [#360], [#361], [#362], [#363], [#368], [#371], [#373], [#374], [#375], [#376], [#381], [#385], [#387], [#395], [#397]
   - Allow for extending of the TGMPA class and fixed issues with PHP 5.2 [#303] which were originally caused by this.
   - Tighten the file permissions on our files. [#322]
   - Cleaned up some of the documentation. [#179], [#384] Props [Gregory Karpinsky] and the TGMPA team.
@@ -268,6 +268,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Christian]: http://themeforest.net/user/artless
 
 
+[#397]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/397
 [#395]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/395
 [#390]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/390
 [#389]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/389
