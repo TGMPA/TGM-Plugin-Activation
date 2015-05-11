@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TGM-Plugin-Activation\n"
-"POT-Creation-Date: 2015-05-11 20:42+0100\n"
-"PO-Revision-Date: 2015-05-11 20:42+0100\n"
+"POT-Creation-Date: 2015-05-11 21:55+0100\n"
+"PO-Revision-Date: 2015-05-11 21:56+0100\n"
 "Last-Translator: Juliette Reinders Folmer <wpplugins_nospam@adviesenzo.nl>\n"
 "Language-Team: TGMPA\n"
 "Language: en_US\n"
@@ -218,7 +218,7 @@ msgstr ""
 #: class-tgm-plugin-activation.php:1901
 #, php-format
 msgctxt "%s = version number"
-msgid "TGMPA v %s"
+msgid "TGMPA v%s"
 msgstr ""
 
 #: class-tgm-plugin-activation.php:2182
