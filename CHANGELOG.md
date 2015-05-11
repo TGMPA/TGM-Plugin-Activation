@@ -58,6 +58,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
   - Fixed: _"Undefined index: skin_update_failed_error"_ [#260], [#240] Thanks [Parhum Khoshbakht] and [Sandeep] for reporting.
   - Made admin URLs environment aware by using `self_admin_url()` instead of `admin_url()` or `network_admin_url()`. [#255], [#171]
   - Fixed: the Adminbar would be loaded twice causing conflicts (with other plugins). [#208] Props [John Blackbourn].
+  - All TGMPA generated pages will now show the version number on the page to assist in debugging. [#399], [#402]
 
 * **I18N improvements**:
   - Make configurable message texts singular/plural context aware. [#173] Props [Yakir Sitbon].
@@ -268,6 +269,8 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Christian]: http://themeforest.net/user/artless
 
 
+[#402]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/402
+[#399]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/399
 [#397]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/397
 [#395]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/395
 [#390]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/390
