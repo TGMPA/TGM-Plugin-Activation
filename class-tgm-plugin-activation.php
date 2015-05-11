@@ -661,7 +661,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					<input type="hidden" name="plugin_status" value="<?php echo esc_attr( $plugin_table->view_context ); ?>" />
 					<?php $plugin_table->display(); ?>
 				</form>
-
 			</div>
 			<?php
 
@@ -805,6 +804,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					}
 				}
 
+				$this->show_tgmpa_version();
+
 				// Display message based on if all plugins are now active or not.
 				if ( $this->is_tgmpa_complete() ) {
 					echo '<p>', sprintf( esc_html( $this->strings['complete'] ), '<a href="' . esc_url( self_admin_url() ) . '">' . esc_html__( 'Return to the Dashboard', 'tgmpa' ) . '</a>' ), '</p>';
@@ -813,7 +814,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				} else {
 					echo '<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
 				}
-
 				return true;
 
 			} elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
@@ -1894,6 +1894,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
+		 * Echo the current TGMPA version number to the page.
+		 */
+		public function show_tgmpa_version() {
+			echo '<p style="float: right; padding: 0em 1.5em 0.5em 0;"><strong><small>',
+				sprintf( _x( 'TGMPA v %s', '%s = version number', 'tgmpa' ), self::TGMPA_VERSION ),
+				'</small></strong></p>';
+		}
+
+		/**
 		 * Returns the singleton instance of the class.
 		 *
 		 * @since 2.4.0
@@ -2584,6 +2593,19 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						</div>
 					</td>
 				</tr>';
+		}
+
+		/**
+		 * Extra controls to be displayed between bulk actions and pagination.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $which 'top' or 'bottom' table navigation
+		 */
+		public function extra_tablenav( $which ) {
+			if ( 'bottom' === $which ) {
+				$this->tgmpa->show_tgmpa_version();
+			}
 		}
 
 		/**
@@ -3399,6 +3421,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						// Flush plugins cache so we can make sure that the installed plugins list is always up to date.
 						wp_clean_plugins_cache();
 
+						$this->tgmpa->show_tgmpa_version();
+
 						// Display message based on if all plugins are now active or not.
 						$update_actions = array();
 
@@ -3414,12 +3438,12 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						}
 
 						/**
-						 * Filter the list of action links available following bulk plugin updates.
+						 * Filter the list of action links available following bulk plugin installs/updates.
 						 *
 						 * @since 2.5.0
 						 *
 						 * @param array $update_actions Array of plugin action links.
-						 * @param array $plugin_info    Array of information for the last-updated plugin.
+						 * @param array $plugin_info    Array of information for the last-handled plugin.
 						 */
 						$update_actions = apply_filters( 'tgmpa_update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info );
 
