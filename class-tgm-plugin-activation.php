@@ -1323,7 +1323,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function sanitize_key( $key ) {
 			$raw_key = $key;
-			$key     = preg_replace( '/[^A-Za-z0-9_\-]/', '', $key );
+			$key     = preg_replace( '`[^A-Za-z0-9_-]`', '', $key );
 
 			/**
 			* Filter a sanitized key string.
