@@ -693,7 +693,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 
 			// All plugin information will be stored in an array for processing.
-			$slug = sanitize_key( urldecode( $_GET['plugin'] ) );
+			$slug = $this->sanitize_key( urldecode( $_GET['plugin'] ) );
 
 			if ( ! isset( $this->plugins[ $slug ] ) ) {
 				return false;
@@ -1255,6 +1255,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Prepare the received data.
 			$plugin = wp_parse_args( $plugin, $defaults );
 
+			// Standardize the received slug.
+			$plugin['slug'] = $this->sanitize_key( $plugin['slug'] );
+
 			// Forgive users for using string versions of booleans or floats for version number.
 			$plugin['version']            = (string) $plugin['version'];
 			$plugin['source']             = empty( $plugin['source'] ) ? 'repo' : $plugin['source'];
@@ -1302,6 +1305,35 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			} else {
 				return 'bundled';
 			}
+		}
+
+		/**
+		 * Sanitizes a string key.
+		 *
+		 * Near duplicate of WP Core `sanitize_key()`. The difference is that uppercase characters *are*
+		 * allowed, so as not to break upgrade paths from non-standard bundled plugins using uppercase
+		 * characters in the plugin directory path/slug. Silly them.
+		 *
+		 * @see https://developer.wordpress.org/reference/hooks/sanitize_key/
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $key String key
+		 * @return string Sanitized key
+		 */
+		public function sanitize_key( $key ) {
+			$raw_key = $key;
+			$key     = preg_replace( '`[^A-Za-z0-9_-]`', '', $key );
+
+			/**
+			* Filter a sanitized key string.
+			*
+			* @since 3.0.0
+			*
+			* @param string $key     Sanitized key.
+			* @param string $raw_key The key prior to sanitization.
+			*/
+			return apply_filters( 'tgmpa_sanitize_key', $key, $raw_key );
 		}
 
 		/**
@@ -2671,7 +2703,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 					// Sanitize the received input.
 					$plugins_to_install = array_map( 'urldecode', $plugins_to_install );
-					$plugins_to_install = array_map( 'sanitize_key', $plugins_to_install );
+					$plugins_to_install = array_map( array( $this->tgmpa, 'sanitize_key' ), $plugins_to_install );
 
 					// Validate the received input.
 					foreach ( $plugins_to_install as $key => $slug ) {
@@ -2799,7 +2831,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$plugins = array();
 				if ( isset( $_POST['plugin'] ) ) {
 					$plugins = array_map( 'urldecode', (array) $_POST['plugin'] );
-					$plugins = array_map( 'sanitize_key', $plugins );
+					$plugins = array_map( array( $this->tgmpa, 'sanitize_key' ), $plugins );
 				}
 
 				$plugins_to_activate = array();
