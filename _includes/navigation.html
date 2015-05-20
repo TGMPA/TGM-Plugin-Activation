@@ -1,0 +1,28 @@
+						<nav id="navigation" role="navigation">
+							<ul>
+								{% for p in site.pages %}
+									{% if p.anchor == "home" %}
+								<li>
+									<a href="{{ p.url | remove: 'index.html' | prepend: site.tgmpa.url }}" {% if p.url == page.url %}class="active"{% endif %}>{% if p.menutitle %}{{ p.menutitle }}{% elsif p.title %}{{ p.title }}{% endif %}</a>
+								</li>
+									{% endif %}
+								{% endfor %}
+
+
+								{% for p in site.pages %}
+									{% unless p.menu == false or p.anchor == "home" %}
+										{% if p.needsposts == true and site.posts %}
+											{% unless site.posts.size == 0 or site.posts.empty? %}
+								<li>
+									<a href="{{ p.url | remove: 'index.html' | prepend: site.tgmpa.url }}" {% if p.url == page.url %}class="active"{% endif %}>{% if p.menutitle %}{{ p.menutitle }}{% elsif p.title %}{{ p.title }}{% endif %}</a>
+								</li>
+											{% endunless %}
+										{% else %}
+								<li>
+									<a href="{{ p.url | remove: 'index.html' | prepend: site.tgmpa.url }}" {% if p.url == page.url %}class="active"{% endif %}>{% if p.menutitle %}{{ p.menutitle }}{% elsif p.title %}{{ p.title }}{% endif %}</a>
+								</li>
+										{% endif %}
+									{% endunless %}
+								{% endfor %}
+							</ul>
+						</nav>

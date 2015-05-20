@@ -1,0 +1,5 @@
+# /robots.txt file for http://tgmpluginactivation.com/
+
+User-agent: *
+Allow: /
+Sitemap: http://tgmpluginactivation.com/sitemap.xml

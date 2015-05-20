@@ -1,0 +1,23 @@
+---
+layout: null
+menu:   false
+sitemap:
+    exclude: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>{{ site.tgmpa.title }}</title>
+	<link href="{{ '/atom.xml' | prepend: site.tgmpa.url }}" rel="self" />
+	<link href="{{ site.tgmpa.url }}" />
+	<updated>{{ site.time | date_to_xmlschema }}</updated>
+	<id>{{ site.tgmpa.url }}</id>
+	{% for post in site.posts limit:15 %}
+	<entry>
+		<id>{{ post.id | prepend: site.tgmpa.url }}</id>
+		<title>{{ post.title | xml_escape }}</title>
+		<link href="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}" />
+		<published>{{ post.date | date_to_xmlschema }}</published>
+		<content type="html">{{ post.content | xml_escape }}</content>
+	</entry>
+	{% endfor %}
+</feed>

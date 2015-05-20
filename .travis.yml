@@ -1,0 +1,12 @@
+branches:
+  only:
+    - gh-pages
+
+language: ruby
+rvm:
+  - 2.1.0
+
+script: "bundle exec jekyll build"
+
+notifications:
+   email: false

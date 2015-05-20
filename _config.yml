@@ -1,0 +1,98 @@
+baseurl: /
+highlighter: pygments
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+encoding: UTF-8
+
+kramdown:
+    input: GFM
+    auto_id_prefix: "h-"
+    parse_block_html: true
+
+gems:
+    - jekyll-mentions
+
+tgmpa:
+    name: "TGM Plugin Activation"
+    title: "TGM Plugin Activation - the Best Way to Include Plugins with WordPress Themes (and Other Plugins)"
+    description: "TGM Plugin Activation is a PHP library that allows you to easily and automatically require, recommend and install plugins for your WordPress themes and plugins."
+    url: "http://tgmpluginactivation.com"
+    logo: "http://jrfnl.github.io/TGM-Plugin-Activation/images/logo.png"
+    zipimage: https://github.com/images/modules/download/zip.png
+    tarimage: https://github.com/images/modules/download/tar.png
+    version: 2.4.2
+    minwp: 3.7
+    minphp: 5.2.4
+    twitternick: tgmpa
+    twitterurl: "https://twitter.com/tgmpa"
+    gplus: https://plus.google.com/114044312047618704188
+    github: https://github.com/TGMPA/TGM-Plugin-Activation
+    analytics: UA-28200109-1
+
+sitemap:
+    priority:   0.7
+    changefreq: 'monthly'
+    exclude:    false
+
+
+collections:
+    homepage:
+        output: false
+
+    faqs:
+        output: true
+        permalink: /faq/:title/
+
+defaults:
+    -
+      scope:
+          path: ""
+      values:
+          sitemap:
+              priority:   0.7
+              changefreq: 'weekly'
+              exclude:    false
+          layout: "default"
+
+    -
+      scope:
+          path: ""
+          type: posts
+      values:
+          layout: "single-post"
+
+    -
+      scope:
+          path: ""
+          type: pages
+      values:
+          sitemap:
+              priority:   0.8
+              changefreq: 'monthly'
+              exclude:    false
+          layout: "default"
+          menu: true
+
+    -
+      scope:
+          path: ""
+          type: faqs
+      values:
+          sitemap:
+              priority:   0.5
+              changefreq: 'monthly'
+              exclude:    false
+          layout: "faq-question"
+          permalink: /faq/:path/
+
+    -
+      scope:
+          path: ""
+          type: homepage
+      values:
+          sitemap:
+              exclude:    true
+          layout: "default"
+
+
+exclude: ['CNAME', 'vendor', '.gitignore', '.travis.yml', 'Gemfile', 'CONTRIBUTING.md', 'LICENSE', 'README.md', '*.bak']

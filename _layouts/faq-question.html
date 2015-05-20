@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+{% include header.html %}
+
+{% include tweet-button.html %}
+
+<h2>{{ page.title }}</h2>
+
+{{ content }}
+
+
+<section class="post-nav">
+	<p class="post-next">
+		<a href="{{ '/faq/' | prepend: site.tgmpa.url }}">FAQ Index</a>
+	</p>
+</section>
+
+
+{% include footer.html %}
+
+</html>
