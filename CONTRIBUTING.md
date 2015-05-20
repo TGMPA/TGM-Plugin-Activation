@@ -65,5 +65,5 @@ There is no need to sign-off or GPG sign your commits. Tags (from 2.4.1 onwards)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/).
 * [Read the Issue Guidelines by @necolas](https://github.com/necolas/issue-guidelines/blob/master/CONTRIBUTING.md) for more details,
 
-[issue ticket]: https://github.com/thomasgriffin/TGM-Plugin-Activation/issues
-[reviewmerge]: https://github.com/thomasgriffin/TGM-Plugin-Activation/labels/reviewmerge
+[issue ticket]: https://github.com/TGMPA/TGM-Plugin-Activation/issues
+[reviewmerge]: https://github.com/TGMPA/TGM-Plugin-Activation/labels/reviewmerge
