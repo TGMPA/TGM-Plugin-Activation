@@ -288,13 +288,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public function init() {
 
 			/**
-			 * By default TGMPA only loads on the WP back-end. Using this filter you can overrule that behaviour.
+			 * By default TGMPA only loads on the WP back-end and not in an Ajax call. Using this filter
+			 * you can overrule that behaviour.
 			 *
 			 * @since 2.5.0
 			 *
-			 * @param bool $load Whether or not TGMPA should load. Defaults to the return of `is_admin()`.
+			 * @param bool $load Whether or not TGMPA should load.
+			 *                   Defaults to the return of `is_admin() && ! defined( 'DOING_AJAX' )`.
 			 */
-			if ( true !== apply_filters( 'tgmpa_load', is_admin() ) ) {
+			if ( true !== apply_filters( 'tgmpa_load', ( is_admin() && ! defined( 'DOING_AJAX' ) ) ) ) {
 				return;
 			}
 
