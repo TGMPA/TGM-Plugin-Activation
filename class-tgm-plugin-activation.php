@@ -405,7 +405,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					add_action( 'admin_enqueue_scripts', array( $this, 'thickbox' ) );
 				}
 
-				$this->add_plugin_action_link_filters();
+				add_action( 'load-plugins.php', array( $this, 'add_plugin_action_link_filters' ), 1 );
 
 			}
 
