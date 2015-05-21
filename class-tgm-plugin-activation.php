@@ -1630,11 +1630,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			static $url;
 
 			if ( ! isset( $url ) ) {
+				$parent = $this->parent_slug;
+				if ( false === strpos( $parent, '.php' ) ) {
+					$parent = 'admin.php';
+				}
 				$url = add_query_arg(
 					array(
 						'page' => urlencode( $this->menu ),
 					),
-					self_admin_url( $this->parent_slug )
+					self_admin_url( $parent )
 				);
 			}
 
