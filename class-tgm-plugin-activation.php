@@ -2907,8 +2907,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$sortable              = array(); // No reason to make sortable columns.
 			$this->_column_headers = array( $columns, $hidden, $sortable ); // Get all necessary column headers.
 
-			// Process our bulk actions here.
-			if ( false !== $this->current_action() ) {
+			// Process our bulk activations here.
+			if ( 'tgmpa-bulk-activate' === $this->current_action() ) {
 				$this->process_bulk_actions();
 			}
 
