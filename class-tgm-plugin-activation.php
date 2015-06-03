@@ -395,7 +395,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 				add_action( 'admin_head', array( $this, 'dismiss' ) );
 
-				// Prevent the normal links from showing underneath an single install/update page.
+				// Prevent the normal links from showing underneath a single install/update page.
 				add_filter( 'install_plugin_complete_actions', array( $this, 'actions' ) );
 				add_filter( 'update_plugin_complete_actions', array( $this, 'actions' ) );
 
