@@ -1,0 +1,473 @@
+body {
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	background: #f4f4f4;
+	color: #838383;
+	font: 1em/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	margin: 0;
+}
+
+nav, 
+subline { 
+	display: block; 
+}
+
+.clear {
+	clear: both;
+}
+
+dl, 
+ol,
+p,
+pre, 
+ul {
+	margin: 1em 0;
+}
+
+dl,
+ol, 
+ul {
+	padding: 0 0 0 3em;
+}
+
+ul li {
+	padding-top: 0.2em;
+}
+
+ol li {
+	padding-top: 0.8em;
+}
+
+blockquote {
+    border-left: 5px double #E73A74;
+    border-right: 5px double #E73A74;
+    margin: 1em 5px 2em;
+    padding: 0 30px;
+    font-style: italic;
+}
+
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6 {
+	color: #E73A74;
+	line-height: 1.1;
+	margin: 1.5em 0;
+}
+
+h1 { 
+	font-size: 2.5em; 
+}
+
+h2, 
+h3 { 
+	font-size: 1.5em; 
+}
+
+h4 {
+	font-size: 1.2em;
+}
+h5,
+h6 {
+	font-size: 1em;
+}
+
+a { 
+	color: #4183C4; 
+	text-decoration: none; 
+}
+
+a:active, 
+a:focus, 
+a:hover {
+	text-decoration: underline; 
+}
+
+.doc-head h1, 
+.doc-head h2, 
+.doc-head h3, 
+.doc-head h4, 
+.doc-head h5, 
+.doc-head h6 {
+	margin: 0;
+}
+
+.doc-body h1, 
+.doc-body h2, 
+.doc-body h3, 
+.doc-body h4 {
+	border-top: 0.2em solid #EEE;
+	padding-top: 0.5em;
+}
+
+.doc-head, 
+.doc-body, 
+.doc-foot { padding: 0 10px; }
+
+.doc-body {
+	margin-bottom: 15px;
+}
+
+.doc-head-content,
+.doc-body-content,
+.doc-foot-content {
+	margin: 0 auto;
+	max-width: 860px;
+	padding: 20px;
+}
+
+.doc-head-content {
+	max-width: 900px;
+	padding: 20px 0 10px 0;
+}
+
+.doc-foot-content {
+	padding: 0 0 0.8em;
+	overflow: hidden;
+}
+
+hgroup.text {
+	color: #000;
+	float: left;
+	max-width: 570px;
+	padding-top: 10px;
+	min-height: 119px;
+	padding-left: 135px;
+	background: url('../images/logo-transparent.png') no-repeat scroll 0 0 / 129px 129px #f4f4f4;
+}
+
+.download {
+	float: right;
+	width: 186px;
+}
+
+.download a {
+	display: inline-block;
+}
+
+
+hgroup h1 a,
+hgroup h1 a:hover {
+	color: #E73A74;
+	text-decoration: none;
+}
+
+hgroup h2 {
+	color: #444;
+	font-size: 1.3em;
+}
+
+.doc-body-content {
+	background: #FFF;
+	border-radius: 1em;
+	box-shadow: 0 0 4px #DDD;
+	padding: 20px 25px;
+	position: relative;
+}
+
+nav ul {
+	font: 0px/0 'Courier New', monospace;
+	letter-spacing: -0.63em;
+	padding: 0;
+	text-align: right;
+}
+
+nav li {
+	display: inline-block;
+	*display: inline;
+	font: bold 12px sans-serif;
+	letter-spacing: normal;
+	text-align: left;
+	*zoom: 1;
+}
+
+nav a {
+	display: block;
+	margin: 0 0.25em;
+	padding: 0.5em 1em;
+}
+
+
+/* Code highlighting blocks - the actual highlight styles are set in syntax.css. */
+pre, 
+pre code {
+	font: 85%/1.1 'Bitstream Vera Sans Mono', 'Courier', monospace;
+}
+
+code {
+	background-color: #F6F6F6;
+	font-size: 110%;
+}
+
+.highlight pre {
+	background: #F6F6F6;
+	border: 1px solid #EEE;
+	border-radius: 5px;
+	color: #440;
+	margin: 1em 0;
+	padding: 0.5em;
+	overflow: auto;
+	max-height: 40em;
+}
+
+.highlight .lineno {
+    background-color: #555555;
+    border-right: 1px solid #E73A74;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-right: 3px;
+    padding: 2px 10px 1px;
+}
+
+
+/* Styles for indicating required arguments on the configuration page. */
+.required {
+	color: #ff0000;
+}
+
+.possibly-required {
+	color: #FFA500;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
+}
+
+/* new */
+/* Styles for the version number box in the header. */
+.doc-head-content p.version {
+	margin: -0.3em 1em 0 1em;
+	vertical-align: middle;
+}
+.doc-head-content p.version .version-label {
+	float: left;
+	width: 55%;
+	font-size: 80%;
+}
+.doc-head-content p.version .version-number {
+	float: right;
+	width: 40%;
+	text-align: center;
+	font-size: 120%;
+	color: #2E8B57;
+	overflow: visible;
+	padding-top: 2px;
+}
+
+/* Let's show an active style in the navigation. */
+nav .active {
+	border-top: 1px solid #E73A74;
+	border-bottom: 1px solid #E73A74;
+	text-decoration: none;
+}
+
+/* Styling for 'Back to top' links. */
+.top {
+	text-align: right;
+	padding-right: 2em;
+}
+
+a.top {
+	display: block;
+	font-size: 70%;
+}
+
+/* Twitter buttons */
+.twitter-follow-button {
+	float: right;
+	font-size: 80%;
+	padding-top: 0.8em;
+}
+.twitter-share-button {
+	float: right;
+	font-size: 70%;
+	margin: 1.5em 2em 0 0; /* has to be in line with the h1...h6 top of content margin */
+	padding-top: 4em; /* has to be in line with the h1...h6 top of content padding (+ border) */
+}
+
+.page-home .twitter-share-button {
+	float: left;
+	font-size: 70%;
+	margin: -5px 0 0 0;
+	padding: 0;
+}
+
+.tweet-post .twitter-share-button {
+	float: none;
+	margin: 0 0 0 2em;
+	padding: 0;
+	vertical-align: -40%;
+}
+
+
+/* Styling of the current version number wherever it's used. */
+.version-number {
+	font-weight: bold;
+}
+
+/* Styling for the configuration tables on the configuration page and the releases table on the download page. */
+table {
+    border-collapse: collapse;
+}
+table, th, td {
+   border: 1px solid #cccccc;
+}
+th, td {
+	padding: 0.1em 0.4em;
+	text-align: left;
+	vertical-align: top;
+}
+th {
+	text-align: left;
+	color: #E73A74;
+	background-color: #cccccc;
+}
+td {
+	font-size: 90%;
+}
+
+tr td:first-child {
+	font-weight: bold;
+}
+
+table tr:nth-child(even) {
+	background: #F6F6F6;
+}
+
+table tr:nth-child(even) code {
+	background: #ffffff;
+}
+
+div#download table {
+	width: 60%;
+}
+
+
+/* Minimal styling for the 'continue reading' paragraph below the changelog */
+#release-notes p:last-child {
+	border-top: 2px solid #EEEEEE;
+	padding: 0.6em 1em 1em;
+	text-align: right;
+}
+
+
+/* Styling for the contributors list on the authors page. */
+.contributors {
+	overflow: hidden;
+}
+
+.contributors p {
+	margin: 0 0 1em;
+}
+
+.contributor {
+    float: left;
+    margin: 0.3em 0;
+    padding-right: 5px;
+    vertical-align: top;
+    width: 19%;
+	font-size: 90%;
+}
+.contributor img {
+    margin-right: 5px;
+    vertical-align: -25%;
+}
+
+/* Styling for the site last-update date at the bottom of the page */
+.doc-foot-content .build-date {
+	text-align: right;
+	font-size: 70%;
+	padding-right: 2em;
+}
+
+/* Styling for blog index */
+.recent-posts {
+	border: 1px solid #cccccc;
+	float: right;
+	font-size: 90%;
+	margin: 5em 0 3em 1em;
+	width: 210px;
+}
+.recent-posts h3 {
+	color: #E73A74;
+	background-color: #cccccc;
+	border-top: 0 none;
+	border-bottom: 0.2em solid #EEE;
+	margin: 0 0 0.8em;
+	padding: 0.5em 0.8em;
+	font-size: 1em;
+	text-align: center;
+}
+.recent-posts ul {
+	padding: 0 1em 0 2em;
+	word-wrap: normal;
+}
+.recent-posts li .post-meta {
+	font-size: 75%;
+	color: #bbbbbb;
+}
+.recent-posts li .post-meta a {
+	color: #bbbbbb;
+}
+
+/* Styling for blog posts */
+.post-meta {
+	color: #bbbbbb;
+	font-size: 90%;
+	overflow: hidden;
+}
+
+.post-meta .post-author {
+	padding: 0 0.3em 0 0.4em;
+}
+
+.post-meta img {
+    vertical-align: -20%;
+}
+
+.post-meta .post-category-tags {
+	font-size: 85%;
+	margin: -0.7em 0 1em;
+}
+.post-meta .post-category-tags span {
+	padding-right: 2em;
+}
+
+/* Styling for blog post previous/next links */
+.post-nav {
+	overflow: hidden;
+	border-top: 1px solid #eeeeee;
+	border-bottom: 1px solid #eeeeee;
+	margin: 1em 0;
+}
+.post-nav p {
+	margin: 0.2em 0;
+}
+.post-nav .post-previous,
+.post-nav .post-next {
+	width: 32%;
+}
+.post-nav .post-previous,
+.post-nav .post-index {
+	float: left;
+}
+.post-nav .post-index {
+	text-align: center;
+}
+.post-nav .post-next {
+	float: right;
+	text-align: right;
+	padding-right: 1em;
+}
+
+
+/* Styling for the broken image on the 404 page */
+.broken {
+	float: left;
+	margin-right: 50px;
+	padding-bottom: 100px;
+}
+

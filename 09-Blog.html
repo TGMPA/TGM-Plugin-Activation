@@ -1,0 +1,62 @@
+---
+title:      Blog
+anchor:     blog
+needsposts: true
+permalink:  /blog/
+---
+
+{% capture backtotop %}[Back to Top](#top){:.top}{% endcapture %}
+
+<section class="recent-posts">
+	<h3>Recent posts</h3>
+	<ul>
+	{% for post in site.posts | limit: 5 %}
+		<li>
+			<a href="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}">{{ post.title }}</a><br />
+			<span class="post-meta"><a href="{{ post.author | url_escape | prepend: 'https://github.com/' }}">@{{ post.author }}</a> |
+			<time datetime="{{ post.date | date: "%F %R" }}">{{ post.date | date_to_string }}</time></span>
+		</li>
+	{% endfor %}
+	</ul>
+</section>
+
+{% for post in site.posts %}
+	<div id="{{ post.anchor }}">
+	{% if post.short and post.short.size > 0 %}
+	<h3>{{ post.title }}</h3>
+	{{ post.short | markdownify }}
+	<p>
+		<a href="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}">Continue reading &hellip;</a>
+	</p>
+	{% else %}
+	{{ post.content }}
+	{% endif %}
+
+		<section class="post-meta">
+			<p class="published">
+				<span class="permalink"><a href="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}" rel="bookmark">Permalink</a></span>.
+
+				Published by
+				<span class="post-author">
+				{% for contributor in site.github.contributors %}
+					{% if contributor.login == post.author %}
+					<a href="{{ contributor.html_url }}"><img src="{{ contributor.avatar_url }}" width="22" height="22" alt="@{{ contributor.login }}" /></a>
+					<a href="{{ contributor.html_url }}">@{{ contributor.login }}</a>
+					{% endif %}
+				{% else %}
+					<a href="{{ post.author | url_escape | prepend: 'https://github.com/' }}">@{{ post.author }}</a>
+				{% endfor %}
+				</span>
+				on
+				<time datetime="{{ post.date | date: "%F %R" }}">{{ post.date | date_to_string }}</time>.
+				<span class="rss"><a class="subscribe" href="{{ '/atom.xml' | prepend: site.tgmpa.url }}">
+					<img src="{{ '/images/rss.png' | prepend: site.tgmpa.url }}" width="16" height="16" alt="Subscribe to the RSS feed" />
+				</a></span>
+				<span class="tweet-post"><a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}" data-text="{{ post.title }}" data-related="{{ site.tgmpa.twitternick }}" data-count="none" data-hashtags="{{ site.tgmpa.twitterhash }}">Tweet</a></span>
+			</p>
+		</section>
+	</div>
+	{% if forloop.last != true %}
+	{{ backtotop|markdownify }}
+	{% endif %}
+{% endfor %}

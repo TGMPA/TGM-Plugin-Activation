@@ -1,0 +1,111 @@
+---
+layout: null
+menu:   false
+sitemap:
+    exclude: true
+---
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="{{ "/css/xml-sitemap.xsl" | prepend: site.tgmpa.url }}"?>
+<urlset
+		xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+			http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+	<url>
+		<loc>{{ site.tgmpa.url }}/</loc>
+		<lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>1.0</priority>
+	</url>
+{% for post in site.posts %}
+	{% unless post.published == false or post.sitemap.exclude == true %}
+	<url>
+		<loc>{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}</loc>
+		{% if post.sitemap.lastmod %}
+		<lastmod>{{ post.sitemap.lastmod | date: "%Y-%m-%d" | date_to_xmlschema }}</lastmod>
+		{% elsif post.date %}
+		<lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+		{% elsif site.sitemap.lastmod %}
+		<lastmod>{{ site.sitemap.lastmod | date: "%Y-%m-%d" | date_to_xmlschema }}</lastmod>
+		{% else %}
+		<lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+		{% endif %}
+		{% if post.sitemap.changefreq %}
+		<changefreq>{{ post.sitemap.changefreq }}</changefreq>
+		{% elsif site.sitemap.changefreq %}
+		<changefreq>{{ site.sitemap.changefreq }}</changefreq>
+		{% else %}
+		<changefreq>monthly</changefreq>
+		{% endif %}
+		{% if post.sitemap.priority %}
+		<priority>{{ post.sitemap.priority }}</priority>
+		{% elsif site.sitemap.priority %}
+		<priority>{{ site.sitemap.priority }}</priority>
+		{% else %}
+		<priority>0.7</priority>
+		{% endif %}
+	</url>
+	{% endunless %}
+{% endfor %}
+{% for p in site.pages %}
+	{% unless p.sitemap.exclude == true %}
+	<url>
+		<loc>{{ p.url | remove: 'index.html' | prepend: site.tgmpa.url }}</loc>
+		{% if p.sitemap.lastmod %}
+		<lastmod>{{ p.sitemap.lastmod | date: "%Y-%m-%d" | date_to_xmlschema }}</lastmod>
+		{% elsif p.date %}
+		<lastmod>{{ p.date | date_to_xmlschema }}</lastmod>
+		{% elsif site.sitemap.lastmod %}
+		<lastmod>{{ site.sitemap.lastmod | date: "%Y-%m-%d" | date_to_xmlschema }}</lastmod>
+		{% else %}
+		<lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+		{% endif %}
+		{% if p.sitemap.changefreq %}
+		<changefreq>{{ p.sitemap.changefreq }}</changefreq>
+		{% elsif site.sitemap.changefreq %}
+		<changefreq>{{ site.sitemap.changefreq }}</changefreq>
+		{% else %}
+		<changefreq>monthly</changefreq>
+		{% endif %}
+		{% if p.sitemap.priority %}
+		<priority>{{ p.sitemap.priority }}</priority>
+		{% elsif site.sitemap.priority %}
+		<priority>{{ site.sitemap.priority }}</priority>
+		{% else %}
+		<priority>0.5</priority>
+		{% endif %}
+	</url>
+	{% endunless %}
+{% endfor %}
+
+{% for faq in site.faqs %}
+	{% unless faq.sitemap.exclude == true %}
+	<url>
+		<loc>{{ faq.url | remove: 'index.html' | prepend: site.tgmpa.url }}</loc>
+		{% if faq.sitemap.lastmod %}
+		<lastmod>{{ faq.sitemap.lastmod | date: "%Y-%m-%d" | date_to_xmlschema }}</lastmod>
+		{% elsif faq.date %}
+		<lastmod>{{ faq.date | date_to_xmlschema }}</lastmod>
+		{% elsif site.sitemap.lastmod %}
+		<lastmod>{{ site.sitemap.lastmod | date: "%Y-%m-%d" | date_to_xmlschema }}</lastmod>
+		{% else %}
+		<lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+		{% endif %}
+		{% if faq.sitemap.changefreq %}
+		<changefreq>{{ faq.sitemap.changefreq }}</changefreq>
+		{% elsif site.sitemap.changefreq %}
+		<changefreq>{{ site.sitemap.changefreq }}</changefreq>
+		{% else %}
+		<changefreq>monthly</changefreq>
+		{% endif %}
+		{% if faq.sitemap.priority %}
+		<priority>{{ faq.sitemap.priority }}</priority>
+		{% elsif site.sitemap.priority %}
+		<priority>{{ site.sitemap.priority }}</priority>
+		{% else %}
+		<priority>0.3</priority>
+		{% endif %}
+	</url>
+	{% endunless %}
+{% endfor %}
+</urlset>

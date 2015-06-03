@@ -1,0 +1,82 @@
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<!-- (1) force latest IE rendering engine: http://bit.ly/1c8EiC9 -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+		<title>{% if page.title %}{{ page.title | strip_html }} - {{ site.tgmpa.name }}{% else %}{{ site.tgmpa.title }}{% endif %}</title>
+		<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.tgmpa.description }}{% endif %}" />
+
+		<meta name="robots" content="index,follow,archive" />
+		<meta property="og:image" content="{{ site.tgmpa.logo }}" />
+		<meta property="og:title" content="{% if page.title %}{{ page.title | strip_html }} - {{ site.tgmpa.name }}{% else %}{{ site.tgmpa.title }}{% endif %}" />
+		<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.tgmpa.description }}{% endif %}" />
+		<meta property="og:url" content="{{ page.url | remove: 'index.html' | prepend: site.tgmpa.url }}" />
+		<meta property="og:site_name" content="{{ site.tgmpa.name }}" />
+		<meta property="og:type" content="website"/>
+		<link rel="author" href="{{ site.tgmpa.gplus }}" />
+		
+		<link rel="icon" href="{{ '/images/favicon.png' | prepend: site.tgmpa.url }}" type="image/png" />
+
+		<link rel="stylesheet" href="{{ '/css/syntax.css' | prepend: site.tgmpa.url }}" />
+		{% if site.tgmpa.url == "http://tgmpluginactivation.com" %}
+		<link rel="stylesheet" href="{{ '/css/style.min.css' | prepend: site.tgmpa.url }}" />
+		{% else %}
+		<link rel="stylesheet" href="{{ '/css/style.css' | prepend: site.tgmpa.url }}" />
+		{% endif %}
+
+		<link rel="canonical" href="{{ page.url | remove: 'index.html' | prepend: site.tgmpa.url }}" />
+		
+		{% if site.posts %}
+		<link rel="alternate" href="{{ '/atom.xml' | prepend: site.tgmpa.url }}" type="application/atom+xml" title="{{ site.tgmpa.name }}" />
+		{% endif %}
+
+		<!-- Functionality -->
+		<!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+		<script type="text/javascript">
+			// Pass some variables to javascript.
+			var siteurl = '{{ site.tgmpa.url }}';
+
+			// Pass releases data to js as sorting in liquid does not seem to work.
+			var ghreleases = {{ site.github.releases | where: 'draft', false | where: 'prerelease', false | sort_by: 'tag_name' | jsonify }};
+		</script>
+
+	</head>
+	<body class="page-{{ page.anchor }}">
+		<div class="doc">
+			<div class="doc-content">
+				<div class="doc-head">
+					<div id="top" class="doc-head-content">
+						<hgroup class="text">
+							<a href="{{ site.tgmpa.twitterurl }}" class="twitter-follow-button" data-show-count="false">Follow @{{ site.tgmpa.twitternick }}</a>
+							<h1>
+								<a href="{{ site.tgmpa.github }}">{{ site.tgmpa.name }}</a>
+							</h1>
+							<h2>
+								The best way to require and recommend plugins for WordPress themes (and other plugins).
+							</h2>
+						</hgroup>
+
+						<div class="download">
+	  						<a href="{{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.zip" class="latest-zip">
+								<img border="0" width="90" alt="Download latest release zipfile" src="{{ site.tgmpa.zipimage }}">
+							</a>
+	  						<a href="{{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.tar.gz" class="latest-tar">
+								<img border="0" width="90" alt="Download latest release tarball" src="{{ site.tgmpa.tarimage }}">
+							</a>
+							<p class="version">
+								<span class="version-label">Current version:</span>
+								<span class="version-number">{{ site.tgmpa.version }}</span>
+							</p>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="doc-body">
+					<div class="doc-body-content">
+					
+{% include navigation.html %}
+

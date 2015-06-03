@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+{% include header.html %}
+
+	{% unless page.anchor == "home" or page.anchor == "blog" %}
+	{% include tweet-button.html %}
+	{% endunless %}
+
+	{{ content }}
+
+	{% capture backtotop %}[Back to Top](#top){:.top}{% endcapture %}
+	{{ backtotop|markdownify }}
+
+{% include footer.html %}
+
+</html>

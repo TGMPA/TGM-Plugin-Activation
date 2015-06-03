@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+{% include header.html %}
+
+	<article class="post">
+	{% include tweet-button.html %}
+	
+		<section class="post-content">
+		{{ content }}
+		</section>
+		<section class="post-meta">
+			<p class="published">
+				<span class="permalink"><a href="{{ page.url | remove: 'index.html' | prepend: site.tgmpa.url }}" rel="bookmark">Permalink</a></span>.
+				Published by
+				<span class="post-author">
+				{% for contributor in site.github.contributors %}
+					{% if contributor.login == page.author %}
+					<a href="{{ contributor.html_url }}"><img src="{{ contributor.avatar_url }}" width="22" height="22" alt="@{{ contributor.login }}" /></a>
+					<a href="{{ contributor.html_url }}">@{{ contributor.login }}</a>
+					{% endif %}
+				{% else %}
+					<a href="{{ page.author | url_escape | prepend: 'https://github.com/' }}">@{{ page.author }}</a>
+				{% endfor %}
+				</span>
+				on
+				<time datetime="{{ page.date | date: "%F %R" }}">{{ page.date | date_to_string }}</time>.
+				<span class="rss"><a class="subscribe" href="{{ "/atom.xml" | prepend: site.tgmpa.url }}">
+					<img src="{{ "/images/rss.png" | prepend: site.tgmpa.url }}" width="16" height="16" alt="Subscribe to the RSS feed" />
+				</a></span>
+			</p>
+			{% if page.category || page.tags %}
+			<p class="post-category-tags">
+				{% if page.category %}
+				<span class="post-category">Category: {{ page.category }}</span>
+				{% endif %}
+				{% if page.tags %}
+				<span class="post-tags">Tags: {{ page.tags | array_to_sentence_string }}</span>
+				{% endif %}
+			</p>
+			{% endif %}
+		</section>
+		<section class="post-nav">
+			{% if page.previous and page.previous != nil %}
+			<p class="post-previous">
+				<a href="{{ page.previous.url | remove: 'index.html' | prepend: site.tgmpa.url }}" rel="previous">&lArr; {{ page.previous.title }}</a>
+			</p>
+			{% endif %}
+			{% if page.next and page.next != nil %}
+			<p class="post-next">
+				<a href="{{ page.next.url | remove: 'index.html' | prepend: site.tgmpa.url }}" rel="next">{{ page.next.title }} &rArr;</a>
+			</p>
+			{% endif %}
+		</section>
+	</article>
+
+	{% capture backtotop %}[Back to Top](#top){:.top}{% endcapture %}
+	{{ backtotop|markdownify }}
+
+{% include footer.html %}
+
+</html>

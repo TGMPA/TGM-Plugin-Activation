@@ -1,0 +1,26 @@
+---
+title:	   Frequently asked questions
+menutitle: FAQ
+anchor:    faq
+permalink: /faq/
+---
+
+<h3>{{ page.title }}</h3>
+
+{% capture backtotop %}[Back to Top](#top){:.top}{% endcapture %}
+
+<h4>Question index</h4>
+<ul id="faq-index">
+{% for faq in site.faqs %}
+	<li><a href="#{{ faq.anchor }}">{{ faq.title }}</a></li>
+{% endfor %}
+</ul>
+
+{% for faq in site.faqs %}
+<h4 id="{{ faq.anchor }}"><a href="{{ faq.url | remove: 'index.html' | prepend: site.tgmpa.url }}">{{ faq.title }}</a></h4>
+{{ faq.content }}
+{% if forloop.last != true %}
+{{ backtotop|markdownify }}
+{% endif %}
+{% endfor %}
+
