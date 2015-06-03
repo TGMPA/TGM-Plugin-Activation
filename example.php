@@ -6,13 +6,15 @@
  * It is expected that theme authors would copy and paste this code into their
  * functions.php file, and amend to suit.
  *
+ * @see http://tgmpluginactivation.com/configuration/ for detailed documentation.
+ *
  * @package    TGM-Plugin-Activation
  * @subpackage Example
  * @version    2.5.0-alpha
  * @author     Thomas Griffin, Gary Jones
  * @copyright  Copyright (c) 2011, Thomas Griffin
  * @license    http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
- * @link       https://github.com/thomasgriffin/TGM-Plugin-Activation
+ * @link       https://github.com/TGMPA/TGM-Plugin-Activation
  */
 
 /**
@@ -25,8 +27,10 @@ add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
 /**
  * Register the required plugins for this theme.
  *
- * In this example, we register two plugins - one included with the TGMPA library
- * and one from the .org repo.
+ * In this example, we register five plugins:
+ * - one included with the TGMPA library
+ * - two from an external source, one from an arbitrary source, one from a GitHub repository
+ * - two from the .org repo, where one demonstrates the use of the `is_callable` argument
  *
  * The variable passed to tgmpa_register_plugins() should be an array of plugin
  * arrays.
@@ -41,7 +45,7 @@ function my_theme_register_required_plugins() {
 	 */
 	$plugins = array(
 
-		// This is an example of how to include a plugin pre-packaged with a theme.
+		// This is an example of how to include a plugin bundled with a theme.
 		array(
 			'name'               => 'TGM Example Plugin', // The plugin name.
 			'slug'               => 'tgm-example-plugin', // The plugin slug (typically the folder name).
@@ -51,6 +55,7 @@ function my_theme_register_required_plugins() {
 			'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
 			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
+			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
 		),
 
 		// This is an example of how to include a plugin from an arbitrary external source in your theme.
@@ -69,7 +74,6 @@ function my_theme_register_required_plugins() {
 			'name'      => 'Adminbar Link Comments to Pending',
 			'slug'      => 'adminbar-link-comments-to-pending',
 			'source'    => 'https://github.com/jrfnl/WP-adminbar-comments-to-pending/archive/master.zip',
-			'required'  => false,
 		),
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
@@ -101,13 +105,10 @@ function my_theme_register_required_plugins() {
 	 * sending in a pull-request with .po file(s) with the translations.
 	 *
 	 * Only uncomment the strings in the config array if you want to customize the strings.
-	 *
-	 * Some of the strings are wrapped in a sprintf(), so see the comments at the
-	 * end of each line for what each argument will be.
 	 */
 	$config = array(
 		'id'           => 'tgmpa',                 // Unique ID for hashing notices for multiple instances of TGMPA.
-		'default_path' => '',                      // Default absolute path to pre-packaged plugins.
+		'default_path' => '',                      // Default absolute path to bundled plugins.
 		'menu'         => 'tgmpa-install-plugins', // Menu slug.
 		'parent_slug'  => 'themes.php',            // Parent menu slug.
 		'capability'   => 'edit_theme_options',    // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
@@ -116,6 +117,8 @@ function my_theme_register_required_plugins() {
 		'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
 		'is_automatic' => false,                   // Automatically activate plugins after installation or not.
 		'message'      => '',                      // Message to output right before the plugins table.
+
+		/*
 		'strings'      => array(
 			'page_title'                      => __( 'Install Required Plugins', 'theme-slug' ),
 			'menu_title'                      => __( 'Install Plugins', 'theme-slug' ),
@@ -191,6 +194,7 @@ function my_theme_register_required_plugins() {
 
 			'nag_type'                        => 'updated', // Determines admin notice type - can only be 'updated', 'update-nag' or 'error'.
 		),
+		*/
 	);
 
 	tgmpa( $plugins, $config );

@@ -49,7 +49,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	 * Automatic plugin installation and activation library.
 	 *
 	 * Creates a way to automatically install and activate plugins from within themes.
-	 * The plugins can be either pre-packaged, downloaded from the WordPress
+	 * The plugins can be either bundled, downloaded from the WordPress
 	 * Plugin Repository or downloaded from another external source.
 	 *
 	 * @since 1.0.0
@@ -171,11 +171,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public $capability = 'edit_theme_options';
 
 		/**
-		 * Default absolute path to folder containing pre-packaged plugin zip files.
+		 * Default absolute path to folder containing bundled plugin zip files.
 		 *
 		 * @since 2.0.0
 		 *
-		 * @var string Absolute path prefix to packaged zip file location. Default is empty string.
+		 * @var string Absolute path prefix to zip file location for bundled plugins. Default is empty string.
 		 */
 		public $default_path = '';
 
@@ -2696,7 +2696,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				$plugins_to_install = array();
-				
+
 				// Did user actually select any plugins to install/update ?
 				if ( empty( $_POST['plugin'] ) ) {
 					if ( 'install' === $install_type ) {
