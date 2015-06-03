@@ -4,7 +4,7 @@ anchor:    uninstalling-tgmpa
 permalink: /faq/uninstalling-tgmpa/
 ---
 
-If your theme or plugin no longer needs **{{site.tgmpa.name}}** (TGMPA) support, then these are the steps you need to take to remove TGMPA. Some initiative may be needed depending on how the theme or plugin author has added it in, and it is assumed you are comfortable editing PHP files / FTP as needed.
+If your theme or plugin no longer needs **{{ site.tgmpa.name }}** (TGMPA) support, then these are the steps you need to take to remove TGMPA. Some initiative may be needed depending on how the theme or plugin author has added it in, and it is assumed you are comfortable editing PHP files / FTP as needed.
 
 <ol>
 <li>Find and delete the plugin registration function. It will look something like:
@@ -22,7 +22,7 @@ If your theme or plugin no longer needs **{{site.tgmpa.name}}** (TGMPA) support,
 		 */
 		$plugins = array(
 
-			// Wordpress SEO
+			// WordPress SEO
 			array(
 				'name'     => 'WordPress SEO by Yoast',
 				'slug'     => 'wordpress-seo',

@@ -5,7 +5,7 @@ anchor:    roadmap
 permalink: /roadmap/
 ---
 
-### {{page.title}}
+### {{ page.title }}
 
 * Multi-site compatibility
 * Fix conflicting UI messages for usage in themes / plugins

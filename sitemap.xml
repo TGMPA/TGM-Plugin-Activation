@@ -39,7 +39,7 @@ sitemap:
 		{% endif %}
 		{% if post.sitemap.priority %}
 		<priority>{{ post.sitemap.priority }}</priority>
-		{% elsif site.sitemap.priorityq %}
+		{% elsif site.sitemap.priority %}
 		<priority>{{ site.sitemap.priority }}</priority>
 		{% else %}
 		<priority>0.7</priority>
@@ -100,7 +100,7 @@ sitemap:
 		{% endif %}
 		{% if faq.sitemap.priority %}
 		<priority>{{ faq.sitemap.priority }}</priority>
-		{% elsif site.sitemap.priorityq %}
+		{% elsif site.sitemap.priority %}
 		<priority>{{ site.sitemap.priority }}</priority>
 		{% else %}
 		<priority>0.3</priority>

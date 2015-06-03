@@ -4,7 +4,7 @@ REMOVE THIS COMMENT & SAVE THE FILE UNDER A NEW NAME TO USE THIS TEMPLATE.
 ALSO remove the '[must-use]' and '[optional]' helper lines and any unused optional attributes.
 
 ---------------------------
-Template for Homepage sections (Features menu item).
+Template for Blog posts.
 ---------------------------
 
 Guidelines:
@@ -29,7 +29,7 @@ anchor:      a-descriptive-slug
 description: Meta description for in the header
 permalink:   /you-can-change-the-permalink-but-shouldnt-for-blogs/
 category:    Category under which this is filed - will also be used in the normal permalink
-tags:        Comma delimited list of tags for the post
+tags:        YAML list of tags for the post - see http://en.wikipedia.org/wiki/YAML#Lists
 short:       Excerpt of the blog post. Can use simple markdown, but no line breaks. Will be used on blog archive pages if available. Only use this for really long blog posts.
 sitemap:
     lastmod:    2014-01-23
@@ -40,7 +40,7 @@ sitemap:
 
 ### A title for the blog - use {{ page.title }} to reuse the title given in the frontmatter.
 
-The section text. You can use all normal GitHub flavoured markdown syntaxes.
+The section text. You can use all normal [GitHub flavoured markdown syntaxes](https://guides.github.com/features/mastering-markdown/).
 
 However for multi-line code samples this syntax is preferred - don't forget to make sure that the code sample starts with `<?php` !
 

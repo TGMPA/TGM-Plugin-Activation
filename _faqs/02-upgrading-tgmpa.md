@@ -15,5 +15,5 @@ If you already use TGMPA in your theme or plugin and want to upgrade to a newer 
 
 
 [Download]: {{ '/download/' | prepend: site.tgmpa.url }}
-[Changelog]: {{site.tgmpa.github}}/blob/master/CHANGELOG.md
+[Changelog]: {{ '/blob/master/CHANGELOG.md' | prepend: site.tgmpa.github }}
 [configuration options]: {{ '/configuration/' | prepend: site.tgmpa.url }}

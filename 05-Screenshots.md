@@ -4,9 +4,9 @@ anchor:    screenshots
 permalink: /screenshots/
 ---
 
-### {{page.title}}
+### {{ page.title }}
 
-Below are a few screenshots to give you an idea of how the **{{site.tgmpa.name}}** library interacts with WordPress.
+Below are a few screenshots to give you an idea of how the **{{ site.tgmpa.name }}** library interacts with WordPress.
 
 ![screenshot-1]({{ '/images/screenshots/admin-notice.png' | prepend: site.tgmpa.url }})
 

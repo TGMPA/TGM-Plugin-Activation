@@ -38,6 +38,14 @@ ol li {
 	padding-top: 0.8em;
 }
 
+blockquote {
+    border-left: 5px double #E73A74;
+    border-right: 5px double #E73A74;
+    margin: 1em 5px 2em;
+    padding: 0 30px;
+    font-style: italic;
+}
+
 h1, 
 h2, 
 h3, 
@@ -190,9 +198,10 @@ pre code {
 
 code {
 	background-color: #F6F6F6;
+	font-size: 110%;
 }
 
-pre {
+.highlight pre {
 	background: #F6F6F6;
 	border: 1px solid #EEE;
 	border-radius: 5px;
@@ -204,8 +213,14 @@ pre {
 }
 
 .highlight .lineno {
-	color: #838383;
+    background-color: #555555;
+    border-right: 1px solid #E73A74;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-right: 3px;
+    padding: 2px 10px 1px;
 }
+
 
 /* Styles for indicating required arguments on the configuration page. */
 .required {
@@ -311,7 +326,7 @@ th {
 	background-color: #cccccc;
 }
 td {
-	font-size: 95%;
+	font-size: 90%;
 }
 
 tr td:first-child {
@@ -320,6 +335,10 @@ tr td:first-child {
 
 table tr:nth-child(even) {
 	background: #F6F6F6;
+}
+
+table tr:nth-child(even) code {
+	background: #ffffff;
 }
 
 div#download table {

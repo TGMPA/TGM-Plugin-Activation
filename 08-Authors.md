@@ -4,9 +4,9 @@ anchor:    authors
 permalink: /authors/
 ---
 
-### {{page.title}}
+### {{ page.title }}
 
-The **{{site.tgmpa.name}}** library was created by [Thomas Griffin] and is currently maintained by @thomasgriffin, @GaryJones and @jrfnl.
+The **{{ site.tgmpa.name }}** library was created by [Thomas Griffin] and is currently maintained by @thomasgriffin, @GaryJones and @jrfnl.
 
 
 ##### Contributors
@@ -33,7 +33,7 @@ If you want to contribute to or translate this website, please read the separate
 
 
 [Thomas Griffin]: https://thomasgriffin.io
-[our amazing contributors]: https://github.com/TGMPA/TGM-Plugin-Activation/graphs/contributors
-[contributing guidelines]: {{site.tgmpa.github}}/blob/develop/CONTRIBUTING.md
-[gh-pages readme]: {{site.tgmpa.github}}/blob/gh-pages/README.md
-[gh-pages contributing guidelines]: {{site.tgmpa.github}}/blob/gh-pages/CONTRIBUTING.md
+[our amazing contributors]: {{ '/graphs/contributors' | prepend: site.tgmpa.github }}
+[contributing guidelines]: {{ '/blob/develop/CONTRIBUTING.md' | prepend: site.tgmpa.github }}
+[gh-pages readme]: {{ '/blob/gh-pages/README.md' | prepend: site.tgmpa.github }}
+[gh-pages contributing guidelines]: {{ '/blob/gh-pages/CONTRIBUTING.md' | prepend: site.tgmpa.github }}

@@ -4,7 +4,7 @@ anchor: license
 
 ### License
 
-The **{{site.tgmpa.name}}** library is licensed under the [GPL-2.0 or later license].
+The **{{ site.tgmpa.name }}** library is licensed under the [GPL-2.0 or later license].
 
 
 

@@ -34,7 +34,7 @@
 				<span class="post-category">Category: {{ page.category }}</span>
 				{% endif %}
 				{% if page.tags %}
-				<span class="post-tags">Tags: {{ page.tags }}</span>
+				<span class="post-tags">Tags: {{ page.tags | array_to_sentence_string }}</span>
 				{% endif %}
 			</p>
 			{% endif %}

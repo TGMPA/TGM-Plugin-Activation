@@ -4,11 +4,11 @@ anchor:    download
 permalink: /download/
 ---
 
-### {{page.title}}
+### {{ page.title }}
 
-The latest stable release is version <span class="version-number">{{site.tgmpa.version}}</span><span class="release-date"></span>.
+The latest stable release is version <span class="version-number">{{ site.tgmpa.version }}</span><span class="release-date"></span>.
 
-[![Download the zip file]({{site.tgmpa.zipimage}}){: style="width: 100px;"}]({{site.tgmpa.github}}/archive/{{site.tgmpa.version}}.zip){:.latest-zip} [![Download the tarball file]({{site.tgmpa.tarimage}}){: style="width: 100px;"}]({{site.tgmpa.github}}/archive/{{site.tgmpa.version}}.tar.gz){:.latest-tar}
+[![Download the zip file]({{ site.tgmpa.zipimage }}){: style="width: 100px;"}]({{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.zip){:.latest-zip} [![Download the tarball file]({{ site.tgmpa.tarimage }}){: style="width: 100px;"}]({{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.tar.gz){:.latest-tar}
 
 You can also download your own package (such as the development version) [on GitHub].
 
@@ -40,6 +40,6 @@ The Changelog is included in each download package. You can also read the full [
 
 
 
-[on GitHub]: {{site.tgmpa.github}}
-[GitHub releases page]: {{site.tgmpa.github}}/releases
-[Changelog on GitHub]: {{site.tgmpa.github}}/blob/master/CHANGELOG.md
+[on GitHub]: {{ site.tgmpa.github }}
+[GitHub releases page]: {{ '/releases' | prepend: site.tgmpa.github }}
+[Changelog on GitHub]: {{ '/blob/master/CHANGELOG.md' | prepend: site.tgmpa.github }}

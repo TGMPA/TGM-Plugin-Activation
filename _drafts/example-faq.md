@@ -40,7 +40,7 @@ sitemap:
 
 Add the answer text here. Do **NOT** add the question.
 
-You can use all normal GitHub flavoured markdown syntaxes.
+You can use all normal [GitHub flavoured markdown syntaxes](https://guides.github.com/features/mastering-markdown/).
 
 However for multi-line code samples this syntax is preferred - don't forget to make sure that the code sample starts with `<?php` !
 

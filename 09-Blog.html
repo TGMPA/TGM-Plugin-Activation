@@ -52,7 +52,7 @@ permalink:  /blog/
 				<span class="rss"><a class="subscribe" href="{{ '/atom.xml' | prepend: site.tgmpa.url }}">
 					<img src="{{ '/images/rss.png' | prepend: site.tgmpa.url }}" width="16" height="16" alt="Subscribe to the RSS feed" />
 				</a></span>
-				<span class="tweet-post"><a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}" data-text="{{ post.title }}" data-related="tgmpa" data-count="none" data-hashtags="tgmpa">Tweet</a></span>
+				<span class="tweet-post"><a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}" data-text="{{ post.title }}" data-related="{{ site.tgmpa.twitternick }}" data-count="none" data-hashtags="{{ site.tgmpa.twitterhash }}">Tweet</a></span>
 			</p>
 		</section>
 	</div>

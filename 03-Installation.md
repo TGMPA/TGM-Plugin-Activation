@@ -5,9 +5,9 @@ anchor:    installation
 permalink: /installation/
 ---
 
-### {{page.title}}
+### {{ page.title }}
 
-Installing the **{{site.tgmpa.name}}** library is easy. Follow the instructions below:
+Installing the **{{ site.tgmpa.name }}** library is easy. Follow the instructions below:
 
 1. [Download] the latest release.
 2. Drop the class file somewhere in your theme or plugin hierarchy.

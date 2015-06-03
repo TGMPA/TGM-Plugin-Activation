@@ -99,9 +99,6 @@ variables are available.
    - Set `site.tgmpa.url` to `http://localhost:4000` or for testing on your own fork of the repo
      to `http://username.github.io/TGM-Plugin-Activation`
 
-* If you run into a 'WARN: Unresolved specs' build error when building locally, (temporarily) remove
-  the `Gemfile` file. Don't commit the removal!
-
 * Help on [GitHub build errors](https://help.github.com/articles/troubleshooting-github-pages-build-failures)
 
 

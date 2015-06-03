@@ -26,7 +26,7 @@ anchor:    a-descriptive-slug
 
 ### A title for the section.
 
-The section text. You can use all normal GitHub flavoured markdown syntaxes.
+The section text. You can use all normal [GitHub flavoured markdown syntaxes](https://guides.github.com/features/mastering-markdown/).
 
 However for multi-line code samples this syntax is preferred - don't forget to make sure that the code sample starts with `<?php` !
 
