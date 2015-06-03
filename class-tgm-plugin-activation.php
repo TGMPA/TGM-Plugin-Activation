@@ -745,7 +745,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$url = add_query_arg(
 					array(
 						'action' => $install_type . '-plugin',
-						'plugin' => urlencode( $slug )
+						'plugin' => urlencode( $slug ),
 					),
 					'update.php'
 				);
@@ -1318,7 +1318,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $key String key
+		 * @param string $key String key.
 		 * @return string Sanitized key
 		 */
 		public function sanitize_key( $key ) {
@@ -2636,7 +2636,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $which 'top' or 'bottom' table navigation
+		 * @param string $which 'top' or 'bottom' table navigation.
 		 */
 		public function extra_tablenav( $which ) {
 			if ( 'bottom' === $which ) {
@@ -3098,7 +3098,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 */
 					public function bulk_install( $plugins, $args = array() ) {
 
-						// [TGMPA + ] Hook auto-activation in
+						// [TGMPA + ] Hook auto-activation in.
 						add_filter( 'upgrader_post_install', array( $this, 'auto_activate' ), 10 );
 
 						$defaults    = array(
@@ -3109,7 +3109,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$this->init();
 						$this->bulk = true;
 
-						$this->install_strings(); // [TGMPA + ] adjusted
+						$this->install_strings(); // [TGMPA + ] adjusted.
 
 						/* [TGMPA - ] $current = get_site_transient( 'update_plugins' ); */
 
@@ -3168,14 +3168,14 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							*/
 
 							$result = $this->run( array(
-								'package'           => $plugin, // [TGMPA + ] adjusted
+								'package'           => $plugin, // [TGMPA + ] adjusted.
 								'destination'       => WP_PLUGIN_DIR,
-								'clear_destination' => false, // [TGMPA + ] adjusted
+								'clear_destination' => false, // [TGMPA + ] adjusted.
 								'clear_working'     => true,
 								'is_multi'          => true,
 								'hook_extra'        => array(
 									'plugin' => $plugin,
-								)
+								),
 							) );
 
 							$results[ $plugin ] = $this->result;
@@ -3205,7 +3205,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						 * }
 						 */
 						do_action( 'upgrader_process_complete', $this, array(
-							'action'  => 'install', // [TGMPA + ] adjusted
+							'action'  => 'install', // [TGMPA + ] adjusted.
 							'type'    => 'plugin',
 							'bulk'    => true,
 							'plugins' => $plugins,
@@ -3618,6 +3618,7 @@ if ( ! class_exists( 'TGM_Utils' ) ) {
 		 */
 		protected static function emulate_filter_bool( $value ) {
 
+			// @codingStandardsIgnoreStart
 			static $true  = array(
 				'1',
 				'true', 'True', 'TRUE',
@@ -3632,6 +3633,7 @@ if ( ! class_exists( 'TGM_Utils' ) ) {
 				'no', 'No', 'NO',
 				'off', 'Off', 'OFF',
 			);
+			// @codingStandardsIgnoreEnd
 
 			if ( is_bool( $value ) ) {
 				return $value;

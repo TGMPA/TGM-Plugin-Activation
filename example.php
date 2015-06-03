@@ -190,7 +190,7 @@ function my_theme_register_required_plugins() {
 			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'tgmpa' ),
 
 			'nag_type'                        => 'updated', // Determines admin notice type - can only be 'updated', 'update-nag' or 'error'.
-		)
+		),
 	);
 
 	tgmpa( $plugins, $config );
