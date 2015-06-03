@@ -117,6 +117,7 @@ function my_theme_register_required_plugins() {
 		'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
 		'is_automatic' => false,                   // Automatically activate plugins after installation or not.
 		'message'      => '',                      // Message to output right before the plugins table.
+
 		/*
 		'strings'      => array(
 			'page_title'                      => __( 'Install Required Plugins', 'theme-slug' ),

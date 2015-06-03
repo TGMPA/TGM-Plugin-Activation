@@ -2696,7 +2696,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 
 				$plugins_to_install = array();
-				
+
 				// Did user actually select any plugins to install/update ?
 				if ( empty( $_POST['plugin'] ) ) {
 					if ( 'install' === $install_type ) {
