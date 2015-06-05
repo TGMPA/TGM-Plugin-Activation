@@ -27,7 +27,7 @@ This project would not be possible without the help of [our amazing contributors
 
 We very much welcome new contributors to the TGMPA library. To get you started, please read the [contributing guidelines].
 
-If you want to translate the TGMPA library, please download the `.pot` file from the `/languages/` directory in the `develop` branch. Once you have finished your translation, please submit a pull request with your the `.po` (and `.mo`) file(s).
+If you want to translate the TGMPA library, please download the [`tgmpa.pot`] file from the `/languages/` directory in the `develop` branch. Once you have finished your translation, please submit a pull request with your the `.po` (and `.mo`) file(s).
 
 If you want to contribute to or translate this website, please read the separate [gh-pages readme] and [gh-pages contributing guidelines].
 
@@ -35,5 +35,6 @@ If you want to contribute to or translate this website, please read the separate
 [Thomas Griffin]: https://thomasgriffin.io
 [our amazing contributors]: {{ '/graphs/contributors' | prepend: site.tgmpa.github }}
 [contributing guidelines]: {{ '/blob/develop/CONTRIBUTING.md' | prepend: site.tgmpa.github }}
+[`tgmpa.pot`]: {{ '/develop/languages/tgmpa.pot' | prepend: site.tgmpa.github }}
 [gh-pages readme]: {{ '/blob/gh-pages/README.md' | prepend: site.tgmpa.github }}
 [gh-pages contributing guidelines]: {{ '/blob/gh-pages/CONTRIBUTING.md' | prepend: site.tgmpa.github }}
