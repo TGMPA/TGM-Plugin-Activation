@@ -2,7 +2,7 @@
 <html lang="en">
 {% include header.html %}
 
-	{% unless page.anchor == "home" or page.anchor == "blog" %}
+	{% unless page.anchor == "home" or page.anchor == "blog" or page.menu == false %}
 	{% include tweet-button.html %}
 	{% endunless %}
 
