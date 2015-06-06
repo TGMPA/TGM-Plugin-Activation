@@ -2527,6 +2527,18 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		}
 
 		/**
+		 * Get name of default primary column
+		 *
+		 * @since 2.5.0
+		 * @access protected
+		 *
+		 * @return string
+		 */
+		protected function get_default_primary_column_name() {
+		    return 'plugin';
+		}
+
+		/**
 		 * Get the actions which are relevant for a specific plugin row.
 		 *
 		 * @since 2.5.0
@@ -2920,7 +2932,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$columns               = $this->get_columns(); // Get all necessary column information.
 			$hidden                = array(); // No columns to hide, but we must set as an array.
 			$sortable              = array(); // No reason to make sortable columns.
-			$this->_column_headers = array( $columns, $hidden, $sortable ); // Get all necessary column headers.
+			$primary               = $this->get_primary_column_name(); // Column which has the row actions.
+			$this->_column_headers = array( $columns, $hidden, $sortable, $primary ); // Get all necessary column headers.
 
 			// Process our bulk activations here.
 			if ( 'tgmpa-bulk-activate' === $this->current_action() ) {
