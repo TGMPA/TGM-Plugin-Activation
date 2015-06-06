@@ -1,12 +1,14 @@
 # Changelog for TGM Plugin Activation library
 
-## Unreleased
+## 2.5.0 (2015-xx-xx)
 
 This is a major update which brings some interesting new features and fixes tons of bugs. This version of TGMPA is brought to you by [Thomas Griffin] with graceful thanks to [Gary Jones] and our new core-team member [Juliette Reinders Folmer] for the majority of the changes.
 
-With this release the TGMPA library has moved to its own organisation on GitHub. From now on you can find it at [TGMPA/TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation).
+With this release the TGMPA library has moved to its own organisation on GitHub. From now on you can find it at [TGMPA/TGM-Plugin-Activation].
 
-TGMPA will start providing localized text strings soon. If you already have translations of our standard strings available, please help us make TGMPA even better by giving us access to these translations or by sending in a pull-request with .po file(s) with the translations. A [.pot file](https://github.com/TGMPA/TGM-Plugin-Activation/blob/develop/languages/) to get you started is now available in the GitHub repository.
+The website has also been given some love. You can now find detailed information about the configuration options, FAQs and more at: http://tgmpluginactivation.com/
+
+TGMPA will start providing localized text strings soon. If you already have translations of our standard strings available, please help us make TGMPA even better by giving us access to these translations or by sending in a pull-request with .po file(s) with the translations. A [.pot file] to get you started is now available in the GitHub repository.
 
 * Enhancement: **Full support for update work-flow**.
 	- Updating of the registered plugins can now be done from the TGMPA screen, both on individual plugins as well as in bulk - this will take into account WP repo updates as well as updates for plugins which are bundled or come from external sources where a minimum version is set which is higher than the current version.
@@ -66,7 +68,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
   - Language strings are loaded a bit later now to ensure that the translations are loaded beforehand. [#176], [#177] Props [Yakir Sitbon].
   
 * **New action and filter hooks for TGMPA**:
-  - `tgmpa_load` - _filter_ can be used to overrule whether TGMPA should load. Defaults to loading only when on the WP back-end. Typical use: `add_filter( 'tgmpa_load', '__return_true' );`.
+  - `tgmpa_load` - _filter_ can be used to overrule whether TGMPA should load. Defaults to loading only when on the WP back-end when not `DOING_AJAX`. Typical use: `add_filter( 'tgmpa_load', '__return_true' );`.
   - `tgmpa_admin_menu_args` - _filter_ can be used to filter the arguments passed to the function call adding the TGMPA (sub) menu page.
   - `tgmpa_notice_rendered_action_links` - _filter_ can be used to filter the complete html output for the admin notice action links. This is in addition to the `tgmpa_notice_action_links` filter which already existed and allows for filtering of the individual action links.
   - `tgmpa_table_data_item` - _filter_ can be used to modify plugin data for a single plugin which is ready for the TGMPA table output.
@@ -234,6 +236,12 @@ TGMPA will start providing localized text strings soon. If you already have tran
 ## 1.0.0 (2011-09-29)
 
 * Initial release into the wild
+
+
+
+[TGMPA/TGM-Plugin-Activation]: https://github.com/TGMPA/TGM-Plugin-Activation
+[.pot file]: https://github.com/TGMPA/TGM-Plugin-Activation/blob/develop/languages/
+
 
 [Christian Foellmann]: https://github.com/cfoellmann
 [Chris Talkington]: https://github.com/ctalkington
