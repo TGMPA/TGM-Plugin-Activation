@@ -2529,13 +2529,30 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		/**
 		 * Get name of default primary column
 		 *
-		 * @since 2.5.0
+		 * @since 2.5.0 / WP 4.3+ compatibility
 		 * @access protected
 		 *
 		 * @return string
 		 */
 		protected function get_default_primary_column_name() {
 		    return 'plugin';
+		}
+
+		/**
+		 * Get the name of the primary column.
+		 *
+		 * @since 2.5.0 / WP 4.3+ compatibility
+		 * @access protected
+		 *
+		 * @return string The name of the primary column.
+		 */
+		protected function get_primary_column_name() {
+
+			if ( method_exists( 'WP_List_Table', 'get_primary_column_name' ) ) {
+				return parent::get_primary_column_name();
+			} else {
+				return $this->get_default_primary_column_name();
+			}
 		}
 
 		/**
