@@ -1038,9 +1038,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				if ( ! $this->is_plugin_installed( $slug ) ) {
-					$install_link_count++;
 
 					if ( current_user_can( 'install_plugins' ) ) {
+						$install_link_count++;
+
 						if ( true === $plugin['required'] ) {
 							$message['notice_can_install_required'][] = $slug;
 						} else {
@@ -1052,9 +1053,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					}
 				} else {
 					if ( ! $this->is_plugin_active( $slug ) && $this->can_plugin_activate( $slug ) ) {
-						$activate_link_count++;
 
 						if ( current_user_can( 'activate_plugins' ) ) {
+							$activate_link_count++;
+
 							if ( true === $plugin['required'] ) {
 								$message['notice_can_activate_required'][] = $slug;
 							} else {
@@ -1066,13 +1068,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						}
 					}
 
-					if ( $this->does_plugin_require_update( $slug ) && false === $this->does_plugin_have_update( $slug ) ) {
-						continue;
-
-					} else {
-						$update_link_count++;
+					if ( $this->does_plugin_require_update( $slug ) || false !== $this->does_plugin_have_update( $slug ) ) {
 
 						if ( current_user_can( 'install_plugins' ) ) {
+							$update_link_count++;
+
 							if ( $this->does_plugin_require_update( $slug ) ) {
 								$message['notice_ask_to_update'][] = $slug;
 							} elseif ( false !== $this->does_plugin_have_update( $slug ) ) {
@@ -1169,6 +1169,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$action_links = apply_filters( 'tgmpa_notice_action_links', $action_links );
 
 				$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
+
 				if ( ! empty( $action_links ) && is_array( $action_links ) ) {
 					$action_links = sprintf( $line_template, implode( ' | ', $action_links ) );
 					$rendered    .= apply_filters( 'tgmpa_notice_rendered_action_links', $action_links );
@@ -1220,7 +1221,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( isset( $_GET['tgmpa-dismiss'] ) ) {
 				update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, 1 );
 			}
-
 		}
 
 		/**
@@ -2120,6 +2120,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			// Prep variables for use and grab list of all installed plugins.
 			$table_data = array();
 			$i          = 0;
+
+			// Redirect to the 'all' view if no plugins where found for the selected view context.
+			if ( empty( $plugins[ $this->view_context ] ) ) {
+				$this->view_context = 'all';
+			}
 
 			foreach ( $plugins[ $this->view_context ] as $slug => $plugin ) {
 
