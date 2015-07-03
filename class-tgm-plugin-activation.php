@@ -2025,7 +2025,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			$table_data = array();
 			$i          = 0;
 
-			// Redirect to the 'all' view if no plugins where found for the selected view context.
+			// Redirect to the 'all' view if no plugins were found for the selected view context.
 			if ( empty( $plugins[ $this->view_context ] ) ) {
 				$this->view_context = 'all';
 			}
