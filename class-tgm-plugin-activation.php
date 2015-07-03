@@ -8,7 +8,7 @@
  * or theme author for support.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.5.0-RC
+ * @version   2.5.0
  * @link      http://tgmpluginactivation.com/
  * @author    Thomas Griffin, Gary Jones, Juliette Reinders Folmer
  * @copyright Copyright (c) 2011, Thomas Griffin
@@ -18,7 +18,7 @@
  * Plugin Name: TGM Plugin Activation
  * Plugin URI:
  * Description: Plugin installation and activation for WordPress themes.
- * Version:     2.5.0-RC
+ * Version:     2.5.0
  * Author:      Thomas Griffin, Gary Jones, Juliette Reinders Folmer
  * Author URI:  http://tgmpluginactivation.com/
  * Text Domain: tgmpa
