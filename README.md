@@ -9,7 +9,7 @@ This website is a Jekyll project. The navigation and page structure are automati
 
 ## Where
 
-<http://tgmpluginactivation.com/>
+The live site can be found at: <http://tgmpluginactivation.com/>
 
 ## How to Contribute
 
