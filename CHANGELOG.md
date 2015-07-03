@@ -1,6 +1,6 @@
 # Changelog for TGM Plugin Activation library
 
-## 2.5.0-RC (2015-07-??)
+## 2.5.0 (2015-07-03)
 
 This is a major update which brings some interesting new features and fixes tons of bugs. This version of TGMPA is brought to you by [Thomas Griffin] with graceful thanks to [Gary Jones] and our new core-team member [Juliette Reinders Folmer] for the majority of the changes.
 
