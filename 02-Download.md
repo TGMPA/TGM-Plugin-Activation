@@ -29,7 +29,7 @@ For earlier releases, please visit the [GitHub releases page].
 
 <div id="release-notes">
 
-Continue reading the [Changelog on GitHub] for information on older versions.
+<p class="continue-reading">Continue reading the [Changelog on GitHub] for information on older versions.</p>
 </div>
 
 <div id="no-release-notes">

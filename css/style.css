@@ -7,25 +7,25 @@ body {
 	margin: 0;
 }
 
-nav, 
-subline { 
-	display: block; 
+nav,
+subline {
+	display: block;
 }
 
 .clear {
 	clear: both;
 }
 
-dl, 
+dl,
 ol,
 p,
-pre, 
+pre,
 ul {
 	margin: 1em 0;
 }
 
 dl,
-ol, 
+ol,
 ul {
 	padding: 0 0 0 3em;
 }
@@ -46,24 +46,24 @@ blockquote {
     font-style: italic;
 }
 
-h1, 
-h2, 
-h3, 
-h4, 
-h5, 
+h1,
+h2,
+h3,
+h4,
+h5,
 h6 {
 	color: #E73A74;
 	line-height: 1.1;
 	margin: 1.5em 0;
 }
 
-h1 { 
-	font-size: 2.5em; 
+h1 {
+	font-size: 2.5em;
 }
 
-h2, 
-h3 { 
-	font-size: 1.5em; 
+h2,
+h3 {
+	font-size: 1.5em;
 }
 
 h4 {
@@ -74,36 +74,36 @@ h6 {
 	font-size: 1em;
 }
 
-a { 
-	color: #4183C4; 
-	text-decoration: none; 
+a {
+	color: #4183C4;
+	text-decoration: none;
 }
 
-a:active, 
-a:focus, 
+a:active,
+a:focus,
 a:hover {
-	text-decoration: underline; 
+	text-decoration: underline;
 }
 
-.doc-head h1, 
-.doc-head h2, 
-.doc-head h3, 
-.doc-head h4, 
-.doc-head h5, 
+.doc-head h1,
+.doc-head h2,
+.doc-head h3,
+.doc-head h4,
+.doc-head h5,
 .doc-head h6 {
 	margin: 0;
 }
 
-.doc-body h1, 
-.doc-body h2, 
-.doc-body h3, 
+.doc-body h1,
+.doc-body h2,
+.doc-body h3,
 .doc-body h4 {
 	border-top: 0.2em solid #EEE;
 	padding-top: 0.5em;
 }
 
-.doc-head, 
-.doc-body, 
+.doc-head,
+.doc-body,
 .doc-foot { padding: 0 10px; }
 
 .doc-body {
@@ -191,7 +191,7 @@ nav a {
 
 
 /* Code highlighting blocks - the actual highlight styles are set in syntax.css. */
-pre, 
+pre,
 pre code {
 	font: 85%/1.1 'Bitstream Vera Sans Mono', 'Courier', monospace;
 }
@@ -347,8 +347,8 @@ div#download table {
 
 
 /* Minimal styling for the 'continue reading' paragraph below the changelog */
-#release-notes p:last-child {
-	border-top: 2px solid #EEEEEE;
+.continue-reading {
+	border-top: 2px solid #eee;
 	padding: 0.6em 1em 1em;
 	text-align: right;
 }
