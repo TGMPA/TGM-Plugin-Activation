@@ -74,7 +74,7 @@ There are also a number of variables available for use in all documents. It is s
 - {{ site.tgmpa.logo }}: http://tgmpluginactivation.com/images/logo.png, the url to the logo file
 - {{ site.tgmpa.zipimage }}: https://github.com/images/modules/download/zip.png, the url to the image used for zip files
 - {{ site.tgmpa.tarimage }}: https://github.com/images/modules/download/tar.png, the url to the image used for tar files
-- {{ site.tgmpa.version }}: 2.5.0, the current version - not to worry if this is not up to date as we'll use the GitHub API for up-to-date info
+- {{ site.tgmpa.version }}: 2.5.1, the current version - not to worry if this is not up to date as we'll use the GitHub API for up-to-date info
 - {{ site.tgmpa.minwp }}: 3.7, the minimum WP version needed for the current TGMPA version
 - {{ site.tgmpa.minphp }}: 5.2.4, the minimum PHP version needed for the current TGMPA version
 - {{ site.tgmpa.twitternick }}: tgmpa
