@@ -173,7 +173,7 @@
 				smartLists: true,
 				smartypants: true
 			});
-			$('#release-notes').prepend( marked( latest_release.body ) );
+			$('#release-notes').prepend( marked( latest_release.body ) ).prepend( '<h5>Version ' + latest_release.name + '</h5>' );
 			$('#no-release-notes').remove();
 		}
 		else {
