@@ -1932,6 +1932,21 @@ if ( ! function_exists( 'tgmpa' ) ) {
 		}
 
 		if ( ! empty( $config ) && is_array( $config ) ) {
+			// Send out notices for deprecated arguments passed.
+			if ( isset( $config['notices'] ) ) {
+				_deprecated_argument( __FUNCTION__, '2.2.0', 'The `notices` config parameter was renamed to `has_notices` in TGMPA 2.2.0. Please adjust your configuration.' );
+				if ( ! isset( $config['has_notices'] ) ) {
+					$config['has_notices'] = $config['notices'];
+				}
+			}
+
+			if ( isset( $config['parent_menu_slug'] ) ) {
+				_deprecated_argument( __FUNCTION__, '2.4.0', 'The `parent_menu_slug` config parameter was removed in TGMPA 2.4.0. In TGMPA 2.5.0 an alternative was (re-)introduced. Please adjust your configuration. For more information visit the website: http://tgmpluginactivation.com/configuration/#h-configuration-options.' );
+			}
+			if ( isset( $config['parent_url_slug'] ) ) {
+				_deprecated_argument( __FUNCTION__, '2.4.0', 'The `parent_url_slug` config parameter was removed in TGMPA 2.4.0. In TGMPA 2.5.0 an alternative was (re-)introduced. Please adjust your configuration. For more information visit the website: http://tgmpluginactivation.com/configuration/#h-configuration-options.' );
+			}
+
 			call_user_func( array( $instance, 'config' ), $config );
 		}
 	}
