@@ -149,7 +149,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @var string
 		 */
-		public $menu = 'tgmpa-install-plugins';
+		protected $menu = 'tgmpa-install-plugins';
 
 		/**
 		 * Parent menu file slug.
@@ -256,11 +256,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Adds a reference of this object to $instance, populates default strings,
 		 * does the tgmpa_init action hook, and hooks in the interactions to init.
 		 *
+		 * @internal This method should be `protected`, but as too many TGMPA implementations
+		 * haven't upgraded beyond v2.3.6 yet, this gives backward compatibility issues.
+		 * Reverted back to public for the time being.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @see TGM_Plugin_Activation::init()
 		 */
-		protected function __construct() {
+		public function __construct() {
 			// Set the current WordPress version.
 			$this->wp_version = $GLOBALS['wp_version'];
 
@@ -269,6 +273,34 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			// When the rest of WP has loaded, kick-start the rest of the class.
 			add_action( 'init', array( $this, 'init' ) );
+		}
+
+		/**
+		 * Magic method to (not) set protected properties from outside of this class.
+		 *
+		 * @internal hackedihack... There is a serious bug in v2.3.2 - 2.3.6  where the `menu` property
+		 * is being assigned rather than tested in a conditional, effectively rendering it useless.
+		 * This 'hack' prevents this from happening.
+		 *
+		 * @see https://github.com/TGMPA/TGM-Plugin-Activation/blob/2.3.6/tgm-plugin-activation/class-tgm-plugin-activation.php#L1593
+		 *
+		 * @param string $name  Name of an inaccessible property.
+		 * @param mixed  $value Value to assign to the property.
+		 * @return void  Silently fail to set the property when this is tried from outside of this class context.
+		 *               (Inside this class context, the __set() method if not used as there is direct access.)
+		 */
+		public function __set( $name, $value ) {
+			return;
+		}
+
+		/**
+		 * Magic method to get the value of a protected property outside of this class context.
+		 *
+		 * @param string $name Name of an inaccessible property.
+		 * @return mixed The property value.
+		 */
+		public function __get( $name ) {
+			return $this->{$name};
 		}
 
 		/**
@@ -2697,9 +2729,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				}
 				unset( $slug, $name, $source );
 
-				// Create a new instance of TGM_Bulk_Installer.
-				$installer = new TGM_Bulk_Installer(
-					new TGM_Bulk_Installer_Skin(
+				// Create a new instance of TGMPA_Bulk_Installer.
+				$installer = new TGMPA_Bulk_Installer(
+					new TGMPA_Bulk_Installer_Skin(
 						array(
 							'url'          => esc_url_raw( $this->tgmpa->get_tgmpa_url() ),
 							'nonce'        => 'bulk-' . $this->_args['plural'],
@@ -2846,6 +2878,24 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 	}
 }
 
+
+if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
+
+	/**
+	 * Hack: Prevent TGMPA v2.4.1- bulk installer class from being loaded if 2.4.1- is loaded after 2.5+.
+	 */
+	class TGM_Bulk_Installer {
+	}
+}
+if ( ! class_exists( 'TGM_Bulk_Installer_Skin' ) ) {
+
+	/**
+	 * Hack: Prevent TGMPA v2.4.1- bulk installer skin class from being loaded if 2.4.1- is loaded after 2.5+.
+	 */
+	class TGM_Bulk_Installer_Skin {
+	}
+}
+
 /**
  * The WP_Upgrader file isn't always available. If it isn't available,
  * we load it here.
@@ -2862,6 +2912,11 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 	 * Load bulk installer
 	 */
 	function tgmpa_load_bulk_installer() {
+		// Silently fail if 2.5+ is loaded *after* an older version.
+		if ( ! isset( $GLOBALS['tgmpa'] ) ) {
+			return;
+		}
+
 		// Get TGMPA class instance.
 		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
 
@@ -2870,7 +2925,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			}
 
-			if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
+			if ( ! class_exists( 'TGMPA_Bulk_Installer' ) ) {
 
 				/**
 				 * Installer class to handle bulk plugin installations.
@@ -2881,12 +2936,14 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 * @since 2.2.0
 				 *
 				 * @internal Since 2.5.0 the class is an extension of Plugin_Upgrader rather than WP_Upgrader
+				 * @internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer to TGMPA_Bulk_Installer.
+				 *           This was done to prevent backward compatibility issues with v2.3.6.
 				 *
 				 * @package TGM-Plugin-Activation
 				 * @author  Thomas Griffin
 				 * @author  Gary Jones
 				 */
-				class TGM_Bulk_Installer extends Plugin_Upgrader {
+				class TGMPA_Bulk_Installer extends Plugin_Upgrader {
 					/**
 					 * Holds result of bulk plugin installation.
 					 *
@@ -3192,7 +3249,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				}
 			}
 
-			if ( ! class_exists( 'TGM_Bulk_Installer_Skin' ) ) {
+			if ( ! class_exists( 'TGMPA_Bulk_Installer_Skin' ) ) {
 
 				/**
 				 * Installer skin to set strings for the bulk plugin installations..
@@ -3202,13 +3259,17 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 *
 				 * @since 2.2.0
 				 *
+				 * @internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer_Skin to
+				 *           TGMPA_Bulk_Installer_Skin.
+				 *           This was done to prevent backward compatibility issues with v2.3.6.
+				 *
 				 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-admin/includes/class-wp-upgrader-skins.php
 				 *
 				 * @package TGM-Plugin-Activation
 				 * @author  Thomas Griffin
 				 * @author  Gary Jones
 				 */
-				class TGM_Bulk_Installer_Skin extends Bulk_Upgrader_Skin {
+				class TGMPA_Bulk_Installer_Skin extends Bulk_Upgrader_Skin {
 					/**
 					 * Holds plugin info for each individual plugin installation.
 					 *
