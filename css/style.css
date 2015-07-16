@@ -231,6 +231,11 @@ code {
 	color: #FFA500;
 }
 
+.deprecated {
+	text-decoration: line-through;
+	color: #BABABA;
+}
+
 img {
 	height: auto;
 	max-width: 100%;
