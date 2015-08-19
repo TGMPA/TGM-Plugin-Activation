@@ -431,9 +431,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					add_action( 'admin_init', array( $this, 'admin_init' ), 1 );
 					add_action( 'admin_enqueue_scripts', array( $this, 'thickbox' ) );
 				}
-
-				add_action( 'load-plugins.php', array( $this, 'add_plugin_action_link_filters' ), 1 );
 			}
+
+			// If needed, filter plugin action links.
+			add_action( 'load-plugins.php', array( $this, 'add_plugin_action_link_filters' ), 1 );
 
 			// Make sure things get reset on switch theme.
 			add_action( 'switch_theme', array( $this, 'flush_plugins_cache' ) );
@@ -454,8 +455,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Prevent activation of plugins which don't meet the minimum version requirement from the
-		 * WP native plugins page.
+		 * Hook in plugin action link filters for the WP native plugins page.
+		 *
+		 * - Prevent activation of plugins which don't meet the minimum version requirements.
+		 * - Prevent deactivation of force-activated plugins.
+		 * - Add update notice if update available.
 		 *
 		 * @since 2.5.0
 		 */
