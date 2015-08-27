@@ -10,4 +10,4 @@ Try deactivating the plugin before trying to update. If the upgrade works when t
 If the update still doesn't work, please [report this as a bug].
 
 
-[report this as a bug]: Guidelines-for-reporting-bugs
+[report this as a bug]: https://github.com/TGMPA/TGM-Plugin-Activation/wiki/Guidelines-for-reporting-bugs

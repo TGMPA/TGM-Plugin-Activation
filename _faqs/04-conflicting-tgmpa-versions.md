@@ -1,5 +1,5 @@
 ---
-title:     My theme/plugin includes TGMPA version 2.5.1, but it seems an older version of TGMPA is used. What gives ?
+title:     My theme/plugin includes the latest version of TGMPA, but it seems an older version of TGMPA is used. What gives ?
 anchor:    conflicting-tgmpa-versions
 permalink: /faq/conflicting-tgmpa-versions/
 ---
