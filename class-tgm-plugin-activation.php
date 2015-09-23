@@ -1183,7 +1183,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( ! empty( $this->strings['nag_type'] ) ) {
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
 				} else {
-					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
+					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) || version_compare( $this->wp_version, '4.2', '>' ) ? 'updated' : 'update-nag';
 					add_settings_error( 'tgmpa', 'tgmpa', $rendered, $nag_class );
 				}
 			}
