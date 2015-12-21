@@ -190,7 +190,7 @@ function my_theme_register_required_plugins() {
 			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin.', 'theme-slug' ),  // %1$s = plugin name(s).
 			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'theme-slug' ), // %s = dashboard link.
 			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'tgmpa' ),
-
+			'dismiss'                         => __( 'Dismiss this notice', 'tgmpa' ),
 			'nag_type'                        => 'updated', // Determines admin notice type - can only be 'updated', 'update-nag' or 'error'.
 		),
 		*/
