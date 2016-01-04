@@ -9,39 +9,55 @@ sudo: false
 language: php
 
 # Declare versions of PHP to use. Use one decimal max.
-php:
-  - 5.2
-  - 5.6
-  - hhvm
-
+# @link http://docs.travis-ci.com/user/build-configuration/
 matrix:
-  allow_failures:
-    - php: hhvm
+    fast_finish: true
+
+    include:
+        # Current $required_php_version for WordPress: 5.2.4
+        # aliased to 5.2.17
+        - php: '5.2'
+        # aliased to a recent 5.4.x version
+        - php: '5.4'
+        # aliased to a recent 5.6.x version
+        - php: '5.6'
+          env: SNIFF=1
+        # aliased to a recent 7.x version
+        - php: '7.0'
+        # aliased to a recent hhvm version
+        - php: 'hhvm'
+
+    allow_failures:
+        - php: 'hhvm'
 
 before_script:
   - export PHPCS_DIR=/tmp/phpcs
   - export WPCS_DIR=/tmp/wpcs
   # Install CodeSniffer for WordPress Coding Standards checks.
-  # 2.3.1 breaks PHP 5.2 on Travis due to use of Phar class.
-  - git clone -b 2.3.0 --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR
+  - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR; fi
   # Install WordPress Coding Standards.
-  - git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $WPCS_DIR
+  - if [[ "$SNIFF" == "1" ]]; then git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $WPCS_DIR; fi
+  # Hop into CodeSniffer directory.
+  - if [[ "$SNIFF" == "1" ]]; then cd $PHPCS_DIR; fi
   # Set install path for WordPress Coding Standards.
   # @link https://github.com/squizlabs/PHP_CodeSniffer/blob/4237c2fc98cc838730b76ee9cee316f99286a2a7/CodeSniffer.php#L1941
-  - $PHPCS_DIR/scripts/phpcs --config-set installed_paths $WPCS_DIR
+  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/scripts/phpcs --config-set installed_paths $WPCS_DIR; fi
+  # Hop back into project dir.
+  - if [[ "$SNIFF" == "1" ]]; then cd $TRAVIS_BUILD_DIR; fi
   # After CodeSniffer install you should refresh your path.
-  - phpenv rehash
+  - if [[ "$SNIFF" == "1" ]]; then phpenv rehash; fi
+
 
 # Run test script commands.
 # All commands must exit with code 0 on success. Anything else is considered failure.
 script:
   # Search for PHP syntax errors.
-  - find . \( -name '*.php' \) -exec php -lf {} \;
-  # WordPress Coding Standards
+  - find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+  # WordPress Coding Standards.
   # @link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
   # @link https://github.com/squizlabs/PHP_CodeSniffer
   # All of the usual config flags are held in phpcs.xml
-  - $PHPCS_DIR/scripts/phpcs
+  - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/scripts/phpcs; fi
 
 notifications:
   email: false
