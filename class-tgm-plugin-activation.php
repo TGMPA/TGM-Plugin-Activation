@@ -2674,6 +2674,11 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 						continue;
 					}
 
+					// For install: make sure this is a plugin we *can* install and not one already installed.
+					if ( 'install' === $install_type && true === $this->tgmpa->is_plugin_installed( $slug ) ) {
+						unset( $plugins_to_install[ $key ] );
+					}
+
 					// For updates: make sure this is a plugin we *can* update (update available and WP version ok).
 					if ( 'update' === $install_type && ( $this->tgmpa->is_plugin_installed( $slug ) && ( false === $this->tgmpa->does_plugin_have_update( $slug ) || ! $this->tgmpa->can_plugin_update( $slug ) ) ) ) {
 						unset( $plugins_to_install[ $key ] );
