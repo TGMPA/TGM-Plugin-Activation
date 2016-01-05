@@ -1169,17 +1169,36 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				}
 
 				// Register the nag messages and prepare them to be processed.
-				if ( ! empty( $this->strings['nag_type'] ) ) {
-					add_settings_error( 'tgmpa', 'tgmpa', $rendered, sanitize_html_class( strtolower( $this->strings['nag_type'] ) ) );
-				} else {
-					$nag_class = version_compare( $this->wp_version, '3.8', '<' ) ? 'updated' : 'update-nag';
-					add_settings_error( 'tgmpa', 'tgmpa', $rendered, $nag_class );
-				}
+				add_settings_error( 'tgmpa', 'tgmpa', $rendered, $this->get_admin_notice_class() );
 			}
 
 			// Admin options pages already output settings_errors, so this is to avoid duplication.
 			if ( 'options-general' !== $GLOBALS['current_screen']->parent_base ) {
 				$this->display_settings_errors();
+			}
+		}
+
+		/**
+		 * Get admin notice class.
+		 *
+		 * Work around all the changes to the various admin notice classes between WP 4.4 and 3.7
+		 * (lowest supported version by TGMPA).
+		 *
+		 * @since 2.x.x
+		 *
+		 * @return string
+		 */
+		protected function get_admin_notice_class() {
+			if ( ! empty( $this->strings['nag_type'] ) ) {
+				return sanitize_html_class( strtolower( $this->strings['nag_type'] ) );
+			} else {
+				if ( version_compare( $this->wp_version, '4.2', '>=' ) ) {
+					return 'notice-warning';
+				} elseif ( version_compare( $this->wp_version, '4.1', '>=' ) ) {
+					return 'notice';
+				} else {
+					return 'updated';
+				}
 			}
 		}
 
