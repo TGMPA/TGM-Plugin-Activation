@@ -19,10 +19,22 @@
 
 /**
  * Include the TGM_Plugin_Activation class.
+ *
+ * Depending on your implementation, you may want to change the include call:
+ *
+ * Parent Theme:
+ * require_once get_template_directory() . '/path/to/class-tgm-plugin-activation.php';
+ *
+ * Child Theme:
+ * require_once get_stylesheet_directory() . '/path/to/class-tgm-plugin-activation.php';
+ *
+ * Plugin:
+ * require_once dirname( __FILE__ ) . '/path/to/class-tgm-plugin-activation.php';
  */
 require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
 
 add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
+
 /**
  * Register the required plugins for this theme.
  *
