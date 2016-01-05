@@ -1713,6 +1713,23 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
+		 * Check to see if the plugin is 'updatetable', i.e. installed, with an update available
+		 * and no WP version requirements blocking it.
+		 *
+		 * @since 2.x.x
+		 *
+		 * @param string $slug Plugin slug.
+		 * @return bool True if OK to proceed with update, false otherwise.
+		 */
+		public function is_plugin_updatetable( $slug ) {
+			if ( ! $this->is_plugin_installed( $slug ) ) {
+				return false;
+			} else {
+				return ( $this->does_plugin_have_update( $slug ) && $this->can_plugin_update( $slug ) );
+			}
+		}
+
+		/**
 		 * Check if a plugin can be activated, i.e. is not currently active and meets the minimum
 		 * plugin version requirements set in TGMPA (if any).
 		 *
@@ -2688,7 +2705,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					}
 
 					// For updates: make sure this is a plugin we *can* update (update available and WP version ok).
-					if ( 'update' === $install_type && ( $this->tgmpa->is_plugin_installed( $slug ) && ( false === $this->tgmpa->does_plugin_have_update( $slug ) || ! $this->tgmpa->can_plugin_update( $slug ) ) ) ) {
+					if ( 'update' === $install_type && false === $this->tgmpa->is_plugin_updatetable( $slug ) ) {
 						unset( $plugins_to_install[ $key ] );
 					}
 				}
