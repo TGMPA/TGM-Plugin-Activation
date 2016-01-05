@@ -3136,16 +3136,18 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							$this->skin->plugin_active = is_plugin_active($plugin);
 							*/
 
-							$result = $this->run( array(
-								'package'           => $plugin, // [TGMPA + ] adjusted.
-								'destination'       => WP_PLUGIN_DIR,
-								'clear_destination' => false, // [TGMPA + ] adjusted.
-								'clear_working'     => true,
-								'is_multi'          => true,
-								'hook_extra'        => array(
-									'plugin' => $plugin,
-								),
-							) );
+							$result = $this->run(
+								array(
+									'package'           => $plugin, // [TGMPA + ] adjusted.
+									'destination'       => WP_PLUGIN_DIR,
+									'clear_destination' => false, // [TGMPA + ] adjusted.
+									'clear_working'     => true,
+									'is_multi'          => true,
+									'hook_extra'        => array(
+										'plugin' => $plugin,
+									),
+								)
+							);
 
 							$results[ $plugin ] = $this->result;
 
