@@ -333,11 +333,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'This theme recommends the following plugins: %1$s.',
 					'tgmpa'
 				),
-				'notice_cannot_install'           => _n_noop(
-					'Sorry, but you do not have the correct permissions to install the %1$s plugin.',
-					'Sorry, but you do not have the correct permissions to install the %1$s plugins.',
-					'tgmpa'
-				),
 				'notice_ask_to_update'            => _n_noop(
 					'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.',
 					'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.',
@@ -348,11 +343,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'There are updates available for the following plugins: %1$s.',
 					'tgmpa'
 				),
-				'notice_cannot_update'            => _n_noop(
-					'Sorry, but you do not have the correct permissions to update the %1$s plugin.',
-					'Sorry, but you do not have the correct permissions to update the %1$s plugins.',
-					'tgmpa'
-				),
 				'notice_can_activate_required'    => _n_noop(
 					'The following required plugin is currently inactive: %1$s.',
 					'The following required plugins are currently inactive: %1$s.',
@@ -361,11 +351,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'notice_can_activate_recommended' => _n_noop(
 					'The following recommended plugin is currently inactive: %1$s.',
 					'The following recommended plugins are currently inactive: %1$s.',
-					'tgmpa'
-				),
-				'notice_cannot_activate'          => _n_noop(
-					'Sorry, but you do not have the correct permissions to activate the %1$s plugin.',
-					'Sorry, but you do not have the correct permissions to activate the %1$s plugins.',
 					'tgmpa'
 				),
 				'install_link'                    => _n_noop(
@@ -391,6 +376,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin.', 'tgmpa' ),
 				'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'tgmpa' ),
 				'dismiss'                         => __( 'Dismiss this notice', 'tgmpa' ),
+				'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'tgmpa' ),
 				'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'tgmpa' ),
 			);
 
@@ -1014,8 +1000,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @return null Returns early if we're on the Install page.
 		 */
 		public function notices() {
-			// Remove nag on the install page / Return early if the nag message has been dismissed.
-			if ( $this->is_tgmpa_page() || get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) ) {
+			// Remove nag on the install page / Return early if the nag message has been dismissed or user < author.
+			if ( $this->is_tgmpa_page() || get_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, true ) || ! current_user_can( apply_filters( 'tgmpa_show_admin_notice_capability', 'publish_posts' ) ) ) {
 				return;
 			}
 
@@ -1023,9 +1009,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$message = array();
 
 			// Initialize counters used to determine plurality of action link texts.
-			$install_link_count  = 0;
-			$update_link_count   = 0;
-			$activate_link_count = 0;
+			$install_link_count          = 0;
+			$update_link_count           = 0;
+			$activate_link_count         = 0;
+			$total_required_action_count = 0;
 
 			foreach ( $this->plugins as $slug => $plugin ) {
 				if ( $this->is_plugin_active( $slug ) && false === $this->does_plugin_have_update( $slug ) ) {
@@ -1041,9 +1028,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						} else {
 							$message['notice_can_install_recommended'][] = $slug;
 						}
-					} else {
-						// Need higher privileges to install the plugin.
-						$message['notice_cannot_install'][] = $slug;
+					}
+					if ( true === $plugin['required'] ) {
+						$total_required_action_count++;
 					}
 				} else {
 					if ( ! $this->is_plugin_active( $slug ) && $this->can_plugin_activate( $slug ) ) {
@@ -1055,15 +1042,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 							} else {
 								$message['notice_can_activate_recommended'][] = $slug;
 							}
-						} else {
-							// Need higher privileges to activate the plugin.
-							$message['notice_cannot_activate'][] = $slug;
+						}
+						if ( true === $plugin['required'] ) {
+							$total_required_action_count++;
 						}
 					}
 
 					if ( $this->does_plugin_require_update( $slug ) || false !== $this->does_plugin_have_update( $slug ) ) {
 
-						if ( current_user_can( 'install_plugins' ) ) {
+						if ( current_user_can( 'update_plugins' ) ) {
 							$update_link_count++;
 
 							if ( $this->does_plugin_require_update( $slug ) ) {
@@ -1071,9 +1058,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 							} elseif ( false !== $this->does_plugin_have_update( $slug ) ) {
 								$message['notice_ask_to_update_maybe'][] = $slug;
 							}
-						} else {
-							// Need higher privileges to update the plugin.
-							$message['notice_cannot_update'][] = $slug;
+						}
+						if ( true === $plugin['required'] ) {
+							$total_required_action_count++;
 						}
 					}
 				}
@@ -1081,7 +1068,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			unset( $slug, $plugin );
 
 			// If we have notices to display, we move forward.
-			if ( ! empty( $message ) ) {
+			if ( ! empty( $message ) || $total_required_action_count > 0 ) {
 				krsort( $message ); // Sort messages.
 				$rendered = '';
 
@@ -1089,83 +1076,44 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				// filtered, using <p>'s in our html would render invalid html output.
 				$line_template = '<span style="display: block; margin: 0.5em 0.5em 0 0; clear: both;">%s</span>' . "\n";
 
-				// If dismissable is false and a message is set, output it now.
-				if ( ! $this->dismissable && ! empty( $this->dismiss_msg ) ) {
-					$rendered .= sprintf( $line_template, wp_kses_post( $this->dismiss_msg ) );
-				}
+				if ( ! current_user_can( 'activate_plugins' ) && ! current_user_can( 'install_plugins' ) && ! current_user_can( 'update_plugins' ) ) {
+					$rendered = esc_html__( $this->strings['notice_cannot_install_activate'] . ' ' . $this->strings['contact_admin'] );
+					$rendered .= $this->create_user_action_links_for_notice( 0, 0, 0, $line_template );
+				} else {
 
-				// Render the individual message lines for the notice.
-				foreach ( $message as $type => $plugin_group ) {
-					$linked_plugins = array();
-
-					// Get the external info link for a plugin if one is available.
-					foreach ( $plugin_group as $plugin_slug ) {
-						$linked_plugins[] = $this->get_info_link( $plugin_slug );
+					// If dismissable is false and a message is set, output it now.
+					if ( ! $this->dismissable && ! empty( $this->dismiss_msg ) ) {
+						$rendered .= sprintf( $line_template, wp_kses_post( $this->dismiss_msg ) );
 					}
-					unset( $plugin_slug );
 
-					$count          = count( $plugin_group );
-					$linked_plugins = array_map( array( 'TGMPA_Utils', 'wrap_in_em' ), $linked_plugins );
-					$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
-					$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
+					// Render the individual message lines for the notice.
+					foreach ( $message as $type => $plugin_group ) {
+						$linked_plugins = array();
 
-					$rendered .= sprintf(
-						$line_template,
-						sprintf(
-							translate_nooped_plural( $this->strings[ $type ], $count, 'tgmpa' ),
-							$imploded,
-							$count
-						)
-					);
+						// Get the external info link for a plugin if one is available.
+						foreach ( $plugin_group as $plugin_slug ) {
+							$linked_plugins[] = $this->get_info_link( $plugin_slug );
+						}
+						unset( $plugin_slug );
 
-					if ( 0 === strpos( $type, 'notice_cannot' ) ) {
-						$rendered .= $this->strings['contact_admin'];
-					}
-				}
-				unset( $type, $plugin_group, $linked_plugins, $count, $last_plugin, $imploded );
+						$count          = count( $plugin_group );
+						$linked_plugins = array_map( array( 'TGMPA_Utils', 'wrap_in_em' ), $linked_plugins );
+						$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
+						$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
-				// Setup action links.
-				$action_links = array(
-					'install'  => '',
-					'update'   => '',
-					'activate' => '',
-					'dismiss'  => $this->dismissable ? '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ), 'tgmpa-dismiss-' . get_current_user_id() ) ) . '" class="dismiss-notice" target="_parent">' . esc_html( $this->strings['dismiss'] ) . '</a>' : '',
-				);
-
-				$link_template = '<a href="%2$s">%1$s</a>';
-
-				if ( current_user_can( 'install_plugins' ) ) {
-					if ( $install_link_count > 0 ) {
-						$action_links['install'] = sprintf(
-							$link_template,
-							translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ),
-							esc_url( $this->get_tgmpa_status_url( 'install' ) )
+						$rendered .= sprintf(
+							$line_template,
+							sprintf(
+								translate_nooped_plural( $this->strings[ $type ], $count, 'tgmpa' ),
+								$imploded,
+								$count
+							)
 						);
+
 					}
-					if ( $update_link_count > 0 ) {
-						$action_links['update'] = sprintf(
-							$link_template,
-							translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ),
-							esc_url( $this->get_tgmpa_status_url( 'update' ) )
-						);
-					}
-				}
+					unset( $type, $plugin_group, $linked_plugins, $count, $last_plugin, $imploded );
 
-				if ( current_user_can( 'activate_plugins' ) && $activate_link_count > 0 ) {
-					$action_links['activate'] = sprintf(
-						$link_template,
-						translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ),
-						esc_url( $this->get_tgmpa_status_url( 'activate' ) )
-					);
-				}
-
-				$action_links = apply_filters( 'tgmpa_notice_action_links', $action_links );
-
-				$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
-
-				if ( ! empty( $action_links ) && is_array( $action_links ) ) {
-					$action_links = sprintf( $line_template, implode( ' | ', $action_links ) );
-					$rendered    .= apply_filters( 'tgmpa_notice_rendered_action_links', $action_links );
+					$rendered .= $this->create_user_action_links_for_notice( $install_link_count, $update_link_count, $activate_link_count, $line_template );
 				}
 
 				// Register the nag messages and prepare them to be processed.
@@ -1175,6 +1123,65 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Admin options pages already output settings_errors, so this is to avoid duplication.
 			if ( 'options-general' !== $GLOBALS['current_screen']->parent_base ) {
 				$this->display_settings_errors();
+			}
+		}
+
+		/**
+		 * Generate the user action links for the admin notice.
+		 *
+		 * @since 2.x.x
+		 *
+		 * @param int $install_link_count  Number of plugins to install.
+		 * @param int $update_link_count   Number of plugins to update.
+		 * @param int $activate_link_count Number of plugins to activate.
+		 * @param int $line_template       Template for the HTML tag to output a line.
+		 * @return string Action links.
+		 */
+		protected function create_user_action_links_for_notice( $install_link_count, $update_link_count, $activate_link_count, $line_template ) {
+			// Setup action links.
+			$action_links = array(
+				'install'  => '',
+				'update'   => '',
+				'activate' => '',
+				'dismiss'  => $this->dismissable ? '<a href="' . esc_url( wp_nonce_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ), 'tgmpa-dismiss-' . get_current_user_id() ) ) . '" class="dismiss-notice" target="_parent">' . esc_html( $this->strings['dismiss'] ) . '</a>' : '',
+			);
+
+			$link_template = '<a href="%2$s">%1$s</a>';
+
+			if ( current_user_can( 'install_plugins' ) ) {
+				if ( $install_link_count > 0 ) {
+					$action_links['install'] = sprintf(
+						$link_template,
+						translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ),
+						esc_url( $this->get_tgmpa_status_url( 'install' ) )
+					);
+				}
+				if ( $update_link_count > 0 ) {
+					$action_links['update'] = sprintf(
+						$link_template,
+						translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ),
+						esc_url( $this->get_tgmpa_status_url( 'update' ) )
+					);
+				}
+			}
+
+			if ( current_user_can( 'activate_plugins' ) && $activate_link_count > 0 ) {
+				$action_links['activate'] = sprintf(
+					$link_template,
+					translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ),
+					esc_url( $this->get_tgmpa_status_url( 'activate' ) )
+				);
+			}
+
+			$action_links = apply_filters( 'tgmpa_notice_action_links', $action_links );
+
+			$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
+
+			if ( ! empty( $action_links ) && is_array( $action_links ) ) {
+				$action_links = sprintf( $line_template, implode( ' | ', $action_links ) );
+				return apply_filters( 'tgmpa_notice_rendered_action_links', $action_links );
+			} else {
+				return '';
 			}
 		}
 

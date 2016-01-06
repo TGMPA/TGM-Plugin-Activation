@@ -145,11 +145,6 @@ function my_theme_register_required_plugins() {
 				'This theme recommends the following plugins: %1$s.',
 				'theme-slug'
 			), // %1$s = plugin name(s).
-			'notice_cannot_install'           => _n_noop(
-				'Sorry, but you do not have the correct permissions to install the %1$s plugin.',
-				'Sorry, but you do not have the correct permissions to install the %1$s plugins.',
-				'theme-slug'
-			), // %1$s = plugin name(s).
 			'notice_ask_to_update'            => _n_noop(
 				'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s.',
 				'The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s.',
@@ -160,11 +155,6 @@ function my_theme_register_required_plugins() {
 				'There are updates available for the following plugins: %1$s.',
 				'theme-slug'
 			), // %1$s = plugin name(s).
-			'notice_cannot_update'            => _n_noop(
-				'Sorry, but you do not have the correct permissions to update the %1$s plugin.',
-				'Sorry, but you do not have the correct permissions to update the %1$s plugins.',
-				'theme-slug'
-			), // %1$s = plugin name(s).
 			'notice_can_activate_required'    => _n_noop(
 				'The following required plugin is currently inactive: %1$s.',
 				'The following required plugins are currently inactive: %1$s.',
@@ -173,11 +163,6 @@ function my_theme_register_required_plugins() {
 			'notice_can_activate_recommended' => _n_noop(
 				'The following recommended plugin is currently inactive: %1$s.',
 				'The following recommended plugins are currently inactive: %1$s.',
-				'theme-slug'
-			), // %1$s = plugin name(s).
-			'notice_cannot_activate'          => _n_noop(
-				'Sorry, but you do not have the correct permissions to activate the %1$s plugin.',
-				'Sorry, but you do not have the correct permissions to activate the %1$s plugins.',
 				'theme-slug'
 			), // %1$s = plugin name(s).
 			'install_link'                    => _n_noop(
@@ -201,6 +186,7 @@ function my_theme_register_required_plugins() {
 			'plugin_already_active'           => __( 'No action taken. Plugin %1$s was already active.', 'theme-slug' ),  // %1$s = plugin name(s).
 			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin.', 'theme-slug' ),  // %1$s = plugin name(s).
 			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'theme-slug' ), // %s = dashboard link.
+			'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'tgmpa' ),
 			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'tgmpa' ),
 
 			'nag_type'                        => '', // Determines admin notice type - can only be one of the typical WP notice classes, such as 'updated', 'update-nag', 'notice-warning', 'notice-info' or 'error'. Some of which may not work as expected in older WP versions.
