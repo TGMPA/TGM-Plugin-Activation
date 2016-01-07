@@ -134,6 +134,7 @@ function my_theme_register_required_plugins() {
 			'page_title'                      => __( 'Install Required Plugins', 'theme-slug' ),
 			'menu_title'                      => __( 'Install Plugins', 'theme-slug' ),
 			'installing'                      => __( 'Installing Plugin: %s', 'theme-slug' ), // %s = plugin name.
+			'updating'                        => __( 'Updating Plugin: %s', 'theme-slug' ), // %s = plugin name.
 			'oops'                            => __( 'Something went wrong with the plugin API.', 'theme-slug' ),
 			'notice_can_install_required'     => _n_noop(
 				'This theme requires the following plugin: %1$s.',

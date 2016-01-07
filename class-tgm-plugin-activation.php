@@ -322,6 +322,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'page_title'                      => __( 'Install Required Plugins', 'tgmpa' ),
 				'menu_title'                      => __( 'Install Plugins', 'tgmpa' ),
 				'installing'                      => __( 'Installing Plugin: %s', 'tgmpa' ),
+				'updating'                        => __( 'Updating Plugin: %s', 'tgmpa' ),
 				'oops'                            => __( 'Something went wrong with the plugin API.', 'tgmpa' ),
 				'notice_can_install_required'     => _n_noop(
 					'This theme requires the following plugin: %1$s.',
@@ -753,15 +754,17 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 				}
 
+				$title     = ( 'update' === $install_type ) ? $this->strings['updating'] : $this->strings['installing'];
 				$skin_args = array(
 					'type'   => ( 'bundled' !== $this->plugins[ $slug ]['source_type'] ) ? 'web' : 'upload',
-					'title'  => sprintf( $this->strings['installing'], $this->plugins[ $slug ]['name'] ),
+					'title'  => sprintf( $title, $this->plugins[ $slug ]['name'] ),
 					'url'    => esc_url_raw( $url ),
 					'nonce'  => $install_type . '-plugin_' . $slug,
 					'plugin' => '',
 					'api'    => $api,
 					'extra'  => $extra,
 				);
+				unset( $title );
 
 				if ( 'update' === $install_type ) {
 					$skin_args['plugin'] = $this->plugins[ $slug ]['file_path'];
