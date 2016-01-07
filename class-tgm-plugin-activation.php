@@ -2799,8 +2799,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				);
 
 				// Wrap the install process with the appropriate HTML.
-				echo '<div class="tgmpa wrap">',
-					'<h2>', esc_html( get_admin_page_title() ), '</h2>';
+				echo '<div class="tgmpa">',
+					'<h2 style="font-size: 23px; font-weight: 400; line-height: 29px; margin: 0; padding: 9px 15px 4px 0;">', esc_html( get_admin_page_title() ), '</h2>
+					<div class="update-php" style="width: 100%; height: 98%; min-height: 850px; padding-top: 1px;">';
 
 				// Process the bulk installation submissions.
 				add_filter( 'upgrader_source_selection', array( $this->tgmpa, 'maybe_adjust_source_dir' ), 1, 3 );
@@ -2816,7 +2817,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				remove_filter( 'upgrader_source_selection', array( $this->tgmpa, 'maybe_adjust_source_dir' ), 1, 3 );
 
-				echo '</div>';
+				echo '</div></div>';
 
 				return true;
 			}
