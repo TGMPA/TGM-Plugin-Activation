@@ -606,6 +606,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		/**
 		 * Add the menu item.
 		 *
+		 * {@internal IMPORTANT! If this function changes, review the regex in the custom TGMPA
+		 * generator on the website.}}
+		 *
 		 * @since 2.5.0
 		 *
 		 * @param array $args Menu item configuration.
