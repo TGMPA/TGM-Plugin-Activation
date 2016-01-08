@@ -43,11 +43,14 @@ add_action( 'tgmpa_register', 'my_theme_register_required_plugins' );
  * - two from an external source, one from an arbitrary source, one from a GitHub repository
  * - two from the .org repo, where one demonstrates the use of the `is_callable` argument
  *
- * The variable passed to tgmpa_register_plugins() should be an array of plugin
- * arrays.
+ * The variables passed to the `tgmpa()` function should be:
+ * - an array of plugin arrays;
+ * - optionally a configuration array.
+ * If you are not changing anything in the configuration array, you can remove the array and remove the
+ * variable from the function call: `tgmpa( $plugins );`.
+ * In that case, the TGMPA default settings will be used.
  *
- * This function is hooked into tgmpa_init, which is fired within the
- * TGM_Plugin_Activation class constructor.
+ * This function is hooked into `tgmpa_register`, which is fired on the WP `init` action on priority 10.
  */
 function my_theme_register_required_plugins() {
 	/*
@@ -187,8 +190,8 @@ function my_theme_register_required_plugins() {
 			'plugin_already_active'           => __( 'No action taken. Plugin %1$s was already active.', 'theme-slug' ),  // %1$s = plugin name(s).
 			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin.', 'theme-slug' ),  // %1$s = plugin name(s).
 			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'theme-slug' ), // %s = dashboard link.
-			'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'tgmpa' ),
-			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'tgmpa' ),
+			'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'theme-slug' ),
+			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'theme-slug' ),
 
 			'nag_type'                        => '', // Determines admin notice type - can only be one of the typical WP notice classes, such as 'updated', 'update-nag', 'notice-warning', 'notice-info' or 'error'. Some of which may not work as expected in older WP versions.
 		),

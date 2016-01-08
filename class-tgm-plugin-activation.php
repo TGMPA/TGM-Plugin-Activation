@@ -245,9 +245,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Adds a reference of this object to $instance, populates default strings,
 		 * does the tgmpa_init action hook, and hooks in the interactions to init.
 		 *
-		 * @internal This method should be `protected`, but as too many TGMPA implementations
+		 * {@internal This method should be `protected`, but as too many TGMPA implementations
 		 * haven't upgraded beyond v2.3.6 yet, this gives backward compatibility issues.
-		 * Reverted back to public for the time being.
+		 * Reverted back to public for the time being.}}
 		 *
 		 * @since 1.0.0
 		 *
@@ -267,9 +267,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		/**
 		 * Magic method to (not) set protected properties from outside of this class.
 		 *
-		 * @internal hackedihack... There is a serious bug in v2.3.2 - 2.3.6  where the `menu` property
+		 * {@internal hackedihack... There is a serious bug in v2.3.2 - 2.3.6  where the `menu` property
 		 * is being assigned rather than tested in a conditional, effectively rendering it useless.
-		 * This 'hack' prevents this from happening.
+		 * This 'hack' prevents this from happening.}}
 		 *
 		 * @see https://github.com/TGMPA/TGM-Plugin-Activation/blob/2.3.6/tgm-plugin-activation/class-tgm-plugin-activation.php#L1593
 		 *
@@ -648,7 +648,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			?>
 			<div class="tgmpa wrap">
-				<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+				<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 				<?php $plugin_table->prepare_items(); ?>
 
 				<?php
@@ -1080,7 +1080,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$line_template = '<span style="display: block; margin: 0.5em 0.5em 0 0; clear: both;">%s</span>' . "\n";
 
 				if ( ! current_user_can( 'activate_plugins' ) && ! current_user_can( 'install_plugins' ) && ! current_user_can( 'update_plugins' ) ) {
-					$rendered = esc_html__( $this->strings['notice_cannot_install_activate'] . ' ' . $this->strings['contact_admin'] );
+					$rendered = esc_html__( $this->strings['notice_cannot_install_activate'] ) . ' ' . esc_html__( $this->strings['contact_admin'] );
 					$rendered .= $this->create_user_action_links_for_notice( 0, 0, 0, $line_template );
 				} else {
 
@@ -1134,13 +1134,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 2.x.x
 		 *
-		 * @param int $install_link_count  Number of plugins to install.
-		 * @param int $update_link_count   Number of plugins to update.
-		 * @param int $activate_link_count Number of plugins to activate.
-		 * @param int $line_template       Template for the HTML tag to output a line.
+		 * @param int $install_count  Number of plugins to install.
+		 * @param int $update_count   Number of plugins to update.
+		 * @param int $activate_count Number of plugins to activate.
+		 * @param int $line_template  Template for the HTML tag to output a line.
 		 * @return string Action links.
 		 */
-		protected function create_user_action_links_for_notice( $install_link_count, $update_link_count, $activate_link_count, $line_template ) {
+		protected function create_user_action_links_for_notice( $install_count, $update_count, $activate_count, $line_template ) {
 			// Setup action links.
 			$action_links = array(
 				'install'  => '',
@@ -1152,26 +1152,26 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$link_template = '<a href="%2$s">%1$s</a>';
 
 			if ( current_user_can( 'install_plugins' ) ) {
-				if ( $install_link_count > 0 ) {
+				if ( $install_count > 0 ) {
 					$action_links['install'] = sprintf(
 						$link_template,
-						translate_nooped_plural( $this->strings['install_link'], $install_link_count, 'tgmpa' ),
+						translate_nooped_plural( $this->strings['install_link'], $install_count, 'tgmpa' ),
 						esc_url( $this->get_tgmpa_status_url( 'install' ) )
 					);
 				}
-				if ( $update_link_count > 0 ) {
+				if ( $update_count > 0 ) {
 					$action_links['update'] = sprintf(
 						$link_template,
-						translate_nooped_plural( $this->strings['update_link'], $update_link_count, 'tgmpa' ),
+						translate_nooped_plural( $this->strings['update_link'], $update_count, 'tgmpa' ),
 						esc_url( $this->get_tgmpa_status_url( 'update' ) )
 					);
 				}
 			}
 
-			if ( current_user_can( 'activate_plugins' ) && $activate_link_count > 0 ) {
+			if ( current_user_can( 'activate_plugins' ) && $activate_count > 0 ) {
 				$action_links['activate'] = sprintf(
 					$link_template,
-					translate_nooped_plural( $this->strings['activate_link'], $activate_link_count, 'tgmpa' ),
+					translate_nooped_plural( $this->strings['activate_link'], $activate_count, 'tgmpa' ),
 					esc_url( $this->get_tgmpa_status_url( 'activate' ) )
 				);
 			}
@@ -1180,7 +1180,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			$action_links = array_filter( (array) $action_links ); // Remove any empty array items.
 
-			if ( ! empty( $action_links ) && is_array( $action_links ) ) {
+			if ( ! empty( $action_links ) ) {
 				$action_links = sprintf( $line_template, implode( ' | ', $action_links ) );
 				return apply_filters( 'tgmpa_notice_rendered_action_links', $action_links );
 			} else {
@@ -1715,7 +1715,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$api = $this->get_plugins_api( $slug );
 
 			if ( false !== $api && isset( $api->requires ) ) {
-				return version_compare( $GLOBALS['wp_version'], $api->requires, '>=' );
+				return version_compare( $this->wp_version, $api->requires, '>=' );
 			}
 
 			// No usable info received from the plugins API, presume we can update.
@@ -2996,9 +2996,9 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 *
 				 * @since 2.2.0
 				 *
-				 * @internal Since 2.5.0 the class is an extension of Plugin_Upgrader rather than WP_Upgrader
-				 * @internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer to TGMPA_Bulk_Installer.
-				 *           This was done to prevent backward compatibility issues with v2.3.6.
+				 * {@internal Since 2.5.0 the class is an extension of Plugin_Upgrader rather than WP_Upgrader.}}
+				 * {@internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer to TGMPA_Bulk_Installer.
+				 *            This was done to prevent backward compatibility issues with v2.3.6.}}
 				 *
 				 * @package TGM-Plugin-Activation
 				 * @author  Thomas Griffin
@@ -3105,13 +3105,15 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 *
 					 * @since 2.2.0
 					 *
-					 * @internal This is basically a near identical copy of the WP Core Plugin_Upgrader::bulk_upgrade()
-					 * method, with minor adjustments to deal with new installs instead of upgrades.
+					 * {@internal This is basically a near identical copy of the WP Core
+					 * Plugin_Upgrader::bulk_upgrade() method, with minor adjustments to deal with
+					 * new installs instead of upgrades.
 					 * For ease of future synchronizations, the adjustments are clearly commented, but no other
-					 * comments are added. Code style has been made to comply.
+					 * comments are added. Code style has been made to comply.}}
 					 *
 					 * @see Plugin_Upgrader::bulk_upgrade()
 					 * @see https://core.trac.wordpress.org/browser/tags/4.2.1/src/wp-admin/includes/class-wp-upgrader.php#L838
+					 * (@internal Last synced: Dec 31st 2015 against https://core.trac.wordpress.org/browser/trunk?rev=36134}}
 					 *
 					 * @param array $plugins The plugin sources needed for installation.
 					 * @param array $args    Arbitrary passed extra arguments.
@@ -3141,16 +3143,17 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_PLUGIN_DIR ) );
 						if ( ! $res ) {
 							$this->skin->footer();
-
 							return false;
 						}
 
 						$this->skin->bulk_header();
 
-						// Only start maintenance mode if:
-						// - running Multisite and there are one or more plugins specified, OR
-						// - a plugin with an update available is currently active.
-						// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+						/*
+						 * Only start maintenance mode if:
+						 * - running Multisite and there are one or more plugins specified, OR
+						 * - a plugin with an update available is currently active.
+						 * @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+						 */
 						$maintenance = ( is_multisite() && ! empty( $plugins ) );
 
 						/*
@@ -3182,7 +3185,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								continue;
 							}
 
-							// Get the URL to the zip file
+							// Get the URL to the zip file.
 							$r = $current->response[ $plugin ];
 
 							$this->skin->plugin_active = is_plugin_active($plugin);
@@ -3322,9 +3325,9 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 *
 				 * @since 2.2.0
 				 *
-				 * @internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer_Skin to
+				 * {@internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer_Skin to
 				 *           TGMPA_Bulk_Installer_Skin.
-				 *           This was done to prevent backward compatibility issues with v2.3.6.
+				 *           This was done to prevent backward compatibility issues with v2.3.6.}}
 				 *
 				 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-admin/includes/class-wp-upgrader-skins.php
 				 *
