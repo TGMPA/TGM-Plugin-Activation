@@ -1918,7 +1918,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function show_tgmpa_version() {
 			echo '<p style="float: right; padding: 0em 1.5em 0.5em 0;"><strong><small>',
-				esc_html( sprintf( _x( 'TGMPA v%s', '%s = version number', 'tgmpa' ), self::TGMPA_VERSION ) ),
+				esc_html(
+					sprintf(
+						/* translators: %s: version number */
+						__( 'TGMPA v%s', 'tgmpa' ),
+						self::TGMPA_VERSION
+					)
+				),
 				'</small></strong></p>';
 		}
 
@@ -2272,7 +2278,8 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			}
 
 			return sprintf(
-				_x( '%1$s, %2$s', '%1$s = install status, %2$s = update status', 'tgmpa' ),
+				/* translators: %1$s: install status, %2$s: update status */
+				__( '%1$s, %2$s', 'tgmpa' ),
 				$install_status,
 				$update_status
 			);
@@ -2528,16 +2535,19 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 			// Display the 'Install' action link if the plugin is not yet available.
 			if ( ! $this->tgmpa->is_plugin_installed( $item['slug'] ) ) {
-				$actions['install'] = _x( 'Install %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' );
+				/* translators: %s: plugin name in screen reader markup */
+				$actions['install'] = __( 'Install %s', 'tgmpa' );
 			} else {
 				// Display the 'Update' action link if an update is available and WP complies with plugin minimum.
 				if ( false !== $this->tgmpa->does_plugin_have_update( $item['slug'] ) && $this->tgmpa->can_plugin_update( $item['slug'] ) ) {
-					$actions['update'] = _x( 'Update %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' );
+					/* translators: %s: plugin name in screen reader markup */
+					$actions['update'] = __( 'Update %s', 'tgmpa' );
 				}
 
 				// Display the 'Activate' action link, but only if the plugin meets the minimum version.
 				if ( $this->tgmpa->can_plugin_activate( $item['slug'] ) ) {
-					$actions['activate'] = _x( 'Activate %2$s', '%2$s = plugin name in screen reader markup', 'tgmpa' );
+					/* translators: %s: plugin name in screen reader markup */
+					$actions['activate'] = __( 'Activate %s', 'tgmpa' );
 				}
 			}
 
