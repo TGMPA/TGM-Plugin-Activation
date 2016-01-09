@@ -2279,7 +2279,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 			return sprintf(
 				/* translators: %1$s: install status, %2$s: update status */
-				__( '%1$s, %2$s', 'tgmpa' ),
+				_x( '%1$s, %2$s', 'Install/Update Status', 'tgmpa' ),
 				$install_status,
 				$update_status
 			);
