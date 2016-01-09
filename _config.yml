@@ -96,4 +96,4 @@ defaults:
           layout: "default"
 
 
-exclude: ['CNAME', 'vendor', '.gitignore', '.travis.yml', 'Gemfile', 'CONTRIBUTING.md', 'LICENSE', 'README.md', '*.bak']
+exclude: ['CNAME', 'vendor', '.gitignore', '.travis.yml', '.jscsrc', '.jshintignore', '.jshintrc', 'Gemfile', 'CONTRIBUTING.md', 'LICENSE', 'README.md', '*.bak']
