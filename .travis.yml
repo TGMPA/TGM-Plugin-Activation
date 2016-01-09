@@ -6,7 +6,25 @@ language: ruby
 rvm:
   - 2.1.0
 
-script: "bundle exec jekyll build"
+before_script:
+    # Install JSCS: JavaScript Code Style checker
+    # @link http://jscs.info/
+    - npm install -g jscs
+    # Install JSHint, a JavaScript Code Quality Tool
+    # @link http://jshint.com/docs/
+    - npm install -g jshint
+    # Pull in the WP Core jshint rules.
+    - wget https://develop.svn.wordpress.org/trunk/.jshintrc
+
+# Run test script commands.
+# All commands must exit with code 0 on success. Anything else is considered failure.
+script:
+    # Run through JSHint.
+    - jshint .
+    # Run through JavaScript Code Style checker.
+    - jscs .
+    # Test the build
+    - bundle exec jekyll build
 
 notifications:
    email: false
