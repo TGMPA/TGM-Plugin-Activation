@@ -370,7 +370,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'tgmpa'
 				),
 				'return'                          => __( 'Return to Required Plugins Installer', 'tgmpa' ),
-				'dashboard'                       => __( 'Return to the dashboard', 'tgmpa' ),
+				'dashboard'                       => __( 'Return to the Dashboard', 'tgmpa' ),
 				'plugin_activated'                => __( 'Plugin activated successfully.', 'tgmpa' ),
 				'activated_successfully'          => __( 'The following plugin was activated successfully:', 'tgmpa' ),
 				'plugin_already_active'           => __( 'No action taken. Plugin %1$s was already active.', 'tgmpa' ),
