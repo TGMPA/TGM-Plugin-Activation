@@ -7,7 +7,7 @@ permalink: /roadmap/
 
 ### {{ page.title }}
 
-* Multi-site compatibility
+* Multisite compatibility
 * Fix conflicting UI messages for usage in themes / plugins
 * Improved UI by having the admin page always in the same location
 * Updatability of TGMPA independently of the plugin/theme which ships it
