@@ -1326,14 +1326,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Add dismissable admin notices.
+		 * Register dismissal of admin notices.
 		 *
-		 * Appends a link to the admin nag messages. If clicked, the admin notice disappears and no longer is visible to users.
+		 * Acts on the dismiss link in the admin nag messages.
+		 * If clicked, the admin notice disappears and will no longer be visible to this user.
 		 *
 		 * @since 2.1.0
 		 */
 		public function dismiss() {
-			if ( isset( $_GET['tgmpa-dismiss'] ) && check_admin_referer( 'tgmpa-dismis-' . get_current_user_id() ) ) {
+			if ( isset( $_GET['tgmpa-dismiss'] ) && check_admin_referer( 'tgmpa-dismiss-' . get_current_user_id() ) ) {
 				update_user_meta( get_current_user_id(), 'tgmpa_dismissed_notice_' . $this->id, 1 );
 			}
 		}
