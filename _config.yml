@@ -1,5 +1,5 @@
 baseurl: /
-highlighter: pygments
+highlighter: rouge
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
 encoding: UTF-8
