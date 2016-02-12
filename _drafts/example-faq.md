@@ -44,9 +44,9 @@ You can use all normal [GitHub flavoured markdown syntaxes](https://guides.githu
 
 However for multi-line code samples this syntax is preferred - don't forget to make sure that the code sample starts with `<?php` !
 
-	{% highlight php linenos %}
-	<?php
-	// some PHP code
-	{% endhighlight %}
+{% highlight php %}
+<?php
+// some PHP code
+{% endhighlight %}
 
 There are also a number of variables available for use in all documents. It is strongly advised to use these when appropriate. For a list of these with some explanations, see example-page.md

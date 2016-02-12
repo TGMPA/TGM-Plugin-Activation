@@ -44,6 +44,10 @@ collections:
         output: true
         permalink: /faq/:title/
 
+compress_html:
+    blanklines: true
+    codelinespans: true
+
 defaults:
     -
       scope:

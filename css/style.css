@@ -39,11 +39,11 @@ ol li {
 }
 
 blockquote {
-    border-left: 5px double #E73A74;
-    border-right: 5px double #E73A74;
-    margin: 1em 5px 2em;
-    padding: 0 30px;
-    font-style: italic;
+	border-left: 5px double #E73A74;
+	border-right: 5px double #E73A74;
+	margin: 1em 5px 2em;
+	padding: 0 30px;
+	font-style: italic;
 }
 
 h1,
@@ -201,24 +201,49 @@ code {
 	font-size: 110%;
 }
 
+.highlight {
+	margin: 0;
+}
+
 .highlight pre {
 	background: #F6F6F6;
 	border: 1px solid #EEE;
 	border-radius: 5px;
 	color: #440;
-	margin: 1em 0;
-	padding: 0.5em;
+	margin: 1em 3em 1em 0;
+	padding: 0.5em 0;
 	overflow: auto;
 	max-height: 40em;
 }
 
-.highlight .lineno {
-    background-color: #555555;
-    border-right: 1px solid #E73A74;
-    color: #FFFFFF;
-    display: inline-block;
-    margin-right: 3px;
-    padding: 2px 10px 1px;
+.highlight pre code {
+	counter-reset: line;
+}
+
+.highlight pre code span.lineno {
+	counter-increment: line;
+	position: relative;
+	left: -2em;
+	margin-left: 2em;
+}
+
+.highlight pre code span.lineno:before {
+	content: counter(line);
+	background-color: #555555;
+	border-right: 1px solid #E73A74;
+	color: #FFFFFF;
+	display: inline-block;
+	margin: 0;
+	padding: 2px 10px 1px;
+	text-align: right;
+	min-width: 2em;
+	font-style: normal;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 
@@ -315,7 +340,7 @@ a.top {
 
 /* Styling for the configuration tables on the configuration page and the releases table on the download page. */
 table {
-    border-collapse: collapse;
+	border-collapse: collapse;
 }
 table, th, td {
    border: 1px solid #cccccc;
@@ -369,16 +394,16 @@ div#download table {
 }
 
 .contributor {
-    float: left;
-    margin: 0.3em 0;
-    padding-right: 5px;
-    vertical-align: top;
-    width: 165px;
+	float: left;
+	margin: 0.3em 0;
+	padding-right: 5px;
+	vertical-align: top;
+	width: 165px;
 	font-size: 90%;
 }
 .contributor img {
-    margin-right: 5px;
-    vertical-align: -25%;
+	margin-right: 5px;
+	vertical-align: -25%;
 }
 
 /* Styling for the site last-update date at the bottom of the page */
@@ -430,7 +455,7 @@ div#download table {
 }
 
 .post-meta img {
-    vertical-align: -20%;
+	vertical-align: -20%;
 }
 
 .post-meta .post-category-tags {

@@ -16,7 +16,7 @@ The **{{ site.tgmpa.name }}** library has an easy to use API to reference plugin
 
 
 
-{% highlight php linenos %}
+{% highlight php %}
 <?php
 /**
  * Include the TGM_Plugin_Activation class.
