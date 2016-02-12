@@ -131,7 +131,7 @@ a:hover {
 hgroup.text {
 	color: #000;
 	float: left;
-	max-width: 570px;
+	max-width: 590px;
 	padding-top: 10px;
 	min-height: 119px;
 	padding-left: 135px;
@@ -140,13 +140,35 @@ hgroup.text {
 
 .download {
 	float: right;
-	width: 186px;
+	width: 158px;
+}
+
+.download .download-icon {
+	text-align: center;
+	margin: -10px 0 -25px;
 }
 
 .download a {
+	color: #757575;
 	display: inline-block;
 }
+.download a:hover {
+	color: #5490ca;
+}
 
+.download-icon a span {
+	/* Show image */
+	padding: 0;
+	width: 158px;
+	height: 135px;
+	background: url(../images/download-icon.png);
+	background-position: center bottom;
+	display: inline-block;
+	/* Hide text */
+	text-indent: 100%; /* get out of the window */
+	white-space: nowrap; /* don't come back in */
+	overflow: hidden; /* no really, don't come back in */
+}
 
 hgroup h1 a,
 hgroup h1 a:hover {
@@ -155,7 +177,7 @@ hgroup h1 a:hover {
 }
 
 hgroup h2 {
-	color: #444;
+	color: #585858;
 	font-size: 1.3em;
 }
 
@@ -269,7 +291,7 @@ img {
 /* new */
 /* Styles for the version number box in the header. */
 .doc-head-content p.version {
-	margin: -0.3em 1em 0 1em;
+	margin: -0.3em 0.5em 0;
 	vertical-align: middle;
 }
 .doc-head-content p.version .version-label {
@@ -280,7 +302,7 @@ img {
 .doc-head-content p.version .version-number {
 	float: right;
 	width: 40%;
-	text-align: center;
+	text-align: right;
 	font-size: 120%;
 	color: #2E8B57;
 	overflow: visible;
@@ -373,6 +395,145 @@ table tr:nth-child(even) code {
 
 div#download table {
 	width: 60%;
+}
+
+/* Styling for the custom TGMPA generator on the download page. */
+.tgmpa-generator-form {
+	background-color: #E7E6E6;
+	border-bottom: 2px solid #E73A74;
+	border-top: 2px solid #E73A74;
+	padding: 10px;
+	font-size: 85%;
+}
+.tgmpa-generator-form:before,
+.tgmpa-generator-form:after {
+	content: "";
+	display: table;
+	table-layout: fixed;
+}
+.tgmpa-generator-form:after {
+	clear: both;
+}
+
+.tgmpa-generator-form section {
+	float: left;
+	padding: 0 1% 0 0;
+}
+.tgmpa-generator-form .tgmpa-form-primary {
+	width: 25%;
+}
+.tgmpa-generator-form .tgmpa-form-secondary {
+	width: 45%;
+}
+.tgmpa-generator-form .tgmpa-form-ternary {
+	width: 28%;
+	text-align: center;
+	padding-right: 0;
+	float: right;
+}
+.tgmpa-generator-form .tgmpa-form-secondary label {
+	width: 30%;
+	min-width: 115px;
+	float: left;
+	clear: left;
+}
+.tgmpa-generator-form .tgmpa-form-secondary input {
+	width: 65%;
+	min-width: 140px;
+	font-size: 100%;
+}
+.tgmpa-generator-form fieldset {
+	border: 0 none;
+}
+.tgmpa-generator-form fieldset legend {
+	padding-bottom: 8px;
+}
+.tgmpa-generator-form .tgmpa-form-primary fieldset {
+	padding: 4px 0 10px;
+}
+.tgmpa-generator-form #tgmpa-form-wporg {
+	opacity: 0;
+}
+.tgmpa-generator-form #tgmpa-form-wporg input {
+	width: auto;
+	min-width: 0;
+}
+.tgmpa-generator-form #tgmpa-form-wporg label {
+	float: none;
+	min-width: 0;
+	width: auto;
+}
+.tgmpa-generator-form #spinner {
+	display: none;
+	background-image: url('../images/spinner.gif');
+	width: 150px;
+	height: 14px;
+}
+.tgmpa-generator-form .required {
+	color: #e73a74;
+	padding: 0 5px;
+	font-weight: bold;
+}
+.tgmpa-generator-form .generator-form-submit {
+	padding-top: 6px;
+}
+.tgmpa-generator-form .tgmpa-form-submit {
+	cursor: pointer;
+	font-size: 120%;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	border: 1px solid #ee1eb5;
+	padding: 13px 22px;
+	background: -moz-linear-gradient( center top, #ff5bb0 5%, #ef027d 100% );
+	background: -ms-linear-gradient( top, #ff5bb0 5%, #ef027d 100% );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bb0', endColorstr='#ef027d');
+	background: -webkit-gradient( linear, left top, left bottom, color-stop(5%, #ff5bb0), color-stop(100%, #ef027d) );
+	background-color: #ff5bb0;
+	color:#ffffff;
+	text-shadow: 2px 1px 1px #c70067;
+ 	-webkit-box-shadow: inset 1px 1px 13px 0px #fbafe3;
+ 	-moz-box-shadow: inset 1px 1px 13px 0px #fbafe3;
+ 	box-shadow: inset 1px 1px 13px 0px #fbafe3;
+}
+.tgmpa-generator-form .tgmpa-form-submit:hover {
+	background: -moz-linear-gradient( center top, #ef027d 5%, #ff5bb0 100% );
+	background: -ms-linear-gradient( top, #ef027d 5%, #ff5bb0 100% );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ef027d', endColorstr='#ff5bb0');
+	background: -webkit-gradient( linear, left top, left bottom, color-stop(5%, #ef027d), color-stop(100%, #ff5bb0) );
+	background-color: #ef027d;
+}
+.tgmpa-generator-form .tgmpa-form-submit:active {
+	position: relative;
+	top: 1px;
+}
+
+.tgmpa-generator-form .tgmpa-form-ternary .generator-feedback {
+	opacity: 0;
+	padding-left: 5px;
+}
+.tgmpa-generator-form .tgmpa-form-ternary .success {
+	border-left: 5px solid #2bf092;
+}
+.tgmpa-generator-form .tgmpa-form-ternary .warning {
+	border-left: 5px solid #f0922b;
+}
+.tgmpa-generator-form .tgmpa-form-ternary .error {
+	border-left: 5px solid #e73a74;
+}
+.tgmpa-generator-form #report-generator-error {
+	opacity: 0;
+	font-size: 90%;
+}
+
+.tgmpa-generator-form .generator-notes {
+	float: left;
+	width: 46%;
+	font-size: 80%;
+}
+.tgmpa-generator-form .generator-notes ul {
+	padding: 5em 0 0 2em;
+	margin: 1em 0 0;
 }
 
 
@@ -501,3 +662,24 @@ div#download table {
 	padding-bottom: 100px;
 }
 
+/* Image alignment styles. */
+.align-left {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+	width: auto;
+}
+
+.align-right {
+	display: inline;
+	float: right;
+	margin-left: 1.5em;
+	width: auto;
+}
+
+.align-center {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

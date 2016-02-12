@@ -61,15 +61,16 @@
 						</hgroup>
 
 						<div class="download">
-	  						<a href="{{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.zip" class="latest-zip">
-								<img border="0" width="90" alt="Download latest release zipfile" src="{{ site.tgmpa.zipimage }}">
-							</a>
-	  						<a href="{{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.tar.gz" class="latest-tar">
-								<img border="0" width="90" alt="Download latest release tarball" src="{{ site.tgmpa.tarimage }}">
-							</a>
+							<p class="download-icon">
+								<a href="{{ '/download/' | prepend: site.tgmpa.url }}">
+									<span>Download the latest release</span>
+								</a>
+							</p>
 							<p class="version">
-								<span class="version-label">Current version:</span>
-								<span class="version-number">{{ site.tgmpa.version }}</span>
+								<a href="{{ '/download/' | prepend: site.tgmpa.url }}">
+									<span class="version-label">Current version:</span>
+									<span class="version-number">{{ site.tgmpa.version }}</span>
+								</a>
 							</p>
 						</div>
 						<div class="clear"></div>

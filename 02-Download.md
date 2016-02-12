@@ -8,11 +8,11 @@ permalink: /download/
 
 The latest stable release is version <span class="version-number">{{ site.tgmpa.version }}</span><span class="release-date"></span>.
 
-[![Download the zip file]({{ site.tgmpa.zipimage }}){: style="width: 100px;"}]({{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.zip){:.latest-zip} [![Download the tarball file]({{ site.tgmpa.tarimage }}){: style="width: 100px;"}]({{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.tar.gz){:.latest-tar}
 
-You can also download your own package (such as the development version) [on GitHub].
+{% include generator-form.html %}
 
 
+You can also download the official latest release as [zipfile]({{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.zip){:.latest-zip} or [tarball]({{ site.tgmpa.github }}/archive/{{ site.tgmpa.version }}.tar.gz){:.latest-tar} or download your own package - such as the development version - [on GitHub].
 
 
 ##### Older versions

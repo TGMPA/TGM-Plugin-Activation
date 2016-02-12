@@ -12,7 +12,7 @@ permalink: /roadmap/
 * Improved UI by having the admin page always in the same location
 * Updatability of TGMPA independently of the plugin/theme which ships it
 * Show dependencies more clearly
-* Provide translations of the TGMPA strings under own text-domain.
+
 
 ##### For more detailed information:
 

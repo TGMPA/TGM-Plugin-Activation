@@ -1,0 +1,73 @@
+{::options parse_block_html="false" entity_output="as_input" /}
+<div class="tgmpa-generator-form">
+	<form id="generator-form" method="POST">
+		<input type="hidden" name="tgmpa_generate" value="1" />
+
+		<section class="tgmpa-form-primary">
+			<fieldset>
+				<legend>I'm going to use TGMPA in a:<span class="required" title="Mandatory">*</span></legend>
+
+				<input type="radio" id="tgmpa-flavor-theme" name="tgmpa-flavor" value="parent-theme" required="required" aria-required="true" />
+				<label for="tgmpa-flavor-theme">Theme</label>
+				<br />
+				<input type="radio" id="tgmpa-flavor-child-theme" name="tgmpa-flavor" value="child-theme" required="required" aria-required="true" />
+				<label for="tgmpa-flavor-child-theme">Child Theme</label>
+				<br />
+				<input type="radio" id="tgmpa-flavor-plugin" name="tgmpa-flavor" value="plugin" required="required" aria-required="true" />
+				<label for="tgmpa-flavor-plugin">Plugin</label>
+			</fieldset>
+
+			<fieldset id="tgmpa-form-publish" aria-live="polite" aria-hidden="true">
+				<legend>I intend to distribute the theme via:</legend>
+
+				<input type="radio" id="tgmpa-publish-wporg" name="tgmpa-publish" value="wporg" />
+				<label for="tgmpa-publish-wporg">WordPress.org</label>
+				<br />
+				<input type="radio" id="tgmpa-publish-themeforest" name="tgmpa-publish" value="themeforest" />
+				<label for="tgmpa-publish-themeforest">ThemeForest</label>
+				<br />
+				<input type="radio" id="tgmpa-publish-other" name="tgmpa-publish" value="other" />
+				<label for="tgmpa-publish-other">Some other way</label>
+			</fieldset>
+		</section>
+
+		<section class="tgmpa-form-secondary">
+			<fieldset>
+			<label for="tgmpa-text-domain">Text Domain:<span class="required" title="Mandatory">*</span></label>
+			<input type="text" id="tgmpa-text-domain" name="tgmpa-text-domain" placeholder="text-domain" value="" pattern="[A-Za-z0-9_-]+" title="Allowed characters: alphanumeric and dashes" autofocus="autofocus" required="required" aria-required="true" />
+			</fieldset>
+
+			<fieldset>
+			<label for="tgmpa-prefix">Function Prefix:</label>
+			<input type="text" id="tgmpa-prefix" name="tgmpa-prefix" placeholder="function_prefix" value="" pattern="[A-Za-z0-9_]+" title="Allowed characters: alphanumeric and dashes" />
+			</fieldset>
+
+			<fieldset>
+			<label for="tgmpa-name">Name:</label>
+			<input type="text" id="tgmpa-name" name="tgmpa-name" placeholder="Theme or Plugin Name" value="" pattern="[A-Za-z0-9 _-]+" title="Allowed characters: alphanumeric, space, underscores and dashes" />
+			</fieldset>
+
+		</section>
+
+		<section class="tgmpa-form-ternary">
+			<div class="generator-form-submit">
+				<input type="submit" class="tgmpa-form-submit" name="tgmpa_generate_submit" value="Generate" />
+			</div>
+	
+			<div id="spinner"></div>
+			<div class="generator-feedback" aria-live="polite" aria-hidden="true">
+				<p id="generator-feedback"></p>
+				<p id="report-generator-error" aria-live="polite" aria-hidden="true">Please try again. If the error persists, please open a <a href="https://github.com/TGMPA/TGM-Plugin-Activation/issues">bug report</a> quoting the error message.</p>
+			</div>
+		</section>
+	</form>
+
+	<div class="generator-notes">
+		<ul>
+			<li>This generator works on Firefox, Chrome, Opera &ge; 15 and IE &ge; 10 (but NOT in compatibility view).</li>
+			<li>No data is saved by us, all the processing is done via JavaScript in the browser.</li>
+		</ul>
+	</div>
+
+</div>
+{::options parse_block_html="true" entity_output="as_char" /}

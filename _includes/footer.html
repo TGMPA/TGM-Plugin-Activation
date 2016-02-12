@@ -13,7 +13,21 @@
 
 
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		{% if page.anchor == "download" %}
 		<script type="text/javascript" src="{{ '/js/marked.min.js' | prepend: site.tgmpa.url }}"></script>
+		<script type="text/javascript" src="{{ '/js/jszip.min.js' | prepend: site.tgmpa.url }}"></script>
+		<script type="text/javascript" src="{{ '/js/jszip-utils.min.js' | prepend: site.tgmpa.url }}"></script>
+		<!--
+		Mandatory in IE 6, 7, 8 and 9.
+		-->
+		<!--[if IE]>
+		<script type="text/javascript" src="{{ '/jszip-utils-ie.js' | prepend: site.tgmpa.url }}"></script>
+		<![endif]-->
+		<script type="text/javascript" src="{{ '/js/FileSaver.min.js' | prepend: site.tgmpa.url }}"></script>
+		<script type="text/javascript" src="{{ '/js/to-title-case.min.js' | prepend: site.tgmpa.url }}"></script>
+		{% endif %}
+
 		{% if site.tgmpa.url == "http://tgmpluginactivation.com" %}
 		<script type="text/javascript" src="{{ '/js/tgmpa.min.js' | prepend: site.tgmpa.url }}"></script>
 		{% else %}
