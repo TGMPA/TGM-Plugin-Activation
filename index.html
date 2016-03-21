@@ -6,6 +6,19 @@ sitemap:
     exclude: true
 ---
 
+<section class="recent-posts">
+	<h3>Recent posts</h3>
+	<ul>
+	{% for post in site.posts | limit: 5 %}
+		<li>
+			<a href="{{ post.url | remove: 'index.html' | prepend: site.tgmpa.url }}">{{ post.title }}</a><br />
+			<span class="post-meta"><a href="{{ post.author | url_escape | prepend: 'https://github.com/' }}">@{{ post.author }}</a> |
+			<time datetime="{{ post.date | date: "%F %R" }}">{{ post.date | date_to_string }}</time></span>
+		</li>
+	{% endfor %}
+	</ul>
+</section>
+
 {% for section in site.homepage %}
 	<div id="{{ section.anchor }}">
 	{{ section.content }}
