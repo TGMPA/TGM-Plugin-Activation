@@ -9,7 +9,9 @@
 		<title>{% if page.title %}{{ page.title | strip_html }} - {{ site.tgmpa.name }}{% else %}{{ site.tgmpa.title }}{% endif %}</title>
 		<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.tgmpa.description }}{% endif %}" />
 
+		{% unless post.published == false or post.sitemap.exclude == true %}
 		<meta name="robots" content="index,follow,archive" />
+		{% endunless %}
 		<meta property="og:image" content="{{ site.tgmpa.logo }}" />
 		<meta property="og:title" content="{% if page.title %}{{ page.title | strip_html }} - {{ site.tgmpa.name }}{% else %}{{ site.tgmpa.title }}{% endif %}" />
 		<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.tgmpa.description }}{% endif %}" />
