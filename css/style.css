@@ -99,7 +99,7 @@ a:hover {
 .doc-body h3,
 .doc-body h4 {
 	border-top: 0.2em solid #EEE;
-	padding-top: 0.5em;
+	padding-top: 1em;
 }
 
 .doc-head,
@@ -184,6 +184,8 @@ hgroup h2 {
 .doc-body-content {
 	background: #FFF;
 	border-radius: 1em;
+ 	-webkit-box-shadow: 0 0 4px #DDD;
+ 	-moz-box-shadow: 0 0 4px #DDD;
 	box-shadow: 0 0 4px #DDD;
 	padding: 20px 25px;
 	position: relative;
@@ -579,9 +581,17 @@ div#download table {
 	border: 1px solid #cccccc;
 	float: right;
 	font-size: 90%;
-	margin: 5em 0 3em 1em;
+	margin: 4.5em 0 3em 1em;
 	width: 210px;
+ 	-webkit-box-shadow: 0 0 4px #DDD;
+ 	-moz-box-shadow: 0 0 4px #DDD;
+	box-shadow: 0 0 4px #DDD;
 }
+
+.page-home .recent-posts {
+	margin-top: 1.5em;
+}
+
 .recent-posts h3 {
 	color: #E73A74;
 	background-color: #cccccc;
@@ -595,6 +605,7 @@ div#download table {
 .recent-posts ul {
 	padding: 0 1em 0 2em;
 	word-wrap: normal;
+	background-color: #fff;
 }
 .recent-posts li .post-meta {
 	font-size: 75%;
