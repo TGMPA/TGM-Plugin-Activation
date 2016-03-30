@@ -61,7 +61,7 @@ function my_theme_register_required_plugins() {
 
 		// This is an example of how to include a plugin bundled with a theme.
 		array(
-			'name'               => 'TGM Example Plugin', // The plugin name.
+			'name'               => __( 'TGM Example Plugin', 'theme-slug' ), // The plugin name.
 			'slug'               => 'tgm-example-plugin', // The plugin slug (typically the folder name).
 			'source'             => get_stylesheet_directory() . '/lib/plugins/tgm-example-plugin.zip', // The plugin source.
 			'required'           => true, // If false, the plugin is only 'recommended' instead of required.
@@ -74,7 +74,7 @@ function my_theme_register_required_plugins() {
 
 		// This is an example of how to include a plugin from an arbitrary external source in your theme.
 		array(
-			'name'         => 'TGM New Media Plugin', // The plugin name.
+			'name'         => __( 'TGM New Media Plugin', 'theme-slug' ), // The plugin name.
 			'slug'         => 'tgm-new-media-plugin', // The plugin slug (typically the folder name).
 			'source'       => 'https://s3.amazonaws.com/tgm/tgm-new-media-plugin.zip', // The plugin source.
 			'required'     => true, // If false, the plugin is only 'recommended' instead of required.
@@ -85,14 +85,14 @@ function my_theme_register_required_plugins() {
 		// This presumes that the plugin code is based in the root of the GitHub repository
 		// and not in a subdirectory ('/src') of the repository.
 		array(
-			'name'      => 'Adminbar Link Comments to Pending',
+			'name'      => __( 'Adminbar Link Comments to Pending', 'theme-slug' ),
 			'slug'      => 'adminbar-link-comments-to-pending',
 			'source'    => 'https://github.com/jrfnl/WP-adminbar-comments-to-pending/archive/master.zip',
 		),
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
 		array(
-			'name'      => 'BuddyPress',
+			'name'      => __( 'BuddyPress', 'theme-slug' ),
 			'slug'      => 'buddypress',
 			'required'  => false,
 		),
@@ -104,7 +104,7 @@ function my_theme_register_required_plugins() {
 		// `array( 'class', 'method' )` similar to how you hook in to actions and filters, TGMPA can still
 		// recognize the plugin as being installed.
 		array(
-			'name'        => 'WordPress SEO by Yoast',
+			'name'        => __( 'WordPress SEO by Yoast', 'theme-slug' ),
 			'slug'        => 'wordpress-seo',
 			'is_callable' => 'wpseo_init',
 		),
