@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM-Plugin-Activation\n"
 "POT-Creation-Date: 2016-04-21 00:07+0200\n"
-"PO-Revision-Date: 2016-04-21 01:58+0200\n"
+"PO-Revision-Date: 2016-04-21 14:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: TGMPA\n"
 "Language: en_GB\n"
@@ -126,7 +126,6 @@ msgid "Plugin activated successfully."
 msgstr "Plugin activated successfully."
 
 #: class-tgm-plugin-activation.php:392 class-tgm-plugin-activation.php:3028
-#, fuzzy
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] "The following plugin was activated successfully:"
@@ -211,17 +210,17 @@ msgstr "and"
 
 #. translators: %s: version number
 #: class-tgm-plugin-activation.php:2060
-#, fuzzy, php-format
+#, php-format
 msgid "TGMPA v%s"
 msgstr "TGMPA v%s"
 
 #: class-tgm-plugin-activation.php:2349
 msgid "Required"
-msgstr "REQUIRED"
+msgstr "Required"
 
 #: class-tgm-plugin-activation.php:2352
 msgid "Recommended"
-msgstr "RECOMMENDED"
+msgstr "Recommended"
 
 #: class-tgm-plugin-activation.php:2368
 msgid "WordPress Repository"
@@ -261,7 +260,7 @@ msgstr "Update recommended"
 
 #. translators: 1: install status, 2: update status
 #: class-tgm-plugin-activation.php:2418
-#, fuzzy, php-format
+#, php-format
 msgctxt "Install/Update Status"
 msgid "%1$s, %2$s"
 msgstr "%1$s, %2$s"
