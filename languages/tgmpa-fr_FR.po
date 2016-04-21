@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM-Plugin-Activation\n"
 "POT-Creation-Date: 2016-04-21 00:07+0200\n"
-"PO-Revision-Date: 2016-04-21 01:58+0200\n"
+"PO-Revision-Date: 2016-04-21 07:57+0200\n"
 "Last-Translator: Hedi Chaibi <contact@hedichaibi.com>\n"
 "Language-Team: TGMPA\n"
 "Language: fr_FR\n"
@@ -32,7 +32,7 @@ msgstr "Installation de l’extension : %s"
 #: class-tgm-plugin-activation.php:336
 #, php-format
 msgid "Updating Plugin: %s"
-msgstr ""
+msgstr "Mise à jour du plugin : %s"
 
 #: class-tgm-plugin-activation.php:337
 msgid "Something went wrong with the plugin API."
@@ -165,6 +165,8 @@ msgid ""
 "There are one or more required or recommended plugins to install, update or "
 "activate."
 msgstr ""
+"Il y a une ou plusieurs extensions requise ou recommandées à installer, "
+"mettre à jour ou activer."
 
 #: class-tgm-plugin-activation.php:401
 msgid "Please contact the administrator of this site for help."
@@ -381,10 +383,14 @@ msgstr "Activer"
 #: class-tgm-plugin-activation.php:2833
 msgid "No plugins were selected to be installed. No action taken."
 msgstr ""
+"Aucune extension n’a été sélectionnée pour être installée. Aucune action n’a "
+"été effectuée."
 
 #: class-tgm-plugin-activation.php:2835
 msgid "No plugins were selected to be updated. No action taken."
 msgstr ""
+"Aucune extension n’a été sélectionnée pour être mise à jour. Aucune action "
+"n’a été effectuée."
 
 #: class-tgm-plugin-activation.php:2876
 msgid "No plugins are available to be installed at this time."
@@ -397,6 +403,8 @@ msgstr "Aucune extension à mettre à jour pour le moment."
 #: class-tgm-plugin-activation.php:2984
 msgid "No plugins were selected to be activated. No action taken."
 msgstr ""
+"Aucune extension n’a été sélectionnée pour être activée. Aucune action n’a "
+"été effectuée."
 
 #: class-tgm-plugin-activation.php:3010
 msgid "No plugins are available to be activated at this time."
@@ -442,7 +450,7 @@ msgstr "%1$s installé et activé avec succès."
 
 #: class-tgm-plugin-activation.php:3575 class-tgm-plugin-activation.php:3583
 msgid "Show Details"
-msgstr ""
+msgstr "Afficher les détails"
 
 #: class-tgm-plugin-activation.php:3575 class-tgm-plugin-activation.php:3583
 msgid "Hide Details"
