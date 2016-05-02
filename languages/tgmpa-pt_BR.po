@@ -1,18 +1,24 @@
-# Translation of TGM-Plugin-Activation in Portuguese (Brazil)
-# This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
 "Project-Id-Version: TGM-Plugin-Activation\n"
-"POT-Creation-Date: 2016-04-21 00:08+0200\n"
-"PO-Revision-Date: 2016-04-21 01:54+0200\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2016-04-19 16:55+0200\n"
+"PO-Revision-Date: 2016-05-02 19:06-0300\n"
+"Last-Translator: Elvis Henrique Pereira <elvishp2006@gmail.com>\n"
 "Language-Team: TGMPA\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: example.php\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: class-tgm-plugin-activation.php:331
 msgid "Install Required Plugins"
@@ -32,7 +38,7 @@ msgstr "Instalando Plugin: %s"
 #: class-tgm-plugin-activation.php:336
 #, php-format
 msgid "Updating Plugin: %s"
-msgstr ""
+msgstr "Atualizando Plugin: %s"
 
 #: class-tgm-plugin-activation.php:337
 msgid "Something went wrong with the plugin API."
@@ -162,6 +168,8 @@ msgid ""
 "There are one or more required or recommended plugins to install, update or "
 "activate."
 msgstr ""
+"Há um ou mais plugins necessários ou recomendados para instalar, atualizar "
+"ou ativar."
 
 #: class-tgm-plugin-activation.php:401
 msgid "Please contact the administrator of this site for help."
@@ -212,7 +220,7 @@ msgstr "e"
 #: class-tgm-plugin-activation.php:2060
 #, php-format
 msgid "TGMPA v%s"
-msgstr ""
+msgstr "TGMPA v%s"
 
 #: class-tgm-plugin-activation.php:2349
 msgid "Required"
@@ -375,11 +383,11 @@ msgstr "Ativar"
 
 #: class-tgm-plugin-activation.php:2833
 msgid "No plugins were selected to be installed. No action taken."
-msgstr ""
+msgstr "Nenhum plugin selecionado para ser instalado. Nenhuma ação tomada."
 
 #: class-tgm-plugin-activation.php:2835
 msgid "No plugins were selected to be updated. No action taken."
-msgstr ""
+msgstr "Nenhum plugin selecionado para ser atualizado. Nenhuma ação tomada."
 
 #: class-tgm-plugin-activation.php:2876
 msgid "No plugins are available to be installed at this time."
@@ -391,7 +399,7 @@ msgstr "Não há plugins disponíveis para serem atualizados nesse momento."
 
 #: class-tgm-plugin-activation.php:2984
 msgid "No plugins were selected to be activated. No action taken."
-msgstr ""
+msgstr "Nenhum plugin selecionado para ser ativado. Nenhuma ação tomada."
 
 #: class-tgm-plugin-activation.php:3010
 msgid "No plugins are available to be activated at this time."
@@ -445,7 +453,7 @@ msgstr "Ocultar Detalhes"
 msgid "All installations and activations have been completed."
 msgstr "Todas as instalações e ativações foram concluídos."
 
-#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#. translators: 1: plugin name, 2: action number 3: total number of of actions.
 #: class-tgm-plugin-activation.php:3578
 #, php-format
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
@@ -469,8 +477,50 @@ msgstr "%1$s instalado com sucesso."
 msgid "All installations have been completed."
 msgstr "Todas instalações terminaram."
 
-#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#. translators: 1: plugin name, 2: action number 3: total number of of actions.
 #: class-tgm-plugin-activation.php:3586
 #, php-format
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
 msgstr "Instalando Plugin %1$s (%2$d/%3$d)"
+
+#~ msgid ""
+#~ "Sorry, but you do not have the correct permissions to install the %1$s "
+#~ "plugin."
+#~ msgid_plural ""
+#~ "Sorry, but you do not have the correct permissions to install the %1$s "
+#~ "plugins."
+#~ msgstr[0] ""
+#~ "Desculpe, mas você não tem as corretas permissões para instalar o %1$s "
+#~ "plugin."
+#~ msgstr[1] ""
+#~ "Desculpe, mas você não tem as corretas permissões para instalar os %1$s "
+#~ "plugins."
+
+#~ msgid ""
+#~ "Sorry, but you do not have the correct permissions to update the %1$s "
+#~ "plugin."
+#~ msgid_plural ""
+#~ "Sorry, but you do not have the correct permissions to update the %1$s "
+#~ "plugins."
+#~ msgstr[0] ""
+#~ "Desculpe, mas você não tem as permissões corretas para atualizar o %1$s "
+#~ "plugin."
+#~ msgstr[1] ""
+#~ "Desculpe, mas você não tem as permissões corretas para atualizar os %1$s "
+#~ "plugins."
+
+#~ msgid ""
+#~ "Sorry, but you do not have the correct permissions to activate the %1$s "
+#~ "plugin."
+#~ msgid_plural ""
+#~ "Sorry, but you do not have the correct permissions to activate the %1$s "
+#~ "plugins."
+#~ msgstr[0] ""
+#~ "Desculpe, mas você não tem as corretas permissões para ativar o %1$s "
+#~ "plugin."
+#~ msgstr[1] ""
+#~ "Desculpe, mas você não tem as corretas permissões para ativar os %1$s "
+#~ "plugins."
+
+#~ msgid "Return to the dashboard"
+#~ msgstr "Voltar para o painel"
