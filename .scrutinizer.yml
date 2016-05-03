@@ -1,19 +1,46 @@
+tools:
+    php_sim: true
+    php_pdepend: true
+    php_analyzer: true
+    sensiolabs_security_checker: true
+
 checks:
     php:
+        useless_calls: true
+        unused_variables: true
+        unused_properties: true
+        unused_parameters: true
+        unused_methods: true
+        unreachable_code: true
+        too_many_arguments: true
+        no_unnecessary_if: true
+        no_unnecessary_final_modifier: true
+        no_empty_statements: true
+        fix_use_statements:
+            remove_unused: true
+            preserve_multiple: false
+            preserve_blanklines: false
+            order_alphabetically: true
+        avoid_useless_overridden_methods: true
         use_self_instead_of_fqcn: true
         uppercase_constants: true
+        single_namespace_per_use: false
         simplify_boolean_return: true
-        return_doc_comment_if_not_inferrable: true
+        require_scope_for_properties: true
+        require_scope_for_methods: true
         remove_extra_empty_lines: true
+        psr2_switch_declaration: true
+        psr2_class_declaration: true
+        properties_in_camelcaps: false
         prefer_while_loop_over_for_loop: true
-        parameter_doc_comments: true
-        param_doc_comment_if_not_inferrable: true
+        parameters_in_camelcaps: false
         optional_parameters_at_the_end: true
-        no_short_method_names:
-            minimum: '3'
-        no_long_variable_names:
-            maximum: '25'
-        no_goto: true
+        no_underscore_prefix_in_properties: true
+        no_underscore_prefix_in_methods: true
+        no_trailing_whitespace: true
+        no_new_line_at_end_of_file: false
+        no_error_suppression: false
+        no_commented_out_code: true
         newline_at_end_of_file: true
         naming_conventions:
             local_variable: '^[a-z][a-z_0-9]*$'
@@ -27,24 +54,181 @@ checks:
             type_name: '^[A-Z][a-zA-Z0-9_]*$'
             exception_name: '^[A-Z][a-zA-Z0-9_]*Exception$'
             isser_method_name: '^(?:is|has|should|may|supports)'
-        more_specific_types_in_doc_comments: true
+        function_in_camel_caps: false
         fix_line_ending: true
-        fix_use_statements:
-            remove_unused: true
-            preserve_multiple: false
-            preserve_blanklines: false
-            order_alphabetically: true
         encourage_single_quotes: true
         encourage_postdec_operator: true
+        classes_in_camel_caps: false
+        blank_line_after_namespace_declaration: true
         avoid_todo_comments: true
         avoid_perl_style_comments: true
         avoid_multiple_statements_on_same_line: true
+        avoid_length_functions_in_loops: true
         avoid_fixme_comments: true
+        avoid_closing_tag: true
+        avoid_aliased_php_functions: true
         align_assignments: true
-        no_global_keyword: false
-        one_class_per_file: false
+        duplication: true
+        sql_injection_vulnerabilities: true
+        security_vulnerabilities: true
+        no_eval: true
+        switch_fallthrough_commented: true
+        phpunit_assertions: false
+        overriding_private_members: true
+        non_commented_empty_catch_block: true
+        no_short_variable_names:
+            minimum: '3'
+        no_short_method_names:
+            minimum: '3'
+        no_long_variable_names:
+            maximum: '30'
+        no_goto: true
+        avoid_usage_of_logical_operators: true
+        return_doc_comments: true
+        return_doc_comment_if_not_inferrable: true
+        parameter_doc_comments: true
+        param_doc_comment_if_not_inferrable: true
+        more_specific_types_in_doc_comments: false
+        fix_doc_comments: true
+        verify_property_names: true
+        verify_argument_usable_as_reference: true
+        verify_access_scope_valid: true
+        variable_existence: true
+        use_statement_alias_conflict: true
+        symfony_request_injection: true
+        precedence_mistakes: true
+        precedence_in_conditions: true
+        parameter_non_unique: true
+        no_property_on_interface: true
+        no_non_implemented_abstract_methods: true
+        no_duplicate_arguments: true
+        missing_arguments: true
+        method_calls_on_non_object: true
+        instanceof_class_exists: true
+        foreach_usable_as_reference: true
+        foreach_traversable: true
+        encourage_shallow_comparison: true
+        closure_use_not_conflicting: true
+        closure_use_modifiable: true
+        catch_class_exists: true
+        avoid_entity_manager_injection: true
+        avoid_conflicting_incrementers: true
+        assignment_of_null_return: true
+        argument_type_checks: true
+        avoid_unnecessary_concatenation: true
+        deprecated_code_usage: true
         side_effects_or_types: false
+        require_php_tag_first: true
+        php5_style_constructor: true
+        one_class_per_file: false
+        no_short_open_tag: true
+        no_global_keyword: true
+        no_exit: false
         avoid_superglobals: false
+        avoid_duplicate_types: true
+        avoid_corrupting_byteorder_marks: true
+        no_debug_code: true
+        code_rating: true
 
-tools:
-  sensiolabs_security_checker: true
+coding_style:
+    php:
+        indentation:
+            general:
+                use_tabs: true
+                size: 4
+            switch:
+                indent_case: true
+        spaces:
+            before_parentheses:
+                function_declaration: false
+                closure_definition: false
+                function_call: false
+                if: true
+                for: true
+                while: true
+                switch: true
+                catch: true
+                array_initializer: false
+            around_operators:
+                assignment: true
+                logical: true
+                equality: true
+                relational: true
+                bitwise: true
+                additive: true
+                multiplicative: true
+                shift: true
+                unary_additive: false
+                concatenation: true
+                negation: true
+            before_left_brace:
+                class: true
+                function: true
+                if: true
+                else: true
+                for: true
+                while: true
+                do: true
+                switch: true
+                try: true
+                catch: true
+                finally: true
+            before_keywords:
+                else: true
+                while: true
+                catch: true
+                finally: true
+            within:
+                brackets: false
+                array_initializer: true
+                grouping: true
+                function_call: true
+                function_declaration: true
+                if: true
+                for: true
+                while: true
+                switch: true
+                catch: true
+                type_cast: false
+            ternary_operator:
+                before_condition: true
+                after_condition: true
+                before_alternative: true
+                after_alternative: true
+                in_short_version: true
+            other:
+                before_comma: false
+                after_comma: true
+                before_semicolon: false
+                after_semicolon: true
+                after_type_cast: true
+        braces:
+            classes_functions:
+                class: end-of-line
+                function: end-of-line
+                closure: end-of-line
+            if:
+                opening: end-of-line
+                always: true
+                else_on_new_line: false
+            for:
+                opening: end-of-line
+                always: true
+            while:
+                opening: end-of-line
+                always: true
+            do_while:
+                opening: end-of-line
+                always: true
+                while_on_new_line: false
+            switch:
+                opening: end-of-line
+            try:
+                opening: end-of-line
+                catch_on_new_line: false
+                finally_on_new_line: false
+        upper_lower_casing:
+            keywords:
+                general: lower
+            constants:
+                true_false_null: lower
