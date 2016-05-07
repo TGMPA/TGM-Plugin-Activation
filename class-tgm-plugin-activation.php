@@ -2030,7 +2030,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 		/**
 		 * Forces plugin deactivation if the parameter 'force_deactivation'
-		 * is set to true.
+		 * is set to true and adds the plugin to the 'recently active' plugins list.
 		 *
 		 * This allows theme authors to specify certain plugins that must be
 		 * deactivated upon switching from the current theme to another.
@@ -2041,11 +2041,21 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @since 2.2.0
 		 */
 		public function force_deactivation() {
+			$deactivated = array();
+
 			foreach ( $this->plugins as $slug => $plugin ) {
-				// Only proceed forward if the parameter is set to true and plugin is active.
-				if ( true === $plugin['force_deactivation'] && $this->is_plugin_active( $slug ) ) {
+				/*
+				 * Only proceed forward if the parameter is set to true and plugin is active
+				 * as a 'normal' (not must-use) plugin.
+				 */
+				if ( true === $plugin['force_deactivation'] && is_plugin_active( $plugin['file_path'] ) ) {
 					deactivate_plugins( $plugin['file_path'] );
+					$deactivated[ $plugin['file_path'] ] = time();
 				}
+			}
+
+			if ( ! empty( $deactivated ) ) {
+				update_option( 'recently_activated', $deactivated + (array) get_option( 'recently_activated' ) );
 			}
 		}
 
