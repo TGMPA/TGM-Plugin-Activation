@@ -88,7 +88,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Holds arrays of plugin details.
 		 *
 		 * @since 1.0.0
-		 *
 		 * @since 2.5.0 the array has the plugin slug as an associative key.
 		 *
 		 * @var array
@@ -3486,8 +3485,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 * @since 2.2.0
 				 *
 				 * {@internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer_Skin to
-				 *           TGMPA_Bulk_Installer_Skin.
-				 *           This was done to prevent backward compatibility issues with v2.3.6.}}
+				 *            TGMPA_Bulk_Installer_Skin.
+				 *            This was done to prevent backward compatibility issues with v2.3.6.}}
 				 *
 				 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-admin/includes/class-wp-upgrader-skins.php
 				 *
@@ -3815,15 +3814,15 @@ if ( ! class_exists( 'TGMPA_Utils' ) ) {
 
 			if ( is_bool( $value ) ) {
 				return $value;
-			} else if ( is_int( $value ) && ( 0 === $value || 1 === $value ) ) {
+			} elseif ( is_int( $value ) && ( 0 === $value || 1 === $value ) ) {
 				return (bool) $value;
-			} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( (float) 0 === $value || (float) 1 === $value ) ) {
+			} elseif ( ( is_float( $value ) && ! is_nan( $value ) ) && ( (float) 0 === $value || (float) 1 === $value ) ) {
 				return (bool) $value;
-			} else if ( is_string( $value ) ) {
+			} elseif ( is_string( $value ) ) {
 				$value = trim( $value );
 				if ( in_array( $value, $true, true ) ) {
 					return true;
-				} else if ( in_array( $value, $false, true ) ) {
+				} elseif ( in_array( $value, $false, true ) ) {
 					return false;
 				} else {
 					return false;
