@@ -281,6 +281,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @see https://github.com/TGMPA/TGM-Plugin-Activation/blob/2.3.6/tgm-plugin-activation/class-tgm-plugin-activation.php#L1593
 		 *
+		 * @since 2.5.2
+		 *
 		 * @param string $name  Name of an inaccessible property.
 		 * @param mixed  $value Value to assign to the property.
 		 * @return void  Silently fail to set the property when this is tried from outside of this class context.
@@ -292,6 +294,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 		/**
 		 * Magic method to get the value of a protected property outside of this class context.
+		 *
+		 * @since 2.5.2
 		 *
 		 * @param string $name Name of an inaccessible property.
 		 * @return mixed The property value.
@@ -2060,6 +2064,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 		/**
 		 * Echo the current TGMPA version number to the page.
+		 *
+		 * @since 2.5.0
 		 */
 		public function show_tgmpa_version() {
 			echo '<p style="float: right; padding: 0em 1.5em 0.5em 0;"><strong><small>',
@@ -2092,6 +2098,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
 		/**
 		 * Ensure only one instance of the class is ever invoked.
+		 *
+		 * @since 2.5.0
 		 */
 		function load_tgm_plugin_activation() {
 			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
@@ -3103,6 +3111,11 @@ if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
 
 	/**
 	 * Hack: Prevent TGMPA v2.4.1- bulk installer class from being loaded if 2.4.1- is loaded after 2.5+.
+	 *
+	 * @since 2.5.2
+	 *
+	 * {@internal The TGMPA_Bulk_Installer class was originally called TGM_Bulk_Installer.
+	 *            For more information, see that class.}}
 	 */
 	class TGM_Bulk_Installer {
 	}
@@ -3111,6 +3124,11 @@ if ( ! class_exists( 'TGM_Bulk_Installer_Skin' ) ) {
 
 	/**
 	 * Hack: Prevent TGMPA v2.4.1- bulk installer skin class from being loaded if 2.4.1- is loaded after 2.5+.
+	 *
+	 * @since 2.5.2
+	 *
+	 * {@internal The TGMPA_Bulk_Installer_Skin class was originally called TGM_Bulk_Installer_Skin.
+	 *            For more information, see that class.}}
 	 */
 	class TGM_Bulk_Installer_Skin {
 	}
