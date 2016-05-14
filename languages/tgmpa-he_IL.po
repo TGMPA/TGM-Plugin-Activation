@@ -1,10 +1,10 @@
-# Translation of TGM-Plugin-Activation in Hebrew
+# Translation of TGM Plugin Activation in Hebrew
 # This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TGM-Plugin-Activation\n"
+"Project-Id-Version: TGM Plugin Activation v2.6.0\n"
 "POT-Creation-Date: 2016-04-21 00:18+0200\n"
-"PO-Revision-Date: 2016-04-21 01:57+0200\n"
+"PO-Revision-Date: 2016-05-14 03:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: he\n"
@@ -30,9 +30,9 @@ msgstr "התקנת התוסף: %s"
 
 #. translators: %s: plugin name.
 #: class-tgm-plugin-activation.php:336
-#, fuzzy, php-format
+#, php-format
 msgid "Updating Plugin: %s"
-msgstr "התקנת התוסף: %s"
+msgstr ""
 
 #: class-tgm-plugin-activation.php:337
 msgid "Something went wrong with the plugin API."
@@ -126,11 +126,10 @@ msgid "Plugin activated successfully."
 msgstr "התוסף הופעל בהצלחה."
 
 #: class-tgm-plugin-activation.php:392 class-tgm-plugin-activation.php:3028
-#, fuzzy
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
-msgstr[0] "התוסף הבא הופעל בהצלחה:"
-msgstr[1] "התוסף הבא הופעל בהצלחה:"
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: 1: plugin name.
 #: class-tgm-plugin-activation.php:394

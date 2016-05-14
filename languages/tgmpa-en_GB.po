@@ -1,11 +1,11 @@
-# Translation of TGM-Plugin-Activation in English (UK)
+# Translation of TGM Plugin Activation in English (UK)
 # This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TGM-Plugin-Activation\n"
+"Project-Id-Version: TGM Plugin Activation v2.6.0\n"
 "POT-Creation-Date: 2016-04-21 00:07+0200\n"
-"PO-Revision-Date: 2016-04-21 14:04+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2016-05-14 03:19+0200\n"
+"Last-Translator: Gary Jones\n"
 "Language-Team: TGMPA\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"

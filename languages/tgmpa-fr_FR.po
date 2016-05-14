@@ -1,10 +1,10 @@
-# Translation of TGM-Plugin-Activation in French (France)
+# Translation of TGM Plugin Activation in French (France)
 # This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TGM-Plugin-Activation\n"
+"Project-Id-Version: TGM Plugin Activation v2.6.0\n"
 "POT-Creation-Date: 2016-04-21 00:07+0200\n"
-"PO-Revision-Date: 2016-04-21 07:57+0200\n"
+"PO-Revision-Date: 2016-05-14 03:20+0200\n"
 "Last-Translator: Hedi Chaibi <contact@hedichaibi.com>\n"
 "Language-Team: TGMPA\n"
 "Language: fr_FR\n"

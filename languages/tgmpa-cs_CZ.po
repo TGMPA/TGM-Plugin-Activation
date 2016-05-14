@@ -1,25 +1,18 @@
+# Translation of TGM Plugin Activation in Czech.
+# This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"Project-Id-Version: TGM Plugin Activation\n"
-"POT-Creation-Date: 2016-04-22 12:59+0200\n"
-"PO-Revision-Date: 2016-04-22 13:11+0200\n"
+"Project-Id-Version: TGM Plugin Activation v2.6.0\n"
+"POT-Creation-Date: 2016-05-02 05:55+0200\n"
+"PO-Revision-Date: 2016-05-14 03:19+0200\n"
+"Last-Translator: Karolína Vyskočilová <karolina@kybernaut.cz>\n"
 "Language-Team: Karolína Vyskočilová <karolina@kybernaut.cz>\n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Poedit 1.8.7\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-WPHeader: class-tgm-plugin-activation.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Last-Translator: Karolína Vyskočilová <karolina@kybernaut.cz>\n"
-"Language: cs_CZ\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
-"X-Poedit-SearchPathExcluded-1: example.php\n"
 
 #: class-tgm-plugin-activation.php:331
 msgid "Install Required Plugins"
@@ -475,7 +468,7 @@ msgstr "Skrýt podrobnosti"
 msgid "All installations and activations have been completed."
 msgstr "Všechny instalace a aktivace byly úspěšně dokončeny."
 
-#. translators: 1: plugin name, 2: action number 3: total number of of actions.
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
 #: class-tgm-plugin-activation.php:3578
 #, php-format
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
@@ -499,7 +492,7 @@ msgstr "%1$s úspěšně nainstalován."
 msgid "All installations have been completed."
 msgstr "Veškeré instalace byly dokončeny."
 
-#. translators: 1: plugin name, 2: action number 3: total number of of actions.
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
 #: class-tgm-plugin-activation.php:3586
 #, php-format
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
