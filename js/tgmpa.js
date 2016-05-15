@@ -598,7 +598,7 @@
 			return false;
 		}
 
-		// JSZipUtils.getBinaryContent('https://api.github.com/repos/TGMPA/TGM-Plugin-Activation/zipball/2.5.2', function(err, data) {
+		// JSZipUtils.getBinaryContent( 'https://api.github.com/repos/TGMPA/TGM-Plugin-Activation/zipball/2.5.2', function( err, data ) {
 		JSZipUtils.getBinaryContent( '../releases/' + tgmpaDir + '.zip', function( err, data ) {
 			if ( err ) {
 				showMessage( 'Failed to retrieve TGMPA: ' + err, 'error' );
@@ -689,7 +689,7 @@
 				zip.remove( tgmpaDir + '/phpcs.xml' );
 
 				/*
-				 * Everything has been adjusted, we can trigger the dl.
+				 * Everything has been adjusted, we can trigger the download.
 				 */
 				if ( JSZip.support.blob ) {
 					try {
