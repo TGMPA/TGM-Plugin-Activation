@@ -394,8 +394,8 @@
 		// Deals with "Updating Plugin %1$s (%2$d/%3$d)" type strings.
 		reBracketsB   = new RegExp( '((?:_[_enx]|_[en]x|_n[x]?_noop|__ngettext_noop|translate_nooped_plural)\\([^\\)]+?%1\\$s \\(%2\\$d/%3\\$d\\)\',\\s+\')' + searchString + '(\'\\s+\\))', 'g' );
 
-		// Deals with strings without () in them.
-		reNoBrackets = new RegExp( '((?:_[_enx]|_[en]x|_n[x]?_noop|__ngettext_noop|translate_nooped_plural)\\([^\\)]+,\\s+\')' + searchString + '(\'\\s+\\))', 'g' ); // N.B.: This will also catch esc_attr__ and esc_html__ variants.
+		// Deals with strings without () in them or only with () within a potential translators comment.
+		reNoBrackets = new RegExp( '((?:_[_enx]|_[en]x|_n[x]?_noop|__ngettext_noop|translate_nooped_plural)\\((?:\\s+\\/\\* translators: [^*]+)?[^\\)]+,\\s+\')' + searchString + '(\'\\s+\\))', 'g' ); // N.B.: This will also catch esc_attr__ and esc_html__ variants.
 
 		content = content.replace( reBracketsA, replacement );
 		content = content.replace( reBracketsB, replacement );
