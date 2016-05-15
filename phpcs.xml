@@ -4,7 +4,7 @@
 	<file>class-tgm-plugin-activation.php</file>
 	<file>example.php</file>
 	<arg name="report" value="full"/>
-	<arg value="sp"/>
+	<arg value="spn"/>
 	<rule ref="WordPress">
 		<exclude name="WordPress.VIP" />
 	</rule>
