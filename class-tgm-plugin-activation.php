@@ -8,7 +8,7 @@
  * or theme author for support.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.5.2
+ * @version   2.6.0
  * @link      http://tgmpluginactivation.com/
  * @author    Thomas Griffin, Gary Jones, Juliette Reinders Folmer
  * @copyright Copyright (c) 2011, Thomas Griffin
@@ -55,7 +55,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @const string Version number.
 		 */
-		const TGMPA_VERSION = '2.5.2';
+		const TGMPA_VERSION = '2.6.0';
 
 		/**
 		 * Regular expression to test if a URL is a WP plugin repo URL.
@@ -88,7 +88,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Holds arrays of plugin details.
 		 *
 		 * @since 1.0.0
-		 *
 		 * @since 2.5.0 the array has the plugin slug as an associative key.
 		 *
 		 * @var array
@@ -282,6 +281,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @see https://github.com/TGMPA/TGM-Plugin-Activation/blob/2.3.6/tgm-plugin-activation/class-tgm-plugin-activation.php#L1593
 		 *
+		 * @since 2.5.2
+		 *
 		 * @param string $name  Name of an inaccessible property.
 		 * @param mixed  $value Value to assign to the property.
 		 * @return void  Silently fail to set the property when this is tried from outside of this class context.
@@ -293,6 +294,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 		/**
 		 * Magic method to get the value of a protected property outside of this class context.
+		 *
+		 * @since 2.5.2
 		 *
 		 * @param string $name Name of an inaccessible property.
 		 * @return mixed The property value.
@@ -453,7 +456,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		/**
 		 * Load translations.
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * (@internal Uses `load_theme_textdomain()` rather than `load_plugin_textdomain()` to
 		 * get round the different ways of handling the path and deprecated notices being thrown
@@ -485,7 +488,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * {@internal IMPORTANT! If this function changes, review the regex in the custom TGMPA
 		 * generator on the website.}}
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * @param string $mofile Full path to the target mofile.
 		 * @param string $domain The domain for which a language file is being loaded.
@@ -512,7 +515,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * {@internal IMPORTANT! If this function changes, review the regex in the custom TGMPA
 		 * generator on the website.}}
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * @param string $mofile Full path to the target mofile.
 		 * @param string $domain The domain for which a language file is being loaded.
@@ -1186,7 +1189,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				$line_template = '<span style="display: block; margin: 0.5em 0.5em 0 0; clear: both;">%s</span>' . "\n";
 
 				if ( ! current_user_can( 'activate_plugins' ) && ! current_user_can( 'install_plugins' ) && ! current_user_can( 'update_plugins' ) ) {
-					$rendered  = esc_html__( $this->strings['notice_cannot_install_activate'] ) . ' ' . esc_html__( $this->strings['contact_admin'] );
+					$rendered  = esc_html( $this->strings['notice_cannot_install_activate'] ) . ' ' . esc_html( $this->strings['contact_admin'] );
 					$rendered .= $this->create_user_action_links_for_notice( 0, 0, 0, $line_template );
 				} else {
 
@@ -1238,7 +1241,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		/**
 		 * Generate the user action links for the admin notice.
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * @param int $install_count  Number of plugins to install.
 		 * @param int $update_count   Number of plugins to update.
@@ -1300,7 +1303,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Work around all the changes to the various admin notice classes between WP 4.4 and 3.7
 		 * (lowest supported version by TGMPA).
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * @return string
 		 */
@@ -1713,7 +1716,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		/**
 		 * Determine if we're on a WP Core installation/upgrade page.
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * @return boolean True when on a WP Core installation/upgrade page, false otherwise.
 		 */
@@ -1862,7 +1865,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Check to see if the plugin is 'updatetable', i.e. installed, with an update available
 		 * and no WP version requirements blocking it.
 		 *
-		 * @since 2.x.x
+		 * @since 2.6.0
 		 *
 		 * @param string $slug Plugin slug.
 		 * @return bool True if OK to proceed with update, false otherwise.
@@ -2061,6 +2064,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 		/**
 		 * Echo the current TGMPA version number to the page.
+		 *
+		 * @since 2.5.0
 		 */
 		public function show_tgmpa_version() {
 			echo '<p style="float: right; padding: 0em 1.5em 0.5em 0;"><strong><small>',
@@ -2093,6 +2098,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
 		/**
 		 * Ensure only one instance of the class is ever invoked.
+		 *
+		 * @since 2.5.0
 		 */
 		function load_tgm_plugin_activation() {
 			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
@@ -3104,6 +3111,11 @@ if ( ! class_exists( 'TGM_Bulk_Installer' ) ) {
 
 	/**
 	 * Hack: Prevent TGMPA v2.4.1- bulk installer class from being loaded if 2.4.1- is loaded after 2.5+.
+	 *
+	 * @since 2.5.2
+	 *
+	 * {@internal The TGMPA_Bulk_Installer class was originally called TGM_Bulk_Installer.
+	 *            For more information, see that class.}}
 	 */
 	class TGM_Bulk_Installer {
 	}
@@ -3112,6 +3124,11 @@ if ( ! class_exists( 'TGM_Bulk_Installer_Skin' ) ) {
 
 	/**
 	 * Hack: Prevent TGMPA v2.4.1- bulk installer skin class from being loaded if 2.4.1- is loaded after 2.5+.
+	 *
+	 * @since 2.5.2
+	 *
+	 * {@internal The TGMPA_Bulk_Installer_Skin class was originally called TGM_Bulk_Installer_Skin.
+	 *            For more information, see that class.}}
 	 */
 	class TGM_Bulk_Installer_Skin {
 	}
@@ -3486,8 +3503,8 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 				 * @since 2.2.0
 				 *
 				 * {@internal Since 2.5.2 the class has been renamed from TGM_Bulk_Installer_Skin to
-				 *           TGMPA_Bulk_Installer_Skin.
-				 *           This was done to prevent backward compatibility issues with v2.3.6.}}
+				 *            TGMPA_Bulk_Installer_Skin.
+				 *            This was done to prevent backward compatibility issues with v2.3.6.}}
 				 *
 				 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-admin/includes/class-wp-upgrader-skins.php
 				 *
@@ -3815,15 +3832,15 @@ if ( ! class_exists( 'TGMPA_Utils' ) ) {
 
 			if ( is_bool( $value ) ) {
 				return $value;
-			} else if ( is_int( $value ) && ( 0 === $value || 1 === $value ) ) {
+			} elseif ( is_int( $value ) && ( 0 === $value || 1 === $value ) ) {
 				return (bool) $value;
-			} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( (float) 0 === $value || (float) 1 === $value ) ) {
+			} elseif ( ( is_float( $value ) && ! is_nan( $value ) ) && ( (float) 0 === $value || (float) 1 === $value ) ) {
 				return (bool) $value;
-			} else if ( is_string( $value ) ) {
+			} elseif ( is_string( $value ) ) {
 				$value = trim( $value );
 				if ( in_array( $value, $true, true ) ) {
 					return true;
-				} else if ( in_array( $value, $false, true ) ) {
+				} elseif ( in_array( $value, $false, true ) ) {
 					return false;
 				} else {
 					return false;

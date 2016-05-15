@@ -10,7 +10,7 @@
  *
  * @package    TGM-Plugin-Activation
  * @subpackage Example
- * @version    2.5.2
+ * @version    2.6.0
  * @author     Thomas Griffin, Gary Jones, Juliette Reinders Folmer
  * @copyright  Copyright (c) 2011, Thomas Griffin
  * @license    http://opensource.org/licenses/gpl-2.0.php GPL v2 or later
@@ -201,7 +201,7 @@ function my_theme_register_required_plugins() {
 			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin.', 'theme-slug' ),
 			/* translators: 1: dashboard link. * /
 			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'theme-slug' ),
-			'dismiss'                         => __( 'Dismiss this notice', 'tgmpa' ),
+			'dismiss'                         => __( 'Dismiss this notice', 'theme-slug' ),
 			'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'theme-slug' ),
 			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'theme-slug' ),
 
