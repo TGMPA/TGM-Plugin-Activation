@@ -549,8 +549,7 @@
 	// Custom TGMPA Generation
 	//=========================
 	$( '#generator-form' ).on( 'submit', function( event ) {
-		var tgmpaDir, slug, prefix, addonName, addonType, publishType,
-			zip, exampleFileContent, classFileContent, blob;
+		var tgmpaDir, slug, prefix, addonName, addonType, publishType;
 
 		event.preventDefault();
 
@@ -607,110 +606,120 @@
 
 			try {
 
-				zip = new JSZip( data );
+				JSZip.loadAsync( data ).then( function updateContent( zip ) {
+					var exampleFileContent, classFileContent;
 
-				/*
-				 * File example.php.
-				 */
-				exampleFileContent = zip.file( tgmpaDir + '/example.php' ).asText();
-
-				// Replace text domain.
-				exampleFileContent = replaceTextDomain( 'theme-slug', slug, exampleFileContent );
-				exampleFileContent = replaceTextDomain( 'tgmpa', slug, exampleFileContent ); // In 2.5.2 is one wrongly tagged string.
-
-				// Replace the file include call.
-				exampleFileContent = replaceIncludeCall( exampleFileContent, addonType );
-
-				// Replace the bundled plugin variable.
-				exampleFileContent = replaceBundledPluginVariable( exampleFileContent, addonType );
-
-				// Replace function name.
-				exampleFileContent = exampleFileContent.replace( /([ '"])my_theme_register_required_plugins(['"\(])/g, '$1' + prefix + '_register_required_plugins$2' );
-
-				// Replace id used for notices.
-				exampleFileContent = exampleFileContent.replace( /('id'\s+=>\s+')tgmpa(',)/, '$1' + slug + '$2' );
-
-				// If plugin: change the typical menu location and capability.
-				if ( 'plugin' === addonType ) {
-					exampleFileContent = replaceMenuConfigVariables( exampleFileContent );
-				}
-
-				// WP.org & Themeforest: remove config variables to change the menu page.
-				else if ( ( 'wporg' === publishType || 'themeforest' === publishType ) && ( 'parent-theme' === addonType || 'child-theme' === addonType ) ) {
-					exampleFileContent = removeMenuConfigVariables( exampleFileContent );
-				}
-
-				// Show that the file was adjusted using the generator.
-				exampleFileContent = addGeneratorUseIndicator( exampleFileContent, addonName, addonType, publishType );
-
-				// Replace the original file with the new content.
-				zip.file( tgmpaDir + '/example.php', exampleFileContent );
-
-				/*
-				 * File class-tgm-plugin-activation.php.
-				 */
-				if ( 'other' !== publishType && ( 'parent-theme' === addonType || 'child-theme' === addonType ) ) {
-					classFileContent = zip.file( tgmpaDir + '/class-tgm-plugin-activation.php' ).asText();
-
-					// Replace the add admin menu function.
-					classFileContent = replaceAddAdminMenuFunction( classFileContent );
-
-					if ( 'wporg' === publishType ) {
-
-						// Remove the load textdomain related functions.
-						classFileContent = removeLoadTextDomainFunctions( classFileContent );
+					/*
+					 * File example.php.
+					 */
+					exampleFileContent = zip.file( tgmpaDir + '/example.php' ).async( 'string' ).then( function( content ) {
 
 						// Replace text domain.
-						classFileContent = replaceTextDomain( 'tgmpa', slug, classFileContent );
-					}
+						content = replaceTextDomain( 'theme-slug', slug, content );
 
-					// Show that the file was adjusted using the generator.
-					classFileContent = addGeneratorUseIndicator( classFileContent, addonName, addonType, publishType );
+						// Replace the file include call.
+						content = replaceIncludeCall( content, addonType );
+
+						// Replace the bundled plugin variable.
+						content = replaceBundledPluginVariable( content, addonType );
+
+						// Replace function name.
+						content = content.replace( /([ '"])my_theme_register_required_plugins(['"\(])/g, '$1' + prefix + '_register_required_plugins$2' );
+
+						// Replace id used for notices.
+						content = content.replace( /('id'\s+=>\s+')tgmpa(',)/, '$1' + slug + '$2' );
+
+						// If plugin: change the typical menu location and capability.
+						if ( 'plugin' === addonType ) {
+							content = replaceMenuConfigVariables( content );
+						}
+
+						// WP.org & Themeforest: remove config variables to change the menu page.
+						else if ( ( 'wporg' === publishType || 'themeforest' === publishType ) && ( 'parent-theme' === addonType || 'child-theme' === addonType ) ) {
+							content = removeMenuConfigVariables( content );
+						}
+
+						// Show that the file was adjusted using the generator.
+						content = addGeneratorUseIndicator( content, addonName, addonType, publishType );
+
+						return content;
+					} );
 
 					// Replace the original file with the new content.
-					zip.file( tgmpaDir + '/class-tgm-plugin-activation.php', classFileContent );
+					zip.file( tgmpaDir + '/example.php', exampleFileContent );
 
-					if ( 'wporg' === publishType ) {
+					/*
+					 * File class-tgm-plugin-activation.php.
+					 */
+					if ( 'other' !== publishType && ( 'parent-theme' === addonType || 'child-theme' === addonType ) ) {
+						classFileContent = zip.file( tgmpaDir + '/class-tgm-plugin-activation.php' ).async( 'string' ).then( function( content ) {
 
-						// Remove the languages directory.
-						zip.remove( tgmpaDir + '/languages' );
+							// Replace the add admin menu function.
+							content = replaceAddAdminMenuFunction( content );
+
+							if ( 'wporg' === publishType ) {
+
+								// Remove the load textdomain related functions.
+								content = removeLoadTextDomainFunctions( content );
+
+								// Replace text domain.
+								content = replaceTextDomain( 'tgmpa', slug, content );
+							}
+
+							// Show that the file was adjusted using the generator.
+							content = addGeneratorUseIndicator( content, addonName, addonType, publishType );
+
+							return content;
+						} );
+
+						// Replace the original file with the new content.
+						zip.file( tgmpaDir + '/class-tgm-plugin-activation.php', classFileContent );
+
+						if ( 'wporg' === publishType ) {
+
+							// Remove the languages directory.
+							zip.remove( tgmpaDir + '/languages' );
+						}
 					}
-				}
 
-				/*
-				 * Remove various development related files.
-				 */
-				zip.remove( tgmpaDir + '/.editorconfig' );
-				zip.remove( tgmpaDir + '/.jscsrc' );
-				zip.remove( tgmpaDir + '/.jshintignore' );
-				zip.remove( tgmpaDir + '/.scrutinizer.yml' );
-				zip.remove( tgmpaDir + '/.travis.yml' );
-				zip.remove( tgmpaDir + '/composer.json' );
-				zip.remove( tgmpaDir + '/phpcs.xml' );
+					/*
+					 * Remove various development related files.
+					 */
+					zip.remove( tgmpaDir + '/.editorconfig' );
+					zip.remove( tgmpaDir + '/.jscsrc' );
+					zip.remove( tgmpaDir + '/.jshintignore' );
+					zip.remove( tgmpaDir + '/.scrutinizer.yml' );
+					zip.remove( tgmpaDir + '/.travis.yml' );
+					zip.remove( tgmpaDir + '/composer.json' );
+					zip.remove( tgmpaDir + '/phpcs.xml' );
 
-				/*
-				 * Everything has been adjusted, we can trigger the download.
-				 */
-				if ( JSZip.support.blob ) {
-					try {
-						blob = zip.generate( { type:'blob' } );
+					return zip;
 
-						// Uses FileSaver.js.
-						saveAs( blob, tgmpaDir + '-' + slug + '.zip' );
+				} ).then( function serveZip( zip ) {
 
-						showMessage( 'Custom TGMPA succesfully created!', 'success' );
+					/*
+					 * Everything has been adjusted, we can trigger the download.
+					 */
+					if ( JSZip.support.blob ) {
+						zip.generateAsync( { type:'blob' } ).then( function success( blob ) {
 
-					} catch ( e ) {
-						showMessage( 'Failed to generate Custom TGMPA file: ' + e, 'error' );
+							// Uses FileSaver.js.
+							saveAs( blob, tgmpaDir + '-' + slug + '.zip' );
+							showMessage( 'Custom TGMPA succesfully created!', 'success' );
+
+						}, function failure( error ) {
+							showMessage( 'Failed to generate Custom TGMPA file: ' + error, 'error' );
+						} );
+
+					} else {
+						showMessage( 'This browser is not supported.', 'warning' );
 					}
-				} else {
-					showMessage( 'This browser is not supported.', 'warning' );
-				}
 
-				return false;
+					return false;
+				} );
 
-			} catch ( e ) {
-				showMessage( ' ' + e, 'error' );
+			} catch ( error ) {
+				showMessage( ' ' + error, 'error' );
 			}
 		});
 
