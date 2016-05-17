@@ -2692,19 +2692,19 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 			// Display the 'Install' action link if the plugin is not yet available.
 			if ( ! $this->tgmpa->is_plugin_installed( $item['slug'] ) ) {
-				/* translators: %s: plugin name in screen reader markup */
-				$actions['install'] = __( 'Install %s', 'tgmpa' );
+				/* translators: %2$s: plugin name in screen reader markup */
+				$actions['install'] = __( 'Install %2$s', 'tgmpa' );
 			} else {
 				// Display the 'Update' action link if an update is available and WP complies with plugin minimum.
 				if ( false !== $this->tgmpa->does_plugin_have_update( $item['slug'] ) && $this->tgmpa->can_plugin_update( $item['slug'] ) ) {
-					/* translators: %s: plugin name in screen reader markup */
-					$actions['update'] = __( 'Update %s', 'tgmpa' );
+					/* translators: %2$s: plugin name in screen reader markup */
+					$actions['update'] = __( 'Update %2$s', 'tgmpa' );
 				}
 
 				// Display the 'Activate' action link, but only if the plugin meets the minimum version.
 				if ( $this->tgmpa->can_plugin_activate( $item['slug'] ) ) {
-					/* translators: %s: plugin name in screen reader markup */
-					$actions['activate'] = __( 'Activate %s', 'tgmpa' );
+					/* translators: %2$s: plugin name in screen reader markup */
+					$actions['activate'] = __( 'Activate %2$s', 'tgmpa' );
 				}
 			}
 
@@ -2723,7 +2723,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				);
 
 				$action_links[ $action ] = sprintf(
-					'<a href="%1$s">' . esc_html( $text ) . '</a>',
+					'<a href="%1$s">' . esc_html( $text ) . '</a>', // $text contains the second placeholder.
 					esc_url( $nonce_url ),
 					'<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 				);
