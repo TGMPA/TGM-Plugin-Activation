@@ -7,7 +7,7 @@
 		versionNr     = $( '.version-number' ), // Site-wide.
 		releaseDate   = $( '.release-date' ), // Homepage, download page.
 		zipUrls, tarUrls, releasesTable, releaseNotes, releases, spinner, publishFieldset, feedbackElm,
-		feedbackMsg, reportError, latestVersion, latestRelease, releasePublished; // Download page.
+		feedbackMsg, reportError, latestVersion, latestRelease, releasePublished, previousRelease; // Download page.
 
 	zipUrls         = $( '.latest-zip' );
 	tarUrls         = $( '.latest-tar' );
@@ -219,6 +219,11 @@
 			}
 		}
 
+		/* Add the last five releases before the current one to the 'Download' section. */
+		if ( releases.length ) {
+			releases.html( createReleaseTableRows( 5 ) );
+		}
+
 		/* Add the changelog / release notes of the latest version to the download page */
 		if ( latestRelease.body.length ) {
 
@@ -233,16 +238,21 @@
 				smartLists: true,
 				smartypants: true
 			});
+
+			/* If available, add the changelog for the previous release. */
+			previousRelease = ghreleases.shift();
+			if ( previousRelease.body.length ) {
+				releaseNotes.prepend( marked( previousRelease.body ) ).prepend( '<h5>Version ' + previousRelease.name + '</h5>' );
+			}
+
+			/* Add the changelog for the latest release. */
 			releaseNotes.prepend( marked( latestRelease.body ) ).prepend( '<h5>Version ' + latestRelease.name + '</h5>' );
 			$( '#no-release-notes' ).remove();
+
 		} else {
 			releaseNotes.remove();
 		}
 
-		/* Add the last five releases before the current one to the 'Download' section. */
-		if ( releases.length ) {
-			releases.html( createReleaseTableRows( 5 ) );
-		}
 	}
 	/* Remove the releases table and changelog section if no GH data was received. */
 	else {

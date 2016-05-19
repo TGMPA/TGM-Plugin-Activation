@@ -18,7 +18,7 @@ tgmpa:
     description: "TGM Plugin Activation is a PHP library that allows you to easily and automatically require, recommend and install plugins for your WordPress themes and plugins."
     url: "http://tgmpluginactivation.com"
     logo: "http://tgmpluginactivation.com/TGM-Plugin-Activation/images/logo.png"
-    version: 2.6.0
+    version: 2.6.1
     minwp: 3.7
     minphp: 5.2.4
     twitternick: tgmpa
