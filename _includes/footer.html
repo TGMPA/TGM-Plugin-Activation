@@ -30,10 +30,11 @@
 		<script type="text/javascript" src="{{ '/js/to-title-case.min.js?v=2.1' | prepend: site.tgmpa.url }}"></script>
 		{% endif %}
 
+		{% capture site_generation_date %}{{ site.time | date: "%Y%m%d" }}{% endcapture %}
 		{% if site.tgmpa.url == "http://tgmpluginactivation.com" %}
-		<script type="text/javascript" src="{{ '/js/tgmpa.min.js?v=20160516' | prepend: site.tgmpa.url }}"></script>
+		<script type="text/javascript" src="{{ '/js/tgmpa.min.js?v=' | prepend: site.tgmpa.url | append: site_generation_date }}"></script>
 		{% else %}
-		<script type="text/javascript" src="{{ '/js/tgmpa.js?v=20160516' | prepend: site.tgmpa.url }}"></script>
+		<script type="text/javascript" src="{{ '/js/tgmpa.js?v=' | prepend: site.tgmpa.url | append: site_generation_date }}"></script>
 		{% endif %}
 
 		<script type="text/javascript">
