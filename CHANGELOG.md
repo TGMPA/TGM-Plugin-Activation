@@ -1,5 +1,9 @@
 # Changelog for TGM Plugin Activation library
 
+## 2.6.1 (2016-05-19)
+
+* Fix a string replacement issue in the plugin action links. Thanks [Nilambar Sharma] for reporting. [#587], [#588]
+
 ## 2.6.0 (2016-05-14)
 
 Since mid-February we offer a _"Custom TGMPA Generator"_. From now on, that is the preferred way for downloading your copy of TGMPA for use in a theme or plugin.
@@ -324,6 +328,7 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Mika Epstein]: https://github.com/Ipstenu
 [Mohamed A. Baset]: https://github.com/SymbianSyMoh
 [Nate Wright]: https://github.com/NateWr
+[Nilambar Sharma]: https://github.com/ernilambar
 [Ninos Ego]: https://github.com/Ninos
 [Ollie Treend]: https://github.com/ollietreend
 [Parhum Khoshbakht]: https://github.com/parhumm
@@ -349,6 +354,8 @@ TGMPA will start providing localized text strings soon. If you already have tran
 [Marciel Bartzik]: http://www.bartzik.net/
 [Zauan/Hogash Studio]: http://pastebin.com/u/Zauan
 
+[#588]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/588
+[#587]: https://github.com/TGMPA/TGM-Plugin-Activation/issues/587
 [#577]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/577
 [#574]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/574
 [#571]: https://github.com/TGMPA/TGM-Plugin-Activation/pull/571

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TGM Plugin Activation v2.6.0\n"
-"POT-Creation-Date: 2016-05-02 13:25+0200\n"
-"PO-Revision-Date: 2016-05-14 03:21+0200\n"
+"Project-Id-Version: TGM Plugin Activation v2.6.1\n"
+"POT-Creation-Date: 2016-05-19 03:02+0200\n"
+"PO-Revision-Date: 2016-05-19 03:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: TGMPA\n"
 "Language: hr_HR\n"
@@ -15,32 +15,32 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7\n"
 
-#: class-tgm-plugin-activation.php:331
+#: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
 msgstr "Instalirajte potrebne dodatke"
 
-#: class-tgm-plugin-activation.php:332
+#: class-tgm-plugin-activation.php:335
 msgid "Install Plugins"
 msgstr "Instalirajte dodatke"
 
 #. translators: %s: plugin name.
-#: class-tgm-plugin-activation.php:334
+#: class-tgm-plugin-activation.php:337
 #, php-format
 msgid "Installing Plugin: %s"
 msgstr "Instaliranje dodatka: %s"
 
 #. translators: %s: plugin name.
-#: class-tgm-plugin-activation.php:336
+#: class-tgm-plugin-activation.php:339
 #, php-format
 msgid "Updating Plugin: %s"
 msgstr "Ažuriranje dodatka: %s"
 
-#: class-tgm-plugin-activation.php:337
+#: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
 msgstr "Nešto je pošlo po zlu sa API-jem dodatka"
 
 #. translators: 1: plugin name(s).
-#: class-tgm-plugin-activation.php:340
+#: class-tgm-plugin-activation.php:343
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
@@ -49,7 +49,7 @@ msgstr[1] "Ova tema traži sljedeće dodatke: %1$s."
 msgstr[2] "Ova tema traži sljedeće dodatke: %1$s."
 
 #. translators: 1: plugin name(s).
-#: class-tgm-plugin-activation.php:346
+#: class-tgm-plugin-activation.php:349
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
@@ -58,7 +58,7 @@ msgstr[1] "Ova tema preporuča sljedeće dodatke: %1$s."
 msgstr[2] "Ova tema preporuča sljedeće dodatke: %1$s."
 
 #. translators: 1: plugin name(s).
-#: class-tgm-plugin-activation.php:352
+#: class-tgm-plugin-activation.php:355
 #, php-format
 msgid ""
 "The following plugin needs to be updated to its latest version to ensure "
@@ -77,7 +77,7 @@ msgstr[2] ""
 "postigla maksimalna kompatibilnost sa ovom temom: %1$s."
 
 #. translators: 1: plugin name(s).
-#: class-tgm-plugin-activation.php:358
+#: class-tgm-plugin-activation.php:361
 #, php-format
 msgid "There is an update available for: %1$s."
 msgid_plural "There are updates available for the following plugins: %1$s."
@@ -86,7 +86,7 @@ msgstr[1] "Postoje nadogradnje za sljedeće dodatke: %1$s."
 msgstr[2] "Postoje nadogradnje za sljedeće dodatke: %1$s."
 
 #. translators: 1: plugin name(s).
-#: class-tgm-plugin-activation.php:364
+#: class-tgm-plugin-activation.php:367
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
@@ -95,7 +95,7 @@ msgstr[1] "Sljedeći obavezni dodaci su trenutačno neaktivni: %1$s."
 msgstr[2] "Sljedeći obavezni dodaci su trenutačno neaktivni: %1$s."
 
 #. translators: 1: plugin name(s).
-#: class-tgm-plugin-activation.php:370
+#: class-tgm-plugin-activation.php:373
 #, php-format
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
@@ -103,41 +103,41 @@ msgstr[0] "Sljedeći preporučeni dodatak je trenutno neaktivan: %1$s."
 msgstr[1] "Sljedeći preporučeni dodaci su trenutno neaktivni: %1$s."
 msgstr[2] "Sljedeći preporučeni dodaci su trenutno neaktivni: %1$s."
 
-#: class-tgm-plugin-activation.php:375
+#: class-tgm-plugin-activation.php:378
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
 msgstr[0] "Započnite instalaciju dodatka"
 msgstr[1] "Započnite instalaciju dodataka"
 msgstr[2] "Započnite instalaciju dodataka"
 
-#: class-tgm-plugin-activation.php:380
+#: class-tgm-plugin-activation.php:383
 msgid "Begin updating plugin"
 msgid_plural "Begin updating plugins"
 msgstr[0] "Započnite nadogradnju dodatka"
 msgstr[1] "Započnite nadogradnju dodataka"
 msgstr[2] "Započnite nadogradnju dodataka"
 
-#: class-tgm-plugin-activation.php:385
+#: class-tgm-plugin-activation.php:388
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
 msgstr[0] "Započnite aktivaciju dodatka"
 msgstr[1] "Započnite aktivaciju dodataka"
 msgstr[2] "Započnite aktivaciju dodataka"
 
-#: class-tgm-plugin-activation.php:389
+#: class-tgm-plugin-activation.php:392
 msgid "Return to Required Plugins Installer"
 msgstr "Vratite se na instalacijski prozor potrebnih dodataka"
 
-#: class-tgm-plugin-activation.php:390 class-tgm-plugin-activation.php:917
-#: class-tgm-plugin-activation.php:2609 class-tgm-plugin-activation.php:3646
+#: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
+#: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
 msgid "Return to the Dashboard"
 msgstr "Vratite se na Nadzornu ploču"
 
-#: class-tgm-plugin-activation.php:391 class-tgm-plugin-activation.php:3225
+#: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
 msgid "Plugin activated successfully."
 msgstr "Dodatak je uspješno aktiviran."
 
-#: class-tgm-plugin-activation.php:392 class-tgm-plugin-activation.php:3028
+#: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
 msgstr[0] "Sljedeći dodatak je uspješno aktiviran:"
@@ -145,13 +145,13 @@ msgstr[1] "Sljedeći dodaci su uspješno aktivirani:"
 msgstr[2] "Sljedeći dodaci su uspješno aktivirani:"
 
 #. translators: 1: plugin name.
-#: class-tgm-plugin-activation.php:394
+#: class-tgm-plugin-activation.php:397
 #, php-format
 msgid "No action taken. Plugin %1$s was already active."
 msgstr "Nije poduzeta akcija. Dodatak %1$s je već aktiviran."
 
 #. translators: 1: plugin name.
-#: class-tgm-plugin-activation.php:396
+#: class-tgm-plugin-activation.php:399
 #, php-format
 msgid ""
 "Plugin not activated. A higher version of %s is needed for this theme. "
@@ -161,16 +161,16 @@ msgstr ""
 "nadogradite dodatak."
 
 #. translators: 1: dashboard link.
-#: class-tgm-plugin-activation.php:398
+#: class-tgm-plugin-activation.php:401
 #, php-format
 msgid "All plugins installed and activated successfully. %1$s"
 msgstr "Svi dodaci su instalirani i aktivirani uspješno. %1$s"
 
-#: class-tgm-plugin-activation.php:399
+#: class-tgm-plugin-activation.php:402
 msgid "Dismiss this notice"
 msgstr "Zanemarite ovu obavijest"
 
-#: class-tgm-plugin-activation.php:400
+#: class-tgm-plugin-activation.php:403
 msgid ""
 "There are one or more required or recommended plugins to install, update or "
 "activate."
@@ -178,24 +178,24 @@ msgstr ""
 "Postoji jedan ili više dodataka ili preporučenih dodataka za instalaciju, "
 "nadogradnju ili aktiviranje."
 
-#: class-tgm-plugin-activation.php:401
+#: class-tgm-plugin-activation.php:404
 msgid "Please contact the administrator of this site for help."
 msgstr "Molimo vas kontaktirajte administratora stranice za pomoć."
 
-#: class-tgm-plugin-activation.php:604
+#: class-tgm-plugin-activation.php:607
 msgid "This plugin needs to be updated to be compatible with your theme."
 msgstr ""
 "Ovaj dodatak treba biti nadograđen da bi bio kompatibilan sa vašom temom."
 
-#: class-tgm-plugin-activation.php:605
+#: class-tgm-plugin-activation.php:608
 msgid "Update Required"
 msgstr "Nadogradnja je potrebna"
 
-#: class-tgm-plugin-activation.php:722
+#: class-tgm-plugin-activation.php:725
 msgid "Set the parent_slug config variable instead."
 msgstr "Postavite parent_slug konfiguracijsku varijablu umijesto"
 
-#: class-tgm-plugin-activation.php:1024
+#: class-tgm-plugin-activation.php:1027
 msgid ""
 "The remote plugin package does not contain a folder with the desired slug "
 "and renaming did not work."
@@ -203,7 +203,7 @@ msgstr ""
 "Daljinski paket dodataka ne sadrži mapu sa traženim slug-om. Preimenovanje "
 "nije uspjelo."
 
-#: class-tgm-plugin-activation.php:1024 class-tgm-plugin-activation.php:1027
+#: class-tgm-plugin-activation.php:1027 class-tgm-plugin-activation.php:1030
 msgid ""
 "Please contact the plugin provider and ask them to package their plugin "
 "according to the WordPress guidelines."
@@ -211,7 +211,7 @@ msgstr ""
 "Molimo vas kontaktirajte autora dodatka i tražite ih da zapakiraju dodatak "
 "prema WordPressovim pravilima"
 
-#: class-tgm-plugin-activation.php:1027
+#: class-tgm-plugin-activation.php:1030
 msgid ""
 "The remote plugin package consists of more than one file, but the files are "
 "not packaged in a folder."
@@ -219,70 +219,70 @@ msgstr ""
 "Daljinski paket dodataka sadrži više od jedne datoteke, ali one nisu "
 "zapakirane unutar mape."
 
-#: class-tgm-plugin-activation.php:1211 class-tgm-plugin-activation.php:3024
+#: class-tgm-plugin-activation.php:1214 class-tgm-plugin-activation.php:3041
 msgctxt "plugin A *and* plugin B"
 msgid "and"
 msgstr "i"
 
 #. translators: %s: version number
-#: class-tgm-plugin-activation.php:2060
+#: class-tgm-plugin-activation.php:2075
 #, php-format
 msgid "TGMPA v%s"
 msgstr "TGMPA v%s"
 
-#: class-tgm-plugin-activation.php:2349
+#: class-tgm-plugin-activation.php:2366
 msgid "Required"
 msgstr "Potreban"
 
-#: class-tgm-plugin-activation.php:2352
+#: class-tgm-plugin-activation.php:2369
 msgid "Recommended"
 msgstr "Preporučen"
 
-#: class-tgm-plugin-activation.php:2368
+#: class-tgm-plugin-activation.php:2385
 msgid "WordPress Repository"
 msgstr "WordPressov repozitorij"
 
-#: class-tgm-plugin-activation.php:2371
+#: class-tgm-plugin-activation.php:2388
 msgid "External Source"
 msgstr "Vanjski izvor"
 
-#: class-tgm-plugin-activation.php:2374
+#: class-tgm-plugin-activation.php:2391
 msgid "Pre-Packaged"
 msgstr "Unaprijed zapakiran"
 
-#: class-tgm-plugin-activation.php:2391
+#: class-tgm-plugin-activation.php:2408
 msgid "Not Installed"
 msgstr "Nije instaliran"
 
-#: class-tgm-plugin-activation.php:2395
+#: class-tgm-plugin-activation.php:2412
 msgid "Installed But Not Activated"
 msgstr "Instaliran, ali nije aktiviran"
 
-#: class-tgm-plugin-activation.php:2397
+#: class-tgm-plugin-activation.php:2414
 msgid "Active"
 msgstr "Aktivan"
 
-#: class-tgm-plugin-activation.php:2403
+#: class-tgm-plugin-activation.php:2420
 msgid "Required Update not Available"
 msgstr "Potrebna nadogradnja nije dostupna"
 
-#: class-tgm-plugin-activation.php:2406
+#: class-tgm-plugin-activation.php:2423
 msgid "Requires Update"
 msgstr "Zahtijeva nadogradnju"
 
-#: class-tgm-plugin-activation.php:2409
+#: class-tgm-plugin-activation.php:2426
 msgid "Update recommended"
 msgstr "Nadogradnja je preporučena"
 
 #. translators: 1: install status, 2: update status
-#: class-tgm-plugin-activation.php:2418
+#: class-tgm-plugin-activation.php:2435
 #, php-format
 msgctxt "Install/Update Status"
 msgid "%1$s, %2$s"
 msgstr "%1$s, %2$s"
 
 #. translators: 1: number of plugins.
-#: class-tgm-plugin-activation.php:2464
+#: class-tgm-plugin-activation.php:2481
 #, php-format
 msgctxt "plugins"
 msgid "All <span class=\"count\">(%s)</span>"
@@ -292,7 +292,7 @@ msgstr[1] "Svi <span class=\"count\">(%s)</span>"
 msgstr[2] "Svi <span class=\"count\">(%s)</span>"
 
 #. translators: 1: number of plugins.
-#: class-tgm-plugin-activation.php:2468
+#: class-tgm-plugin-activation.php:2485
 #, php-format
 msgid "To Install <span class=\"count\">(%s)</span>"
 msgid_plural "To Install <span class=\"count\">(%s)</span>"
@@ -301,7 +301,7 @@ msgstr[1] "Za instalaciju <span class=\"count\">(%s)</span>"
 msgstr[2] "Za instalaciju <span class=\"count\">(%s)</span>"
 
 #. translators: 1: number of plugins.
-#: class-tgm-plugin-activation.php:2472
+#: class-tgm-plugin-activation.php:2489
 #, php-format
 msgid "Update Available <span class=\"count\">(%s)</span>"
 msgid_plural "Update Available <span class=\"count\">(%s)</span>"
@@ -310,7 +310,7 @@ msgstr[1] "Nadogradnje su dostupne <span class=\"count\">(%s)</span>"
 msgstr[2] "Nadogradnje su dostupne <span class=\"count\">(%s)</span>"
 
 #. translators: 1: number of plugins.
-#: class-tgm-plugin-activation.php:2476
+#: class-tgm-plugin-activation.php:2493
 #, php-format
 msgid "To Activate <span class=\"count\">(%s)</span>"
 msgid_plural "To Activate <span class=\"count\">(%s)</span>"
@@ -318,134 +318,134 @@ msgstr[0] "Za aktivirati <span class=\"count\">(%s)</span>"
 msgstr[1] "Za aktivirati <span class=\"count\">(%s)</span>"
 msgstr[2] "Za aktivirati <span class=\"count\">(%s)</span>"
 
-#: class-tgm-plugin-activation.php:2558
+#: class-tgm-plugin-activation.php:2575
 msgctxt "as in: \"version nr unknown\""
 msgid "unknown"
 msgstr "nepoznat"
 
-#: class-tgm-plugin-activation.php:2566
+#: class-tgm-plugin-activation.php:2583
 msgid "Installed version:"
 msgstr "Instalirana verzija:"
 
-#: class-tgm-plugin-activation.php:2574
+#: class-tgm-plugin-activation.php:2591
 msgid "Minimum required version:"
 msgstr "Minimalno potrebna verzija:"
 
-#: class-tgm-plugin-activation.php:2586
+#: class-tgm-plugin-activation.php:2603
 msgid "Available version:"
 msgstr "Dostupna verzija:"
 
-#: class-tgm-plugin-activation.php:2609
+#: class-tgm-plugin-activation.php:2626
 msgid "No plugins to install, update or activate."
 msgstr "Nema dodataka za instalaciju, nadogradnju ili aktivaciju."
 
-#: class-tgm-plugin-activation.php:2623
+#: class-tgm-plugin-activation.php:2640
 msgid "Plugin"
 msgstr "Dodatak"
 
-#: class-tgm-plugin-activation.php:2624
+#: class-tgm-plugin-activation.php:2641
 msgid "Source"
 msgstr "Izvor"
 
-#: class-tgm-plugin-activation.php:2625
+#: class-tgm-plugin-activation.php:2642
 msgid "Type"
 msgstr "Tip"
 
-#: class-tgm-plugin-activation.php:2629
+#: class-tgm-plugin-activation.php:2646
 msgid "Version"
 msgstr "Verzija"
 
-#: class-tgm-plugin-activation.php:2630
+#: class-tgm-plugin-activation.php:2647
 msgid "Status"
 msgstr "Status"
 
-#. translators: %s: plugin name in screen reader markup
-#: class-tgm-plugin-activation.php:2679
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2696
 #, php-format
-msgid "Install %s"
-msgstr "Instalirajte %s"
+msgid "Install %2$s"
+msgstr "Instalirajte %2$s"
 
-#. translators: %s: plugin name in screen reader markup
-#: class-tgm-plugin-activation.php:2684
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2701
 #, php-format
-msgid "Update %s"
-msgstr "Nadogradite %s"
+msgid "Update %2$s"
+msgstr "Nadogradite %2$s"
 
-#. translators: %s: plugin name in screen reader markup
-#: class-tgm-plugin-activation.php:2690
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2707
 #, php-format
-msgid "Activate %s"
-msgstr "Aktivirajte %s"
+msgid "Activate %2$s"
+msgstr "Aktivirajte %2$s"
 
-#: class-tgm-plugin-activation.php:2760
+#: class-tgm-plugin-activation.php:2777
 msgid "Upgrade message from the plugin author:"
 msgstr "Poruka nadogradnje od strane autora dodatka:"
 
-#: class-tgm-plugin-activation.php:2793
+#: class-tgm-plugin-activation.php:2810
 msgid "Install"
 msgstr "Instalirajte"
 
-#: class-tgm-plugin-activation.php:2799
+#: class-tgm-plugin-activation.php:2816
 msgid "Update"
 msgstr "Nadogradite"
 
-#: class-tgm-plugin-activation.php:2802
+#: class-tgm-plugin-activation.php:2819
 msgid "Activate"
 msgstr "Aktivirajte"
 
-#: class-tgm-plugin-activation.php:2833
+#: class-tgm-plugin-activation.php:2850
 msgid "No plugins were selected to be installed. No action taken."
 msgstr ""
 "Niti jedan dodatak nije izabran za instalaciju. Neće se poduzeti nikakva "
 "akcija."
 
-#: class-tgm-plugin-activation.php:2835
+#: class-tgm-plugin-activation.php:2852
 msgid "No plugins were selected to be updated. No action taken."
 msgstr ""
 "Niti jedan dodatak nije izabran za nadogradnju. Neće se poduzeti nikakva "
 "akcija."
 
-#: class-tgm-plugin-activation.php:2876
+#: class-tgm-plugin-activation.php:2893
 msgid "No plugins are available to be installed at this time."
 msgstr "Trenutno nema dodataka dostupnih za instalaciju."
 
-#: class-tgm-plugin-activation.php:2878
+#: class-tgm-plugin-activation.php:2895
 msgid "No plugins are available to be updated at this time."
 msgstr "Trenutno nema dodataka dostupnih za nadogradnju."
 
-#: class-tgm-plugin-activation.php:2984
+#: class-tgm-plugin-activation.php:3001
 msgid "No plugins were selected to be activated. No action taken."
 msgstr ""
 "Niti jedan dodatak nije izabran za aktivaciju. Neće se poduzeti nikakva "
 "akcija."
 
-#: class-tgm-plugin-activation.php:3010
+#: class-tgm-plugin-activation.php:3027
 msgid "No plugins are available to be activated at this time."
 msgstr "Trenutno nema dodataka dostupnih za aktivaciju."
 
-#: class-tgm-plugin-activation.php:3224
+#: class-tgm-plugin-activation.php:3251
 msgid "Plugin activation failed."
 msgstr "Neuspjela aktivacija dodatka."
 
 #. translators: 1: plugin name, 2: action number 3: total number of actions.
-#: class-tgm-plugin-activation.php:3564
+#: class-tgm-plugin-activation.php:3591
 #, php-format
 msgid "Updating Plugin %1$s (%2$d/%3$d)"
 msgstr "Nadograđivanje dodatka %1$s (%2$d/%3$d)"
 
 #. translators: 1: plugin name, 2: error message.
-#: class-tgm-plugin-activation.php:3567
+#: class-tgm-plugin-activation.php:3594
 #, php-format
 msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
 msgstr "Greška prilikom instalacije %1$s: <strong>%2$s</strong>."
 
 #. translators: 1: plugin name.
-#: class-tgm-plugin-activation.php:3569
+#: class-tgm-plugin-activation.php:3596
 #, php-format
 msgid "The installation of %1$s failed."
 msgstr "Neuspjela instalacija %1$s."
 
-#: class-tgm-plugin-activation.php:3573
+#: class-tgm-plugin-activation.php:3600
 msgid ""
 "The installation and activation process is starting. This process may take a "
 "while on some hosts, so please be patient."
@@ -454,30 +454,30 @@ msgstr ""
 "nekim poslužiteljima. Molimo vas, budite strpljivi."
 
 #. translators: 1: plugin name.
-#: class-tgm-plugin-activation.php:3575
+#: class-tgm-plugin-activation.php:3602
 #, php-format
 msgid "%1$s installed and activated successfully."
 msgstr "%1$s je uspješno instaliran i aktiviran."
 
-#: class-tgm-plugin-activation.php:3575 class-tgm-plugin-activation.php:3583
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
 msgid "Show Details"
 msgstr "Prikaži detalje"
 
-#: class-tgm-plugin-activation.php:3575 class-tgm-plugin-activation.php:3583
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
 msgid "Hide Details"
 msgstr "Sakrij detalje"
 
-#: class-tgm-plugin-activation.php:3576
+#: class-tgm-plugin-activation.php:3603
 msgid "All installations and activations have been completed."
 msgstr "Sve instalacije i aktivacije su završene."
 
 #. translators: 1: plugin name, 2: action number 3: total number of actions.
-#: class-tgm-plugin-activation.php:3578
+#: class-tgm-plugin-activation.php:3605
 #, php-format
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
 msgstr "Instaliranje i aktiviranje dodatka %1$s (%2$d/%3$d)"
 
-#: class-tgm-plugin-activation.php:3581
+#: class-tgm-plugin-activation.php:3608
 msgid ""
 "The installation process is starting. This process may take a while on some "
 "hosts, so please be patient."
@@ -486,17 +486,17 @@ msgstr ""
 "poslužiteljima. Molimo vas, budite strpljivi."
 
 #. translators: 1: plugin name.
-#: class-tgm-plugin-activation.php:3583
+#: class-tgm-plugin-activation.php:3610
 #, php-format
 msgid "%1$s installed successfully."
 msgstr "%1$s je instaliran uspješno."
 
-#: class-tgm-plugin-activation.php:3584
+#: class-tgm-plugin-activation.php:3611
 msgid "All installations have been completed."
 msgstr "Sve instalacije su završene."
 
 #. translators: 1: plugin name, 2: action number 3: total number of actions.
-#: class-tgm-plugin-activation.php:3586
+#: class-tgm-plugin-activation.php:3613
 #, php-format
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
 msgstr "Instaliranje dodatka %1$s (%2$d/%3$d)"
