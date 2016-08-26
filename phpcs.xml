@@ -5,6 +5,12 @@
 	<file>example.php</file>
 	<arg name="report" value="full"/>
 	<arg value="spn"/>
+
+	<!-- ##### Sniffs for PHP cross-version compatibility ##### -->
+	<config name="testVersion" value="5.2-99.0"/>
+	<rule ref="PHPCompatibility"/>
+
+	<!-- ##### Code style ##### -->
 	<rule ref="WordPress">
 		<exclude name="WordPress.VIP" />
 	</rule>
