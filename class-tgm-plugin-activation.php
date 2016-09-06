@@ -374,6 +374,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					'The following recommended plugins are currently inactive: %1$s.',
 					'tgmpa'
 				),
+				'notice_force_activation'         => _n_noop(
+					/* translators: 1: plugin name(s). */
+					'The following plugin has been automatically activated because it is required by the current theme: %s',
+					'The following plugins have been automatically activated because they are required by the current theme: %s',
+					'tgmpa'
+				),
 				'install_link'                    => _n_noop(
 					'Begin installing plugin',
 					'Begin installing plugins',
@@ -450,6 +456,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Setup the force deactivation hook.
 			if ( true === $this->has_forced_deactivation ) {
 				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
+			}
+
+			// Display forced activation notice, if present.
+			if ( current_user_can( 'manage_options' ) && is_admin() ) {
+				add_action( 'admin_notices', array( $this, 'display_forced_activation_notice' ) );
 			}
 		}
 
@@ -1181,7 +1192,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			// If we have notices to display, we move forward.
 			if ( ! empty( $message ) || $total_required_action_count > 0 ) {
-				krsort( $message ); // Sort messages.
 				$rendered = '';
 
 				// As add_settings_error() wraps the final message in a <p> and as the final message can't be
@@ -1198,32 +1208,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						$rendered .= sprintf( $line_template, wp_kses_post( $this->dismiss_msg ) );
 					}
 
-					// Render the individual message lines for the notice.
-					foreach ( $message as $type => $plugin_group ) {
-						$linked_plugins = array();
-
-						// Get the external info link for a plugin if one is available.
-						foreach ( $plugin_group as $plugin_slug ) {
-							$linked_plugins[] = $this->get_info_link( $plugin_slug );
-						}
-						unset( $plugin_slug );
-
-						$count          = count( $plugin_group );
-						$linked_plugins = array_map( array( 'TGMPA_Utils', 'wrap_in_em' ), $linked_plugins );
-						$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
-						$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
-
-						$rendered .= sprintf(
-							$line_template,
-							sprintf(
-								translate_nooped_plural( $this->strings[ $type ], $count, 'tgmpa' ),
-								$imploded,
-								$count
-							)
-						);
-
-					}
-					unset( $type, $plugin_group, $linked_plugins, $count, $last_plugin, $imploded );
+					$rendered .= $this->build_message( $message, $line_template );
 
 					$rendered .= $this->create_user_action_links_for_notice( $install_link_count, $update_link_count, $activate_link_count, $line_template );
 				}
@@ -1236,6 +1221,49 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( 'options-general' !== $GLOBALS['current_screen']->parent_base ) {
 				$this->display_settings_errors();
 			}
+		}
+
+		/**
+		 * Build a message string that specifies what actions are needed and the plugins that need those actions.
+		 *
+		 * @since 2.x.x
+		 *
+		 * @param array  $message       Associative array of actions: each key is an action and each value is an array of plugin slugs that need that action.
+		 * @param string $line_template String that sprintf is applied to in creating a line of html markup for each action.
+		 * @return string               Message to display.
+		 */
+		protected function build_message( $message, $line_template = '%s' ) {
+			$message_output = '';
+
+			krsort( $message );
+
+			// Render the individual message lines for the notice.
+			foreach ( $message as $type => $plugin_group ) {
+				$linked_plugins = array();
+
+				// Get the external info link for a plugin if one is available.
+				foreach ( $plugin_group as $plugin_slug ) {
+					$linked_plugins[] = $this->get_info_link( $plugin_slug );
+				}
+				unset( $plugin_slug );
+
+				$count          = count( $plugin_group );
+				$linked_plugins = array_map( array( 'TGMPA_Utils', 'wrap_in_em' ), $linked_plugins );
+				$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
+				$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
+
+				$message_output .= sprintf(
+					$line_template,
+					sprintf(
+						translate_nooped_plural( $this->strings[ $type ], $count, 'tgmpa' ),
+						$imploded,
+						$count
+					)
+				);
+
+			}
+
+			return $message_output;
 		}
 
 		/**
@@ -1337,6 +1365,50 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					break;
 				}
 			}
+		}
+
+		/**
+		 * Display admin notice if plugins have been force activated.
+		 *
+		 * @since 2.x.x
+		 */
+		public function display_forced_activation_notice() {
+			$force_activated_plugins = get_transient( 'tgmpa_force_activated_plugins' );
+
+			if ( $force_activated_plugins ) {
+				// Check to make sure all force activated plugins are still active since the transient was set.
+				$force_activated_and_active_plugins = $this->clean_inactive_plugins( $force_activated_plugins );
+
+				if ( $force_activated_and_active_plugins ) {
+					?>
+					<div class="notice <?php echo esc_attr( $this->get_admin_notice_class() ); ?> is-dismissible">
+						<p><strong><?php echo wp_kses_post( $this->build_message( array( 'notice_force_activation' => $force_activated_and_active_plugins ) ) ); ?></strong></p>
+					</div>
+					<?php
+				}
+
+				delete_transient( 'tgmpa_force_activated_plugins' );
+			}
+		}
+
+		/**
+		 * Remove inactive plugins from an array of plugin slugs.
+		 *
+		 * @since 2.x.x
+		 *
+		 * @param array $plugins Slugs.
+		 * @return array         Slugs with inactive plugins removed.
+		 */
+		protected function clean_inactive_plugins( $plugins ) {
+			$active_plugins = array();
+
+			foreach ( $plugins as $slug ) {
+				if ( $this->is_plugin_active( $slug ) ) {
+					$active_plugins[] = $slug;
+				}
+			}
+
+			return $active_plugins;
 		}
 
 		/**
@@ -2026,8 +2098,39 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					} elseif ( $this->can_plugin_activate( $slug ) ) {
 						// There we go, activate the plugin.
 						activate_plugin( $plugin['file_path'] );
+						$this->append_transient( 'tgmpa_force_activated_plugins', $slug );
 					}
 				}
+			}
+		}
+
+		/**
+		 * Set/update a transient, appending the new value if the transient already exists.
+		 *
+		 * @since 2.x.x
+		 *
+		 * @param string       $transient_key Name of transient.
+		 * @param string|array $data          To set or add to transient.
+		 */
+		protected function append_transient( $transient_key, $data ) {
+			$transient_data = get_transient( $transient_key );
+
+			if ( false === $transient_data ) {
+				$transient_data = array();
+			}
+
+			if ( ! is_array( $transient_data ) ) {
+				$transient_data = (array) $transient_data;
+			}
+
+			if ( $data ) {
+				if ( is_string( $data ) ) {
+					$transient_data[] = $data;
+				} elseif ( is_array( $data ) ) {
+					$transient_data = $transient_data + $data;
+				}
+
+				set_transient( $transient_key, $transient_data );
 			}
 		}
 

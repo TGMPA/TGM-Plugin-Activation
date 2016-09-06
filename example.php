@@ -177,6 +177,12 @@ function my_theme_register_required_plugins() {
 				'The following recommended plugins are currently inactive: %1$s.',
 				'theme-slug'
 			),
+			'notice_force_activation'         => _n_noop(
+				/* translators: 1: plugin name(s). * /
+				'The following plugin has been automatically activated because it is required by the current theme: %s',
+				'The following plugins have been automatically activated because they are required by the current theme: %s',
+				'theme-slug'
+			),
 			'install_link'                    => _n_noop(
 				'Begin installing plugin',
 				'Begin installing plugins',
