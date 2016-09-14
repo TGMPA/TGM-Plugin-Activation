@@ -451,6 +451,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( true === $this->has_forced_deactivation ) {
 				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
 			}
+
+			add_action( 'admin_head',  array( $this, 'tgm_css' ), 21 );
 		}
 
 		/**
@@ -2093,6 +2095,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			return self::$instance;
 		}
+
+		function tgm_css() {
+			echo '<style>
+			#tgmpa-plugins #the-list .required > th {
+			border-left: 3px solid #dc3232;
+			}
+			</style>';
+		}
 	}
 
 	if ( ! function_exists( 'load_tgm_plugin_activation' ) ) {
@@ -2741,7 +2751,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @param object $item The current item.
 		 */
 		public function single_row( $item ) {
-			parent::single_row( $item );
+			echo '<tr class="'.strtolower($item['type']).'">';
+			parent::single_row_columns( $item );
+			echo '</tr>';
 
 			/**
 			 * Fires after each specific row in the TGMPA Plugins list table.
