@@ -2096,6 +2096,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		 * Adds css to admin head
+		 *
+		 * @since 2.6.2
+		 *
+		 * @return none
+		 */
 		function tgm_css() {
 			echo '<style>
 			#tgmpa-plugins #the-list .required > th {
@@ -2751,7 +2758,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @param object $item The current item.
 		 */
 		public function single_row( $item ) {
-			echo '<tr class="'.strtolower($item['type']).'">';
+			echo '<tr class="' . esc_attr( strtolower( $item['type'] ) ) . '">';
 			parent::single_row_columns( $item );
 			echo '</tr>';
 
