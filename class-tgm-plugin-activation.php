@@ -2100,8 +2100,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * Adds css to admin head
 		 *
 		 * @since 2.6.2
-		 *
-		 * @return none
 		 */
 		function tgm_css() {
 			echo '<style>
