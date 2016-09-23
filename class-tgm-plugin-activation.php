@@ -452,7 +452,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
 			}
 
-			add_action( 'admin_head',  array( $this, 'tgm_css' ), 21 );
+			add_action( 'admin_head',  array( $this, 'admin_css' ) );
 		}
 
 		/**
@@ -2097,13 +2097,13 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
-		 * Adds css to admin head
+		 * Adds CSS to admin head.
 		 *
 		 * @since 2.6.2
 		 */
-		function tgm_css() {
+		function admin_css() {
 			echo '<style>
-			#tgmpa-plugins #the-list .required > th {
+			#tgmpa-plugins .tgmpa-type-required > th {
 			border-left: 3px solid #dc3232;
 			}
 			</style>';
@@ -2756,7 +2756,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @param object $item The current item.
 		 */
 		public function single_row( $item ) {
-			echo '<tr class="' . esc_attr( strtolower( $item['type'] ) ) . '">';
+			echo '<tr class="' . esc_attr( 'tgmpa-type-' . strtolower( $item['type'] ) ) . '">';
 			parent::single_row_columns( $item );
 			echo '</tr>';
 
