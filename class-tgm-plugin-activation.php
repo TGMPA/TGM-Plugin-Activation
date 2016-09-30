@@ -451,6 +451,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( true === $this->has_forced_deactivation ) {
 				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
 			}
+
+			// Add CSS for the TGMPA admin page.
+			add_action( 'admin_head',  array( $this, 'admin_css' ) );
 		}
 
 		/**
@@ -2080,6 +2083,24 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 
 		/**
+		 * Adds CSS to admin head.
+		 *
+		 * @since 2.6.2
+		 */
+		function admin_css() {
+			if ( ! $this->is_tgmpa_page() ) {
+				return;
+			}
+
+			echo '
+			<style>
+			#tgmpa-plugins .tgmpa-type-required > th {
+				border-left: 3px solid #dc3232;
+			}
+			</style>';
+		}
+
+		/**
 		 * Returns the singleton instance of the class.
 		 *
 		 * @since 2.4.0
@@ -2741,7 +2762,9 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @param object $item The current item.
 		 */
 		public function single_row( $item ) {
-			parent::single_row( $item );
+			echo '<tr class="' . esc_attr( 'tgmpa-type-' . strtolower( $item['type'] ) ) . '">';
+			$this->single_row_columns( $item );
+			echo '</tr>';
 
 			/**
 			 * Fires after each specific row in the TGMPA Plugins list table.
