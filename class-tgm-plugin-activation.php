@@ -2087,7 +2087,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @since 2.6.2
 		 */
-		function admin_css() {
+		public function admin_css() {
 			if ( ! $this->is_tgmpa_page() ) {
 				return;
 			}
