@@ -1,0 +1,12 @@
+{
+  "name": "TGMPA",
+  "private": true,
+  "devDependencies": {
+    "fs-extra": "^0.30.0",
+    "gulp": "^3.9.1",
+    "gulp-sort": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "gulp-wp-pot": "^1.2.2",
+    "gulp-checktextdomain": "^1.0.2"
+  }
+}
