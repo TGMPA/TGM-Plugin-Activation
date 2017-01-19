@@ -6,9 +6,9 @@
 
 **Lead Developers:**
 [Thomas Griffin](https://github.com/thomasgriffin) ([@jthomasgriffin](https://twitter.com/jthomasgriffin)), [Gary Jones](https://github.com/GaryJones) ([@GaryJ](https://twitter.com/GaryJ)), [Juliette Reinders Folmer](https://github.com/jrfnl) ([@jrf_nl](https://twitter.com/jrf_nl))  
-**Version:** 2.5.2 
-**Requires at least:** 3.7.0  
-**Tested up to:** 4.2.0  
+**Version:** 2.6.1
+**Requires at least:** 3.7.0 
+**Tested up to:** 4.5.2 
 
 ## Description
 
@@ -16,15 +16,19 @@ TGM Plugin Activation is a PHP library that allows you to easily require or reco
 
 ## Installation
 
-1. Head to the [Releases](https://github.com/TGMPA/TGM-Plugin-Activation/releases) page and download the latest release zip.
+1. Generate a customized version of the latest version of TGMPA based on your intended use-case using the [Custom TGMPA Generator](http://tgmpluginactivation.com/download/).
 2. Extract the class file and place it somewhere in your theme hierarchy.
-3. Add a `require_once` call within `functions.php` (or other theme file) referencing the class file.
+3. Add a `require_once` call within `functions.php` (or other file) referencing the class file.
 4. Create a function, hooked to `tgmpa_register`, that registers the plugin and configurations.
 
 For steps 3 and 4, it is recommended you view, copy and paste the contents of `example.php`
 and amend to suit. The `example.php` file is a model for how you should include the class in your theme.
 
 Detailed documentation on [how to configure TGMPA](http://tgmpluginactivation.com/configuration/) is available on the website.
+
+__*We strongly recommend the use of the [Custom TGMPA Generator](http://tgmpluginactivation.com/download/) if you intend to use TGMPA in a theme which is to be published via WordPress.org or Themeforest.*__
+
+The generated customized version of TGMPA will comply with the Theme Review guidelines and Theme Check.
 
 ### Composer
 
