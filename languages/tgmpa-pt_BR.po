@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
-"POT-Creation-Date: 2016-05-19 03:04+0200\n"
-"PO-Revision-Date: 2016-05-19 03:04+0200\n"
+"POT-Creation-Date: 2016-05-19 02:57+0200\n"
+"PO-Revision-Date: 2016-12-16 11:48-0300\n"
 "Last-Translator: Elvis Henrique Pereira <elvishp2006@gmail.com>\n"
 "Language-Team: TGMPA\n"
 "Language: pt_BR\n"
@@ -12,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
-msgstr "Instalar Plugins Obrigatórios"
+msgstr "Instalar Plugins Requeridos"
 
 #: class-tgm-plugin-activation.php:335
 msgid "Install Plugins"
@@ -36,7 +36,7 @@ msgstr "Atualizando Plugin: %s"
 
 #: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
-msgstr "Algo deu errado com a API do plugin."
+msgstr "Algo deu errado com a plugin API."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:343
@@ -83,7 +83,7 @@ msgstr[1] "Há atualizações disponíveis para os seguintes plugins: %1$s."
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
-msgstr[0] "O seguinte plugin necessário está atualmente inativo: %1$s."
+msgstr[0] "O seguinte plugin requerido está atualmente inativo: %1$s."
 msgstr[1] "Os seguintes plugins necessários estão atualmente inativos: %1$s."
 
 #. translators: 1: plugin name(s).
