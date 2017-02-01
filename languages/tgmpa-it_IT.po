@@ -32,7 +32,7 @@ msgstr "Installazione plugin: %s"
 #: class-tgm-plugin-activation.php:339
 #, php-format
 msgid "Updating Plugin: %s"
-msgstr ""
+msgstr "Aggiornamento Plugin: %s"
 
 #: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
@@ -128,8 +128,8 @@ msgstr "Plugin installato corretamente"
 #: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il seguente plugin è stato aggiornato correttamente:"
+msgstr[1] "I seguenti plugin sono stati aggiornati correttamente:"
 
 #. translators: 1: plugin name.
 #: class-tgm-plugin-activation.php:397
@@ -162,6 +162,8 @@ msgid ""
 "There are one or more required or recommended plugins to install, update or "
 "activate."
 msgstr ""
+"Ci sono uno o più plugin richiesti o raccomandati da installare, aggiornare "
+"o attivare."
 
 #: class-tgm-plugin-activation.php:404
 msgid "Please contact the administrator of this site for help."
