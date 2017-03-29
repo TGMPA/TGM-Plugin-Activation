@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
 "POT-Creation-Date: 2016-05-19 03:01+0200\n"
-"PO-Revision-Date: 2016-05-19 03:01+0200\n"
+"PO-Revision-Date: 2017-03-27 23:17+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
@@ -32,7 +32,7 @@ msgstr "Instalando plugin: %s"
 #: class-tgm-plugin-activation.php:339
 #, php-format
 msgid "Updating Plugin: %s"
-msgstr ""
+msgstr "Actualizando Plugin: %s"
 
 #: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
@@ -129,8 +129,8 @@ msgstr "Plugin activado correctamente."
 #: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "El siguiente plugin se actualizó con éxito:"
+msgstr[1] "Los siguientes plugins se actualizaron con éxito:"
 
 #. translators: 1: plugin name.
 #: class-tgm-plugin-activation.php:397
@@ -163,6 +163,8 @@ msgid ""
 "There are one or more required or recommended plugins to install, update or "
 "activate."
 msgstr ""
+"Hay uno más plugins requeridos o recomendados pendientes de instalar, "
+"actualizar o activar."
 
 #: class-tgm-plugin-activation.php:404
 msgid "Please contact the administrator of this site for help."
