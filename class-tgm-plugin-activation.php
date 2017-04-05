@@ -650,9 +650,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				global $tab, $body_id;
 				$body_id = 'plugin-information';
-				// @codingStandardsIgnoreStart
-				$tab     = 'plugin-information';
-				// @codingStandardsIgnoreEnd
+				$tab     = 'plugin-information'; // WPCS: override ok.
 
 				install_plugin_information();
 
