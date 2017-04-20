@@ -17,17 +17,17 @@ msgstr ""
 
 #: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
-msgstr "Установить Необходимыe Плагины"
+msgstr "Установить необходимыe плагины"
 
 #: class-tgm-plugin-activation.php:335
 msgid "Install Plugins"
-msgstr "Установить Плагины"
+msgstr "Установить плагины"
 
 #. translators: %s: plugin name.
 #: class-tgm-plugin-activation.php:337
 #, php-format
 msgid "Installing Plugin: %s"
-msgstr "Установить Плагин: %s"
+msgstr "Установить плагин: %s"
 
 #. translators: %s: plugin name.
 #: class-tgm-plugin-activation.php:339
@@ -131,7 +131,7 @@ msgstr "Вернуться к установщику необходимым Пл
 #: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
 #: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
 msgid "Return to the Dashboard"
-msgstr "Вернуться в Консоль"
+msgstr "Вернуться в консоль"
 
 #: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
 msgid "Plugin activated successfully."
@@ -208,7 +208,7 @@ msgid ""
 "Please contact the plugin provider and ask them to package their plugin "
 "according to the WordPress guidelines."
 msgstr ""
-"Пожалуйста, обратитесь к поставщику плагинов, и попросить их упаковать свой "
+"Пожалуйста, обратитесь к поставщику плагинов, и попросите их упаковать свой "
 "плагин в соответствии с руководством WordPress."
 
 #: class-tgm-plugin-activation.php:1030
@@ -256,7 +256,7 @@ msgstr "Не установлен"
 
 #: class-tgm-plugin-activation.php:2412
 msgid "Installed But Not Activated"
-msgstr "Установлен, но не Активирован"
+msgstr "Установлен, но не активирован"
 
 #: class-tgm-plugin-activation.php:2414
 msgid "Active"
@@ -264,7 +264,7 @@ msgstr "Активирован"
 
 #: class-tgm-plugin-activation.php:2420
 msgid "Required Update not Available"
-msgstr "Необходимое Обновление не доступно"
+msgstr "Необходимое обновление не доступно"
 
 #: class-tgm-plugin-activation.php:2423
 msgid "Requires Update"
@@ -305,9 +305,9 @@ msgstr[2] "Установить <span class=\"count\">(%s)</span>"
 #, php-format
 msgid "Update Available <span class=\"count\">(%s)</span>"
 msgid_plural "Update Available <span class=\"count\">(%s)</span>"
-msgstr[0] "Доступно Обновление <span class=\"count\">(%s)</span>"
-msgstr[1] "Доступно Обновление <span class=\"count\">(%s)</span>"
-msgstr[2] "Доступно Обновление <span class=\"count\">(%s)</span>"
+msgstr[0] "Доступно обновление <span class=\"count\">(%s)</span>"
+msgstr[1] "Доступно обновление <span class=\"count\">(%s)</span>"
+msgstr[2] "Доступно обновление <span class=\"count\">(%s)</span>"
 
 #. translators: 1: number of plugins.
 #: class-tgm-plugin-activation.php:2493
@@ -456,11 +456,11 @@ msgstr "%1$s установлен и активирован успешно."
 
 #: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
 msgid "Show Details"
-msgstr "Показать Детали"
+msgstr "Показать детали"
 
 #: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
 msgid "Hide Details"
-msgstr "Скрыть Детали"
+msgstr "Скрыть детали"
 
 #: class-tgm-plugin-activation.php:3603
 msgid "All installations and activations have been completed."
@@ -470,7 +470,7 @@ msgstr "Все установки и активации были заверше�
 #: class-tgm-plugin-activation.php:3605
 #, php-format
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
-msgstr "Устанавливаю и aктивирую Плагин %1$s (%2$d/%3$d)"
+msgstr "Устанавливаю и aктивирую плагин %1$s (%2$d/%3$d)"
 
 #: class-tgm-plugin-activation.php:3608
 msgid ""

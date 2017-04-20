@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="TGM Plugin Activation">
+	<description>The code standard for TGMPA is WordPress.</description>
+
+	<file>class-tgm-plugin-activation.php</file>
+	<file>example.php</file>
+
+	<arg name="report" value="full"/>
+	<arg value="spn"/>
+
+	<!-- ##### Sniffs for PHP cross-version compatibility ##### -->
+	<config name="testVersion" value="5.2-99.0"/>
+	<rule ref="PHPCompatibility"/>
+
+	<!-- ##### Code style ##### -->
+	<rule ref="WordPress">
+		<exclude name="WordPress.VIP" />
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<!-- TGMPA itself uses `tgmpa`, the example file uses `theme-slug`. -->
+			<property name="text_domain" type="array" value="tgmpa,theme-slug" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.DeprecatedFunctions">
+		<properties>
+			<property name="minimum_supported_version" value="3.7" />
+		</properties>
+	</rule>
+
+</ruleset>
