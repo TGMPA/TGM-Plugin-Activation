@@ -34,7 +34,7 @@
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	return;
 }
 
 if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
