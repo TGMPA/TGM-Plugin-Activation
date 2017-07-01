@@ -3642,8 +3642,6 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							/* translators: 1: plugin name, 2: action number 3: total number of actions. */
 							$this->upgrader->strings['skin_before_update_header'] = __( 'Updating Plugin %1$s (%2$d/%3$d)', 'tgmpa' );
 						} else {
-							global $wp_version;
-
 							/* translators: 1: plugin name, 2: error message. */
 							$this->upgrader->strings['skin_update_failed_error'] = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'tgmpa' );
 							/* translators: 1: plugin name. */
@@ -3668,7 +3666,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 							}
 
 							// Add "read more" link only for WP < 4.8.
-							if ( version_compare( $wp_version, '4.8', '<' ) ) {
+							if ( version_compare( $this->tgmpa->wp_version, '4.8', '<' ) ) {
 								$this->upgrader->strings['skin_update_successful'] .= ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'tgmpa' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'tgmpa' ) . '</span>.</a>';
 							}
 						}
