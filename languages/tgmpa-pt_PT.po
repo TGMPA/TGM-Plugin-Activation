@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
 "POT-Creation-Date: 2017-08-01 12:46+0100\n"
-"PO-Revision-Date: 2017-08-01 12:57+0100\n"
+"PO-Revision-Date: 2017-08-01 15:15+0100\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: TGMPA\n"
 "Language: pt_PT\n"
@@ -47,8 +47,8 @@ msgstr "Ocorreu um erro com a API do plugin."
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] "Este tema requer o seguinte plugin: %1$s."
-msgstr[1] "Este tema requer os seguintes plugins: %1$s."
+msgstr[0] "Este tema necessita do seguinte plugin: %1$s."
+msgstr[1] "Este tema necessita dos seguintes plugins: %1$s."
 
 #: class-tgm-plugin-activation.php:354
 #, php-format
@@ -225,7 +225,7 @@ msgstr "Repositório do WordPress"
 
 #: class-tgm-plugin-activation.php:2437
 msgid "External Source"
-msgstr "Fonte externa"
+msgstr "Origem externa"
 
 #: class-tgm-plugin-activation.php:2440
 msgid "Pre-Packaged"
@@ -411,7 +411,7 @@ msgid ""
 "while on some hosts, so please be patient."
 msgstr ""
 "A iniciar o processo de instalação e activação. Em alguns servidores este "
-"processo pode demorar, por favor seja paciente."
+"processo pode demorar, por favor aguarde."
 
 #: class-tgm-plugin-activation.php:3654
 #, php-format
@@ -433,7 +433,7 @@ msgid ""
 "hosts, so please be patient."
 msgstr ""
 "A iniciar o processo de instalação. Em alguns servidores este processo pode "
-"demorar, por favor seja paciente."
+"demorar, por favor aguarde."
 
 #: class-tgm-plugin-activation.php:3662
 #, php-format
