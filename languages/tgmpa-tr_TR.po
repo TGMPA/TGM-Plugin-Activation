@@ -1,0 +1,486 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: TGM Plugin Activation v2.6.1\n"
+"POT-Creation-Date: 2017-07-29 05:19+0300\n"
+"PO-Revision-Date: 2017-07-29 10:11+0300\n"
+"Language-Team: Ada Digital Agency\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: class-tgm-plugin-activation.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: Emre Erkan <kara@karalamalar.net>\n"
+"Language: tr\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: example.php\n"
+
+#: class-tgm-plugin-activation.php:334
+msgid "Install Required Plugins"
+msgstr "Gerekli eklentileri kur"
+
+#: class-tgm-plugin-activation.php:335
+msgid "Install Plugins"
+msgstr "Eklenti kur"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:337
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr "Eklenti kuruluyor: %s"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:339
+#, php-format
+msgid "Updating Plugin: %s"
+msgstr "Eklentiler güncelleniyor: %s"
+
+#: class-tgm-plugin-activation.php:340
+msgid "Something went wrong with the plugin API."
+msgstr "Eklenti API'siyle ilgili bir şeyler yanlış gitti."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:343
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "Bu tema şu eklentiyi gerektiriyor: %1$s."
+msgstr[1] "Bu tema şu eklentileri gerektiriyor: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:349
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] "Bu tema şu eklentiyi öneriyor: %1$s."
+msgstr[1] "Bu tema şu eklentileri öneriyor: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:355
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+"Tema ile en üst düzeyde uyum sağlamak için şu eklentinin en son sürüme "
+"güncellenmesi gerekiyor: %1$s."
+msgstr[1] ""
+"Tema ile en üst düzeyde uyum sağlamak için şu eklentilerin en son sürüme "
+"güncellenmesi gerekiyor: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:361
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] "Şu eklenti için bir güncelleme var: %1$s."
+msgstr[1] "Şu eklentiler için bir güncelleme var: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:367
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] "Gerekli olan şu eklenti şu an etkin değil: %1$s."
+msgstr[1] "Gerekli olan şu eklentiler şu an etkin değil: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:373
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] "Önerilen şu eklenti şu an etkin değil: %1$s."
+msgstr[1] "Önerilen şu eklentiler şu an etkin değil: %1$s."
+
+#: class-tgm-plugin-activation.php:378
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] "Eklentiyi yüklemeye başla"
+msgstr[1] "Eklentileri yüklemeye başla"
+
+#: class-tgm-plugin-activation.php:383
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] "Eklentiyi güncellemeye başla"
+msgstr[1] "Eklentileri güncellemeye başla"
+
+#: class-tgm-plugin-activation.php:388
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] "Eklentiyi etkinleştirmeye başla"
+msgstr[1] "Eklentileri etkinleştirmeye başla"
+
+#: class-tgm-plugin-activation.php:392
+msgid "Return to Required Plugins Installer"
+msgstr "Gerekli eklenti kurulumuna dön"
+
+#: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
+#: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
+msgid "Return to the Dashboard"
+msgstr "Başlangıca dön"
+
+#: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
+msgid "Plugin activated successfully."
+msgstr "Eklenti başarıyla etkinleştirildi."
+
+#: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "Şu eklenti başarıyla etkinleştirildi:"
+msgstr[1] "Şu eklentiler başarıyla etkinleştirildi:"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:397
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr "Herhangi bir eylemde bulunulmadı. %1$s eklentisi zaten etkin."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:399
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+"Eklenti etkinleştirilmedi. Bu tema için %s eklentisinin daha yüksek bir "
+"sürümü gerekiyor. Lütfen eklentiyi güncelleyin."
+
+#. translators: 1: dashboard link.
+#: class-tgm-plugin-activation.php:401
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Tüm eklentiler başarıyla kuruldu ve etkinleştirildi. %1$s"
+
+#: class-tgm-plugin-activation.php:402
+msgid "Dismiss this notice"
+msgstr "Bu bildirimi kapatın"
+
+#: class-tgm-plugin-activation.php:403
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+"Yüklenecek, güncellenecek veya etkinleştirilmesi gerekli veya önerilen bir "
+"ya da daha fazla eklenti var."
+
+#: class-tgm-plugin-activation.php:404
+msgid "Please contact the administrator of this site for help."
+msgstr "Lütfen yardım için sitenin yöneticilerine ulaşın."
+
+#: class-tgm-plugin-activation.php:607
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+"Temanızla uyum sağlayabilmesi için bu eklentinin güncellenmesi gerekiyor."
+
+#: class-tgm-plugin-activation.php:608
+msgid "Update Required"
+msgstr "Güncelleme gerekiyor"
+
+#: class-tgm-plugin-activation.php:725
+msgid "Set the parent_slug config variable instead."
+msgstr "Yerine parent_slug ayar değişkenini kullanın."
+
+#: class-tgm-plugin-activation.php:1027
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr ""
+"Uzak eklenti beklenen klasörü içermiyor ve isim değiştirme de işe yaramadı."
+
+#: class-tgm-plugin-activation.php:1027 class-tgm-plugin-activation.php:1030
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+"Lütfen eklenti sağlayıcısı ile irtibata geçip eklenti paketini WordPress "
+"kurallarına göre güncellemelerini iletin."
+
+#: class-tgm-plugin-activation.php:1030
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr ""
+"Uzak eklenti paketi birdne çok dosya içeriyor fakat bunlar bir klasör içinde "
+"değil."
+
+#: class-tgm-plugin-activation.php:1214 class-tgm-plugin-activation.php:3041
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr "ve"
+
+#. translators: %s: version number
+#: class-tgm-plugin-activation.php:2075
+#, php-format
+msgid "TGMPA v%s"
+msgstr "TGMPA v%s"
+
+#: class-tgm-plugin-activation.php:2366
+msgid "Required"
+msgstr "Gerekli"
+
+#: class-tgm-plugin-activation.php:2369
+msgid "Recommended"
+msgstr "Tavsiye edilen"
+
+#: class-tgm-plugin-activation.php:2385
+msgid "WordPress Repository"
+msgstr "WordPress Veri Havuzu"
+
+#: class-tgm-plugin-activation.php:2388
+msgid "External Source"
+msgstr "Dış kaynak"
+
+#: class-tgm-plugin-activation.php:2391
+msgid "Pre-Packaged"
+msgstr "Önceden paketlenmiş"
+
+#: class-tgm-plugin-activation.php:2408
+msgid "Not Installed"
+msgstr "Kurulmamış"
+
+#: class-tgm-plugin-activation.php:2412
+msgid "Installed But Not Activated"
+msgstr "Kurulmuş ancak etkinleştirilmemiş"
+
+#: class-tgm-plugin-activation.php:2414
+msgid "Active"
+msgstr "Aktif"
+
+#: class-tgm-plugin-activation.php:2420
+msgid "Required Update not Available"
+msgstr "Gerekli güncelleme uygun değil"
+
+#: class-tgm-plugin-activation.php:2423
+msgid "Requires Update"
+msgstr "Yükseltme gerektiriyor"
+
+#: class-tgm-plugin-activation.php:2426
+msgid "Update recommended"
+msgstr "Yükseltme öneriliyor"
+
+#. translators: 1: install status, 2: update status
+#: class-tgm-plugin-activation.php:2435
+#, php-format
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2481
+#, php-format
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Tümü <span class=\"count\">(%s)</span>"
+msgstr[1] "Tümü <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2485
+#, php-format
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] "Yüklenecek <span class=\"count\">(%s)</span>"
+msgstr[1] "Yüklenecek <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2489
+#, php-format
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] "Güncellemesi olan <span class=\"count\">(%s)</span>"
+msgstr[1] "Güncellemesi olan <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2493
+#, php-format
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] "Etkinleştirilecek <span class=\"count\">(%s)</span>"
+msgstr[1] "Etkinleştirilecek <span class=\"count\">(%s)</span>"
+
+#: class-tgm-plugin-activation.php:2575
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "bilinmiyor"
+
+#: class-tgm-plugin-activation.php:2583
+msgid "Installed version:"
+msgstr "Yüklü sürüm:"
+
+#: class-tgm-plugin-activation.php:2591
+msgid "Minimum required version:"
+msgstr "Gerekli en küçük sürüm:"
+
+#: class-tgm-plugin-activation.php:2603
+msgid "Available version:"
+msgstr "Uygun sürüm:"
+
+#: class-tgm-plugin-activation.php:2626
+msgid "No plugins to install, update or activate."
+msgstr "Kurulacak, güncellenecek ya da etkinleştirilecek hiç bir eklenti yok."
+
+#: class-tgm-plugin-activation.php:2640
+msgid "Plugin"
+msgstr "Eklenti"
+
+#: class-tgm-plugin-activation.php:2641
+msgid "Source"
+msgstr "Kaynak"
+
+#: class-tgm-plugin-activation.php:2642
+msgid "Type"
+msgstr "Tür"
+
+#: class-tgm-plugin-activation.php:2646
+msgid "Version"
+msgstr "Sürüm"
+
+#: class-tgm-plugin-activation.php:2647
+msgid "Status"
+msgstr "Durum"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2696
+#, php-format
+msgid "Install %2$s"
+msgstr "%2$s yükle"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2701
+#, php-format
+msgid "Update %2$s"
+msgstr "%2$s güncelle"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2707
+#, php-format
+msgid "Activate %2$s"
+msgstr "%2$s etkinleştir"
+
+#: class-tgm-plugin-activation.php:2777
+msgid "Upgrade message from the plugin author:"
+msgstr "Eklenti geliştiricisinden yükseltme mesajı:"
+
+#: class-tgm-plugin-activation.php:2810
+msgid "Install"
+msgstr "Yükle"
+
+#: class-tgm-plugin-activation.php:2816
+msgid "Update"
+msgstr "Güncelleme"
+
+#: class-tgm-plugin-activation.php:2819
+msgid "Activate"
+msgstr "Etkinleştir"
+
+#: class-tgm-plugin-activation.php:2850
+msgid "No plugins were selected to be installed. No action taken."
+msgstr "Yükleme için eklenti seçilmedi. Herhangi bir eylemde bulunulmadı. "
+
+#: class-tgm-plugin-activation.php:2852
+msgid "No plugins were selected to be updated. No action taken."
+msgstr "Güncelleme için eklenti seçilmedi. Herhangi bir eylemde bulunulmadı. "
+
+#: class-tgm-plugin-activation.php:2893
+msgid "No plugins are available to be installed at this time."
+msgstr "Şu an için yüklenmek üzere uygun eklenti yok."
+
+#: class-tgm-plugin-activation.php:2895
+msgid "No plugins are available to be updated at this time."
+msgstr "Şu an için güncelleme gerektiren eklenti yok."
+
+#: class-tgm-plugin-activation.php:3001
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+"Etkinleştirilmek üzere eklenti seçilmedi. Herhangi bir eylemde bulunulmadı."
+
+#: class-tgm-plugin-activation.php:3027
+msgid "No plugins are available to be activated at this time."
+msgstr "Şu an için etkinleştirmek üzere uygun eklenti yok."
+
+#: class-tgm-plugin-activation.php:3251
+msgid "Plugin activation failed."
+msgstr "Eklenti etkinleştirmesi başarısız oldu."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3591
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr "Eklenti güncelleştiriliyor %1$s (%2$d/%3$d)"
+
+#. translators: 1: plugin name, 2: error message.
+#: class-tgm-plugin-activation.php:3594
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "%1$s kurulurken bir hata oluştu: <strong>%2$s</strong>."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3596
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr "%1$s kurulumu başarısız oldu."
+
+#: class-tgm-plugin-activation.php:3600
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"Kurulum ve etkinleştirme işlemi başlıyor. Bu işlem, bazı ana bilgisayarlarda "
+"zaman alabilir, bu yüzden sabırlı olunuz."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3602
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s başarıyla kuruldu ve etkinleştirildi."
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Show Details"
+msgstr "Detayları göster"
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Hide Details"
+msgstr "Detayları gizle"
+
+#: class-tgm-plugin-activation.php:3603
+msgid "All installations and activations have been completed."
+msgstr "Tüm kurulum ve etkinleştirmeler tamamlandı."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3605
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Eklenti %1$s (%2$d/%3$d) Kuruluyor ve Etkinleştiriliyor"
+
+#: class-tgm-plugin-activation.php:3608
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+"Kurulum işlemi başlıyor. Bu işlem, bazı ana bilgisayarlarda zaman alabilir, "
+"bu yüzden sabırlı olunuz."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3610
+#, php-format
+msgid "%1$s installed successfully."
+msgstr "%1$s başarıyla kuruldu."
+
+#: class-tgm-plugin-activation.php:3611
+msgid "All installations have been completed."
+msgstr "Tüm kurulumlar tamamlandı."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3613
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Eklenti %1$s (%2$d/%3$d) Kuruluyor"
