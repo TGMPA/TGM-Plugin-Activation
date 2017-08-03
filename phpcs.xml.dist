@@ -14,19 +14,41 @@
 
 	<!-- ##### Code style ##### -->
 	<rule ref="WordPress">
-		<exclude name="WordPress.VIP" />
+		<exclude name="WordPress.VIP"/>
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<!-- TGMPA itself uses `tgmpa`, the example file uses `theme-slug`. -->
-			<property name="text_domain" type="array" value="tgmpa,theme-slug" />
+			<property name="text_domain" type="array" value="tgmpa,theme-slug"/>
 		</properties>
 	</rule>
 
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<!--
+				* Classes are prefixed with `TGM`.
+				* Everything else in the global namespace with `tgmpa`.
+				* The example file use the example prefix `my_theme`.
+			-->
+			<property name="prefixes" type="array" value="tgmpa,tgm,my_theme,load_tgm" />
+		</properties>
+	</rule>
+
+	<!-- The value of the below properties should be in-line with the "requires at least" version in the readme. -->
+	<rule ref="WordPress.WP.DeprecatedClasses">
+		<properties>
+			<property name="minimum_supported_version" value="3.7"/>
+		</properties>
+	</rule>
 	<rule ref="WordPress.WP.DeprecatedFunctions">
 		<properties>
-			<property name="minimum_supported_version" value="3.7" />
+			<property name="minimum_supported_version" value="3.7"/>
+		</properties>
+	</rule>
+	<rule ref="WordPress.WP.DeprecatedParameters">
+		<properties>
+			<property name="minimum_supported_version" value="3.7"/>
 		</properties>
 	</rule>
 
