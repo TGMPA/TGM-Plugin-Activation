@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
-"POT-Creation-Date: 2017-08-01 12:46+0100\n"
-"PO-Revision-Date: 2017-08-02 19:08+0100\n"
+"POT-Creation-Date: 2017-08-03 19:34+0100\n"
+"PO-Revision-Date: 2017-08-03 19:34+0100\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: TGMPA\n"
 "Language: pt_PT\n"
@@ -182,24 +182,24 @@ msgid ""
 "The remote plugin package does not contain a folder with the desired slug "
 "and renaming did not work."
 msgstr ""
-"O pacote de plugin remoto não contém uma pasta com a slug desejada e renomeá-"
-"la não resultou."
+"O pacote remoto do plugin não contém uma pasta com a slug desejada e não foi "
+"possível renomeá-lo."
 
 #: class-tgm-plugin-activation.php:1038 class-tgm-plugin-activation.php:1048
 msgid ""
 "Please contact the plugin provider and ask them to package their plugin "
 "according to the WordPress guidelines."
 msgstr ""
-"Entre em contacto com os criadores do plugin e peça-lhes que criem um pacote "
-"de acordo com as diretrizes do WordPress."
+"Por favor, contacte o fornecedor do plugin e peça um pacote do plugin de "
+"acordo com as orientações do WordPress."
 
 #: class-tgm-plugin-activation.php:1048
 msgid ""
 "The remote plugin package consists of more than one file, but the files are "
 "not packaged in a folder."
 msgstr ""
-"O pacote remoto do plugin é composto por mais de um ficheiro, mas os "
-"ficheiros não estão compactados numa pasta."
+"O pacote remoto do plugin consiste em mais que um ficheiro, mas os ficheiros "
+"não estão reunidos numa pasta."
 
 #: class-tgm-plugin-activation.php:1237 class-tgm-plugin-activation.php:3093
 msgctxt "plugin A *and* plugin B"
@@ -245,7 +245,7 @@ msgstr "Activo"
 
 #: class-tgm-plugin-activation.php:2469
 msgid "Required Update not Available"
-msgstr "Actualização necessária não disponivel"
+msgstr "Actualização necessária não disponível"
 
 #: class-tgm-plugin-activation.php:2472
 msgid "Requires Update"
@@ -309,7 +309,7 @@ msgstr "Versão disponível:"
 
 #: class-tgm-plugin-activation.php:2675
 msgid "No plugins to install, update or activate."
-msgstr "Não há plugins para instalar, actualizar ou activar."
+msgstr "Sem plugins para instalar, actualizar ou activar."
 
 #: class-tgm-plugin-activation.php:2689
 msgid "Plugin"
@@ -390,22 +390,22 @@ msgstr "De momento não há plugins para activar."
 msgid "Plugin activation failed."
 msgstr "A activação do plugin falhou."
 
-#: class-tgm-plugin-activation.php:3643
+#: class-tgm-plugin-activation.php:3647
 #, php-format
 msgid "Updating Plugin %1$s (%2$d/%3$d)"
 msgstr "A actualizar o plugin %1$s (%2$d/%3$d)"
 
-#: class-tgm-plugin-activation.php:3646
+#: class-tgm-plugin-activation.php:3650
 #, php-format
 msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
 msgstr "Ocorreu um erro durante a instalação de %1$s: <strong>%2$s</strong>."
 
-#: class-tgm-plugin-activation.php:3648
+#: class-tgm-plugin-activation.php:3652
 #, php-format
 msgid "The installation of %1$s failed."
 msgstr "A instalação do %1$s falhou."
 
-#: class-tgm-plugin-activation.php:3652
+#: class-tgm-plugin-activation.php:3656
 msgid ""
 "The installation and activation process is starting. This process may take a "
 "while on some hosts, so please be patient."
@@ -413,21 +413,21 @@ msgstr ""
 "A iniciar o processo de instalação e activação. Em alguns servidores este "
 "processo pode demorar, por favor aguarde."
 
-#: class-tgm-plugin-activation.php:3654
+#: class-tgm-plugin-activation.php:3658
 #, php-format
 msgid "%1$s installed and activated successfully."
 msgstr "%1$s instalado e activado com sucesso."
 
-#: class-tgm-plugin-activation.php:3655
+#: class-tgm-plugin-activation.php:3659
 msgid "All installations and activations have been completed."
 msgstr "Todas as instalações e activações foram concluídas."
 
-#: class-tgm-plugin-activation.php:3657
+#: class-tgm-plugin-activation.php:3661
 #, php-format
 msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
 msgstr "A instalar e activar o plugin %1$s (%2$d/%3$d)"
 
-#: class-tgm-plugin-activation.php:3660
+#: class-tgm-plugin-activation.php:3664
 msgid ""
 "The installation process is starting. This process may take a while on some "
 "hosts, so please be patient."
@@ -435,25 +435,25 @@ msgstr ""
 "A iniciar o processo de instalação. Em alguns servidores este processo pode "
 "demorar, por favor aguarde."
 
-#: class-tgm-plugin-activation.php:3662
+#: class-tgm-plugin-activation.php:3666
 #, php-format
 msgid "%1$s installed successfully."
 msgstr "%1$s instalado com sucesso."
 
-#: class-tgm-plugin-activation.php:3663
+#: class-tgm-plugin-activation.php:3667
 msgid "All installations have been completed."
 msgstr "Todas as instalações foram concluídas."
 
-#: class-tgm-plugin-activation.php:3665
+#: class-tgm-plugin-activation.php:3669
 #, php-format
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
 msgstr "A instalar o plugin %1$s (%2$d/%3$d)"
 
-#: class-tgm-plugin-activation.php:3670
+#: class-tgm-plugin-activation.php:3674
 msgid "Show Details"
 msgstr "Mostrar detalhes"
 
-#: class-tgm-plugin-activation.php:3670
+#: class-tgm-plugin-activation.php:3674
 msgid "Hide Details"
 msgstr "Ocultar detalhes"
 
