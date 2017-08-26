@@ -2154,11 +2154,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$GLOBALS['tgmpa'] = TGM_Plugin_Activation::get_instance();
 		}
 	}
+	
+	if( function_exists( 'did_action' ) ) {
 
-	if ( did_action( 'plugins_loaded' ) ) {
-		load_tgm_plugin_activation();
-	} else {
-		add_action( 'plugins_loaded', 'load_tgm_plugin_activation' );
+		if ( did_action( 'plugins_loaded' ) ) {
+			load_tgm_plugin_activation();
+		} else {
+			add_action( 'plugins_loaded', 'load_tgm_plugin_activation' );
+		}
+		
 	}
 }
 
