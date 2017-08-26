@@ -2155,14 +2155,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		}
 	}
 
-	if ( function_exists( 'did_action' ) ) {
-		
+	if ( function_exists( 'did_action' ) && function_exists( 'add_action' ) ) {
 		if ( did_action( 'plugins_loaded' ) ) {
 			load_tgm_plugin_activation();
 		} else {
 			add_action( 'plugins_loaded', 'load_tgm_plugin_activation' );
 		}
-		
 	}
 }
 
