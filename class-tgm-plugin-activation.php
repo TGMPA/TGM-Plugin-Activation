@@ -2200,6 +2200,57 @@ if ( ! function_exists( 'tgmpa' ) ) {
 	}
 }
 
+if( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
+	/**
+	 * Custom function that grabs plugins from https://wpfavs.com
+	 * from given token
+	 * @since 2.6.2
+	 *
+	 * @param string $token
+	 *
+	 * @return array
+	 */
+	function tgmpa_wpfavs_plugins( $token ) {
+		if( empty( $token ) )
+			return array();
+
+		$cache = json_decode( get_transient( 'tgmpa_wpfavs_plugins' ), true );
+
+		if( empty( $cache ) ) {
+			// Call the API
+			$response = wp_remote_get( 'https://wpfavs.com/api/v1/wpfav/' . $token );
+
+			// Make sure there are no errors
+			if ( is_wp_error( $response ) )
+				return array();
+
+			// Decode response
+			$response = apply_filters( 'tgmpa_wpfav_api_response', json_decode( wp_remote_retrieve_body( $response ), TRUE ) );
+
+			//check for api errors
+			if( isset( $response['error'] ) )
+				return array();
+
+			$plugins = array();
+			// create our plugins array
+			if( isset( $response['plugins'] ) ) {
+				foreach ( $response['plugins'] as $plugin ) {
+					$plugins[] = array(
+						'name'      => $plugin['name'],
+						'slug'      => $plugin['slug'],
+						'source'    => $plugin['data']['download_link'],
+					);
+				}
+			}
+			// in case user want to modify default array for example to pass required parameter
+			$plugins = apply_filters( 'tgmpa_wpfavs_plugins', $plugins );
+			// save to cache
+			set_transient( 'tgmpa_wpfavs_plugins', json_encode( $plugins ), 15 * DAY_IN_SECONDS );
+			return $plugins;
+		}
+		return $cache;
+	}
+}
 /**
  * WP_List_Table isn't always available. If it isn't available,
  * we load it here.
