@@ -2231,7 +2231,7 @@ if ( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
 			$response = apply_filters( 'tgmpa_wpfav_api_response', json_decode( wp_remote_retrieve_body( $response ), true ) );
 
 			// check for api errors.
-			if( isset( $response['error'] ) ) {
+			if ( isset( $response['error'] ) ) {
 				return array();
 			}
 

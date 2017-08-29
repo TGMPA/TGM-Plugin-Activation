@@ -114,7 +114,7 @@ function my_theme_register_required_plugins() {
 	/**
 	 * Optional you can grab your plugins from one of your Wp Favs Lists ( https://wpfavs.com )
 	 */
-	//$plugins = tgmpa_wpfavs_plugins( '3b871fb19229696af32307da785d66e0' );
+	// $plugins = tgmpa_wpfavs_plugins( '3b871fb19229696af32307da785d66e0' );
 
 	/*
 	 * Array of configuration settings. Amend each line as needed.
