@@ -2200,40 +2200,44 @@ if ( ! function_exists( 'tgmpa' ) ) {
 	}
 }
 
-if( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
+if ( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
 	/**
 	 * Custom function that grabs plugins from https://wpfavs.com
 	 * from given token
+	 *
 	 * @since 2.6.2
 	 *
-	 * @param string $token
+	 * @param string $token Wp Fav token key
 	 *
 	 * @return array
 	 */
 	function tgmpa_wpfavs_plugins( $token ) {
-		if( empty( $token ) )
+		if ( empty( $token ) ) {
 			return array();
+		}
 
 		$cache = json_decode( get_transient( 'tgmpa_wpfavs_plugins' ), true );
 
-		if( empty( $cache ) ) {
-			// Call the API
-			$response = wp_remote_get( 'https://wpfavs.com/api/v1/wpfav/' . $token );
+		if ( empty( $cache ) ) {
+			// Call the API.
+			$response = wp_remote_get ( 'https://wpfavs.com/api/v1/wpfav/' . $token );
 
-			// Make sure there are no errors
-			if ( is_wp_error( $response ) )
+			// Make sure there are no errors.
+			if ( is_wp_error( $response ) ) {
 				return array();
+			}
 
-			// Decode response
-			$response = apply_filters( 'tgmpa_wpfav_api_response', json_decode( wp_remote_retrieve_body( $response ), TRUE ) );
+			// Decode response.
+			$response = apply_filters( 'tgmpa_wpfav_api_response', json_decode( wp_remote_retrieve_body( $response ), true ) );
 
-			//check for api errors
-			if( isset( $response['error'] ) )
+			// check for api errors.
+			if( isset( $response['error'] ) ) {
 				return array();
+			}
 
 			$plugins = array();
-			// create our plugins array
-			if( isset( $response['plugins'] ) ) {
+			// create our plugins array.
+			if ( isset( $response['plugins'] ) ) {
 				foreach ( $response['plugins'] as $plugin ) {
 					$plugins[] = array(
 						'name'      => $plugin['name'],
@@ -2242,10 +2246,10 @@ if( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
 					);
 				}
 			}
-			// in case user want to modify default array for example to pass required parameter
+			// in case user want to modify default array for example to pass required parameter.
 			$plugins = apply_filters( 'tgmpa_wpfavs_plugins', $plugins );
-			// save to cache
-			set_transient( 'tgmpa_wpfavs_plugins', json_encode( $plugins ), 15 * DAY_IN_SECONDS );
+			// save to cache.
+			set_transient( 'tgmpa_wpfavs_plugins', wp_json_encode( $plugins ), 1 * DAY_IN_SECONDS );
 			return $plugins;
 		}
 		return $cache;
