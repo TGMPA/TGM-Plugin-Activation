@@ -2263,7 +2263,7 @@ if ( ! function_exists( 'tgmpa_wp_plugins' ) ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $username Wordpress.org username
+	 * @param string $username Wordpress.org username.
 	 *
 	 * @return array
 	 */
@@ -2280,10 +2280,15 @@ if ( ! function_exists( 'tgmpa_wp_plugins' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 			}
 			// Call the API.
-			$response = plugins_api( 'query_plugins', array( 'user' => $username ,'per_page' => 100 ) );
+			$response = plugins_api( 'query_plugins',
+				array(
+					'user' => $username,
+					'per_page' => 100,
+				)
+			);
 
 			// Make sure there are no errors or there are plugins.
-			if ( is_wp_error( $response ) ||  empty( $response->plugins ) ) {
+			if ( is_wp_error( $response ) || empty( $response->plugins ) ) {
 				return array();
 			}
 
@@ -2292,7 +2297,7 @@ if ( ! function_exists( 'tgmpa_wp_plugins' ) ) {
 			foreach ( $response->plugins as $plugin ) {
 				$plugins[] = array(
 					'name'      => $plugin->name,
-					'slug'      => $plugin->slug
+					'slug'      => $plugin->slug,
 				);
 			}
 
