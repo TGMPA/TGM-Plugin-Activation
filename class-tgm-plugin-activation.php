@@ -2205,9 +2205,9 @@ if ( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
 	 * Custom function that grabs plugins from https://wpfavs.com
 	 * from given token
 	 *
-	 * @since 2.6.2
+	 * @since 2.7.0
 	 *
-	 * @param string $token Wp Fav token key
+	 * @param string $token Wp Fav token key.
 	 *
 	 * @return array
 	 */
@@ -2220,7 +2220,7 @@ if ( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
 
 		if ( empty( $cache ) ) {
 			// Call the API.
-			$response = wp_remote_get ( 'https://wpfavs.com/api/v1/wpfav/' . $token );
+			$response = wp_remote_get( 'https://wpfavs.com/api/v1/wpfav/' . $token );
 
 			// Make sure there are no errors.
 			if ( is_wp_error( $response ) ) {
@@ -2255,6 +2255,57 @@ if ( ! function_exists( 'tgmpa_wpfavs_plugins' ) ) {
 		return $cache;
 	}
 }
+
+if ( ! function_exists( 'tgmpa_wp_plugins' ) ) {
+	/**
+	 * Custom function that grabs favorites plugins from https://wordpress.org
+	 * from given username
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $username Wordpress.org username
+	 *
+	 * @return array
+	 */
+	function tgmpa_wp_plugins( $username ) {
+		if ( empty( $username ) ) {
+			return array();
+		}
+
+		$cache = json_decode( get_transient( 'tgmpa_wp_plugins' ), true );
+
+		if ( empty( $cache ) ) {
+
+			if ( ! function_exists( 'plugins_api' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+			}
+			// Call the API.
+			$response = plugins_api( 'query_plugins', array( 'user' => $username ,'per_page' => 100 ) );
+
+			// Make sure there are no errors or there are plugins.
+			if ( is_wp_error( $response ) ||  empty( $response->plugins ) ) {
+				return array();
+			}
+
+			$plugins = array();
+			// create our plugins array.
+			foreach ( $response->plugins as $plugin ) {
+				$plugins[] = array(
+					'name'      => $plugin->name,
+					'slug'      => $plugin->slug
+				);
+			}
+
+			// in case user want to modify default array for example to pass required parameter.
+			$plugins = apply_filters( 'tgmpa_wp_plugins', $plugins );
+			// save to cache.
+			set_transient( 'tgmpa_wp_plugins', wp_json_encode( $plugins ), 1 * DAY_IN_SECONDS );
+			return $plugins;
+		}
+		return $cache;
+	}
+}
+
 /**
  * WP_List_Table isn't always available. If it isn't available,
  * we load it here.
