@@ -1,0 +1,457 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Project-Id-Version: TGM Plugin Activation 2.6.1\n"
+"POT-Creation-Date: 2016-05-19 02:57+0200\n"
+"PO-Revision-Date: 2017-09-10 16:20+0800\n"
+"Language-Team: Alex Lion <learnwithalex@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: class-tgm-plugin-activation.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: Alex Lion <learnwithalex@gmail.com>\n"
+"Language: zh_TW\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: example.php\n"
+
+#: class-tgm-plugin-activation.php:334
+msgid "Install Required Plugins"
+msgstr "安裝必要的外掛"
+
+#: class-tgm-plugin-activation.php:335
+msgid "Install Plugins"
+msgstr "安裝外掛"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:337
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr "安裝中的外掛: %s"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:339
+#, php-format
+msgid "Updating Plugin: %s"
+msgstr "更新中的外掛: %s"
+
+#: class-tgm-plugin-activation.php:340
+msgid "Something went wrong with the plugin API."
+msgstr "外掛 API 出了點小問題。"
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:343
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "這個佈景主題須要安裝以下外掛: %1$s。"
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:349
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] "這個佈景主題建議安裝以下外掛: %1$s。"
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:355
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+"為確保與本佈景主題保持最高相容性，下列外掛必須更新至最新版本: %1$s。"
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:361
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] "下列外掛有可用的更新: %1$s。"
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:367
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] "下列必要安裝的外掛目前尚未啟用: %1$s。"
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:373
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] "下列建議安裝的外掛目前尚未啟用: %1$s。"
+
+#: class-tgm-plugin-activation.php:378
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] "安裝外掛"
+
+#: class-tgm-plugin-activation.php:383
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] "更新外掛"
+
+#: class-tgm-plugin-activation.php:388
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] "啟用外掛"
+
+#: class-tgm-plugin-activation.php:392
+msgid "Return to Required Plugins Installer"
+msgstr "返回 [安裝必要的外掛]"
+
+#: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
+#: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
+msgid "Return to the Dashboard"
+msgstr "返回 [控制台]"
+
+#: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
+msgid "Plugin activated successfully."
+msgstr "外掛啟用成功。"
+
+#: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "下列外掛已成功完成啟用:"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:397
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr "無須進行任何操作。外掛 %1$s 已完成啟用。"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:399
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr "外掛尚未啟用。本佈景主題須要配合較新版本的 %s，請將外掛予以更新。"
+
+#. translators: 1: dashboard link.
+#: class-tgm-plugin-activation.php:401
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "所有外掛均已成功安裝並完成啟用。%1$s"
+
+#: class-tgm-plugin-activation.php:402
+msgid "Dismiss this notice"
+msgstr "忽略這項通知"
+
+#: class-tgm-plugin-activation.php:403
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr "有一或多個必要或推薦的外掛需要安裝、更新或啟用。"
+
+#: class-tgm-plugin-activation.php:404
+msgid "Please contact the administrator of this site for help."
+msgstr "請聯絡這個網站的管理者尋求協助。"
+
+#: class-tgm-plugin-activation.php:607
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr "為了與目前的佈景主題相容，這個外掛必須進行更新。"
+
+#: class-tgm-plugin-activation.php:608
+msgid "Update Required"
+msgstr "必須更新"
+
+#: class-tgm-plugin-activation.php:725
+msgid "Set the parent_slug config variable instead."
+msgstr "設定 parent_slug 組態變數加以取代。"
+
+#: class-tgm-plugin-activation.php:1027
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr "遠端的外掛封包並未包含正確代稱的資料夾，且經過重新命名也無法正確運作。"
+
+#: class-tgm-plugin-activation.php:1027 class-tgm-plugin-activation.php:1030
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+"請聯絡外掛開發者，並要求開發者依照 WordPress 準則為外掛進行正確的封裝。"
+
+#: class-tgm-plugin-activation.php:1030
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr "遠端外掛封裝包含超過一個檔案，但這些檔案並未封裝於同一個資料夾中。"
+
+#: class-tgm-plugin-activation.php:1214 class-tgm-plugin-activation.php:3041
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr "及"
+
+#. translators: %s: version number
+#: class-tgm-plugin-activation.php:2075
+#, php-format
+msgid "TGMPA v%s"
+msgstr "TGMPA %s 版"
+
+#: class-tgm-plugin-activation.php:2366
+msgid "Required"
+msgstr "必要"
+
+#: class-tgm-plugin-activation.php:2369
+msgid "Recommended"
+msgstr "推薦"
+
+#: class-tgm-plugin-activation.php:2385
+msgid "WordPress Repository"
+msgstr "WordPress 版本庫"
+
+#: class-tgm-plugin-activation.php:2388
+msgid "External Source"
+msgstr "外部來源"
+
+#: class-tgm-plugin-activation.php:2391
+msgid "Pre-Packaged"
+msgstr "預先封裝"
+
+#: class-tgm-plugin-activation.php:2408
+msgid "Not Installed"
+msgstr "尚未安裝"
+
+#: class-tgm-plugin-activation.php:2412
+msgid "Installed But Not Activated"
+msgstr "已安裝但仍未啟用"
+
+#: class-tgm-plugin-activation.php:2414
+msgid "Active"
+msgstr "啟用"
+
+#: class-tgm-plugin-activation.php:2420
+msgid "Required Update not Available"
+msgstr "無法使用必要的更新"
+
+#: class-tgm-plugin-activation.php:2423
+msgid "Requires Update"
+msgstr "須要更新"
+
+#: class-tgm-plugin-activation.php:2426
+msgid "Update recommended"
+msgstr "建議更新"
+
+#. translators: 1: install status, 2: update status
+#: class-tgm-plugin-activation.php:2435
+#, php-format
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2481
+#, php-format
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "總計 <span class=\"count\">%s</span> 個"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2485
+#, php-format
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] "安装 <span class=“count”>%s</span> 個"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2489
+#, php-format
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] "<span class=\"count\">%s</span> 個可用的更新"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2493
+#, php-format
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] "啟用 <span class=\"count\">%s</span> 個"
+
+#: class-tgm-plugin-activation.php:2575
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "未知"
+
+#: class-tgm-plugin-activation.php:2583
+msgid "Installed version:"
+msgstr "已安裝的版本:"
+
+#: class-tgm-plugin-activation.php:2591
+msgid "Minimum required version:"
+msgstr "最低需求版本："
+
+#: class-tgm-plugin-activation.php:2603
+msgid "Available version:"
+msgstr "可用版本:"
+
+#: class-tgm-plugin-activation.php:2626
+msgid "No plugins to install, update or activate."
+msgstr "目前沒有需要安裝、更新或啟用的外掛。"
+
+#: class-tgm-plugin-activation.php:2640
+msgid "Plugin"
+msgstr "外掛"
+
+#: class-tgm-plugin-activation.php:2641
+msgid "Source"
+msgstr "來源"
+
+#: class-tgm-plugin-activation.php:2642
+msgid "Type"
+msgstr "類型"
+
+#: class-tgm-plugin-activation.php:2646
+msgid "Version"
+msgstr "版本"
+
+#: class-tgm-plugin-activation.php:2647
+msgid "Status"
+msgstr "狀態"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2696
+#, php-format
+msgid "Install %2$s"
+msgstr "安装 %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2701
+#, php-format
+msgid "Update %2$s"
+msgstr "更新 %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2707
+#, php-format
+msgid "Activate %2$s"
+msgstr "啟用 %2$s"
+
+#: class-tgm-plugin-activation.php:2777
+msgid "Upgrade message from the plugin author:"
+msgstr "來自外掛開發者的升級訊息:"
+
+#: class-tgm-plugin-activation.php:2810
+msgid "Install"
+msgstr "安裝"
+
+#: class-tgm-plugin-activation.php:2816
+msgid "Update"
+msgstr "更新"
+
+#: class-tgm-plugin-activation.php:2819
+msgid "Activate"
+msgstr "啟用"
+
+#: class-tgm-plugin-activation.php:2850
+msgid "No plugins were selected to be installed. No action taken."
+msgstr "沒有選取任何外掛以進行安裝。並未產生任何變更。"
+
+#: class-tgm-plugin-activation.php:2852
+msgid "No plugins were selected to be updated. No action taken."
+msgstr "沒有選取任何外掛以進行更新。並未產生任何變更。"
+
+#: class-tgm-plugin-activation.php:2893
+msgid "No plugins are available to be installed at this time."
+msgstr "目前沒有需要安裝的外掛。"
+
+#: class-tgm-plugin-activation.php:2895
+msgid "No plugins are available to be updated at this time."
+msgstr "目前沒有需要更新的外掛。"
+
+#: class-tgm-plugin-activation.php:3001
+msgid "No plugins were selected to be activated. No action taken."
+msgstr "沒有選取任何外掛以進行啟用。並未產生任何變更。"
+
+#: class-tgm-plugin-activation.php:3027
+msgid "No plugins are available to be activated at this time."
+msgstr "目前沒有需要啟用的外掛。"
+
+#: class-tgm-plugin-activation.php:3251
+msgid "Plugin activation failed."
+msgstr "外掛啟用失敗。"
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3591
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr "正在更新外掛 %1$s  (總計 %3$d 個步驟，目前為第 %2$d 步驟)"
+
+#. translators: 1: plugin name, 2: error message.
+#: class-tgm-plugin-activation.php:3594
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "安裝 %1$s 時發生錯誤: <strong>%2$s</strong>。"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3596
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr "%1$s 安裝失敗。"
+
+#: class-tgm-plugin-activation.php:3600
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"已開始進行安裝及啟用程序。該程序在某些主機上可能會需要較多的時間，請耐心等"
+"候。"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3602
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr "已安裝並成功啟用 %1$s。"
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Show Details"
+msgstr "顯示詳細資訊"
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Hide Details"
+msgstr "隱藏詳細資訊"
+
+#: class-tgm-plugin-activation.php:3603
+msgid "All installations and activations have been completed."
+msgstr "所有安裝及啟用均已完成。"
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3605
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "正在安裝並啟用的外掛為 %1$s  (總計 %3$d 個步驟，目前為第 %2$d 步驟)"
+
+#: class-tgm-plugin-activation.php:3608
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr "安裝程序進行中。該程序在某些主機上可能會需要較多的時間，請耐心等候。"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3610
+#, php-format
+msgid "%1$s installed successfully."
+msgstr "%1$s 安裝成功。"
+
+#: class-tgm-plugin-activation.php:3611
+msgid "All installations have been completed."
+msgstr "所有安裝均已完成。"
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3613
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "正在安裝的外掛為 %1$s (總計 %3$d 個步驟，目前為第 %2$d 步驟)"
