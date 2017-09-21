@@ -1,4 +1,8 @@
-/**
+<?php
+	
+	namespace TGM;
+	
+	/**
 	 * Automatic plugin installation and activation library.
 	 *
 	 * Creates a way to automatically install and activate plugins from within themes.
@@ -19,7 +23,7 @@
 		 *
 		 * @const string Version number.
 		 */
-		const TGMPA_VERSION = '2.6.1';
+		const TGMPA_VERSION = '2.6.2';
 
 		/**
 		 * Regular expression to test if a URL is a WP plugin repo URL.
@@ -709,6 +713,17 @@
 		 * @return null Aborts early if we're processing a plugin installation action.
 		 */
 		public function install_plugins_page() {
+			
+			/**
+			 * WP_List_Table isn't always available. If it isn't available,
+			 * we load it here.
+			 *
+			 * @since 2.2.0
+			 */
+			if ( ! class_exists( 'WP_List_Table' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+			}
+
 			// Store new instance of plugin table in object.
 			$plugin_table = new TGMPA_List_Table();
 
@@ -1191,7 +1206,7 @@
 						unset( $plugin_slug );
 
 						$count          = count( $plugin_group );
-						$linked_plugins = array_map( array( 'TGMPA_Utils', 'wrap_in_em' ), $linked_plugins );
+						$linked_plugins = array_map( array( TGMPA_Utils::class, 'wrap_in_em' ), $linked_plugins );
 						$last_plugin    = array_pop( $linked_plugins ); // Pop off last name to prep for readability.
 						$imploded       = empty( $linked_plugins ) ? $last_plugin : ( implode( ', ', $linked_plugins ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 

@@ -1,4 +1,8 @@
-/**
+<?php
+	
+	namespace TGM;
+	
+	/**
 	 * Generic utilities for TGMPA.
 	 *
 	 * All methods are static, poor-dev name-spacing class wrapper.

@@ -1,5 +1,5 @@
 {
-  "name": "tgmpa/tgm-plugin-activation",
+  "name": "wp-kit/tgm-plugin-activation",
   "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
   "homepage": "http://tgmpluginactivation.com",
   "keywords": ["wordpress","plugins", "theme", "library", "activation"],
@@ -29,6 +29,9 @@
     "php": ">=5.2"
   },
   "autoload": {
+  	"psr-4": {
+        "TGM\\": "classes" 
+    },
     "files": ["class-tgm-plugin-activation.php"]
   }
 }

@@ -1,4 +1,8 @@
-/**
+<?php
+	
+	namespace TGM;
+	
+	/**
 	 * List table class for handling plugins.
 	 *
 	 * Extends the WP_List_Table class to provide a future-compatible
@@ -793,6 +797,10 @@
 					}
 				}
 				unset( $slug, $name, $source );
+				
+				if ( ! class_exists( 'Plugin_Upgrader', false ) ) {
+					require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+				}
 
 				// Create a new instance of TGMPA_Bulk_Installer.
 				$installer = new TGMPA_Bulk_Installer(
@@ -874,7 +882,7 @@
 					echo '<div id="message" class="error"><p>', wp_kses_post( $activate->get_error_message() ), '</p></div>';
 				} else {
 					$count        = count( $plugin_names ); // Count so we can use _n function.
-					$plugin_names = array_map( array( 'TGMPA_Utils', 'wrap_in_strong' ), $plugin_names );
+					$plugin_names = array_map( array( TGMPA_Utils::class, 'wrap_in_strong' ), $plugin_names );
 					$last_plugin  = array_pop( $plugin_names ); // Pop off last name to prep for readability.
 					$imploded     = empty( $plugin_names ) ? $last_plugin : ( implode( ', ', $plugin_names ) . ' ' . esc_html_x( 'and', 'plugin A *and* plugin B', 'tgmpa' ) . ' ' . $last_plugin );
 
