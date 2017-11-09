@@ -15,7 +15,14 @@
 	<!-- ##### Code style ##### -->
 	<rule ref="WordPress">
 		<exclude name="WordPress.VIP"/>
+
+		<!-- This is a conscious choice & known issue and will not be fixed until v 3.0 (if ever). -->
+		<exclude name="Generic.Files.OneClassPerFile"/>
 	</rule>
+
+	<!-- The value of the below config variable should be in-line with the
+		 "requires at least" version in the readme. -->
+	<config name="minimum_supported_wp_version" value="3.7"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
@@ -32,23 +39,6 @@
 				* The example file use the example prefix `my_theme`.
 			-->
 			<property name="prefixes" type="array" value="tgmpa,tgm,my_theme,load_tgm" />
-		</properties>
-	</rule>
-
-	<!-- The value of the below properties should be in-line with the "requires at least" version in the readme. -->
-	<rule ref="WordPress.WP.DeprecatedClasses">
-		<properties>
-			<property name="minimum_supported_version" value="3.7"/>
-		</properties>
-	</rule>
-	<rule ref="WordPress.WP.DeprecatedFunctions">
-		<properties>
-			<property name="minimum_supported_version" value="3.7"/>
-		</properties>
-	</rule>
-	<rule ref="WordPress.WP.DeprecatedParameters">
-		<properties>
-			<property name="minimum_supported_version" value="3.7"/>
 		</properties>
 	</rule>
 
