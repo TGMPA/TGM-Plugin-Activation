@@ -1,2 +1,8 @@
 # folders and files to be ignored by git
 phpcs.xml
+/node_modules/
+/.tx/
+/grunt/
+/Gruntfile.js
+/package-lock.json
+/package.json
