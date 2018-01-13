@@ -1,2 +1,4 @@
-# folders and files to be ignored by git
-phpcs.xml
+/vendor/
+/composer.lock
+/phpcs.xml
+/.phpcs.xml
