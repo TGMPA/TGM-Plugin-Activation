@@ -28,6 +28,12 @@
   "require": {
     "php": ">=5.2"
   },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+    "squizlabs/php_codesniffer": "^3.2",
+    "wimg/php-compatibility": "^8.1",
+    "wp-coding-standards/wpcs": "~0.14.0"
+  },
   "autoload": {
     "files": ["class-tgm-plugin-activation.php"]
   }
