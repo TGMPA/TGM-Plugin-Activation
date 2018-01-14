@@ -29,11 +29,6 @@ matrix:
           env: SNIFF=1
         # aliased to a recent 7.2.x version
         - php: '7.2'
-        # aliased to a recent hhvm version
-        - php: 'hhvm'
-
-    allow_failures:
-        - php: 'hhvm'
 
 before_script:
   - export PHPCS_DIR=/tmp/phpcs
