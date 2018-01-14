@@ -58,6 +58,9 @@ script:
   # @link https://github.com/squizlabs/PHP_CodeSniffer
   # All of the usual config flags are held in phpcs.xml
   - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs --runtime-set ignore_warnings_on_exit 1; fi
+  # Validate the composer.json file.
+  # @link https://getcomposer.org/doc/03-cli.md#validate
+  - if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then composer validate --no-check-all; fi
 
 notifications:
   email: false
