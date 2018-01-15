@@ -12,6 +12,7 @@
 /.phpcs.xml.dist export-ignore
 /.scrutinizer.yml export-ignore
 /.travis.yml export-ignore
+/CONTRIBUTING.md export-ignore
 /phpcs.xml export-ignore
 /phpcs.xml.dist export-ignore
 
