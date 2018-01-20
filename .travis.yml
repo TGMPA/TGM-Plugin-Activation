@@ -32,7 +32,7 @@ matrix:
 
 before_script:
   # Speed up build time by disabling Xdebug when its not needed.
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
   - export PHPCS_DIR=/tmp/phpcs
   - export WPCS_DIR=/tmp/wpcs
   - export PHPCOMPAT_DIR=/tmp/phpcompatibility
