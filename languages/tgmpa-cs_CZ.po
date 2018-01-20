@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
 "POT-Creation-Date: 2016-05-19 02:57+0200\n"
-"PO-Revision-Date: 2016-10-04 22:10+0200\n"
+"PO-Revision-Date: 2018-01-19 12:29+0100\n"
 "Last-Translator: Tomáš Hrdina <mobby2561@gmail.com>\n"
 "Language-Team: Karolína Vyskočilová <karolina@kybernaut.cz>\n"
 "Language: cs_CZ\n"
@@ -12,7 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
@@ -26,13 +28,13 @@ msgstr "Instalovat pluginy"
 #: class-tgm-plugin-activation.php:337
 #, php-format
 msgid "Installing Plugin: %s"
-msgstr "Instaluji plugin: %s"
+msgstr "Instalace pluginu: %s"
 
 #. translators: %s: plugin name.
 #: class-tgm-plugin-activation.php:339
 #, php-format
 msgid "Updating Plugin: %s"
-msgstr "Aktualizace pluginu:%s"
+msgstr "Aktualizace pluginu: %s"
 
 #: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
@@ -52,9 +54,9 @@ msgstr[2] "Tato šablona vyžaduje následující pluginy: %1$s."
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
-msgstr[0] "Tato šablona doporučuje následující plugin:%1$s."
-msgstr[1] "Tato šablona doporučuje následující pluginy:%1$s."
-msgstr[2] "Tato šablona doporučuje následující pluginy:%1$s."
+msgstr[0] "Tato šablona doporučuje následující plugin: %1$s."
+msgstr[1] "Tato šablona doporučuje následující pluginy: %1$s."
+msgstr[2] "Tato šablona doporučuje následující pluginy: %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:355
@@ -66,23 +68,23 @@ msgid_plural ""
 "The following plugins need to be updated to their latest version to ensure maximum "
 "compatibility with this theme: %1$s."
 msgstr[0] ""
-"Následující plugin potřebuje aktualizovat na poslední verzi pro zajištění maximální "
+"Následující plugin potřebuje aktualizovat na nejnovější verzi pro zajištění maximální "
 "kompatibility s šablonou: %1$s."
 msgstr[1] ""
-"Následující pluginy potřebují aktualizovat na poslední verzi pro zajištění maximální "
-"kompatibility s šablonou: %1$s."
+"Následující pluginy potřebují aktualizovat na nejnovější verzi pro zajištění "
+"maximální kompatibility s šablonou: %1$s."
 msgstr[2] ""
-"Následující pluginy potřebují aktualizovat na poslední verzi pro zajištění maximální "
-"kompatibility s šablonou: %1$s."
+"Následující pluginy potřebují aktualizovat na nejnovější verzi pro zajištění "
+"maximální kompatibility s šablonou: %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:361
 #, php-format
 msgid "There is an update available for: %1$s."
 msgid_plural "There are updates available for the following plugins: %1$s."
-msgstr[0] "Aktualizace k dispozici pro: %1$s."
-msgstr[1] "Aktualizace k dispozici pro: %1$s."
-msgstr[2] "Aktualizace k dispozici pro: %1$s."
+msgstr[0] "Aktualizace je k dispozici pro: %1$s."
+msgstr[1] "Aktualizace jsou k dispozici pro: %1$s."
+msgstr[2] "Aktualizace jsou k dispozici pro: %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:367
@@ -157,7 +159,7 @@ msgid ""
 "the plugin."
 msgstr ""
 "Plugin není aktivován. Pro tuto šablonu je zapotřebí vyšší verze pluginu %s. "
-"Aktualizujte, prosím, tento plugin."
+"Aktualizujte tento plugin."
 
 #. translators: 1: dashboard link.
 #: class-tgm-plugin-activation.php:401
@@ -173,7 +175,7 @@ msgstr "Zavřít toto oznámení"
 msgid ""
 "There are one or more required or recommended plugins to install, update or activate."
 msgstr ""
-"Existuje jeden nebo více požadovaných nebo dorporučených pluginů k instalaci, "
+"Existuje jeden nebo více požadovaných nebo doporučených pluginů k instalaci, "
 "aktualizaci, nebo aktivaci."
 
 #: class-tgm-plugin-activation.php:404
@@ -183,7 +185,7 @@ msgstr "Pro pomoc, kontaktujte administrátora tohoto webu."
 #: class-tgm-plugin-activation.php:607
 msgid "This plugin needs to be updated to be compatible with your theme."
 msgstr ""
-"Pro zajištění kompatibility s vaší šablonou, je nutné tento plugin třeba aktualizovat."
+"Pro zajištění kompatibility s vaší šablonou, je nutné tento plugin aktualizovat."
 
 #: class-tgm-plugin-activation.php:608
 msgid "Update Required"
@@ -270,7 +272,7 @@ msgstr "Vyžaduje aktualizaci"
 
 #: class-tgm-plugin-activation.php:2426
 msgid "Update recommended"
-msgstr "Doporučujeme aktualizovat"
+msgstr "Doporučeno aktualizovat"
 
 #. translators: 1: install status, 2: update status
 #: class-tgm-plugin-activation.php:2435
@@ -312,9 +314,9 @@ msgstr[2] "Dostupné aktualizace <span class=\"count\">(%s)</span>"
 #, php-format
 msgid "To Activate <span class=\"count\">(%s)</span>"
 msgid_plural "To Activate <span class=\"count\">(%s)</span>"
-msgstr[0] "K aktivaci  <span class=\"count\">(%s)</span>"
-msgstr[1] "K aktivaci  <span class=\"count\">(%s)</span>"
-msgstr[2] "K aktivaci  <span class=\"count\">(%s)</span>"
+msgstr[0] "K aktivaci <span class=\"count\">(%s)</span>"
+msgstr[1] "K aktivaci <span class=\"count\">(%s)</span>"
+msgstr[2] "K aktivaci <span class=\"count\">(%s)</span>"
 
 #: class-tgm-plugin-activation.php:2575
 msgctxt "as in: \"version nr unknown\""
@@ -377,7 +379,7 @@ msgstr "Aktivovat %2$s"
 
 #: class-tgm-plugin-activation.php:2777
 msgid "Upgrade message from the plugin author:"
-msgstr "Aktualizovat zprávu od autora pluginu:"
+msgstr "Zpráva aktualizace od autora pluginu:"
 
 #: class-tgm-plugin-activation.php:2810
 msgid "Install"
