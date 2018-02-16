@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
 "POT-Creation-Date: 2016-05-19 03:01+0200\n"
-"PO-Revision-Date: 2018-02-16 11:16-0500\n"
+"PO-Revision-Date: 2018-02-16 13:31-0500\n"
 "Last-Translator: Eric Gagnon <eric.gagnon@banq.qc.ca>\n"
 "Language-Team: TGMPA\n"
 "Language: fr_FR\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
-msgstr "Installer les extensions requises"
+msgstr "Installation des extensions requise"
 
 #: class-tgm-plugin-activation.php:335
 msgid "Install Plugins"
@@ -36,23 +36,25 @@ msgstr "Mise à jour de l’extension : %s"
 
 #: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
-msgstr "Il y a eu un problème avec l’API de l’extension."
+msgstr "Une erreur est survenue en lien avec l’API de l’extension."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:343
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] "Ce thème nécessite l’extension suivante : %1$s."
-msgstr[1] "Ce thème nécessite les extensions suivante : %1$s."
+msgstr[0] "Ce theme nécessite l’extension suivante : %1$s."
+msgstr[1] "Ce theme nécessite les extensions suivantes : %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:349
 #, php-format
 msgid "This theme recommends the following plugin: %1$s."
 msgid_plural "This theme recommends the following plugins: %1$s."
-msgstr[0] "Ce thème recommande l’extension suivante : %1$s."
-msgstr[1] "Ce thème recommande les extensions suivantes : %1$s."
+msgstr[0] ""
+"Avec ce thème, il est recommandé d’installer l’extension suivante : %1$s."
+msgstr[1] ""
+"Avec ce thème, il est recommandé d’installer les extensions suivantes : %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:355
@@ -64,11 +66,11 @@ msgid_plural ""
 "The following plugins need to be updated to their latest version to ensure "
 "maximum compatibility with this theme: %1$s."
 msgstr[0] ""
-"L’extension suivante doit être mis à jour vers sa dernière version afin "
-"d’assurer une compatibilité maximale avec ce thème : %1$s."
+"Il faut installer la dernière version de cette extension pour assurer sa "
+"compatibilité avec le thème : %1$s."
 msgstr[1] ""
-"Les extensions suivantes doivent être mises à jour vers leurs dernières "
-"versions afin d’assurer une compatibilité maximale avec ce thème : %1$s."
+"Il faut installer la dernière version de ces extensions pour assurer leur "
+"compatibilité avec le thème : %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:361
@@ -76,48 +78,45 @@ msgstr[1] ""
 msgid "There is an update available for: %1$s."
 msgid_plural "There are updates available for the following plugins: %1$s."
 msgstr[0] "Il y a une mise à jour disponible pour : %1$s."
-msgstr[1] ""
-"Il y’a des mises à jour disponibles pour les extensions suivantes : %1$s."
+msgstr[1] "Il y a des mises à jour disponibles pour : %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:367
 #, php-format
 msgid "The following required plugin is currently inactive: %1$s."
 msgid_plural "The following required plugins are currently inactive: %1$s."
-msgstr[0] "L’extension requise suivante est actuellement inactive : %1$s."
-msgstr[1] ""
-"Les extensions requise suivantes sont actuellement inactives : %1$s."
+msgstr[0] "L’extension suivante est maintenant désactivée : %1$s."
+msgstr[1] "Les extensions suivantes sont maintenant désactivées : %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:373
 #, php-format
 msgid "The following recommended plugin is currently inactive: %1$s."
 msgid_plural "The following recommended plugins are currently inactive: %1$s."
-msgstr[0] "L’extension recommandée suivante est actuellement inactive : %1$s."
-msgstr[1] ""
-"Les extensions recommandées suivantes sont actuellement inactives : %1$s."
+msgstr[0] "L’extension suivante est maintenant désactivée : %1$s."
+msgstr[1] "Les extensions suivantes sont maintenant désactivées : %1$s."
 
 #: class-tgm-plugin-activation.php:378
 msgid "Begin installing plugin"
 msgid_plural "Begin installing plugins"
-msgstr[0] "Commencer à installer l’extension"
-msgstr[1] "Commencer à installer les extensions"
+msgstr[0] "Installation de l’extension..."
+msgstr[1] "Installation des extensions..."
 
 #: class-tgm-plugin-activation.php:383
 msgid "Begin updating plugin"
 msgid_plural "Begin updating plugins"
-msgstr[0] "Commencer à mettre à jour l’extension"
-msgstr[1] "Commencer à mettre à jour les extensions"
+msgstr[0] "Mise à jour de l’extension..."
+msgstr[1] "Mise à jour des extensions..."
 
 #: class-tgm-plugin-activation.php:388
 msgid "Begin activating plugin"
 msgid_plural "Begin activating plugins"
-msgstr[0] "Commencer à activer l’extension"
-msgstr[1] "Commencer à activer les extensions"
+msgstr[0] "Activation de l’extension..."
+msgstr[1] "Activation des extensions..."
 
 #: class-tgm-plugin-activation.php:392
 msgid "Return to Required Plugins Installer"
-msgstr "Retour à l’installation des extensions requises"
+msgstr "Retourner à l’assistant d’installation d’extensions."
 
 #: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
 #: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
@@ -126,19 +125,19 @@ msgstr "Retourner au tableau de bord"
 
 #: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
 msgid "Plugin activated successfully."
-msgstr "Extension activée avec succès."
+msgstr "L’extension a été activée."
 
 #: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
-msgstr[0] "L’extension suivante a été activée avec succès :"
+msgstr[0] "L’extension suivante a été activée :"
 msgstr[1] "Les extensions suivantes ont été activées avec succès :"
 
 #. translators: 1: plugin name.
 #: class-tgm-plugin-activation.php:397
 #, php-format
 msgid "No action taken. Plugin %1$s was already active."
-msgstr "Aucune mesure prise. L’extension %1$s était déjà active."
+msgstr "Aucune action requise. L’extension %1$s est déjà activée."
 
 #. translators: 1: plugin name.
 #: class-tgm-plugin-activation.php:399
@@ -147,14 +146,14 @@ msgid ""
 "Plugin not activated. A higher version of %s is needed for this theme. "
 "Please update the plugin."
 msgstr ""
-"L’extension n’est pas activée. Une version plus récente de %s est nécessaire "
-"pour ce thème. Veuillez mettre à jour l’extension."
+"Extension non activée. Une plus récente version que %s est nécessaire pour "
+"ce thème. Veuillez mettre l’extension à jour."
 
 #. translators: 1: dashboard link.
 #: class-tgm-plugin-activation.php:401
 #, php-format
 msgid "All plugins installed and activated successfully. %1$s"
-msgstr "Toutes les extensions ont été installées et activées avec succès. %1$s"
+msgstr "Toutes les extensions ont été installées et activées. %1$s"
 
 #: class-tgm-plugin-activation.php:402
 msgid "Dismiss this notice"
@@ -170,7 +169,8 @@ msgstr ""
 
 #: class-tgm-plugin-activation.php:404
 msgid "Please contact the administrator of this site for help."
-msgstr "Veuillez contacter l’administrateur du site pour obtenir de l’aide."
+msgstr ""
+"Veuillez communiquer avec l’administrateur du site pour obtenir de l’aide."
 
 #: class-tgm-plugin-activation.php:607
 msgid "This plugin needs to be updated to be compatible with your theme."
