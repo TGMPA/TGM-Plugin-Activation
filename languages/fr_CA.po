@@ -43,8 +43,8 @@ msgstr "Une erreur est survenue en lien avec l’API de l’extension."
 #, php-format
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] "Ce theme nécessite l’extension suivante : %1$s."
-msgstr[1] "Ce theme nécessite les extensions suivantes : %1$s."
+msgstr[0] "Ce thème nécessite l’extension suivante : %1$s."
+msgstr[1] "Ce thème nécessite les extensions suivantes : %1$s."
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:349
