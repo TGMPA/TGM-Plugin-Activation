@@ -116,7 +116,7 @@ msgstr[1] "Activation des extensions..."
 
 #: class-tgm-plugin-activation.php:392
 msgid "Return to Required Plugins Installer"
-msgstr "Retourner à l’assistant d’installation d’extensions."
+msgstr "Retourner à l’assistant d’installation d’extensions"
 
 #: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
 #: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
