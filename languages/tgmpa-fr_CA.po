@@ -1,4 +1,4 @@
-# Translation of TGM Plugin Activation in French (France)
+# Translation of TGM Plugin Activation in French (Canada)
 # This file is distributed under the same license as the TGMPA package.
 msgid ""
 msgstr ""
