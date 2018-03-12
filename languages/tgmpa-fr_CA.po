@@ -1,0 +1,491 @@
+# Translation of TGM Plugin Activation in French (Canada)
+# This file is distributed under the same license as the TGMPA package.
+msgid ""
+msgstr ""
+"Project-Id-Version: TGM Plugin Activation v2.6.1\n"
+"POT-Creation-Date: 2016-05-19 03:01+0200\n"
+"PO-Revision-Date: 2018-02-16 13:31-0500\n"
+"Last-Translator: Eric Gagnon <eric.gagnon@banq.qc.ca>\n"
+"Language-Team: TGMPA\n"
+"Language: fr_CA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: class-tgm-plugin-activation.php:334
+msgid "Install Required Plugins"
+msgstr "Installation des extensions requise"
+
+#: class-tgm-plugin-activation.php:335
+msgid "Install Plugins"
+msgstr "Installer les extensions"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:337
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr "Installation de l’extension : %s"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:339
+#, php-format
+msgid "Updating Plugin: %s"
+msgstr "Mise à jour de l’extension : %s"
+
+#: class-tgm-plugin-activation.php:340
+msgid "Something went wrong with the plugin API."
+msgstr "Une erreur est survenue en lien avec l’API de l’extension."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:343
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "Ce thème nécessite l’extension suivante : %1$s."
+msgstr[1] "Ce thème nécessite les extensions suivantes : %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:349
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+"Avec ce thème, il est recommandé d’installer l’extension suivante : %1$s."
+msgstr[1] ""
+"Avec ce thème, il est recommandé d’installer les extensions suivantes : %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:355
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+"Il faut installer la dernière version de cette extension pour assurer sa "
+"compatibilité avec le thème : %1$s."
+msgstr[1] ""
+"Il faut installer la dernière version de ces extensions pour assurer leur "
+"compatibilité avec le thème : %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:361
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] "Il y a une mise à jour disponible pour : %1$s."
+msgstr[1] "Il y a des mises à jour disponibles pour : %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:367
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] "L’extension suivante est maintenant désactivée : %1$s."
+msgstr[1] "Les extensions suivantes sont maintenant désactivées : %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:373
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] "L’extension suivante est maintenant désactivée : %1$s."
+msgstr[1] "Les extensions suivantes sont maintenant désactivées : %1$s."
+
+#: class-tgm-plugin-activation.php:378
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] "Installation de l’extension..."
+msgstr[1] "Installation des extensions..."
+
+#: class-tgm-plugin-activation.php:383
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] "Mise à jour de l’extension..."
+msgstr[1] "Mise à jour des extensions..."
+
+#: class-tgm-plugin-activation.php:388
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] "Activation de l’extension..."
+msgstr[1] "Activation des extensions..."
+
+#: class-tgm-plugin-activation.php:392
+msgid "Return to Required Plugins Installer"
+msgstr "Retourner à l’assistant d’installation d’extensions"
+
+#: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
+#: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
+msgid "Return to the Dashboard"
+msgstr "Retourner au tableau de bord"
+
+#: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
+msgid "Plugin activated successfully."
+msgstr "L’extension a été activée."
+
+#: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "L’extension suivante a été activée :"
+msgstr[1] "Les extensions suivantes ont été activées avec succès :"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:397
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr "Aucune action requise. L’extension %1$s est déjà activée."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:399
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+"Extension non activée. Une plus récente version que %s est nécessaire pour "
+"ce thème. Veuillez mettre l’extension à jour."
+
+#. translators: 1: dashboard link.
+#: class-tgm-plugin-activation.php:401
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Toutes les extensions ont été installées et activées. %1$s"
+
+#: class-tgm-plugin-activation.php:402
+msgid "Dismiss this notice"
+msgstr "Ignorer ce message"
+
+#: class-tgm-plugin-activation.php:403
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+"Il y a une ou plusieurs extensions requise ou recommandées à installer, "
+"mettre à jour ou activer."
+
+#: class-tgm-plugin-activation.php:404
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+"Veuillez communiquer avec l’administrateur du site pour obtenir de l’aide."
+
+#: class-tgm-plugin-activation.php:607
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+"Cette extension a besoin d’être mise à jour pour être compatible avec votre "
+"thème."
+
+#: class-tgm-plugin-activation.php:608
+msgid "Update Required"
+msgstr "Mise à jour requise"
+
+#: class-tgm-plugin-activation.php:725
+msgid "Set the parent_slug config variable instead."
+msgstr "Définissez la variable de configuration parent_slug à la place."
+
+#: class-tgm-plugin-activation.php:1027
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr ""
+"Le paquet d’extension distant ne contient pas de dossier avec le nom désiré "
+"et le renommage ne fonctionne pas."
+
+#: class-tgm-plugin-activation.php:1027 class-tgm-plugin-activation.php:1030
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+"Veuillez contacter le développeur de l’extension et demandez un "
+"reconditionnement respectant les lignes directrices de WordPress."
+
+#: class-tgm-plugin-activation.php:1030
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr ""
+"Le packet d’extension distant se compose de plus d’un fichier, mais les "
+"fichiers ne sont pas assemblés dans un dossier."
+
+#: class-tgm-plugin-activation.php:1214 class-tgm-plugin-activation.php:3041
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr "et"
+
+#. translators: %s: version number
+#: class-tgm-plugin-activation.php:2075
+#, php-format
+msgid "TGMPA v%s"
+msgstr "TGMPA v%s"
+
+#: class-tgm-plugin-activation.php:2366
+msgid "Required"
+msgstr "Requise"
+
+#: class-tgm-plugin-activation.php:2369
+msgid "Recommended"
+msgstr "Recommandée"
+
+#: class-tgm-plugin-activation.php:2385
+msgid "WordPress Repository"
+msgstr "Dépôt WordPress"
+
+#: class-tgm-plugin-activation.php:2388
+msgid "External Source"
+msgstr "Source externe"
+
+#: class-tgm-plugin-activation.php:2391
+msgid "Pre-Packaged"
+msgstr "Incluse avec le thème"
+
+#: class-tgm-plugin-activation.php:2408
+msgid "Not Installed"
+msgstr "Non installée"
+
+#: class-tgm-plugin-activation.php:2412
+msgid "Installed But Not Activated"
+msgstr "Installée mais pas activée"
+
+#: class-tgm-plugin-activation.php:2414
+msgid "Active"
+msgstr "Activée"
+
+#: class-tgm-plugin-activation.php:2420
+msgid "Required Update not Available"
+msgstr "Mise à jour requise indisponible"
+
+#: class-tgm-plugin-activation.php:2423
+msgid "Requires Update"
+msgstr "Nécessite une mise à jour"
+
+#: class-tgm-plugin-activation.php:2426
+msgid "Update recommended"
+msgstr "Mise à jour recommandée"
+
+#. translators: 1: install status, 2: update status
+#: class-tgm-plugin-activation.php:2435
+#, php-format
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2481
+#, php-format
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Tous les <span class=\"count\">(%s)</span>"
+msgstr[1] "Tous les <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2485
+#, php-format
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] "À installer <span class=\"count\">(%s)</span>"
+msgstr[1] "À installer <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2489
+#, php-format
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] "Mise à jour disponible <span class=\"count\">(%s)</span>"
+msgstr[1] "Mise à jour disponible <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2493
+#, php-format
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] "À activer <span class=\"count\">(%s)</span>"
+msgstr[1] "À activer <span class=\"count\">(%s)</span>"
+
+#: class-tgm-plugin-activation.php:2575
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "inconnue"
+
+#: class-tgm-plugin-activation.php:2583
+msgid "Installed version:"
+msgstr "Version installée :"
+
+#: class-tgm-plugin-activation.php:2591
+msgid "Minimum required version:"
+msgstr "Version minimum requise :"
+
+#: class-tgm-plugin-activation.php:2603
+msgid "Available version:"
+msgstr "Version disponible :"
+
+#: class-tgm-plugin-activation.php:2626
+msgid "No plugins to install, update or activate."
+msgstr "Aucune extension à installer, à mettre à jour ou à activer."
+
+#: class-tgm-plugin-activation.php:2640
+msgid "Plugin"
+msgstr "Extension"
+
+#: class-tgm-plugin-activation.php:2641
+msgid "Source"
+msgstr "Source"
+
+#: class-tgm-plugin-activation.php:2642
+msgid "Type"
+msgstr "Type"
+
+#: class-tgm-plugin-activation.php:2646
+msgid "Version"
+msgstr "Version"
+
+#: class-tgm-plugin-activation.php:2647
+msgid "Status"
+msgstr "Statut"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2696
+#, php-format
+msgid "Install %2$s"
+msgstr "Installer %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2701
+#, php-format
+msgid "Update %2$s"
+msgstr "Mettre à jour %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2707
+#, php-format
+msgid "Activate %2$s"
+msgstr "Activer %2$s"
+
+#: class-tgm-plugin-activation.php:2777
+msgid "Upgrade message from the plugin author:"
+msgstr "Message de mise à niveau de l’auteur de l’extension :"
+
+#: class-tgm-plugin-activation.php:2810
+msgid "Install"
+msgstr "Installer"
+
+#: class-tgm-plugin-activation.php:2816
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: class-tgm-plugin-activation.php:2819
+msgid "Activate"
+msgstr "Activer"
+
+#: class-tgm-plugin-activation.php:2850
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+"Aucune extension n’a été sélectionnée pour être installée. Aucune action n’a "
+"été effectuée."
+
+#: class-tgm-plugin-activation.php:2852
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+"Aucune extension n’a été sélectionnée pour être mise à jour. Aucune action "
+"n’a été effectuée."
+
+#: class-tgm-plugin-activation.php:2893
+msgid "No plugins are available to be installed at this time."
+msgstr "Aucune extension à installer pour le moment."
+
+#: class-tgm-plugin-activation.php:2895
+msgid "No plugins are available to be updated at this time."
+msgstr "Aucune extension à mettre à jour pour le moment."
+
+#: class-tgm-plugin-activation.php:3001
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+"Aucune extension n’a été sélectionnée pour être activée. Aucune action n’a "
+"été effectuée."
+
+#: class-tgm-plugin-activation.php:3027
+msgid "No plugins are available to be activated at this time."
+msgstr "Aucune extension à activer pour le moment."
+
+#: class-tgm-plugin-activation.php:3251
+msgid "Plugin activation failed."
+msgstr "L’activation de l’extension a échoué."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3591
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr "Mise à jour de l’extension %1$s (%2$d/%3$d)"
+
+#. translators: 1: plugin name, 2: error message.
+#: class-tgm-plugin-activation.php:3594
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+"Une erreur est survenue lors de l’installation de %1$s: <strong>%2$s</"
+"strong>."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3596
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr "L’installation de %1$s a échoué."
+
+#: class-tgm-plugin-activation.php:3600
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"Le processus d’installation et d’activation a démarré. Cette opération peut "
+"prendre du temps selon votre hébergeur, merci de bien vouloir patienter."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3602
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s installé et activé avec succès."
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Show Details"
+msgstr "Afficher les détails"
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Hide Details"
+msgstr "Masquer les détails"
+
+#: class-tgm-plugin-activation.php:3603
+msgid "All installations and activations have been completed."
+msgstr "Toutes les installations et activations sont terminées."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3605
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Mise à jour et activation de l’extension %1$s (%2$d/%3$d)"
+
+#: class-tgm-plugin-activation.php:3608
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+"Le processus d’installation a démarré. Cette opération peut prendre du temps "
+"selon votre hébergeur, merci de bien vouloir patienter."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3610
+#, php-format
+msgid "%1$s installed successfully."
+msgstr "%1$s installée avec succès."
+
+#: class-tgm-plugin-activation.php:3611
+msgid "All installations have been completed."
+msgstr "Toutes les installations sont terminées."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3613
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Installation de l’extension %1$s (%2$d/%3$d)"
