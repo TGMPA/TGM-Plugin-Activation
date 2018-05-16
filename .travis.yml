@@ -27,15 +27,12 @@ matrix:
         # aliased to a recent 7.0.x version
         - php: '7.0'
           env: SNIFF=1
-        # aliased to a recent 7.1.x version
-        - php: '7.1'
-        # aliased to a recent hhvm version
-        - php: 'hhvm'
-
-    allow_failures:
-        - php: 'hhvm'
+        # aliased to a recent 7.2.x version
+        - php: '7.2'
 
 before_script:
+  # Speed up build time by disabling Xdebug when its not needed.
+  - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
   - export PHPCS_DIR=/tmp/phpcs
   - export WPCS_DIR=/tmp/wpcs
   - export PHPCOMPAT_DIR=/tmp/phpcompatibility
@@ -61,6 +58,9 @@ script:
   # @link https://github.com/squizlabs/PHP_CodeSniffer
   # All of the usual config flags are held in phpcs.xml
   - if [[ "$SNIFF" == "1" ]]; then $PHPCS_DIR/bin/phpcs --runtime-set ignore_warnings_on_exit 1; fi
+  # Validate the composer.json file.
+  # @link https://getcomposer.org/doc/03-cli.md#validate
+  - if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then composer validate --no-check-all; fi
 
 notifications:
   email: false
