@@ -3,12 +3,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Project-Id-Version: TGM Plugin Activation 2.6.1\n"
 "POT-Creation-Date: 2016-05-19 02:57+0200\n"
-"PO-Revision-Date: 2017-09-16 21:46+0800\n"
+"PO-Revision-Date: 2018-01-28 14:18+0800\n"
 "Language-Team: Alex Lion <learnwithalex@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: class-tgm-plugin-activation.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -69,7 +69,7 @@ msgid_plural ""
 "The following plugins need to be updated to their latest version to ensure "
 "maximum compatibility with this theme: %1$s."
 msgstr[0] ""
-"為確保與這個佈景主題保持最高相容性，下列外掛必須更新至最新版本: %1$s。"
+"為確保與本佈景主題保持最高相容性，下列外掛必須更新至最新版本: %1$s。"
 
 #. translators: 1: plugin name(s).
 #: class-tgm-plugin-activation.php:361
@@ -137,7 +137,7 @@ msgstr "無須進行任何操作。外掛 %1$s 已完成啟用。"
 msgid ""
 "Plugin not activated. A higher version of %s is needed for this theme. "
 "Please update the plugin."
-msgstr "外掛尚未啟用。這個佈景主題須要配合較新版本的 %s，請將外掛予以更新。"
+msgstr "外掛尚未啟用。本佈景主題須要配合較新版本的 %s，請將外掛予以更新。"
 
 #. translators: 1: dashboard link.
 #: class-tgm-plugin-activation.php:401
@@ -265,7 +265,7 @@ msgstr[0] "總計 <span class=\"count\">%s</span> 個"
 #, php-format
 msgid "To Install <span class=\"count\">(%s)</span>"
 msgid_plural "To Install <span class=\"count\">(%s)</span>"
-msgstr[0] "安装 <span class=“count”>%s</span> 個"
+msgstr[0] "安裝 <span class=\"count\">%s</span> 個"
 
 #. translators: 1: number of plugins.
 #: class-tgm-plugin-activation.php:2489
@@ -292,7 +292,7 @@ msgstr "已安裝的版本:"
 
 #: class-tgm-plugin-activation.php:2591
 msgid "Minimum required version:"
-msgstr "最低需求版本："
+msgstr "最低需求版本:"
 
 #: class-tgm-plugin-activation.php:2603
 msgid "Available version:"
@@ -358,11 +358,11 @@ msgstr "啟用"
 
 #: class-tgm-plugin-activation.php:2850
 msgid "No plugins were selected to be installed. No action taken."
-msgstr "並未選取任何外掛以進行安裝，沒有產生任何變更。"
+msgstr "沒有選取任何外掛以進行安裝。並未產生任何變更。"
 
 #: class-tgm-plugin-activation.php:2852
 msgid "No plugins were selected to be updated. No action taken."
-msgstr "並未選取任何外掛以進行更新，沒有產生任何變更。"
+msgstr "沒有選取任何外掛以進行更新。並未產生任何變更。"
 
 #: class-tgm-plugin-activation.php:2893
 msgid "No plugins are available to be installed at this time."
@@ -374,7 +374,7 @@ msgstr "目前沒有需要更新的外掛。"
 
 #: class-tgm-plugin-activation.php:3001
 msgid "No plugins were selected to be activated. No action taken."
-msgstr "並未選取任何外掛以進行啟用，沒有產生任何變更。"
+msgstr "沒有選取任何外掛以進行啟用。並未產生任何變更。"
 
 #: class-tgm-plugin-activation.php:3027
 msgid "No plugins are available to be activated at this time."
