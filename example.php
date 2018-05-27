@@ -98,13 +98,13 @@ function my_theme_register_required_plugins() {
 		),
 
 		// This is an example of the use of 'is_callable' functionality. A user could - for instance -
-		// have WPSEO installed *or* WPSEO Premium. The slug would in that last case be different, i.e.
+		// have Yoast SEO installed *or* Yoast SEO Premium. The slug would in that last case be different, i.e.
 		// 'wordpress-seo-premium'.
 		// By setting 'is_callable' to either a function from that plugin or a class method
 		// `array( 'class', 'method' )` similar to how you hook in to actions and filters, TGMPA can still
 		// recognize the plugin as being installed.
 		array(
-			'name'        => 'WordPress SEO by Yoast',
+			'name'        => 'Yoast SEO',
 			'slug'        => 'wordpress-seo',
 			'is_callable' => 'wpseo_init',
 		),
