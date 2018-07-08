@@ -1153,7 +1153,6 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( $this->is_plugin_active( $slug ) && false === $this->does_plugin_have_update( $slug ) ) {
 					continue;
 				}
-				
 				if ( false === $plugin['has_notices'] ) {
 					continue;
 				}
