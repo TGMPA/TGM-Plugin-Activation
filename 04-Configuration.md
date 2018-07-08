@@ -51,6 +51,7 @@ function my_theme_register_required_plugins() {
 			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+			'has_notices'        => true, // If false, this plugin will not be listed in the administrator notices. Useful to hide notice for recommended plugins. Default true.
 		),
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
@@ -115,6 +116,7 @@ force_activation | boolean | v2.2.0 | Either `true` or `false`. Defaults to `fal
 force_deactivation | boolean | v2.2.0 | Either `true` or `false`. Defaults to `false`.<br>If set to `true`, it forces the specified plugin to be deactivated when the current theme is switched. This is useful for deactivating theme-specific plugins.
 external_url | string | v2.2.0 | An external URL for the plugin.<br>By default, plugins referenced from the WordPress Plugin Repository are linked to their plugin information via a thickbox overlay. This parameter overrides this default behavior and allows you to specify an alternative URL for the plugin which - when clicked - will be opened in a new tab/window.
 is_callable | string\|array | v2.5.0 | Advanced feature. If a plugin can be installed under two or more different slugs - for instance a basic version and a premium version using different slugs -, it might not be recognized correctly as active.<br>By setting `is_callable` to either a function `function_name` from that plugin or a class method - `array( 'class', 'method' )` - similar to how you hook in to actions and filters - TGMPA can still recognize the plugin as being active.
+has_notices | boolean | v2.7.0 | Either `true` or `false`.  Additinal feature that shows/hides the plugin in administrator notice. Useful to hide notice for recommended plugins. Default value is `true`.
 
 
 #### Configuration options
