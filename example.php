@@ -70,6 +70,7 @@ function my_theme_register_required_plugins() {
 			'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
 			'external_url'       => '', // If set, overrides default API URL and points to an external URL.
 			'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+			'has_notices'        => true, // If false, this plugin will not be listed in the administrator notices. Useful to hide notice for recommended plugins. Default true.
 		),
 
 		// This is an example of how to include a plugin from an arbitrary external source in your theme.
