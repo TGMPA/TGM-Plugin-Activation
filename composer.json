@@ -1,5 +1,5 @@
 {
-  "name": "tgmpa/tgm-plugin-activation",
+  "name": "tofandel/tgm-plugin-activation",
   "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
   "homepage": "http://tgmpluginactivation.com",
   "keywords": ["wordpress","plugins", "theme", "library", "activation"],
