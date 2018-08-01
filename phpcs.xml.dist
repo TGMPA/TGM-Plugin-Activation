@@ -13,12 +13,12 @@
 	<rule ref="PHPCompatibility"/>
 
 	<!-- ##### Code style ##### -->
-	<rule ref="WordPress">
-		<exclude name="WordPress.VIP"/>
-
+	<rule ref="WordPress-Extra">
 		<!-- This is a conscious choice & known issue and will not be fixed until v 3.0 (if ever). -->
 		<exclude name="Generic.Files.OneClassPerFile"/>
 	</rule>
+
+	<rule ref="WordPress-Docs"/>
 
 	<!-- The value of the below config variable should be in-line with the
 		 "requires at least" version in the readme. -->
