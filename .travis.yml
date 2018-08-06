@@ -6,6 +6,13 @@ sudo: false
 
 dist: trusty
 
+cache:
+  directories:
+    # Cache directory for older Composer versions.
+    - $HOME/.composer/cache/files
+    # Cache directory for more recent Composer versions.
+    - $HOME/.cache/composer/files
+
 # Declare project language.
 # @link http://about.travis-ci.org/docs/user/languages/php/
 language: php
@@ -40,7 +47,7 @@ before_script:
 # All commands must exit with code 0 on success. Anything else is considered failure.
 script:
   # Search for PHP syntax errors.
-  - find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+  - find -L . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
   # WordPress Coding Standards.
   # @link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
   # @link https://github.com/squizlabs/PHP_CodeSniffer
