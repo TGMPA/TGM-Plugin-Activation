@@ -10,7 +10,7 @@
 
 	<!-- ##### Sniffs for PHP cross-version compatibility ##### -->
 	<config name="testVersion" value="5.2-99.0"/>
-	<rule ref="PHPCompatibility"/>
+	<rule ref="PHPCompatibilityWP"/>
 
 	<!-- ##### Code style ##### -->
 	<rule ref="WordPress-Extra">
