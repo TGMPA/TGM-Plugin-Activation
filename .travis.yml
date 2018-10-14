@@ -36,6 +36,8 @@ matrix:
           env: SNIFF=1
         # aliased to a recent 7.2.x version
         - php: '7.2'
+        # aliased to a recent 7.3.x version
+        - php: '7.3'
 
 before_script:
   # Speed up build time by disabling Xdebug when its not needed.
