@@ -29,9 +29,9 @@
     "php": ">=5.2"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
     "phpcompatibility/phpcompatibility-wp": "^2.0",
-    "wp-coding-standards/wpcs": "^1.0"
+    "wp-coding-standards/wpcs": "^2.0"
   },
   "autoload": {
     "files": ["class-tgm-plugin-activation.php"]
