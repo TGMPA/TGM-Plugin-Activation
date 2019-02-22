@@ -1406,6 +1406,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'force_deactivation' => false,   // Boolean.
 				'external_url'       => '',      // String.
 				'is_callable'        => '',      // String|Array.
+				'class_exists'       => '',      // String.
+				'is_defined'         => '',      // String.
 			);
 
 			// Prepare the received data.
@@ -1864,7 +1866,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 * @return bool True if active, false otherwise.
 		 */
 		public function is_plugin_active( $slug ) {
-			return ( ( ! empty( $this->plugins[ $slug ]['is_callable'] ) && is_callable( $this->plugins[ $slug ]['is_callable'] ) ) || is_plugin_active( $this->plugins[ $slug ]['file_path'] ) );
+			return ( ( ! empty( $this->plugins[ $slug ]['is_callable'] ) && is_callable( $this->plugins[ $slug ]['is_callable'] ) )
+				|| ( ! empty( $this->plugins[ $slug ]['class_exists'] ) && class_exists( $this->plugins[ $slug ]['class_exists'] ) )
+				|| ( ! empty( $this->plugins[ $slug ]['is_defined'] ) && defined( $this->plugins[ $slug ]['is_defined'] ) )
+				|| is_plugin_active( $this->plugins[ $slug ]['file_path'] ) );
 		}
 
 		/**
