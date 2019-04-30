@@ -7,15 +7,19 @@
 
 	<arg name="report" value="full"/>
 	<arg value="sp"/>
+	<arg name="basepath" value="./"/>
 
 	<!-- ##### Sniffs for PHP cross-version compatibility ##### -->
-	<config name="testVersion" value="5.2-99.0"/>
+	<config name="testVersion" value="5.2-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
 	<!-- ##### Code style ##### -->
 	<rule ref="WordPress-Extra">
 		<!-- This is a conscious choice & known issue and will not be fixed until v 3.0 (if ever). -->
-		<exclude name="Generic.Files.OneClassPerFile"/>
+		<exclude name="Generic.Files.OneObjectStructurePerFile"/>
+
+		<!-- Renaming these protected methods now would break BC. This needs to be left for a next major release. -->
+		<exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
 	</rule>
 
 	<rule ref="WordPress-Docs"/>
@@ -36,7 +40,7 @@
 			<!--
 				* Classes are prefixed with `TGM`.
 				* Everything else in the global namespace with `tgmpa`.
-				* The example file use the example prefix `my_theme`.
+				* The example file uses the example prefix `my_theme`.
 			-->
 			<property name="prefixes" type="array" value="tgmpa,tgm,my_theme,load_tgm" />
 		</properties>
