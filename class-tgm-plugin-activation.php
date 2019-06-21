@@ -228,6 +228,15 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		public $strings = array();
 
 		/**
+		 * Holds 'strict versions' option
+		 *
+		 * @since 2.6.1
+		 *
+		 * @var boolean
+		 */
+		public $strict_versions = false;
+
+		/**
 		 * Holds the version of WordPress.
 		 *
 		 * @since 2.4.0
@@ -890,6 +899,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					$skin_args['plugin'] = $this->plugins[ $slug ]['file_path'];
 					$skin                = new Plugin_Upgrader_Skin( $skin_args );
 				} else {
+
+					if( $this->strict_versions === true && isset($this->plugins[ $slug ]['version']) && array_key_exists($this->plugins[ $slug ]['version'], $skin_args['api']->versions) ) {
+						$skin_args['api']->version = $this->plugins[ $slug ]['version'];
+					}
+
 					$skin = new Plugin_Installer_Skin( $skin_args );
 				}
 
@@ -1514,6 +1528,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'is_automatic',
 				'message',
 				'strings',
+				'strict_versions'
 			);
 
 			foreach ( $keys as $key ) {
@@ -1655,7 +1670,16 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			$api    = $this->get_plugins_api( $slug );
 
 			if ( false !== $api && isset( $api->download_link ) ) {
-				$source = $api->download_link;
+
+				if($this->strict_versions === true){
+					$version = isset($this->plugins[$slug]['version']) ? $this->plugins[$slug]['version'] : '';
+					$versions = $api->versions;
+					$source = isset($versions[$version]) ? $versions[$version] : $api->download_link;
+				}
+				else{
+					$source = $api->download_link;
+				}
+
 			}
 
 			return $source;
