@@ -485,7 +485,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				load_theme_textdomain( 'tgmpa', dirname( __FILE__ ) . '/languages' );
 				remove_action( 'load_textdomain_mofile', array( $this, 'correct_plugin_mofile' ), 10 );
 			} else {
-				load_theme_textdomain( 'tgmpa', dirname( __FILE__ ) . '/languages' );
+				$mofile = untrailingslashit( dirname( __FILE__ ) . '/languages' ) . '/tgmpa-' . get_locale() . '.mo';
+				load_textdomain( 'tgmpa', $mofile );
 			}
 		}
 
