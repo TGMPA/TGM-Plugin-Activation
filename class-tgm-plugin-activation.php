@@ -60,7 +60,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 *
 		 * @const string Version number.
 		 */
-		const TGMPA_VERSION = '2.6.1';
+		const TGMPA_VERSION = '2.6.1-a';
 
 		/**
 		 * Regular expression to test if a URL is a WP plugin repo URL.
@@ -783,6 +783,16 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					<?php $plugin_table->display(); ?>
 				</form>
 			</div>
+			<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery(document).on('wp-plugin-install-success', function (e) {
+					jQuery("span.install > a.activate-now").first().removeClass('button-primary').removeAttr("href");
+					setTimeout(function(){ 
+						window.location.href = window.location.href.replace('plugin_status=install', 'plugin_status=activate');
+					}, 500);
+				});
+			})
+			</script>
 			<?php
 		}
 
@@ -1728,7 +1738,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				);
 
 				$link = sprintf(
-					'<a href="%1$s" class="thickbox">%2$s</a>',
+					'<a href="%1$s" class="thickbox open-plugin-details-modal">%2$s</a>',
 					esc_url( $url ),
 					esc_html( $this->plugins[ $slug ]['name'] )
 				);
@@ -2616,6 +2626,36 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		}
 
 		/**
+		 * Generate row actions div
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string[] $actions        An array of action links.
+		 * @param bool     $always_visible Whether the actions should be always visible.
+		 * @return string
+		 */
+		protected function row_actions( $actions, $always_visible = false ) {
+			$action_count = count( $actions );
+			$i            = 0;
+
+			if ( ! $action_count ) {
+				return '';
+			}
+
+			$out = '<div class="">';
+			foreach ( $actions as $action => $link ) {
+				++$i;
+				( $i === $action_count ) ? $sep = '' : $sep = ' | ';
+				$out                           .= "<span class='$action'>$link$sep</span>";
+			}
+			$out .= '</div>';
+
+			$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
+
+			return $out;
+		}
+
+		/**
 		 * Create version information column.
 		 *
 		 * @since 2.5.0
@@ -2777,8 +2817,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 					'tgmpa-nonce'
 				);
 
+				$class = '';
+				if ( 'install' === $action ) {
+					$class = 'class="install-now" ';
+				} elseif ( 'activate' === $action ) {
+					$class = 'class="activate-now" ';
+				}
+
 				$action_links[ $action ] = sprintf(
-					'<a href="%1$s">' . esc_html( $text ) . '</a>', // $text contains the second placeholder.
+					'<a ' . $class . 'href="%1$s">' . esc_html( $text ) . '</a>', // $text contains the second placeholder.
 					esc_url( $nonce_url ),
 					'<span class="screen-reader-text">' . esc_html( $item['sanitized_plugin'] ) . '</span>'
 				);
@@ -2796,7 +2843,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @param object $item The current item.
 		 */
 		public function single_row( $item ) {
-			echo '<tr class="' . esc_attr( 'tgmpa-type-' . strtolower( $item['type'] ) ) . '">';
+			echo '<tr class="' . esc_attr( 'tgmpa-type-' . strtolower( $item['type'] ) ) . esc_attr( ' plugin-card-' . strtolower( $item['slug'] ) ) . '">';
 			$this->single_row_columns( $item );
 			echo '</tr>';
 
