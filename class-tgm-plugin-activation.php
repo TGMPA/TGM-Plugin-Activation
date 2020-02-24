@@ -2650,7 +2650,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			}
 			$out .= '</div>';
 
-			$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
+			$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details', 'tgmpa' ) . '</span></button>';
 
 			return $out;
 		}
