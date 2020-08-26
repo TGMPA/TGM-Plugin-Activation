@@ -664,8 +664,11 @@
 					if ( 'other' !== publishType && ( 'parent-theme' === addonType || 'child-theme' === addonType ) ) {
 						classFileContent = zip.file( tgmpaDir + '/class-tgm-plugin-activation.php' ).async( 'string' ).then( function( content ) {
 
-							// Replace the add admin menu function.
-							content = replaceAddAdminMenuFunction( content );
+							if ( 'themeforest' === publishType ) {
+
+								// Replace the add admin menu function.
+								content = replaceAddAdminMenuFunction( content );
+							}
 
 							if ( 'wporg' === publishType ) {
 
