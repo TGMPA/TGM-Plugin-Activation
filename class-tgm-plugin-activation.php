@@ -755,7 +755,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		 */
 		public function install_plugins_page() {
 			// Store new instance of plugin table in object.
-			$plugin_table = new TGMPA_List_Table();
+			$plugin_table = new TGMPA_List_Table($this);
 
 			// Return early if processing a plugin installation action.
 			if ( ( ( 'tgmpa-bulk-install' === $plugin_table->current_action() || 'tgmpa-bulk-update' === $plugin_table->current_action() ) && $plugin_table->process_bulk_actions() ) || $this->do_plugin_install() ) {
@@ -2271,10 +2271,12 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		/**
 		 * References parent constructor and sets defaults for class.
 		 *
+		 * @param TGM_Plugin_Activation $tgmpa The TGMPA instance to be used by this list.
+		 *
 		 * @since 2.2.0
 		 */
-		public function __construct() {
-			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+		public function __construct($tgmpa) {
+			$this->tgmpa = $tgmpa;
 
 			parent::__construct(
 				array(
