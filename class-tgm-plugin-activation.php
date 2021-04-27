@@ -3018,6 +3018,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				// Create a new instance of TGMPA_Bulk_Installer.
 				$installer = new TGMPA_Bulk_Installer(
+					$this->tgmpa,
 					new TGMPA_Bulk_Installer_Skin(
 						array(
 							'url'          => esc_url_raw( $this->tgmpa->get_tgmpa_url() ),
@@ -3284,13 +3285,13 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 *
 					 * @since 2.2.0
 					 *
+					 * @param TGM_Plugin_Activation $tgmpa The TGMPA instance to be used by this class.
 					 * @param \Bulk_Upgrader_Skin|null $skin Installer skin.
 					 */
-					public function __construct( $skin = null ) {
-						// Get TGMPA class instance.
-						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
-
+					public function __construct( $tgmpa, $skin = null ) {
 						parent::__construct( $skin );
+
+						$this->tgmpa = $tgmpa;
 
 						if ( isset( $this->skin->options['install_type'] ) && 'update' === $this->skin->options['install_type'] ) {
 							$this->clear_destination = true;
