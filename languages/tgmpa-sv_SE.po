@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TGM Plugin Activation v2.6.1\n"
 "POT-Creation-Date: 2016-05-19 03:05+0200\n"
-"PO-Revision-Date: 2016-07-21 08:18+0200\n"
+"PO-Revision-Date: 2022-12-20 11:07+0100\n"
 "Last-Translator: George Bredberg <george@bona.nu>\n"
 "Language-Team: TGMPA\n"
 "Language: sv_SE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: class-tgm-plugin-activation.php:334
 msgid "Install Required Plugins"
@@ -32,7 +32,7 @@ msgstr "Installerar tillägg: %s"
 #: class-tgm-plugin-activation.php:339
 #, php-format
 msgid "Updating Plugin: %s"
-msgstr ""
+msgstr "Uppdaterar tillägg: %s"
 
 #: class-tgm-plugin-activation.php:340
 msgid "Something went wrong with the plugin API."
@@ -128,8 +128,8 @@ msgstr "Tillägget har aktiverats utan fel."
 #: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
 msgid "The following plugin was activated successfully:"
 msgid_plural "The following plugins were activated successfully:"
-msgstr[0] "Följande tillägg har aktiverats utan fel: "
-msgstr[1] "Följande tillägg har aktiverats utan fel: "
+msgstr[0] "Följande tillägg har aktiverats utan fel:"
+msgstr[1] "Följande tillägg har aktiverats utan fel:"
 
 #. translators: 1: plugin name.
 #: class-tgm-plugin-activation.php:397
