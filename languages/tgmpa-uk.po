@@ -1,0 +1,497 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TGM Plugin Activation\n"
+"POT-Creation-Date: 2016-05-19 02:57+0200\n"
+"PO-Revision-Date: 2023-11-22 09:46+0200\n"
+"Last-Translator: \n"
+"Language-Team: TGMPA\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.4.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: class-tgm-plugin-activation.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: example.php\n"
+
+#: class-tgm-plugin-activation.php:334
+msgid "Install Required Plugins"
+msgstr "Встановити обов'язкові плагіни"
+
+#: class-tgm-plugin-activation.php:335
+msgid "Install Plugins"
+msgstr "Встановити плагіни"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:337
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr "Встановлення плагіна: %s"
+
+#. translators: %s: plugin name.
+#: class-tgm-plugin-activation.php:339
+#, php-format
+msgid "Updating Plugin: %s"
+msgstr "Оновлення плагіна: %s"
+
+#: class-tgm-plugin-activation.php:340
+msgid "Something went wrong with the plugin API."
+msgstr "Щось пішло не так з API плагіна."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:343
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "Ця тема вимагає наступний плагін: %1$s."
+msgstr[1] "Ця тема вимагає наступні плагіни: %1$s."
+msgstr[2] "Ця тема вимагає наступних плагінів: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:349
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] "Ця тема рекомендує наступний плагін: %1$s."
+msgstr[1] "Ця тема рекомендує наступні плагіни: %1$s."
+msgstr[2] "Ця тема рекомендує наступних плагінів: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:355
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] "Цей плагін потребує оновлення для кращої сумісності з темою: %1$s."
+msgstr[1] ""
+"Ці плагіни потребують оновлення для кращої сумісності з темою: %1$s."
+msgstr[2] ""
+"Потрібне оновлення цих плагінів для кращої сумісності з темою: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:361
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] "Доступне оновлення для: %1$s."
+msgstr[1] "Доступні оновлення для: %1$s."
+msgstr[2] "Доступні оновлення для: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:367
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] "Наступний обов'язковий плагін не активний: %1$s."
+msgstr[1] "Наступні обов'язкові плагіни не активні: %1$s."
+msgstr[2] "Наступні обов'язкові плагіни не активні: %1$s."
+
+#. translators: 1: plugin name(s).
+#: class-tgm-plugin-activation.php:373
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] "Наступний рекомендований плагін не активний: %1$s."
+msgstr[1] "Наступні рекомендовані плагіни не активні: %1$s."
+msgstr[2] "Наступні рекомендовані плагіни не активні: %1$s."
+
+#: class-tgm-plugin-activation.php:378
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] "Початок встановлення плагіну"
+msgstr[1] "Початок встановлення плагінів"
+msgstr[2] "Початок встановлення плагінів"
+
+#: class-tgm-plugin-activation.php:383
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] "Початок оновлення плагіну"
+msgstr[1] "Початок оновлення плагінів"
+msgstr[2] "Початок оновлення плагінів"
+
+#: class-tgm-plugin-activation.php:388
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] "Початок активації плагіну"
+msgstr[1] "Початок активації плагінів"
+msgstr[2] "Початок активації плагінів"
+
+#: class-tgm-plugin-activation.php:392
+msgid "Return to Required Plugins Installer"
+msgstr "Назад до списку плагінів"
+
+#: class-tgm-plugin-activation.php:393 class-tgm-plugin-activation.php:920
+#: class-tgm-plugin-activation.php:2626 class-tgm-plugin-activation.php:3673
+msgid "Return to the Dashboard"
+msgstr "Назад в панель управління"
+
+#: class-tgm-plugin-activation.php:394 class-tgm-plugin-activation.php:3252
+msgid "Plugin activated successfully."
+msgstr "Плагін успішно активовано."
+
+#: class-tgm-plugin-activation.php:395 class-tgm-plugin-activation.php:3045
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "Наступний плагін успішно активовано:"
+msgstr[1] "Наступні плагіни успішно активовано:"
+msgstr[2] "Наступні плагіни успішно активовано:"
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:397
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr "Ніяких дій не прийнято. Плагін %1$s вже активний."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:399
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+"Плагін не активовано. Для поточної теми потрібна версія плагіну %s або вище. "
+"Оновіть плагін."
+
+#. translators: 1: dashboard link.
+#: class-tgm-plugin-activation.php:401
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Всі плагіни успішно встановлено та активовано. %1$s"
+
+#: class-tgm-plugin-activation.php:402
+msgid "Dismiss this notice"
+msgstr "Приховати сповіщення"
+
+#: class-tgm-plugin-activation.php:403
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+"Є один або кілька плагінів, які можна встановити, оновити або активувати."
+
+#: class-tgm-plugin-activation.php:404
+msgid "Please contact the administrator of this site for help."
+msgstr "Зверніться до адміністратора цього сайту за допомогою."
+
+#: class-tgm-plugin-activation.php:607
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr "Потрібно оновити плагін для роботи з поточною темою."
+
+#: class-tgm-plugin-activation.php:608
+msgid "Update Required"
+msgstr "Потрібне оновлення"
+
+#: class-tgm-plugin-activation.php:725
+msgid "Set the parent_slug config variable instead."
+msgstr "Встановіть змінну parent_slug в конфігурації."
+
+#: class-tgm-plugin-activation.php:1027
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr ""
+"Віддалений архів з плагіном не має відповідної папки з заданим ім'ям і "
+"перейменування не працює."
+
+#: class-tgm-plugin-activation.php:1027 class-tgm-plugin-activation.php:1030
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+"Зв'яжіться з розробником плагіну і попросіть його оформити плагін у "
+"відповідності до стандартів WordPress."
+
+#: class-tgm-plugin-activation.php:1030
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr ""
+"Віддалений архів з плагіном містить кілька файлів, але вони не зібрані в "
+"відповідну папку."
+
+#: class-tgm-plugin-activation.php:1214 class-tgm-plugin-activation.php:3041
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr "та"
+
+#. translators: %s: version number
+#: class-tgm-plugin-activation.php:2075
+#, php-format
+msgid "TGMPA v%s"
+msgstr "TGMPA v%s"
+
+#: class-tgm-plugin-activation.php:2366
+msgid "Required"
+msgstr "Обов'язковий"
+
+#: class-tgm-plugin-activation.php:2369
+msgid "Recommended"
+msgstr "Рекомендовано"
+
+#: class-tgm-plugin-activation.php:2385
+msgid "WordPress Repository"
+msgstr "Репозиторій WordPress"
+
+#: class-tgm-plugin-activation.php:2388
+msgid "External Source"
+msgstr "Зовнішне джерело"
+
+#: class-tgm-plugin-activation.php:2391
+msgid "Pre-Packaged"
+msgstr "Вбудований у тему"
+
+#: class-tgm-plugin-activation.php:2408
+msgid "Not Installed"
+msgstr "Не встановлено"
+
+#: class-tgm-plugin-activation.php:2412
+msgid "Installed But Not Activated"
+msgstr "Встановлено, не активовано"
+
+#: class-tgm-plugin-activation.php:2414
+msgid "Active"
+msgstr "Активовано"
+
+#: class-tgm-plugin-activation.php:2420
+msgid "Required Update not Available"
+msgstr "Потрібне оновлення не доступне"
+
+#: class-tgm-plugin-activation.php:2423
+msgid "Requires Update"
+msgstr "Потребує оновлення"
+
+#: class-tgm-plugin-activation.php:2426
+msgid "Update recommended"
+msgstr "Бажано оновити"
+
+#. translators: 1: install status, 2: update status
+#: class-tgm-plugin-activation.php:2435
+#, php-format
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2481
+#, php-format
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Всі <span class=\"count\">(%s)</span>"
+msgstr[1] "Всі <span class=\"count\">(%s)</span>"
+msgstr[2] "Всі <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2485
+#, php-format
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] "Встановити <span class=\"count\">(%s)</span>"
+msgstr[1] "Встановити <span class=\"count\">(%s)</span>"
+msgstr[2] "Встановити <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2489
+#, php-format
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] "Оновити <span class=\"count\">(%s)</span>"
+msgstr[1] "Оновити <span class=\"count\">(%s)</span>"
+msgstr[2] "Оновити <span class=\"count\">(%s)</span>"
+
+#. translators: 1: number of plugins.
+#: class-tgm-plugin-activation.php:2493
+#, php-format
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] "Активувати <span class=\"count\">(%s)</span>"
+msgstr[1] "Активувати <span class=\"count\">(%s)</span>"
+msgstr[2] "Активувати <span class=\"count\">(%s)</span>"
+
+#: class-tgm-plugin-activation.php:2575
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "невідомо"
+
+#: class-tgm-plugin-activation.php:2583
+msgid "Installed version:"
+msgstr "Встановлена версія:"
+
+#: class-tgm-plugin-activation.php:2591
+msgid "Minimum required version:"
+msgstr "Мінімально потрібна версія:"
+
+#: class-tgm-plugin-activation.php:2603
+msgid "Available version:"
+msgstr "Доступна версія:"
+
+#: class-tgm-plugin-activation.php:2626
+msgid "No plugins to install, update or activate."
+msgstr "Немає плагінів для встановлення, оновлення або активації."
+
+#: class-tgm-plugin-activation.php:2640
+msgid "Plugin"
+msgstr "Плагін"
+
+#: class-tgm-plugin-activation.php:2641
+msgid "Source"
+msgstr "Джерело"
+
+#: class-tgm-plugin-activation.php:2642
+msgid "Type"
+msgstr "Тип"
+
+#: class-tgm-plugin-activation.php:2646
+msgid "Version"
+msgstr "Версія"
+
+#: class-tgm-plugin-activation.php:2647
+msgid "Status"
+msgstr "Статус"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2696
+#, php-format
+msgid "Install %2$s"
+msgstr "Встановити %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2701
+#, php-format
+msgid "Update %2$s"
+msgstr "Оновити %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: class-tgm-plugin-activation.php:2707
+#, php-format
+msgid "Activate %2$s"
+msgstr "Активувати %2$s"
+
+#: class-tgm-plugin-activation.php:2777
+msgid "Upgrade message from the plugin author:"
+msgstr "Повідомлення від розробника плагіну:"
+
+#: class-tgm-plugin-activation.php:2810
+msgid "Install"
+msgstr "Встановити"
+
+#: class-tgm-plugin-activation.php:2816
+msgid "Update"
+msgstr "Оновити"
+
+#: class-tgm-plugin-activation.php:2819
+msgid "Activate"
+msgstr "Активувати"
+
+#: class-tgm-plugin-activation.php:2850
+msgid "No plugins were selected to be installed. No action taken."
+msgstr "Ви не обрали плагіни для встановлення, тому нічого не відбулося."
+
+#: class-tgm-plugin-activation.php:2852
+msgid "No plugins were selected to be updated. No action taken."
+msgstr "Ви не обрали плагіни для оновлення, тому нічого не відбулося."
+
+#: class-tgm-plugin-activation.php:2893
+msgid "No plugins are available to be installed at this time."
+msgstr "Немає плагінів, які можна було б встановити зараз."
+
+#: class-tgm-plugin-activation.php:2895
+msgid "No plugins are available to be updated at this time."
+msgstr "Немає плагінів, які можна було б оновити зараз."
+
+#: class-tgm-plugin-activation.php:3001
+msgid "No plugins were selected to be activated. No action taken."
+msgstr "Ви не обрали плагіни для активації, тому нічого не відбулося."
+
+#: class-tgm-plugin-activation.php:3027
+msgid "No plugins are available to be activated at this time."
+msgstr "Немає плагінів, які можна було б активувати зараз."
+
+#: class-tgm-plugin-activation.php:3251
+msgid "Plugin activation failed."
+msgstr "Помилка активації плагіну."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3591
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr "Оновлення плагіну %1$s (%2$d/%3$d)"
+
+#. translators: 1: plugin name, 2: error message.
+#: class-tgm-plugin-activation.php:3594
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "Помилка під час встановлення плагіну %1$s: <strong>%2$s</strong>."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3596
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr "Встановлення %1$s не вдалося."
+
+#: class-tgm-plugin-activation.php:3600
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"Розпочато процес встановлення та активації. Цей процес може зайняти певний "
+"час, наберіться терпіння."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3602
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s встановлено та активовано успішно."
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Show Details"
+msgstr "Показати деталі"
+
+#: class-tgm-plugin-activation.php:3602 class-tgm-plugin-activation.php:3610
+msgid "Hide Details"
+msgstr "Сховати деталі"
+
+#: class-tgm-plugin-activation.php:3603
+msgid "All installations and activations have been completed."
+msgstr "Всі встановлення та активації виконано успішно."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3605
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Встановлення та активація плагіну %1$s (%2$d/%3$d)"
+
+#: class-tgm-plugin-activation.php:3608
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+"Розпочато процес встановлення. Цей процес може зайняти певний час, "
+"наберіться терпіння."
+
+#. translators: 1: plugin name.
+#: class-tgm-plugin-activation.php:3610
+#, php-format
+msgid "%1$s installed successfully."
+msgstr "%1$s встановлено успішно."
+
+#: class-tgm-plugin-activation.php:3611
+msgid "All installations have been completed."
+msgstr "Всі встановлення виконано успішно."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: class-tgm-plugin-activation.php:3613
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Встановлення плагіну %1$s (%2$d/%3$d)"
