@@ -8,10 +8,10 @@
  * or theme author for support.
  *
  * @package   TGM-Plugin-Activation
- * @version   2.6.1
+ * @version   2.6.2
  * @link      http://tgmpluginactivation.com/
- * @author    Thomas Griffin, Gary Jones, Juliette Reinders Folmer
- * @copyright Copyright (c) 2011, Thomas Griffin
+ * @author    Thomas Griffin, Gary Jones, Juliette Reinders Folmer, Vektor,Inc.
+ * @copyright Copyright (c) 2011, Thomas Griffin / Copyright (c) 2024, 2.6.2 -> Vektor,Inc.
  * @license   GPL-2.0+
  */
 
@@ -482,10 +482,11 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( false !== strpos( __FILE__, WP_PLUGIN_DIR ) || false !== strpos( __FILE__, WPMU_PLUGIN_DIR ) ) {
 				// Plugin, we'll need to adjust the file name.
 				add_action( 'load_textdomain_mofile', array( $this, 'correct_plugin_mofile' ), 10, 2 );
-				load_theme_textdomain( 'tgmpa', dirname( __FILE__ ) . '/languages' );
+				load_theme_textdomain( 'tgmpa', __DIR__ . '/languages' );
 				remove_action( 'load_textdomain_mofile', array( $this, 'correct_plugin_mofile' ), 10 );
 			} else {
-				load_theme_textdomain( 'tgmpa', dirname( __FILE__ ) . '/languages' );
+				$mofile = untrailingslashit( __DIR__ . '/languages' ) . '/tgmpa-' . get_locale() . '.mo';
+				load_textdomain( 'tgmpa', $mofile );
 			}
 		}
 
@@ -1081,18 +1082,16 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						'<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
 
 					return false; // End it here if there is an error with activation.
-				} else {
-					if ( ! $automatic ) {
+				} elseif ( ! $automatic ) {
 						// Make sure message doesn't display again if bulk activation is performed
 						// immediately after a single activation.
 						// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Not using the superglobal.
-						if ( ! isset( $_POST['action'] ) ) {
-							echo '<div id="message" class="updated"><p>', esc_html( $this->strings['activated_successfully'] ), ' <strong>', esc_html( $this->plugins[ $slug ]['name'] ), '.</strong></p></div>';
-						}
-					} else {
-						// Simpler message layout for use on the plugin install page.
-						echo '<p>', esc_html( $this->strings['plugin_activated'] ), '</p>';
+					if ( ! isset( $_POST['action'] ) ) {
+						echo '<div id="message" class="updated"><p>', esc_html( $this->strings['activated_successfully'] ), ' <strong>', esc_html( $this->plugins[ $slug ]['name'] ), '.</strong></p></div>';
 					}
+				} else {
+					// Simpler message layout for use on the plugin install page.
+					echo '<p>', esc_html( $this->strings['plugin_activated'] ), '</p>';
 				}
 			} elseif ( $this->is_plugin_active( $slug ) ) {
 				// No simpler message format provided as this message should never be encountered
@@ -1162,7 +1161,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				if ( ! $this->is_plugin_installed( $slug ) ) {
 					if ( current_user_can( 'install_plugins' ) ) {
-						$install_link_count++;
+						++$install_link_count;
 
 						if ( true === $plugin['required'] ) {
 							$message['notice_can_install_required'][] = $slug;
@@ -1171,12 +1170,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 						}
 					}
 					if ( true === $plugin['required'] ) {
-						$total_required_action_count++;
+						++$total_required_action_count;
 					}
 				} else {
 					if ( ! $this->is_plugin_active( $slug ) && $this->can_plugin_activate( $slug ) ) {
 						if ( current_user_can( 'activate_plugins' ) ) {
-							$activate_link_count++;
+							++$activate_link_count;
 
 							if ( true === $plugin['required'] ) {
 								$message['notice_can_activate_required'][] = $slug;
@@ -1185,14 +1184,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 							}
 						}
 						if ( true === $plugin['required'] ) {
-							$total_required_action_count++;
+							++$total_required_action_count;
 						}
 					}
 
 					if ( $this->does_plugin_require_update( $slug ) || false !== $this->does_plugin_have_update( $slug ) ) {
 
 						if ( current_user_can( 'update_plugins' ) ) {
-							$update_link_count++;
+							++$update_link_count;
 
 							if ( $this->does_plugin_require_update( $slug ) ) {
 								$message['notice_ask_to_update'][] = $slug;
@@ -1201,7 +1200,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 							}
 						}
 						if ( true === $plugin['required'] ) {
-							$total_required_action_count++;
+							++$total_required_action_count;
 						}
 					}
 				}
@@ -1339,14 +1338,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 		protected function get_admin_notice_class() {
 			if ( ! empty( $this->strings['nag_type'] ) ) {
 				return sanitize_html_class( strtolower( $this->strings['nag_type'] ) );
-			} else {
-				if ( version_compare( $this->wp_version, '4.2', '>=' ) ) {
+			} elseif ( version_compare( $this->wp_version, '4.2', '>=' ) ) {
 					return 'notice-warning';
-				} elseif ( version_compare( $this->wp_version, '4.1', '>=' ) ) {
-					return 'notice';
-				} else {
-					return 'updated';
-				}
+			} elseif ( version_compare( $this->wp_version, '4.1', '>=' ) ) {
+				return 'notice';
+			} else {
+				return 'updated';
 			}
 		}
 
@@ -2352,7 +2349,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
 				$table_data[ $i ] = apply_filters( 'tgmpa_table_data_item', $table_data[ $i ], $plugin );
 
-				$i++;
+				++$i;
 			}
 
 			return $table_data;
@@ -3406,7 +3403,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$this->update_count   = count( $plugins );
 						$this->update_current = 0;
 						foreach ( $plugins as $plugin ) {
-							$this->update_current++;
+							++$this->update_current;
 
 							/*
 							[TGMPA - ]
@@ -3714,7 +3711,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						}
 						parent::after( $title );
 
-						$this->i++;
+						++$this->i;
 					}
 
 					/**
@@ -3785,7 +3782,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					public function after_flush_output() {
 						_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'Bulk_Upgrader_Skin::flush_output()' );
 						$this->flush_output();
-						$this->i++;
+						++$this->i;
 					}
 				}
 			}
