@@ -1,5 +1,5 @@
 {
-  "name": "tgmpa/tgm-plugin-activation",
+  "name": "vektor-inc/tgm-plugin-activation",
   "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
   "homepage": "http://tgmpluginactivation.com",
   "keywords": ["wordpress","plugins", "theme", "library", "activation"],
@@ -22,11 +22,11 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/TGMPA/TGM-Plugin-Activation/issues",
-    "source": "https://github.com/TGMPA/TGM-Plugin-Activation"
+    "issues": "https://github.com/vektor-inc/TGM-Plugin-Activation/issues",
+    "source": "https://github.com/vektor-inc/TGM-Plugin-Activation"
   },
   "require": {
-    "php": ">=5.2"
+    "php": ">=7.2"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.6",
